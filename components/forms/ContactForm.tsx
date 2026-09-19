@@ -20,8 +20,8 @@ const INITIAL_FORM: FormData = {
   company: "",
   email: "",
   phone: "",
-  service: "web-development",
-  budget: "unspecified",
+  service: "Web Development",
+  budget: "Unspecified",
   message: "",
 };
 
@@ -227,12 +227,12 @@ export function ContactForm() {
                 onChange={handleChange}
                 className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               >
-                <option value="web-development">Web Development</option>
-                <option value="web-design">Web Design</option>
-                <option value="ui-ux-design">UI/UX Design</option>
-                <option value="graphic-design">Graphic Design</option>
-                <option value="digital-marketing">Digital Marketing / SEO</option>
-                <option value="full-solution">Complete End-to-End Digital Solution</option>
+                <option value="Web Development">Web Development</option>
+                <option value="Web Design">Web Design</option>
+                <option value="UI/UX Design">UI/UX Design</option>
+                <option value="Graphic Design">Graphic Design</option>
+                <option value="Digital Marketing / SEO">Digital Marketing / SEO</option>
+                <option value="Complete End-to-End Digital Solution">Complete End-to-End Digital Solution</option>
               </select>
             </div>
 
@@ -251,11 +251,11 @@ export function ContactForm() {
                 onChange={handleChange}
                 className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               >
-                <option value="unspecified">Select approximate budget</option>
-                <option value="tier-1">$3,000 – $7,500</option>
-                <option value="tier-2">$7,500 – $15,000</option>
-                <option value="tier-3">$15,000 – $30,000</option>
-                <option value="tier-4">$30,000+</option>
+                <option value="Unspecified">Select approximate budget</option>
+                <option value="$3,000 – $7,500">$3,000 – $7,500</option>
+                <option value="$7,500 – $15,000">$7,500 – $15,000</option>
+                <option value="$15,000 – $30,000">$15,000 – $30,000</option>
+                <option value="$30,000+">$30,000+</option>
               </select>
             </div>
           </div>
