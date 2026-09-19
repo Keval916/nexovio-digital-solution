@@ -24,6 +24,15 @@ export const metadata = generatePageMetadata({
   title: "Digital Solutions & IT Services | Nexovio Digital Solutions",
   description:
     "Explore Nexovio's 5 core digital disciplines: Web Development, Web Design, UI/UX Design, Graphic Design, and Digital Marketing. Strategy-led digital solutions for ambitious brands.",
+  keywords: [
+    "IT Services",
+    "Digital Solutions",
+    "Web Development Services",
+    "Web Design Agency",
+    "UI UX Services",
+    "Graphic Design",
+    "Digital Marketing Services",
+  ],
   path: "/services",
 });
 
@@ -103,7 +112,7 @@ export default function ServicesPage() {
                         <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan">
                           Service 0{index + 1}
                         </span>
-                        <h2 className="text-2xl sm:text-3xl font-bold text-white">
+                        <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-brand bg-clip-text text-transparent">
                           {service.name}
                         </h2>
                       </div>

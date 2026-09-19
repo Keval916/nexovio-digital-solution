@@ -3,15 +3,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Mail, Phone, MessageSquare } from "lucide-react";
 import { Button } from "@/lib/../components/ui/Button";
+import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
-  const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+1 (555) 019-2834";
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+15550192834";
+  const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+91-6351312234";
 
   return (
-    <footer className="relative bg-[#001025] text-white keep-white border-t border-blue-900/40 pt-16 pb-12 overflow-hidden">
+    <>
+      <FinalCtaSection />
+      <footer className="relative bg-[#001025] text-white keep-white border-t border-blue-900/40 pt-16 pb-12 overflow-hidden">
       {/* Background glow motif */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-radial-glow pointer-events-none opacity-40" />
       {/* Main Footer Links */}
@@ -248,18 +251,16 @@ export function Footer() {
           </p>
           <div className="flex items-center gap-6">
             <Link href="/privacy-policy" className="hover:text-brand-cyan transition-colors">
-              Privacy
+              Privacy Policy
             </Link>
             <Link href="/terms-and-conditions" className="hover:text-brand-cyan transition-colors">
-              Terms
-            </Link>
-            <Link href="/sitemap.xml" className="hover:text-brand-cyan transition-colors">
-              Sitemap
+              Terms &amp; Conditions
             </Link>
           </div>
         </div>
       </div>
     </footer>
+  </>
   );
 }
 

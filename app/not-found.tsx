@@ -11,8 +11,9 @@ export default function NotFound() {
           Error 404
         </div>
 
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
-          Page Not Found
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.15]">
+          <span className="text-white">Page</span>{" "}
+          <span className="bg-gradient-brand bg-clip-text text-transparent">Not Found</span>
         </h1>
 
         <p className="text-base text-muted leading-relaxed">

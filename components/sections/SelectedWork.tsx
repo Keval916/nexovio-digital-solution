@@ -20,8 +20,9 @@ export function SelectedWork() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan mb-3">
               OUR WORK
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-tight max-w-4xl">
-              Digital Solutions Built Around Real Business Goals
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight max-w-4xl">
+              Digital Solutions Built Around{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Real Business Goals</span>
             </h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-2 max-w-3xl">
               <p className="font-semibold text-foreground/90">

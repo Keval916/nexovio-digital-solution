@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { ChevronDown, MessageSquare, ArrowRight, Sparkles, HelpCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { GLOBAL_FAQS } from "@/data/faqs";
 import { getFaqSchema } from "@/lib/schema";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -20,9 +19,9 @@ interface FaqSectionProps {
 export function FaqSection({
   faqs = GLOBAL_FAQS,
   badge = "COMMON QUESTIONS",
-  title = "Clear Answers to Common Questions",
-  highlightText = "",
-  description = "Find clear answers to standard questions about our web development, web design, UI/UX, mobile app, and SEO services.",
+  title = "Frequently",
+  highlightText = "Asked Questions",
+  description,
 }: FaqSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const schema = getFaqSchema(faqs);
@@ -32,13 +31,16 @@ export function FaqSection({
   };
 
   return (
-    <section className="section-blue pt-12 sm:pt-16 pb-12 sm:pb-16 relative" id="faq">
+    <section className="section-blue py-12 sm:py-20 relative overflow-hidden" id="faq">
+      {/* Background ambient radial glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-80 bg-radial-glow pointer-events-none opacity-40 blur-3xl" />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimateOnScroll variant="fadeUp" duration={0.7}>
           <SectionHeading
             badge={badge}
@@ -49,67 +51,63 @@ export function FaqSection({
           />
         </AnimateOnScroll>
 
-        {/* FAQ Accordion List with Smooth CSS Grid Animation */}
-        <AnimateOnScroll variant="staggerChildren" stagger={0.08} duration={0.5}>
-          <div className="space-y-4">
+        {/* FAQ Accordion List */}
+        <AnimateOnScroll variant="staggerChildren" stagger={0.06} duration={0.4}>
+          <div className="space-y-3.5">
             {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
-              const indexPadded = String(index + 1).padStart(2, "0");
 
               return (
                 <div
                   key={faq.question}
                   className={cn(
-                    "rounded-2xl border transition-all duration-300 backdrop-blur-sm overflow-hidden",
+                    "relative rounded-2xl transition-all duration-300 overflow-hidden backdrop-blur-md",
                     isOpen
-                      ? "border-brand-cyan/45 bg-surface-elevated/95 shadow-[0_0_25px_-5px_rgba(0,198,255,0.18)] ring-1 ring-brand-cyan/30"
-                      : "border-border-subtle bg-surface-elevated/60 hover:border-brand-cyan/30 hover:bg-surface-elevated/80"
+                      ? "bg-white dark:bg-[#07162c] border border-transparent shadow-[0_8px_30px_rgba(0,198,255,0.14)]"
+                      : "bg-white/95 dark:bg-[#081226]/90 border border-slate-200/90 dark:border-blue-900/40 hover:border-brand-cyan dark:hover:border-brand-cyan hover:bg-white dark:hover:bg-[#0d1b38] shadow-sm hover:shadow-md"
                   )}
                 >
+                  {/* Glowing Top 2px Animated Shimmer Line (Only when Open - matches CookieConsent) */}
+                  {isOpen && (
+                    <div className="absolute top-0 left-0 right-0 h-[2px] pointer-events-none animate-shimmer-x" />
+                  )}
+
                   <button
                     type="button"
                     onClick={() => toggleAccordion(index)}
-                    className="w-full flex items-center justify-between p-5 sm:p-6 text-left outline-none focus:outline-none group cursor-pointer"
+                    className="w-full flex items-center justify-between px-4 sm:px-6 py-3.5 sm:py-4.5 text-left outline-none focus:outline-none group cursor-pointer"
                     aria-expanded={isOpen}
                     aria-controls={`faq-answer-${index}`}
                     id={`faq-question-${index}`}
                   >
-                    <div className="flex items-start sm:items-center gap-3.5 pr-4">
+                    <div className="flex items-center gap-3.5 sm:gap-4 pr-3">
+                      {/* Question Text with Hover Match to Border Color */}
                       <span
                         className={cn(
-                          "text-xs font-mono font-bold px-2 py-1 rounded shrink-0 transition-colors duration-300",
-                          isOpen
-                            ? "bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30"
-                            : "bg-surface-subtle text-muted border border-border-subtle group-hover:text-brand-cyan group-hover:border-brand-cyan/30"
-                        )}
-                      >
-                        Q{indexPadded}
-                      </span>
-                      <span
-                        className={cn(
-                          "text-base sm:text-lg font-semibold transition-colors duration-200",
+                          "text-sm sm:text-base md:text-lg transition-colors duration-200 leading-snug",
                           isOpen
                             ? "text-brand-cyan font-bold"
-                            : "text-foreground group-hover:text-brand-cyan"
+                            : "text-slate-800 dark:text-slate-200 font-semibold group-hover:text-brand-cyan"
                         )}
                       >
                         {faq.question}
                       </span>
                     </div>
 
+                    {/* Chevron Toggle Icon */}
                     <div
                       className={cn(
-                        "w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all duration-300",
+                        "w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300",
                         isOpen
-                          ? "bg-brand-cyan/20 text-brand-cyan rotate-180"
-                          : "bg-surface-subtle text-muted group-hover:bg-brand-cyan/10 group-hover:text-brand-cyan"
+                          ? "bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/40 rotate-180 shadow-xs"
+                          : "bg-slate-100 text-slate-500 border border-slate-200 dark:bg-blue-900/40 dark:text-slate-300 dark:border-blue-800/40 group-hover:bg-brand-cyan/15 group-hover:text-brand-cyan group-hover:border-brand-cyan/30"
                       )}
                     >
-                      <ChevronDown className="w-4 h-4" />
+                      <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300" />
                     </div>
                   </button>
 
-                  {/* Smooth CSS Grid open/close container */}
+                  {/* Smooth Animated Answer Panel */}
                   <div
                     id={`faq-answer-${index}`}
                     role="region"
@@ -120,43 +118,18 @@ export function FaqSection({
                     )}
                   >
                     <div className="faq-accordion-inner">
-                      <div className="px-5 sm:px-6 pb-6 pt-2 border-t border-border-subtle">
-                        <p className="text-sm sm:text-base text-muted leading-relaxed pl-1 sm:pl-10">
-                          {faq.answer}
-                        </p>
+                      <div className="px-4 sm:px-6 pb-4 sm:pb-5 pt-1.5 border-t border-slate-100 dark:border-blue-900/40">
+                        <div className="pl-3.5 sm:pl-4 border-l-2 border-brand-cyan py-0.5">
+                          <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                            {faq.answer}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               );
             })}
-          </div>
-        </AnimateOnScroll>
-
-        {/* Quick Assistance Reassurance Card */}
-        <AnimateOnScroll variant="fadeUp" duration={0.5} delay={0.15}>
-          <div className="mt-12 rounded-2xl border border-border-subtle bg-surface-elevated/70 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-            <div className="flex items-center gap-3.5">
-              <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan shrink-0">
-                <HelpCircle className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="text-sm sm:text-base font-bold text-foreground">
-                  Have a specific question not covered here?
-                </h4>
-                <p className="text-xs text-muted mt-0.5">
-                  Our engineering team reviews specifications and responds within 1 business day.
-                </p>
-              </div>
-            </div>
-
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider bg-surface-subtle hover:bg-surface-elevated text-foreground border border-border-subtle hover:border-brand-cyan/40 transition-all duration-200 shrink-0 shadow-sm"
-            >
-              <span>Ask Us Directly</span>
-              <ArrowRight className="w-3.5 h-3.5 text-brand-cyan" />
-            </Link>
           </div>
         </AnimateOnScroll>
       </div>

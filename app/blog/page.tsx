@@ -13,6 +13,13 @@ export const metadata = generatePageMetadata({
   title: "Engineering Blog & Digital Insights | Nexovio Digital Solutions",
   description:
     "Original, practical guides and architectural insights on modern web development, Core Web Vitals, UI/UX design systems, and technical SEO.",
+  keywords: [
+    "Engineering Blog",
+    "Web Development Articles",
+    "Core Web Vitals Guide",
+    "UI UX Design Insights",
+    "Technical SEO Checklist",
+  ],
   path: "/blog",
 });
 

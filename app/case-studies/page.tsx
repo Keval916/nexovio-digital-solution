@@ -14,6 +14,12 @@ export const metadata = generatePageMetadata({
   title: "Case Studies | Nexovio Digital Solutions",
   description:
     "Explore in-depth technical case studies documenting how Nexovio Digital Solutions architects web applications, redesigns user journeys, and optimizes organic search pipelines.",
+  keywords: [
+    "Engineering Case Studies",
+    "Web Development Case Studies",
+    "BigCommerce Migration Case Study",
+    "Technical Architecture Teardowns",
+  ],
   path: "/case-studies",
 });
 
@@ -129,8 +135,9 @@ export default function CaseStudiesPage() {
 
         {/* Bottom Consultation Reassurance */}
         <div className="rounded-2xl border border-border-subtle bg-surface-elevated/80 p-8 sm:p-12 text-center max-w-3xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-            Ready to architect a high-performance solution?
+          <h2 className="text-2xl sm:text-3xl font-bold mb-3">
+            Ready to architect a{" "}
+            <span className="bg-gradient-brand bg-clip-text text-transparent">high-performance solution?</span>
           </h2>
           <p className="text-sm text-muted leading-relaxed mb-6 max-w-xl mx-auto">
             Discuss your technical requirements, architectural tradeoffs, and timeline milestones directly with our engineers.

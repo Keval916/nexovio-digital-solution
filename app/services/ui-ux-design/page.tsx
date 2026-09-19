@@ -26,6 +26,13 @@ const service = getServiceBySlug("ui-ux-design")!;
 export const metadata = generatePageMetadata({
   title: service.seoTitle,
   description: service.seoDescription,
+  keywords: [
+    "UI UX Design Services",
+    "User Experience Architecture",
+    "Design Systems Agency",
+    "Interactive Wireframing",
+    "Mobile App UX Design",
+  ],
   path: `/services/${service.slug}`,
 });
 
@@ -171,8 +178,9 @@ export default function UiUxDesignPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block">
               Engineering Handoff
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
-              Zero Guesswork for Software Developers
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              Zero Guesswork for{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Software Developers</span>
             </h2>
             <p className="text-sm text-muted leading-relaxed">
               One of the largest causes of UI degradation is poor developer handoff. Because our design team works directly alongside full-stack Next.js developers, our Figma files feature tokenized color variables, explicit responsive autolayout, exact spacing scales, hover/active/disabled states, and semantic ARIA notes.
@@ -204,12 +212,7 @@ export default function UiUxDesignPage() {
         </div>
 
         {/* FAQs */}
-        <FaqSection
-          faqs={service.faqs}
-          title="UI/UX Design"
-          highlightText="Frequently Asked Questions"
-          description="Clear answers regarding UI vs UX, accessibility audits, and design systems for enterprise software."
-        />
+        <FaqSection faqs={service.faqs} />
       </div>
     </div>
   );

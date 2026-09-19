@@ -13,8 +13,9 @@ export function TestimonialsSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               CLIENT EXPERIENCES
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#001025] tracking-tight leading-tight">
-              What Working Together Looks Like
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+              What Working Together{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Looks Like</span>
             </h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
               <p className="font-semibold text-foreground">
@@ -97,13 +98,6 @@ export function TestimonialsSection() {
                 </div>
               </div>
             </div>
-          </div>
-        </AnimateOnScroll>
-
-        <AnimateOnScroll variant="fadeUp" duration={0.5} delay={0.2}>
-          <div className="mt-8 max-w-xl mx-auto p-3.5 rounded-lg border border-border-subtle bg-surface-elevated/50 flex items-center justify-center gap-2 text-xs text-muted text-center">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Verified client project outcomes. We work transparently with zero manufactured reviews.</span>
           </div>
         </AnimateOnScroll>
       </div>

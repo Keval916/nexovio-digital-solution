@@ -58,8 +58,9 @@ export function ProcessSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               OUR PROCESS
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
-              From First Conversation to Final Launch
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+              From First Conversation to{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Final Launch</span>
             </h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
               <p className="font-semibold text-foreground">

@@ -6,6 +6,12 @@ export const metadata = generatePageMetadata({
   title: "Privacy Policy | Nexovio Digital Solutions",
   description:
     "Review the Nexovio Digital Solutions privacy policy explaining how we collect, handle, and protect your information across our website and consultation forms.",
+  keywords: [
+    "Privacy Policy",
+    "Data Handling",
+    "Nexovio Privacy Policy",
+    "GDPR Cookie Terms",
+  ],
   path: "/privacy-policy",
 });
 
@@ -21,8 +27,9 @@ export default function PrivacyPolicyPage() {
           <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan">
             Legal & Compliance
           </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-            Privacy Policy
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15]">
+            <span className="text-white">Privacy</span>{" "}
+            <span className="bg-gradient-brand bg-clip-text text-transparent">Policy</span>
           </h1>
           <p className="text-sm text-muted">
             Last Updated: September 2026 • Effective Immediately

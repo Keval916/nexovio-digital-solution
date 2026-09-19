@@ -11,6 +11,13 @@ export const metadata = generatePageMetadata({
   title: "Contact Us & Project Consultation | Nexovio Digital Solutions",
   description:
     "Start your project consultation with Nexovio Digital Solutions. Discuss custom web development, UI/UX design, or digital marketing scope with our technical team.",
+  keywords: [
+    "Contact Nexovio",
+    "Project Consultation",
+    "Web Development Inquiry",
+    "Hire Web Developers",
+    "Request Quote Nexovio",
+  ],
   path: "/contact",
 });
 
@@ -174,8 +181,9 @@ export default function ContactPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-2">
               Transparent Onboarding
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
-              What Happens After You Inquire
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              What Happens{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">After You Inquire</span>
             </h2>
           </div>
 
@@ -200,12 +208,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* 3. Contact FAQ (White) */}
-      <FaqSection
-        title="Project Inquiries &"
-        highlightText="Consultation FAQs"
-        description="Common questions about kickoff prerequisites, response cadence, and scoping discussions."
-      />
+      {/* 3. Contact FAQ */}
+      <FaqSection />
     </div>
   );
 }

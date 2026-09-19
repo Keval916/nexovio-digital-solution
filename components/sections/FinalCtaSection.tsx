@@ -25,8 +25,9 @@ export function FinalCtaSection() {
             </span>
 
             {/* Title - Bright Crisp White in All Themes */}
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-white keep-white tracking-tight leading-tight max-w-4xl mx-auto">
-              Have an Idea Worth Building?
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight keep-white text-white leading-tight max-w-4xl mx-auto">
+              Have an Idea{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Worth Building?</span>
             </h2>
 
             {/* Description Text - Luminous High Contrast Silver/White */}

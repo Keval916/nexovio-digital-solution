@@ -25,6 +25,13 @@ const service = getServiceBySlug("graphic-design")!;
 export const metadata = generatePageMetadata({
   title: service.seoTitle,
   description: service.seoDescription,
+  keywords: [
+    "Brand Graphic Design",
+    "Visual Identity Systems",
+    "Custom Logo Design",
+    "Corporate Branding Agency",
+    "Marketing Collateral Design",
+  ],
   path: `/services/${service.slug}`,
 });
 
@@ -115,8 +122,9 @@ export default function GraphicDesignPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-2">
               Commercial Credibility
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-              Visual Consistency Builds Compounding Market Trust
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+              Visual Consistency Builds{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Compounding Market Trust</span>
             </h2>
             <p className="text-sm sm:text-base text-muted leading-relaxed">
               When prospective clients encounter fragmented visuals across social channels, pitch decks, and digital touchpoints, they subconsciously question company stability. A disciplined visual identity communicates organizational rigor, attention to detail, and premium value—ensuring your company is instantly recognizable across every digital and print touchpoint.
@@ -167,12 +175,7 @@ export default function GraphicDesignPage() {
         </div>
 
         {/* FAQs */}
-        <FaqSection
-          faqs={service.faqs}
-          title="Graphic Design"
-          highlightText="Frequently Asked Questions"
-          description="Clear answers regarding delivered vector formats, brand guidelines, and executive presentation design."
-        />
+        <FaqSection faqs={service.faqs} />
       </div>
     </div>
   );

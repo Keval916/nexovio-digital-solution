@@ -27,6 +27,14 @@ const service = getServiceBySlug("web-development")!;
 export const metadata = generatePageMetadata({
   title: service.seoTitle,
   description: service.seoDescription,
+  keywords: [
+    "Web Development Services",
+    "Custom WordPress Development",
+    "React Development Agency",
+    "Next.js Web Applications",
+    "Vue.js Node.js Developers",
+    "Shopify WooCommerce E-Commerce",
+  ],
   path: `/services/${service.slug}`,
 });
 
@@ -145,8 +153,9 @@ export default function WebDevelopmentPage() {
               <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block">
                 Technical Stack & Architecture
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                WordPress, React, Next.js, Vue, Node.js &amp; E-Commerce
+              <h2 className="text-2xl sm:text-3xl font-bold">
+                WordPress, React, Next.js, Vue, Node.js &amp;{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">E-Commerce</span>
               </h2>
               <p className="text-sm text-muted leading-relaxed">
                 We engineer custom websites and web applications across WordPress, React, Next.js, Vue.js, Node.js, PHP, and E-Commerce platforms (Shopify &amp; WooCommerce). Whether you need a flexible WordPress CMS website or a high-speed React/Next.js web portal, we tailor the ideal technology stack for your business.
@@ -226,12 +235,7 @@ export default function WebDevelopmentPage() {
         </div>
 
         {/* Service Specific FAQ */}
-        <FaqSection
-          faqs={service.faqs}
-          title="Web Development"
-          highlightText="Frequently Asked Questions"
-          description="Specific questions regarding our technical capabilities, code refactoring, and web application security."
-        />
+        <FaqSection faqs={service.faqs} />
       </div>
     </div>
   );

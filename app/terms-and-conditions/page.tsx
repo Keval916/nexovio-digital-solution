@@ -6,6 +6,12 @@ export const metadata = generatePageMetadata({
   title: "Terms and Conditions | Nexovio Digital Solutions",
   description:
     "Review the terms and conditions governing the use of the Nexovio Digital Solutions website, services, project inquiries, and intellectual property.",
+  keywords: [
+    "Terms and Conditions",
+    "Terms of Service",
+    "Nexovio Client Agreement",
+    "Legal Terms",
+  ],
   path: "/terms-and-conditions",
 });
 
@@ -21,8 +27,9 @@ export default function TermsPage() {
           <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan">
             Legal & Operational
           </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
-            Terms and Conditions
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15]">
+            <span className="text-white">Terms &amp;</span>{" "}
+            <span className="bg-gradient-brand bg-clip-text text-transparent">Conditions</span>
           </h1>
           <p className="text-sm text-muted">
             Last Updated: September 2026 • Standard Terms

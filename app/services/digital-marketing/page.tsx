@@ -25,6 +25,13 @@ const service = getServiceBySlug("digital-marketing")!;
 export const metadata = generatePageMetadata({
   title: service.seoTitle,
   description: service.seoDescription,
+  keywords: [
+    "Technical SEO Services",
+    "Digital Marketing Agency",
+    "Organic Search Strategy",
+    "Search Engine Optimization",
+    "Conversion Rate Optimization",
+  ],
   path: `/services/${service.slug}`,
 });
 
@@ -116,8 +123,9 @@ export default function DigitalMarketingPage() {
               <ShieldAlert className="w-4 h-4 text-brand-bright" />
               <span>Our Honest SEO & Growth Charter</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
-              No Gimmicks. No Fake #1 Guarantees. Just Disciplined Engineering.
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              No Gimmicks. No Fake #1 Guarantees.{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Just Disciplined Engineering.</span>
             </h2>
             <p className="text-sm sm:text-base text-muted leading-relaxed">
               We never guarantee overnight ranking miracles or vanity traffic spikes. Google’s algorithms reward technical crawl efficiency, topical entity depth, fast Core Web Vitals, and genuine human relevance. We approach SEO as a rigorous software engineering and content alignment discipline that builds durable, compounding business pipeline over 3 to 12 months.
@@ -168,12 +176,7 @@ export default function DigitalMarketingPage() {
         </div>
 
         {/* FAQs */}
-        <FaqSection
-          faqs={service.faqs}
-          title="Digital Marketing"
-          highlightText="Frequently Asked Questions"
-          description="Straightforward answers on realistic SEO timelines, conversion tracking, and algorithm best practices."
-        />
+        <FaqSection faqs={service.faqs} />
       </div>
     </div>
   );

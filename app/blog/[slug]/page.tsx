@@ -41,6 +41,7 @@ export function generateMetadata({ params }: BlogArticlePageProps) {
   return generatePageMetadata({
     title: article.seoTitle,
     description: article.seoDescription,
+    keywords: [article.category, "Web Development", "Digital Strategy", "Technical Engineering", "Nexovio Blog"],
     path: `/blog/${article.slug}`,
     type: "article",
     publishedTime: article.publishedAt,
@@ -101,8 +102,8 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
             </div>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
-            {article.title}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15]">
+            <span className="bg-gradient-brand bg-clip-text text-transparent">{article.title}</span>
           </h1>
 
           <p className="text-base sm:text-lg text-muted leading-relaxed">
@@ -173,8 +174,9 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
           <div className="mb-16 space-y-4">
-            <h2 className="text-lg font-bold text-white">
-              Related Articles & Architecture Guides
+            <h2 className="text-lg font-bold">
+              Related Articles &amp;{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Architecture Guides</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {relatedArticles.map((rel) => (

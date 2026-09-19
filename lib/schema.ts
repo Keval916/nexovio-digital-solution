@@ -1,15 +1,83 @@
-import { SITE_NAME, SITE_URL } from "./seo";
+import { SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE } from "./seo";
 
 export function getOrganizationSchema() {
+  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
+  const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
+
   return {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "ProfessionalService"],
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-logo.svg`,
+    logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+    image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     description:
       "Nexovio Digital Solutions provides strategy-led web development, modern web design, UI/UX architecture, brand graphic design, and digital marketing services.",
-    sameAs: [],
+    email: contactEmail,
+    telephone: contactPhone,
+    priceRange: "$$$",
+    areaServed: ["Worldwide", "North America", "Europe", "Asia"],
+    knowsAbout: [
+      "Custom Web Development",
+      "React & Next.js Engineering",
+      "UI/UX Design Systems",
+      "E-Commerce Migration",
+      "Technical SEO Audits",
+      "Digital Marketing Campaigns",
+    ],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      email: contactEmail,
+      telephone: contactPhone,
+      availableLanguage: ["English"],
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Digital & Engineering Services",
+      itemListElement: [
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Custom Web Development",
+            url: `${SITE_URL}/services/web-development`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Professional Web Design",
+            url: `${SITE_URL}/services/web-design`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "UI/UX Design Systems",
+            url: `${SITE_URL}/services/ui-ux-design`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Brand Graphic Design",
+            url: `${SITE_URL}/services/graphic-design`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Digital Marketing & SEO",
+            url: `${SITE_URL}/services/digital-marketing`,
+          },
+        },
+      ],
+    },
   };
 }
 
@@ -19,6 +87,7 @@ export function getWebSiteSchema() {
     "@type": "WebSite",
     name: SITE_NAME,
     url: SITE_URL,
+    image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     description:
       "Modern digital experiences built to move your business forward through custom web development, UI/UX design, and digital marketing.",
   };
@@ -30,32 +99,37 @@ export function getAboutPageSchema() {
     "@type": "AboutPage",
     name: `About Us | ${SITE_NAME}`,
     url: `${SITE_URL}/about`,
+    image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     description:
       "Learn why Nexovio Digital Solutions exists, our software engineering philosophy, core values, and collaboration methodology.",
     mainEntity: {
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
-      logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-logo.svg`,
+      logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+      image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     },
   };
 }
 
 export function getContactPageSchema() {
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
-  const contactPhone = process.env.NEXT_PUBLIC_PHONE;
+  const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
 
   return {
     "@context": "https://schema.org",
     "@type": "ContactPage",
     name: `Contact Us & Project Consultation | ${SITE_NAME}`,
     url: `${SITE_URL}/contact`,
+    image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     description:
       "Initiate a project consultation with Nexovio Digital Solutions for custom web development, UI/UX design, or technical SEO.",
     mainEntity: {
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
+      logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+      image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "customer service",
@@ -66,12 +140,18 @@ export function getContactPageSchema() {
   };
 }
 
-export function getCollectionPageSchema(name: string, description: string, url: string) {
+export function getCollectionPageSchema(name: string, description: string, url: string, image?: string) {
+  const fullUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
+  const fullImageUrl = image
+    ? (image.startsWith("http") ? image : `${SITE_URL}${image}`)
+    : `${SITE_URL}${DEFAULT_OG_IMAGE}`;
+
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: `${name} | ${SITE_NAME}`,
-    url: url.startsWith("http") ? url : `${SITE_URL}${url}`,
+    url: fullUrl,
+    image: fullImageUrl,
     description,
   };
 }
@@ -99,9 +179,15 @@ export interface ServiceSchemaProps {
   description: string;
   url: string;
   serviceType: string;
+  image?: string;
 }
 
-export function getServiceSchema({ name, description, url, serviceType }: ServiceSchemaProps) {
+export function getServiceSchema({ name, description, url, serviceType, image }: ServiceSchemaProps) {
+  const fullUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
+  const fullImageUrl = image
+    ? (image.startsWith("http") ? image : `${SITE_URL}${image}`)
+    : `${SITE_URL}${DEFAULT_OG_IMAGE}`;
+
   return {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -112,8 +198,11 @@ export function getServiceSchema({ name, description, url, serviceType }: Servic
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
+      logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+      image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     },
-    url: url.startsWith("http") ? url : `${SITE_URL}${url}`,
+    url: fullUrl,
+    image: fullImageUrl,
   };
 }
 
@@ -137,7 +226,9 @@ export function getArticleSchema({
   authorName = "Nexovio Editorial Team",
 }: ArticleSchemaProps) {
   const fullUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
-  const fullImageUrl = image.startsWith("http") ? image : `${SITE_URL}${image}`;
+  const fullImageUrl = image
+    ? (image.startsWith("http") ? image : `${SITE_URL}${image}`)
+    : `${SITE_URL}${DEFAULT_OG_IMAGE}`;
 
   return {
     "@context": "https://schema.org",
@@ -159,8 +250,9 @@ export function getArticleSchema({
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/images/brand/nexovio-digital-solutions-logo.svg`,
+        url: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
       },
+      image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     },
     mainEntityOfPage: {
       "@type": "WebPage",

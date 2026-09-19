@@ -174,8 +174,9 @@ export function PortfolioClient() {
           <AnimateOnScroll variant="scaleUp" duration={0.8}>
             <div className="rounded-2xl border border-brand-cyan/25 bg-surface-elevated/90 p-8 sm:p-12 text-center max-w-3xl mx-auto shadow-2xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-                Have a project with similar technical requirements?
+              <h2 className="text-2xl sm:text-3xl font-bold mb-3">
+                Have a project with{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">similar technical requirements?</span>
               </h2>
               <p className="text-sm text-muted leading-relaxed mb-6 max-w-xl mx-auto">
                 We review technical specifications, architecture feasibility, and target milestones before providing transparent scope recommendations.

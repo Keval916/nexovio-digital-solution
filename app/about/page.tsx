@@ -26,6 +26,13 @@ export const metadata = generatePageMetadata({
   title: "About Us | Nexovio Digital Solutions",
   description:
     "Learn why Nexovio Digital Solutions exists, our engineering philosophy, core values, and how we collaborate with ambitious businesses to build high-performance digital products.",
+  keywords: [
+    "About Nexovio Digital Solutions",
+    "Software Engineering Philosophy",
+    "Digital Engineering Studio",
+    "Web Development Agency Team",
+    "Next.js Architects",
+  ],
   path: "/about",
 });
 
@@ -122,8 +129,9 @@ export default function AboutPage() {
               <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block">
                 Our Story
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug">
-                Why Nexovio Exists
+              <h2 className="text-2xl sm:text-3xl font-bold leading-snug">
+                Why Nexovio{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">Exists</span>
               </h2>
               <p className="text-sm sm:text-base text-muted-light leading-relaxed">
                 We observed too many businesses investing significant capital into websites and software products that looked attractive on surface mockups, but collapsed under real-world usage—failing Core Web Vitals, generating zero search visibility, and confusing actual customers.
@@ -172,8 +180,9 @@ export default function AboutPage() {
               <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
                 Engineering Topology
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug mb-3">
-                Production Architecture Standards
+              <h2 className="text-2xl sm:text-3xl font-bold leading-snug mb-3">
+                Production Architecture{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">Standards</span>
               </h2>
               <p className="text-sm text-muted leading-relaxed">
                 Every system we build follows a strict three-tier decoupled pipeline ensuring lightning-fast client hydration, maximum SEO crawlability, and rock-solid uptime.
@@ -204,8 +213,9 @@ export default function AboutPage() {
               <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
                 Our Mission
               </span>
-              <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
-                To engineer digital solutions that move businesses forward with measurable clarity.
+              <h2 className="text-xl sm:text-2xl font-bold mb-3">
+                To engineer digital solutions that move businesses forward with{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">measurable clarity.</span>
               </h2>
               <p className="text-sm text-muted leading-relaxed">
                 Our mission is to eliminate friction between complex software engineering and high-converting design. We empower growing businesses to compete at the highest digital standards through scalable, maintainable, and search-optimized web experiences.
@@ -219,8 +229,9 @@ export default function AboutPage() {
               <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
                 Our Vision
               </span>
-              <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
-                To be the trusted digital engineering studio for ambitious brands worldwide.
+              <h2 className="text-xl sm:text-2xl font-bold mb-3">
+                To be the trusted digital engineering studio for{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">ambitious brands worldwide.</span>
               </h2>
               <p className="text-sm text-muted leading-relaxed">
                 We envision a digital landscape where businesses are no longer trapped by slow, closed site-builder monoliths or misleading agency vanity claims. We champion open, modern web standards built for long-term compounding authority.
@@ -329,12 +340,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 7. FAQ Section (White - handled by FaqSection component class section-white) */}
-      <FaqSection
-        title="Questions About"
-        highlightText="Partnering With Nexovio"
-        description="Find clear answers about how we manage engagements, scopes, and technical handoffs."
-      />
+      {/* 7. FAQ Section */}
+      <FaqSection />
     </div>
   );
 }

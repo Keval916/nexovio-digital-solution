@@ -7,6 +7,13 @@ export const metadata = generatePageMetadata({
   title: "Portfolio & Selected Work | Nexovio Digital Solutions",
   description:
     "Explore Nexovio's representative digital engineering projects, custom web applications, bespoke UI/UX designs, and technical search systems.",
+  keywords: [
+    "Digital Portfolio",
+    "Web Development Case Showcase",
+    "UI UX Work Examples",
+    "Custom Web App Projects",
+    "Nexovio Portfolio",
+  ],
   path: "/portfolio",
 });
 

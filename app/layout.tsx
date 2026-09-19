@@ -72,10 +72,10 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/images/brand/nexovio-icon.svg", type: "image/svg+xml" },
-      { url: "/images/brand/nexovio-digital-solutions-logo.svg", type: "image/svg+xml" },
+      { url: "/images/brand/nexovio-favicon-icon.png", type: "image/png" },
     ],
-    apple: "/images/brand/nexovio-digital-solutions-logo.svg",
+    shortcut: "/images/brand/nexovio-favicon-icon.png",
+    apple: "/images/brand/nexovio-favicon-icon.png",
   },
 };
 

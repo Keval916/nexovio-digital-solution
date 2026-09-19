@@ -41,6 +41,7 @@ export function generateMetadata({ params }: CaseStudyPageProps) {
   return generatePageMetadata({
     title: study.seoTitle,
     description: study.seoDescription,
+    keywords: [study.industry, ...study.services, "Case Study", "Technical Architecture", "Nexovio Digital Solutions"],
     path: `/case-studies/${study.slug}`,
   });
 }
@@ -73,8 +74,8 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
-            {study.title}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15]">
+            <span className="bg-gradient-brand bg-clip-text text-transparent">{study.title}</span>
           </h1>
 
           <div className="flex flex-wrap gap-2 pt-1">
@@ -108,9 +109,9 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
         <div className="space-y-12 mb-16">
           {/* Challenge Section */}
           <div className="rounded-2xl border border-border-subtle bg-surface-elevated/70 p-6 sm:p-8 space-y-4">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+            <h2 className="text-xl font-bold flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-red-400" />
-              <span>The Core Operational Challenge</span>
+              <span className="bg-gradient-brand bg-clip-text text-transparent">The Core Operational Challenge</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-light leading-relaxed">
               {study.challenge}
@@ -119,8 +120,9 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
 
           {/* Objectives Checklist */}
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white">
-              Primary Engineering & Design Objectives
+            <h2 className="text-xl font-bold">
+              Primary Engineering &amp;{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Design Objectives</span>
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
               {study.objectives.map((obj) => (
@@ -139,8 +141,9 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
 
           {/* Strategy & Approach */}
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white">
-              Architectural Strategy & Planning
+            <h2 className="text-xl font-bold">
+              Architectural Strategy &amp;{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Planning</span>
             </h2>
             <p className="text-sm sm:text-base text-muted leading-relaxed">
               {study.strategy}
@@ -172,8 +175,9 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
 
           {/* Final Delivered Solution */}
           <div className="rounded-2xl border border-brand-cyan/20 bg-surface-elevated/80 p-6 sm:p-8 space-y-3">
-            <h2 className="text-xl font-bold text-white">
-              The Delivered Solution
+            <h2 className="text-xl font-bold">
+              The Delivered{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Solution</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-light leading-relaxed">
               {study.solution}
@@ -193,8 +197,9 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
 
           {/* Key Engineering Learnings */}
           <div className="space-y-4">
-            <h2 className="text-xl font-bold text-white">
-              Key Engineering Learnings
+            <h2 className="text-xl font-bold">
+              Key Engineering{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Learnings</span>
             </h2>
             <ul className="space-y-3">
               {study.keyLearnings.map((learning) => (

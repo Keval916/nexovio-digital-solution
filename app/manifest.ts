@@ -3,24 +3,18 @@ import { SITE_NAME, SITE_TAGLINE } from "@/lib/seo";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${SITE_NAME} | ${SITE_TAGLINE}`,
+    name: SITE_NAME,
     short_name: "Nexovio",
-    description:
-      "Nexovio Digital Solutions provides strategy-led custom web development, bespoke web design, UI/UX systems, brand graphic design, and organic digital marketing services.",
+    description: `${SITE_NAME} - ${SITE_TAGLINE}`,
     start_url: "/",
     display: "standalone",
-    background_color: "#03050A",
-    theme_color: "#03050A",
+    background_color: "#001025",
+    theme_color: "#00C6FF",
     icons: [
       {
-        src: "/images/brand/nexovio-icon.svg",
+        src: "/images/brand/nexovio-favicon-icon.png",
         sizes: "any",
-        type: "image/svg+xml",
-      },
-      {
-        src: "/images/brand/nexovio-digital-solutions-logo.jpeg",
-        sizes: "500x500",
-        type: "image/jpeg",
+        type: "image/png",
       },
     ],
   };

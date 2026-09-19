@@ -25,6 +25,13 @@ const service = getServiceBySlug("web-design")!;
 export const metadata = generatePageMetadata({
   title: service.seoTitle,
   description: service.seoDescription,
+  keywords: [
+    "Bespoke Web Design Services",
+    "Conversion-Focused Web Design",
+    "Custom Website Design",
+    "Responsive Web Design Agency",
+    "Modern Web Interfaces",
+  ],
   path: `/services/${service.slug}`,
 });
 
@@ -115,8 +122,9 @@ export default function WebDesignPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-2">
               Our Core Design Philosophy
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-              Visual Communication That Respects the User’s Intelligence
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+              Visual Communication That Respects the{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">User's Intelligence</span>
             </h2>
             <p className="text-sm sm:text-base text-muted leading-relaxed">
               We reject off-the-shelf templates and generic visual themes. In a market flooded with identical SaaS layouts and boilerplate agency themes, a custom visual language communicates confidence, operational rigor, and premium value. Every screen we compose is tailored from scratch around your brand character, target audience, and commercial objectives.
@@ -157,8 +165,9 @@ export default function WebDesignPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block">
               Responsive Standards
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
-              Engineered Mobile-First Across Every Breakpoint
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              Engineered Mobile-First{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Across Every Breakpoint</span>
             </h2>
             <p className="text-sm text-muted leading-relaxed">
               More than 60% of modern web traffic originates on mobile devices. We do not merely shrink desktop designs—we design intentionally for touch targets (minimum 44x44px), legible mobile typography, collapsible navigation menus, and zero horizontal scrolling across 320px, 375px, 768px, 1024px, and ultra-wide displays.
@@ -191,12 +200,7 @@ export default function WebDesignPage() {
         </div>
 
         {/* FAQs */}
-        <FaqSection
-          faqs={service.faqs}
-          title="Web Design"
-          highlightText="Frequently Asked Questions"
-          description="Clear answers regarding our design process, feedback rounds, and responsive adaptations."
-        />
+        <FaqSection faqs={service.faqs} />
       </div>
     </div>
   );

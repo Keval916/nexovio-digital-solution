@@ -9,8 +9,7 @@ import { IndustriesSection } from "@/components/sections/IndustriesSection";
 import { TechStackSection } from "@/components/sections/TechStackSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { FaqSection } from "@/components/sections/FaqSection";
-import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
-import { generatePageMetadata, SITE_URL } from "@/lib/seo";
+import { generatePageMetadata, SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/seo";
 
 export const metadata = generatePageMetadata({
   title: "Web Development & Digital Marketing Company | Nexovio",
@@ -35,6 +34,7 @@ export default function HomePage() {
     name: "Nexovio Digital Solutions",
     url: SITE_URL,
     logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-logo.jpeg`,
+    image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     description:
       "Nexovio Digital Solutions builds high-performing websites, web apps, mobile apps, UI/UX experiences and SEO strategies that help businesses attract, engage and convert more customers.",
     areaServed: "Worldwide",
@@ -84,9 +84,6 @@ export default function HomePage() {
 
       {/* 10. Common Questions (FAQ) */}
       <FaqSection />
-
-      {/* 11. Final CTA */}
-      <FinalCtaSection />
     </>
   );
 }
