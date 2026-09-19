@@ -14,19 +14,19 @@ export function SelectedWork() {
   const featured = PORTFOLIO_PROJECTS.slice(0, 3);
 
   return (
-    <section className="py-20 sm:py-28 bg-surface/30 relative" id="work">
+    <section className="section-blue pt-12 sm:pt-16 pb-4 sm:pb-6 relative" id="work">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fadeUp" duration={0.7}>
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16">
+          <div className="flex flex-col items-center text-center mb-12 sm:mb-16">
             <SectionHeading
               badge="Selected Work"
               title="Featured Solutions &"
               highlightText="Digital Case Studies"
               description="Explore representative digital platforms, interface architectures, and search systems engineered by our team."
-              align="left"
-              className="mb-0"
+              align="center"
+              className="mb-6"
             />
-            <div className="mt-6 md:mt-0">
+            <div>
               <Button
                 href="/portfolio"
                 variant="secondary"

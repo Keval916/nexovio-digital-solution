@@ -41,7 +41,7 @@ const TECH_PILLARS = [
 
 export function TechStackSection() {
   return (
-    <section className="py-20 sm:py-28 bg-surface/50 relative">
+    <section className="section-blue pt-12 sm:pt-16 pb-4 sm:pb-6 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fadeUp" duration={0.7}>
           <SectionHeading

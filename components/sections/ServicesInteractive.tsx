@@ -40,7 +40,7 @@ export function ServicesInteractive() {
   const activeMockup = SERVICE_MOCKUPS[activeService.slug] || "/images/services/web-development-mockup.svg";
 
   return (
-    <section className="py-20 sm:py-28 bg-background relative" id="services">
+    <section className="section-white pt-12 sm:pt-16 pb-4 sm:pb-6 relative" id="services">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fadeUp" duration={0.7}>
           <SectionHeading

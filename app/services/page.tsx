@@ -51,7 +51,7 @@ export default function ServicesPage() {
   );
 
   return (
-    <div className="pt-28 pb-20 bg-background">
+    <div className="pt-24 pb-14 bg-background">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

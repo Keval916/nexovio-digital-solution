@@ -7,7 +7,7 @@ import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
 export function TestimonialsSection() {
   return (
-    <section className="py-20 sm:py-24 bg-background relative border-t border-b border-border-subtle/50">
+    <section className="section-white pt-12 sm:pt-16 pb-4 sm:pb-6 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fadeUp" duration={0.7}>
           <SectionHeading

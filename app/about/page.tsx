@@ -91,138 +91,148 @@ export default function AboutPage() {
   const aboutSchema = getAboutPageSchema();
 
   return (
-    <div className="pt-28 pb-20 bg-background">
+    <div className="pt-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutSchema) }}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Trail */}
-        <Breadcrumbs items={[{ name: "About", url: "/about" }]} />
+      
+      {/* 1. Hero & Our Story Section (White) */}
+      <section className="section-white pt-12 sm:pt-16 pb-12 sm:pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs items={[{ name: "About", url: "/about" }]} />
 
-        {/* Hero Section */}
-        <div className="max-w-3xl mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
-            Our Purpose &amp; Philosophy
-          </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
-            Bridging High-Tech Engineering &amp;{" "}
-            <span className="bg-gradient-brand bg-clip-text text-transparent">
-              Human-Centered Design.
-            </span>
-          </h1>
-          <p className="mt-6 text-base sm:text-lg text-muted leading-relaxed">
-            Nexovio Digital Solutions was founded to solve a fundamental problem in digital services: companies often had to choose between creative agencies with fragile technical execution, or engineering consultancies that overlooked user experience and conversion strategy. We combine both under one disciplined roof.
-          </p>
-        </div>
-
-        {/* Our Story Grid with Studio Visual */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-24">
-          <div className="lg:col-span-6 space-y-6">
-            <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block">
-              Our Story
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug">
-              Why Nexovio Exists
-            </h2>
-            <p className="text-sm sm:text-base text-muted-light leading-relaxed">
-              We observed too many businesses investing significant capital into websites and software products that looked attractive on surface mockups, but collapsed under real-world usage—failing Core Web Vitals, generating zero search visibility, and confusing actual customers.
-            </p>
-            <p className="text-sm sm:text-base text-muted-light leading-relaxed">
-              Nexovio was established to provide an alternative: a technology partner that values architectural stability as much as visual polish. We build bespoke web platforms, intuitive UI/UX systems, and compounding organic search architectures for businesses that take their digital presence seriously.
-            </p>
-            <div className="pt-2 flex items-center gap-4">
-              <Button
-                href="/contact"
-                variant="primary"
-                size="md"
-                trackingName="about_hero_contact"
-                trackingLocation="about_story"
-                icon={<ArrowRight className="w-4 h-4" />}
-                className="shadow-glow"
-              >
-                Discuss a Project With Us
-              </Button>
+          <div className="max-w-3xl mb-12 sm:mb-16">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
+              Our Purpose &amp; Philosophy
             </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+              Bridging High-Tech Engineering &amp;{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                Human-Centered Design.
+              </span>
+            </h1>
+            <p className="mt-6 text-base sm:text-lg text-muted leading-relaxed">
+              Nexovio Digital Solutions was founded to solve a fundamental problem in digital services: companies often had to choose between creative agencies with fragile technical execution, or engineering consultancies that overlooked user experience and conversion strategy. We combine both under one disciplined roof.
+            </p>
           </div>
 
-          <div className="lg:col-span-6">
-            {/* Visual Studio & Engineering Lab Mockup */}
-            <div className="relative w-full aspect-[16/10.5] rounded-2xl overflow-hidden border border-brand-cyan/30 bg-surface-elevated shadow-2xl group">
-              <Image
-                src="/images/about/studio-workspace.svg"
-                alt="Nexovio Digital Solutions Engineering Studio"
-                fill
-                sizes="(max-width: 768px) 100vw, 600px"
-                className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
-              />
-              <div className="absolute top-3 left-3 text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-black/80 text-brand-cyan border border-brand-cyan/30 backdrop-blur-sm">
-                Operations Lab
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <div className="lg:col-span-6 space-y-6">
+              <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block">
+                Our Story
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug">
+                Why Nexovio Exists
+              </h2>
+              <p className="text-sm sm:text-base text-muted-light leading-relaxed">
+                We observed too many businesses investing significant capital into websites and software products that looked attractive on surface mockups, but collapsed under real-world usage—failing Core Web Vitals, generating zero search visibility, and confusing actual customers.
+              </p>
+              <p className="text-sm sm:text-base text-muted-light leading-relaxed">
+                Nexovio was established to provide an alternative: a technology partner that values architectural stability as much as visual polish. We build bespoke web platforms, intuitive UI/UX systems, and compounding organic search architectures for businesses that take their digital presence seriously.
+              </p>
+              <div className="pt-2 flex items-center gap-4">
+                <Button
+                  href="/contact"
+                  variant="primary"
+                  size="md"
+                  trackingName="about_hero_contact"
+                  trackingLocation="about_story"
+                  icon={<ArrowRight className="w-4 h-4" />}
+                  className="shadow-glow"
+                >
+                  Discuss a Project With Us
+                </Button>
+              </div>
+            </div>
+
+            <div className="lg:col-span-6">
+              <div className="relative w-full aspect-[16/10.5] rounded-2xl overflow-hidden border border-brand-cyan/30 bg-surface-elevated shadow-2xl group">
+                <Image
+                  src="/images/about/studio-workspace.svg"
+                  alt="Nexovio Digital Solutions Engineering Studio"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 600px"
+                  className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                />
+                <div className="absolute top-3 left-3 text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-black/80 text-brand-cyan border border-brand-cyan/30 backdrop-blur-sm">
+                  Operations Lab
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Architecture & Engineering Standards Blueprint */}
-        <div className="mb-24 rounded-3xl border border-brand-cyan/20 bg-surface-elevated/70 p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-          <div className="max-w-2xl mb-8">
-            <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
-              Engineering Topology
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug mb-3">
-              Production Architecture Standards
-            </h2>
-            <p className="text-sm text-muted leading-relaxed">
-              Every system we build follows a strict three-tier decoupled pipeline ensuring lightning-fast client hydration, maximum SEO crawlability, and rock-solid uptime.
-            </p>
-          </div>
+      {/* 2. Engineering Standards Topology (Blue) */}
+      <section className="section-blue pt-12 sm:pt-16 pb-12 sm:pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl border border-brand-cyan/20 bg-surface-elevated/70 p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+            <div className="max-w-2xl mb-8">
+              <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
+                Engineering Topology
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug mb-3">
+                Production Architecture Standards
+              </h2>
+              <p className="text-sm text-muted leading-relaxed">
+                Every system we build follows a strict three-tier decoupled pipeline ensuring lightning-fast client hydration, maximum SEO crawlability, and rock-solid uptime.
+              </p>
+            </div>
 
-          <div className="relative w-full aspect-[16/8] rounded-xl overflow-hidden border border-white/10 bg-[#050B16] shadow-xl">
-            <Image
-              src="/images/about/architecture-diagram.svg"
-              alt="Nexovio High-Availability System Topology"
-              fill
-              sizes="(max-width: 1200px) 100vw, 1100px"
-              className="object-cover"
-            />
+            <div className="relative w-full aspect-[16/8] rounded-xl overflow-hidden border border-white/10 bg-[#050B16] shadow-xl">
+              <Image
+                src="/images/about/architecture-diagram.svg"
+                alt="Nexovio High-Availability System Topology"
+                fill
+                sizes="(max-width: 1200px) 100vw, 1100px"
+                className="object-cover"
+              />
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Mission & Vision Bento */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
-          <Card className="bg-surface-elevated/70 p-8">
-            <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-bright mb-6">
-              <Target className="w-6 h-6" />
-            </div>
-            <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
-              Our Mission
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
-              To engineer digital solutions that move businesses forward with measurable clarity.
-            </h2>
-            <p className="text-sm text-muted leading-relaxed">
-              Our mission is to eliminate friction between complex software engineering and high-converting design. We empower growing businesses to compete at the highest digital standards through scalable, maintainable, and search-optimized web experiences.
-            </p>
-          </Card>
+      {/* 3. Mission & Vision Bento (White) */}
+      <section className="section-white pt-12 sm:pt-16 pb-12 sm:pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="bg-surface-elevated/70 p-8">
+              <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-bright mb-6">
+                <Target className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
+                Our Mission
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
+                To engineer digital solutions that move businesses forward with measurable clarity.
+              </h2>
+              <p className="text-sm text-muted leading-relaxed">
+                Our mission is to eliminate friction between complex software engineering and high-converting design. We empower growing businesses to compete at the highest digital standards through scalable, maintainable, and search-optimized web experiences.
+              </p>
+            </Card>
 
-          <Card className="bg-surface-elevated/70 p-8">
-            <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-6">
-              <Eye className="w-6 h-6" />
-            </div>
-            <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
-              Our Vision
-            </span>
-            <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
-              To be the trusted digital engineering studio for ambitious brands worldwide.
-            </h2>
-            <p className="text-sm text-muted leading-relaxed">
-              We envision a digital landscape where businesses are no longer trapped by slow, closed site-builder monoliths or misleading agency vanity claims. We champion open, modern web standards built for long-term compounding authority.
-            </p>
-          </Card>
+            <Card className="bg-surface-elevated/70 p-8">
+              <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-6">
+                <Eye className="w-6 h-6" />
+              </div>
+              <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
+                Our Vision
+              </span>
+              <h2 className="text-xl sm:text-2xl font-bold text-white mb-3">
+                To be the trusted digital engineering studio for ambitious brands worldwide.
+              </h2>
+              <p className="text-sm text-muted leading-relaxed">
+                We envision a digital landscape where businesses are no longer trapped by slow, closed site-builder monoliths or misleading agency vanity claims. We champion open, modern web standards built for long-term compounding authority.
+              </p>
+            </Card>
+          </div>
         </div>
+      </section>
 
-        {/* Team & Leadership Showcase */}
-        <div className="mb-24">
+      {/* 4. Leadership & Craft (Blue) */}
+      <section className="section-blue pt-12 sm:pt-16 pb-12 sm:pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="Leadership & Craft"
             title="Engineers, Designers &"
@@ -259,9 +269,11 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Core Values */}
-        <div className="mb-24">
+      {/* 5. Core Values (White) */}
+      <section className="section-white pt-12 sm:pt-16 pb-12 sm:pb-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="Operating Principles"
             title="The Values That"
@@ -272,7 +284,7 @@ export default function AboutPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {VALUES.map((val) => (
-              <Card key={val.title} className="bg-surface/60 p-6 hover:border-brand-cyan/35 transition-colors">
+              <Card key={val.title} className="bg-surface-elevated/70 p-6 hover:border-brand-cyan/35 transition-colors">
                 <h3 className="text-base font-bold text-white mb-2">
                   {val.title}
                 </h3>
@@ -283,9 +295,11 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
+      </section>
 
-        {/* How We Work Section */}
-        <div className="mb-24" id="how-we-work">
+      {/* 6. How We Work Partnership (Blue) */}
+      <section className="section-blue pt-12 sm:pt-16 pb-12 sm:pb-16" id="how-we-work">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="Partnership Model"
             title="How We Collaborate"
@@ -313,14 +327,14 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
+      </section>
 
-        {/* FAQ Section */}
-        <FaqSection
-          title="Questions About"
-          highlightText="Partnering With Nexovio"
-          description="Find clear answers about how we manage engagements, scopes, and technical handoffs."
-        />
-      </div>
+      {/* 7. FAQ Section (White - handled by FaqSection component class section-white) */}
+      <FaqSection
+        title="Questions About"
+        highlightText="Partnering With Nexovio"
+        description="Find clear answers about how we manage engagements, scopes, and technical handoffs."
+      />
     </div>
   );
 }

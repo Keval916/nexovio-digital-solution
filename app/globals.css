@@ -5,15 +5,18 @@
 :root {
   /* LIGHT THEME (DEFAULT) */
   --background: #fafcff;
-  --foreground: #001632;
+  --foreground: #001025;
 
   --surface-default: #ffffff;
   --surface-elevated: #ffffff;
   --surface-subtle: #f0f4f9;
 
-  --text-main: #01234e;
+  --section-blue-bg: #f4f8ff;
+  --section-blue-border: #ebf3fe;
+
+  --text-main: #001025;
   --text-muted-val: #334e68;
-  --text-muted-light-val: #01234e;
+  --text-muted-light-val: #001025;
   --text-muted-dark-val: #486581;
 
   --border-subtle-val: #e2e8f0;
@@ -22,7 +25,7 @@
 
   --header-bg-scrolled: rgba(255, 255, 255, 0.94);
   --header-nav-link: #334e68;
-  --header-nav-link-hover: #01234e;
+  --header-nav-link-hover: #001025;
   --header-dropdown-bg: rgba(255, 255, 255, 0.98);
 
   --card-bg: #ffffff;
@@ -42,6 +45,9 @@ html.dark {
   --surface-default: #070b12;
   --surface-elevated: #0a1020;
   --surface-subtle: #0e1528;
+
+  --section-blue-bg: #070b12;
+  --section-blue-border: rgba(255, 255, 255, 0.08);
 
   --text-main: #ffffff;
   --text-muted-val: #a7b0c0;
@@ -66,6 +72,19 @@ html.dark {
   color-scheme: dark;
 }
 
+/* Explicit Section Utility Classes */
+.section-white {
+  background-color: var(--background) !important;
+  transition: background-color 0.3s ease;
+}
+
+.section-blue {
+  background-color: var(--section-blue-bg) !important;
+  border-top: 1px solid var(--section-blue-border);
+  border-bottom: 1px solid var(--section-blue-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -84,14 +103,14 @@ body {
    LIGHT MODE STYLING & CONTRAST OVERRIDES
    ========================================================================== */
 
-/* Text colors in Light Mode - Uses #01234e as primary dark text color */
+/* Text colors in Light Mode - Uses #001025 as primary dark text color */
 html:not(.dark) .text-white:not(.keep-white) {
-  color: #01234e !important;
+  color: #001025 !important;
 }
 
 html:not(.dark) .text-slate-900:not(.keep-slate),
 html:not(.dark) .text-slate-950:not(.keep-slate) {
-  color: #01234e !important;
+  color: #001025 !important;
 }
 
 html:not(.dark) .text-slate-300:not(.keep-slate) {
@@ -103,11 +122,11 @@ html:not(.dark) .text-slate-400:not(.keep-slate) {
 }
 
 html:not(.dark) .text-slate-200:not(.keep-slate) {
-  color: #01234e !important;
+  color: #001025 !important;
 }
 
 html:not(.dark) .hover\:text-white:hover:not(.keep-white) {
-  color: #01234e !important;
+  color: #001025 !important;
 }
 
 /* Background colors in Light Mode */
@@ -132,11 +151,19 @@ html:not(.dark) .bg-surface-elevated {
 }
 
 html:not(.dark) .bg-surface {
-  background-color: #fafcff !important;
+  background-color: #f4f8ff !important;
+}
+
+html:not(.dark) .bg-surface\/30,
+html:not(.dark) .bg-surface\/40,
+html:not(.dark) .bg-surface\/50 {
+  background-color: #f4f8ff !important;
+  border-top: 1px solid #ebf3fe;
+  border-bottom: 1px solid #ebf3fe;
 }
 
 html:not(.dark) .bg-surface-subtle {
-  background-color: #f1f5f9 !important;
+  background-color: #edf4ff !important;
 }
 
 /* Border colors in Light Mode */
@@ -193,6 +220,32 @@ html:not(.dark) [role="menu"] {
   border-color: #e2e8f0 !important;
   box-shadow: 0 20px 45px -5px rgba(0, 32, 96, 0.12), 0 8px 20px -4px rgba(0, 0, 0, 0.06) !important;
 }
+
+/* Callouts & Alert Boxes in Light Mode */
+html:not(.dark) .bg-red-950\/20,
+html:not(.dark) .bg-red-950\/30 {
+  background-color: #fef2f2 !important;
+}
+
+html:not(.dark) .border-red-500\/20,
+html:not(.dark) .border-red-500\/25,
+html:not(.dark) .border-red-500\/30 {
+  border-color: #fecaca !important;
+}
+
+html:not(.dark) .text-red-200,
+html:not(.dark) .text-red-200\/90 {
+  color: #991b1b !important;
+}
+
+html:not(.dark) .text-red-300 {
+  color: #b91c1c !important;
+}
+
+html:not(.dark) .text-red-400 {
+  color: #dc2626 !important;
+}
+
 
 
 /* Eliminate unwanted click/tap outlines while preserving keyboard accessibility */

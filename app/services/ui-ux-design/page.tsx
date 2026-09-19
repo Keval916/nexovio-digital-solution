@@ -144,7 +144,7 @@ export default function UiUxDesignPage() {
             title="The UI/UX Journey:"
             highlightText="From Discovery to Handoff"
             description="A structured workflow designed to de-risk feature development and validate usability before engineering execution."
-            align="left"
+            align="center"
             className="mb-10"
           />
 

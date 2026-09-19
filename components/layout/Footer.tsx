@@ -11,7 +11,7 @@ export function Footer() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+15550192834";
 
   return (
-    <footer className="relative bg-[#01234e] text-white keep-white border-t border-blue-900/40 pt-16 pb-12 overflow-hidden">
+    <footer className="relative bg-[#001025] text-white keep-white border-t border-blue-900/40 pt-16 pb-12 overflow-hidden">
       {/* Background glow motif */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-radial-glow pointer-events-none opacity-40" />
 
@@ -76,8 +76,8 @@ export function Footer() {
               className="inline-flex items-center group outline-none focus:outline-none select-none p-0.5"
               aria-label="Nexovio Digital Solutions Homepage"
             >
-              {/* White Brand Logo for #01234e Footer Background */}
-              <Image
+              {/* White Brand Logo for Footer Background */}
+              <img
                 src="/images/brand/nexovio-digital-solution.webp"
                 alt="Nexovio Digital Solutions"
                 width={380}

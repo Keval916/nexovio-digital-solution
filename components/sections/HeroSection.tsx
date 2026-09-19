@@ -8,7 +8,7 @@ import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center pt-32 sm:pt-36 pb-20 overflow-hidden bg-background">
+    <section className="section-white relative min-h-[85vh] flex items-center justify-center pt-24 sm:pt-28 pb-6 sm:pb-8 overflow-hidden">
       {/* Background Radial Glow & Futuristic Grid Lines */}
       <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
       <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
