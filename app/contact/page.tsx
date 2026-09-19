@@ -39,8 +39,8 @@ const STEPS = [
 
 export default function ContactPage() {
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
-  const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+1 (555) 019-2834";
-  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+15550192834";
+  const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+91-6351312234";
   const contactSchema = getContactPageSchema();
 
   return (
@@ -49,7 +49,7 @@ export default function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
       />
-      
+
       {/* 1. Direct Inquiry Form & Contact Info (White) */}
       <section className="section-white pt-12 sm:pt-16 pb-12 sm:pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

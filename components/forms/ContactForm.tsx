@@ -61,17 +61,30 @@ export function ContactForm() {
     }
 
     try {
-      // Simulate / process submission (ready for API route / webhook)
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      // Fire analytics conversion event
-      trackFormSubmit("contact_page_form", formData.service);
+      const result = await res.json();
 
-      setSubmitStatus("success");
-      setFormData(INITIAL_FORM);
+      if (res.ok && (result.success !== false)) {
+        // Fire analytics conversion event
+        trackFormSubmit("contact_page_form", formData.service);
+        setSubmitStatus("success");
+        setFormData(INITIAL_FORM);
+      } else {
+        setSubmitStatus("error");
+        setErrorMessage(
+          result.message || "Failed to submit form. Please contact us via email at info@nexoviodigitalsolutions.com."
+        );
+      }
     } catch {
       setSubmitStatus("error");
-      setErrorMessage("An unexpected error occurred while sending your message. Please try reaching us via email or WhatsApp directly.");
+      setErrorMessage("Network error occurred. Please send an email directly to info@nexoviodigitalsolutions.com.");
     } finally {
       setIsSubmitting(false);
     }
