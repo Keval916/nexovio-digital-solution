@@ -7,6 +7,7 @@ import { ArrowRight, ExternalLink, Sparkles } from "lucide-react";
 import { PORTFOLIO_PROJECTS } from "@/data/portfolio";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
 export function SelectedWork() {
