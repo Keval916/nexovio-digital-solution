@@ -24,28 +24,12 @@ export async function POST(request: Request) {
 
     const recipientEmail = (process.env.CONTACT_RECEIVER_EMAIL || "info@nexoviodigitalsolutions.com").trim();
 
-    // 2. Direct Backend Hostinger SMTP Configuration (Trims accidental whitespace/newlines)
+    // 2. Direct Backend Hostinger SMTP Configuration
     const smtpHost = (process.env.SMTP_HOST || "smtp.hostinger.com").trim();
     const smtpPort = parseInt((process.env.SMTP_PORT || "465").trim(), 10);
     const smtpUser = (process.env.SMTP_USER || "info@nexoviodigitalsolutions.com").trim();
     const rawPass = process.env.SMTP_PASS || "";
     const smtpPass = rawPass.trim();
-
-    // Build Transporter using Hostinger SMTP settings
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: smtpPort === 465, // true for port 465 (Hostinger SSL)
-      auth: smtpPass
-        ? {
-          user: smtpUser,
-          pass: smtpPass,
-        }
-        : undefined,
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
 
     const htmlTemplate = `
       <!DOCTYPE html>
@@ -117,35 +101,79 @@ export async function POST(request: Request) {
     `;
 
     if (smtpPass) {
-      // Send directly via SMTP
-      await transporter.sendMail({
-        from: `"Nexovio Website" <${smtpUser}>`,
-        replyTo: email,
-        to: recipientEmail,
-        subject: `🔥 New Lead: ${name} (${service || "Inquiry"})`,
-        html: htmlTemplate,
+      // Primary Attempt: Hostinger Port 465 (SSL)
+      const primaryTransporter = nodemailer.createTransport({
+        host: smtpHost,
+        port: 465,
+        secure: true, // SSL
+        auth: {
+          user: smtpUser,
+          pass: smtpPass,
+        },
+        connectionTimeout: 10000,
+        greetingTimeout: 10000,
+        socketTimeout: 10000,
+        tls: {
+          rejectUnauthorized: false,
+        },
       });
 
-      return NextResponse.json({
-        success: true,
-        message: "Your inquiry has been sent directly to our team!",
-      });
+      try {
+        await primaryTransporter.sendMail({
+          from: `"Nexovio Digital Solutions" <${smtpUser}>`,
+          replyTo: email,
+          to: recipientEmail,
+          subject: `🔥 New Lead: ${name} (${service || "Inquiry"})`,
+          html: htmlTemplate,
+        });
+
+        return NextResponse.json({
+          success: true,
+          message: "Your inquiry has been sent directly to our team!",
+        });
+      } catch (primaryErr: any) {
+        console.warn("Primary Port 465 failed, attempting Port 587 fallback...", primaryErr?.message);
+
+        // Secondary Attempt: Hostinger Port 587 (STARTTLS)
+        const secondaryTransporter = nodemailer.createTransport({
+          host: smtpHost,
+          port: 587,
+          secure: false, // TLS
+          auth: {
+            user: smtpUser,
+            pass: smtpPass,
+          },
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
+          socketTimeout: 10000,
+          tls: {
+            rejectUnauthorized: false,
+          },
+        });
+
+        await secondaryTransporter.sendMail({
+          from: `"Nexovio Digital Solutions" <${smtpUser}>`,
+          replyTo: email,
+          to: recipientEmail,
+          subject: `🔥 New Lead: ${name} (${service || "Inquiry"})`,
+          html: htmlTemplate,
+        });
+
+        return NextResponse.json({
+          success: true,
+          message: "Your inquiry has been sent directly to our team!",
+        });
+      }
     } else {
-      // Log submission on server console if SMTP_PASS is pending
-      console.log("=== NEW BACKEND LEAD SUBMISSION ===");
+      console.log("=== NEW BACKEND LEAD SUBMISSION (No Password Configured) ===");
       console.log("Recipient:", recipientEmail);
       console.log("Name:", name);
       console.log("Email:", email);
-      console.log("Company:", company);
-      console.log("Phone:", phone);
-      console.log("Service:", service);
-      console.log("Budget:", budget);
       console.log("Message:", message);
-      console.log("===================================");
 
       return NextResponse.json({
         success: true,
-        message: "Your inquiry has been logged on our backend server! Add SMTP_PASS in Vercel to route directly to your inbox.",
+        message: "Inquiry logged. Add SMTP_PASS in Vercel to route directly to your inbox.",
       });
     }
   } catch (error: any) {
@@ -153,7 +181,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: "Failed to dispatch email. Please ensure your domain's SMTP_PASS is configured in Vercel.",
+        message: `Failed to dispatch email: ${error?.message || "Check SMTP credentials in Vercel."}`,
       },
       { status: 500 }
     );
