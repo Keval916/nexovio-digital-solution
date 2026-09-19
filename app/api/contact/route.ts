@@ -1,6 +1,26 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+function formatBudgetLabel(budgetVal?: string): string {
+  if (!budgetVal || budgetVal === "unspecified" || budgetVal === "Unspecified") return "Not Specified";
+  if (budgetVal === "tier-1") return "$3,000 – $7,500";
+  if (budgetVal === "tier-2") return "$7,500 – $15,000";
+  if (budgetVal === "tier-3") return "$15,000 – $30,000";
+  if (budgetVal === "tier-4") return "$30,000+";
+  return budgetVal;
+}
+
+function formatServiceLabel(serviceVal?: string): string {
+  if (!serviceVal) return "General Inquiry";
+  if (serviceVal === "web-development") return "Web Development";
+  if (serviceVal === "web-design") return "Web Design";
+  if (serviceVal === "ui-ux-design") return "UI/UX Design";
+  if (serviceVal === "graphic-design") return "Graphic Design";
+  if (serviceVal === "digital-marketing") return "Digital Marketing / SEO";
+  if (serviceVal === "full-solution") return "Complete End-to-End Digital Solution";
+  return serviceVal;
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -22,6 +42,8 @@ export async function POST(request: Request) {
       );
     }
 
+    const formattedBudget = formatBudgetLabel(budget);
+    const formattedService = formatServiceLabel(service);
     const recipientEmail = (process.env.CONTACT_RECEIVER_EMAIL || "info@nexoviodigitalsolutions.com").trim();
 
     // 2. Direct Backend Hostinger SMTP Configuration
@@ -31,26 +53,45 @@ export async function POST(request: Request) {
     const rawPass = process.env.SMTP_PASS || "";
     const smtpPass = rawPass.trim();
 
+    // Plain text alternative for anti-spam deliverability compliance
+    const textContent = `
+New Project Inquiry - Nexovio Digital Solutions
+
+Client Name: ${name}
+Email Address: ${email}
+Company: ${company || "Not Specified"}
+Phone / WhatsApp: ${phone || "Not Provided"}
+Service Required: ${formattedService}
+Budget Range: ${formattedBudget}
+
+Project Requirements & Details:
+${message}
+
+---
+Sent via Nexovio Digital Solutions Contact Form
+    `.trim();
+
+    // Clean HTML Template for High Deliverability
     const htmlTemplate = `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
           <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; }
-            .card { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e1e8ed; }
-            .header { background: linear-gradient(135deg, #001025 0%, #031c3d 100%); padding: 25px; text-align: center; border-bottom: 3px solid #00c6ff; }
-            .header h1 { color: #ffffff; margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
-            .content { padding: 30px; color: #2d3748; }
-            .badge { display: inline-block; background-color: #e0f2fe; color: #0284c7; font-weight: bold; font-size: 12px; padding: 4px 10px; border-radius: 50px; margin-bottom: 15px; }
-            .info-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+            body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #2d3748; }
+            .card { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border: 1px solid #e1e8ed; }
+            .header { background: #001025; padding: 24px; text-align: center; border-bottom: 3px solid #00c6ff; }
+            .header h1 { color: #ffffff; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 1.5px; }
+            .content { padding: 28px; }
+            .badge { display: inline-block; background-color: #e0f2fe; color: #0284c7; font-weight: bold; font-size: 11px; padding: 4px 12px; border-radius: 50px; text-transform: uppercase; margin-bottom: 16px; }
+            .info-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
             .info-table td { padding: 10px 12px; border-bottom: 1px solid #edf2f7; font-size: 14px; }
             .info-table td.label { font-weight: 600; color: #64748b; width: 140px; }
             .info-table td.value { color: #0f172a; font-weight: 500; }
-            .message-box { margin-top: 25px; padding: 18px; background-color: #f8fafc; border-left: 4px solid #00c6ff; border-radius: 6px; }
-            .message-title { font-size: 13px; font-weight: bold; color: #475569; text-transform: uppercase; margin: 0 0 8px 0; }
+            .message-box { margin-top: 22px; padding: 18px; background-color: #f8fafc; border-left: 4px solid #00c6ff; border-radius: 6px; }
+            .message-title { font-size: 12px; font-weight: bold; color: #475569; text-transform: uppercase; margin: 0 0 8px 0; }
             .message-body { font-size: 14px; color: #1e293b; line-height: 1.6; margin: 0; white-space: pre-wrap; }
-            .footer { background-color: #f8fafc; padding: 15px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #edf2f7; }
+            .footer { background-color: #f8fafc; padding: 14px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #edf2f7; }
           </style>
         </head>
         <body>
@@ -67,7 +108,7 @@ export async function POST(request: Request) {
                 </tr>
                 <tr>
                   <td class="label">Email Address</td>
-                  <td class="value"><a href="mailto:${email}" style="color: #00c6ff; text-decoration: none;">${email}</a></td>
+                  <td class="value"><a href="mailto:${email}" style="color: #0284c7; text-decoration: none;">${email}</a></td>
                 </tr>
                 <tr>
                   <td class="label">Company</td>
@@ -79,26 +120,28 @@ export async function POST(request: Request) {
                 </tr>
                 <tr>
                   <td class="label">Service Required</td>
-                  <td class="value" style="color: #0284c7; font-weight: bold;">${service || "General Inquiry"}</td>
+                  <td class="value" style="color: #0284c7; font-weight: bold;">${formattedService}</td>
                 </tr>
                 <tr>
                   <td class="label">Budget Range</td>
-                  <td class="value">${budget || "Unspecified"}</td>
+                  <td class="value" style="font-weight: bold; color: #10b981;">${formattedBudget}</td>
                 </tr>
               </table>
 
               <div class="message-box">
-                <div class="message-title">Project Details & Requirements</div>
+                <div class="message-title">Project Requirements &amp; Details</div>
                 <div class="message-body">${message}</div>
               </div>
             </div>
             <div class="footer">
-              This lead notification was generated automatically by the Nexovio Digital Solutions backend server.
+              Sent via Nexovio Digital Solutions Lead Server • ${new Date().toLocaleDateString("en-US")}
             </div>
           </div>
         </body>
       </html>
     `;
+
+    const emailSubject = `New Project Inquiry: ${name} (${formattedService})`;
 
     if (smtpPass) {
       // Primary Attempt: Hostinger Port 465 (SSL)
@@ -118,15 +161,21 @@ export async function POST(request: Request) {
         },
       });
 
-      try {
-        await primaryTransporter.sendMail({
-          from: `"Nexovio Digital Solutions" <${smtpUser}>`,
-          replyTo: email,
-          to: recipientEmail,
-          subject: `🔥 New Lead: ${name} (${service || "Inquiry"})`,
-          html: htmlTemplate,
-        });
+      const mailOptions = {
+        from: `"Nexovio Digital Solutions" <${smtpUser}>`,
+        replyTo: `"${name}" <${email}>`,
+        to: recipientEmail,
+        subject: emailSubject,
+        text: textContent,
+        html: htmlTemplate,
+        headers: {
+          "X-Mailer": "Nexovio-Contact-Form",
+          "X-Priority": "1",
+        },
+      };
 
+      try {
+        await primaryTransporter.sendMail(mailOptions);
         return NextResponse.json({
           success: true,
           message: "Your inquiry has been sent directly to our team!",
@@ -151,14 +200,7 @@ export async function POST(request: Request) {
           },
         });
 
-        await secondaryTransporter.sendMail({
-          from: `"Nexovio Digital Solutions" <${smtpUser}>`,
-          replyTo: email,
-          to: recipientEmail,
-          subject: `🔥 New Lead: ${name} (${service || "Inquiry"})`,
-          html: htmlTemplate,
-        });
-
+        await secondaryTransporter.sendMail(mailOptions);
         return NextResponse.json({
           success: true,
           message: "Your inquiry has been sent directly to our team!",
