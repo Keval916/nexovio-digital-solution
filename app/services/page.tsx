@@ -99,9 +99,8 @@ export default function ServicesPage() {
                 className="rounded-3xl border border-border-subtle bg-surface-elevated/70 backdrop-blur-sm p-6 sm:p-10 lg:p-12 shadow-2xl hover:border-brand-cyan/35 transition-all duration-300"
               >
                 <div
-                  className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${
-                    isReversed ? "lg:flex-row-reverse" : ""
-                  }`}
+                  className={`grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center ${isReversed ? "lg:flex-row-reverse" : ""
+                    }`}
                 >
                   <div className="lg:col-span-7 space-y-6">
                     <div className="flex items-center gap-3">

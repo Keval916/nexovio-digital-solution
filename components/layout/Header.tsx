@@ -174,25 +174,45 @@ export function Header() {
             <Link
               href="/"
               className={cn(
-                "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
+                "px-3.5 py-2 text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
                 isActive("/") && pathname === "/"
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
+                  : "text-muted hover:text-brand-cyan"
               )}
             >
-              Home
+              <span className="relative py-0.5">
+                Home
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                    isActive("/") && pathname === "/"
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  )}
+                />
+              </span>
             </Link>
 
             <Link
               href="/about"
               className={cn(
-                "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
+                "px-3.5 py-2 text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
                 isActive("/about")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
+                  : "text-muted hover:text-brand-cyan"
               )}
             >
-              About
+              <span className="relative py-0.5">
+                About
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                    isActive("/about")
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  )}
+                />
+              </span>
             </Link>
 
             {/* Services MegaMenu */}
@@ -205,234 +225,288 @@ export function Header() {
               <button
                 type="button"
                 className={cn(
-                  "flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-md transition-all duration-200 outline-none focus:outline-none",
+                  "px-3.5 py-2 text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
                   isActive("/services") || servicesDropdownOpen
-                    ? "text-brand-cyan font-semibold bg-white/5 shadow-[0_0_15px_rgba(0,198,255,0.15)]"
-                    : "text-muted hover:text-foreground hover:bg-surface-subtle"
+                    ? "text-brand-cyan font-semibold"
+                    : "text-muted hover:text-brand-cyan"
                 )}
                 onClick={() => setServicesDropdownOpen((prev) => !prev)}
                 aria-expanded={servicesDropdownOpen}
                 aria-haspopup="true"
               >
-                <span>Services</span>
-                <ChevronDown
-                  className={cn(
-                    "w-3.5 h-3.5 transition-transform duration-300",
-                    servicesDropdownOpen ? "rotate-180 text-brand-cyan" : "text-muted"
-                  )}
-                />
+                <span className="relative py-0.5 flex items-center gap-1.5">
+                  <span>Services</span>
+                  <ChevronDown
+                    className={cn(
+                      "w-3.5 h-3.5 transition-transform duration-300",
+                      servicesDropdownOpen ? "rotate-180 text-brand-cyan" : "text-muted group-hover:text-brand-cyan"
+                    )}
+                  />
+                  <span
+                    className={cn(
+                      "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                      isActive("/services") || servicesDropdownOpen
+                        ? "w-full"
+                        : "w-0 group-hover:w-full"
+                    )}
+                  />
+                </span>
               </button>
 
-              {/* Eye-Catching Desktop MegaMenu - Perfectly Responsive on all screens & Open on Hover */}
-              {servicesDropdownOpen && (
-                <div
-                  className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-[min(calc(100vw-2rem),960px)] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-white/10 bg-[#070D1A]/95 backdrop-blur-2xl p-5 lg:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_40px_rgba(23,105,255,0.2)] z-50 animate-in fade-in slide-in-from-top-2 duration-200 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3 before:content-['']"
-                  role="menu"
-                >
-                  {/* Top Bar inside MegaMenu */}
-                  <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
-                    <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse" />
-                      <span className="text-xs font-mono uppercase tracking-widest text-muted">
-                        Nexovio Engineering &amp; Creative Disciplines
-                      </span>
-                    </div>
-                    <Link
-                      href="/services"
-                      onClick={() => setServicesDropdownOpen(false)}
-                      className="text-xs font-bold uppercase tracking-wider text-brand-cyan hover:text-white flex items-center gap-1.5 transition-colors group"
-                    >
-                      <span>Explore All Services</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                    </Link>
+              {/* Eye-Catching Desktop MegaMenu - Smooth CSS Transition (Connected directly to header bottom) */}
+              <div
+                className={cn(
+                  "absolute top-full mt-0.5 left-1/2 -translate-x-1/2 w-[min(calc(100vw-2rem),960px)] max-h-[calc(100vh-5rem)] overflow-y-auto rounded-2xl border border-white/10 bg-[#070D1A]/95 backdrop-blur-2xl p-5 lg:p-6 shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_40px_rgba(23,105,255,0.2)] z-50 before:absolute before:-top-3 before:left-0 before:right-0 before:h-3 before:content-['']",
+                  "transition-all duration-300 ease-out origin-top transform-gpu",
+                  servicesDropdownOpen
+                    ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
+                    : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
+                )}
+                role="menu"
+              >
+                {/* Top Bar inside MegaMenu */}
+                <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/10">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse" />
+                    <span className="text-xs font-mono uppercase tracking-widest text-muted">
+                      Nexovio Engineering &amp; Creative Disciplines
+                    </span>
+                  </div>
+                  <Link
+                    href="/services"
+                    onClick={() => setServicesDropdownOpen(false)}
+                    className="text-xs font-bold uppercase tracking-wider text-brand-cyan hover:text-white flex items-center gap-1.5 transition-colors group"
+                  >
+                    <span>Explore All Services</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+
+                {/* Responsive Grid: Adapts seamlessly to tablets, laptops, and large monitors */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6">
+                  {/* Column 1: Core 5 Disciplines */}
+                  <div className="col-span-12 md:col-span-6 lg:col-span-5 space-y-1.5 md:border-r border-white/5 md:pr-4">
+                    <span className="text-[11px] font-mono text-muted uppercase tracking-wider block mb-2 px-2">
+                      Core Capabilities
+                    </span>
+                    {SERVICES_NAV.map((service) => {
+                      const Icon = service.icon;
+                      return (
+                        <Link
+                          key={service.href}
+                          href={service.href}
+                          onClick={() => setServicesDropdownOpen(false)}
+                          className="flex items-start gap-3 p-2 rounded-xl hover:bg-white/5 border border-transparent hover:border-brand-cyan/30 transition-all duration-200 group"
+                        >
+                          <div className="p-2 rounded-lg bg-surface-subtle border border-white/10 group-hover:border-brand-cyan/50 group-hover:bg-brand-cyan/10 group-hover:text-brand-cyan text-muted transition-all shrink-0">
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="text-sm font-semibold text-white group-hover:text-brand-cyan transition-colors flex items-center gap-2">
+                              <span>{service.name}</span>
+                            </div>
+                            <div className="text-xs text-muted line-clamp-1 mt-0.5">
+                              {service.description}
+                            </div>
+                          </div>
+                        </Link>
+                      );
+                    })}
                   </div>
 
-                  {/* Responsive Grid: Adapts seamlessly to tablets, laptops, and large monitors */}
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6">
-                    {/* Column 1: Core 5 Disciplines */}
-                    <div className="col-span-12 md:col-span-6 lg:col-span-5 space-y-1.5 md:border-r border-white/5 md:pr-4">
-                      <span className="text-[11px] font-mono text-muted uppercase tracking-wider block mb-2 px-2">
-                        Core Capabilities
-                      </span>
-                      {SERVICES_NAV.map((service) => {
-                        const Icon = service.icon;
-                        return (
-                          <Link
-                            key={service.href}
-                            href={service.href}
-                            onClick={() => setServicesDropdownOpen(false)}
-                            className="flex items-start gap-3 p-2 rounded-xl hover:bg-white/5 border border-transparent hover:border-brand-cyan/30 transition-all duration-200 group"
-                          >
-                            <div className="p-2 rounded-lg bg-surface-subtle border border-white/10 group-hover:border-brand-cyan/50 group-hover:bg-brand-cyan/10 group-hover:text-brand-cyan text-muted transition-all shrink-0">
-                              <Icon className="w-4 h-4" />
-                            </div>
-                            <div className="min-w-0">
-                              <div className="text-sm font-semibold text-white group-hover:text-brand-cyan transition-colors flex items-center gap-2">
-                                <span>{service.name}</span>
-                              </div>
-                              <div className="text-xs text-muted line-clamp-1 mt-0.5">
-                                {service.description}
-                              </div>
-                            </div>
-                          </Link>
-                        );
-                      })}
+                  {/* Column 2: Fast-Track Solutions */}
+                  <div className="col-span-12 md:col-span-6 lg:col-span-3 space-y-2 lg:border-r border-white/5 lg:pr-4">
+                    <span className="text-[11px] font-mono text-muted uppercase tracking-wider block mb-2 px-1">
+                      Fast-Track Solutions
+                    </span>
+                    <div className="space-y-1 text-xs">
+                      <Link
+                        href="/services/web-development"
+                        onClick={() => setServicesDropdownOpen(false)}
+                        className="block p-2 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors"
+                      >
+                        <span className="font-semibold text-white block">Next.js Web Apps</span>
+                        <span className="text-[11px] text-muted-dark">SSR, App Router &amp; APIs</span>
+                      </Link>
+                      <Link
+                        href="/services/ui-ux-design"
+                        onClick={() => setServicesDropdownOpen(false)}
+                        className="block p-2 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors"
+                      >
+                        <span className="font-semibold text-white block">UI/UX Design Systems</span>
+                        <span className="text-[11px] text-muted-dark">Figma tokens &amp; WCAG AA</span>
+                      </Link>
+                      <Link
+                        href="/services/web-design"
+                        onClick={() => setServicesDropdownOpen(false)}
+                        className="block p-2 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors"
+                      >
+                        <span className="font-semibold text-white block">Corporate Portals</span>
+                        <span className="text-[11px] text-muted-dark">High-trust lead funnels</span>
+                      </Link>
+                      <Link
+                        href="/services/digital-marketing"
+                        onClick={() => setServicesDropdownOpen(false)}
+                        className="block p-2 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors"
+                      >
+                        <span className="font-semibold text-white block">Technical SEO &amp; Schema</span>
+                        <span className="text-[11px] text-muted-dark">Compounding organic traffic</span>
+                      </Link>
                     </div>
 
-                    {/* Column 2: Fast-Track Solutions */}
-                    <div className="col-span-12 md:col-span-6 lg:col-span-3 space-y-2 lg:border-r border-white/5 lg:pr-4">
-                      <span className="text-[11px] font-mono text-muted uppercase tracking-wider block mb-2 px-1">
-                        Fast-Track Solutions
-                      </span>
-                      <div className="space-y-1 text-xs">
-                        <Link
-                          href="/services/web-development"
-                          onClick={() => setServicesDropdownOpen(false)}
-                          className="block p-2 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors"
-                        >
-                          <span className="font-semibold text-white block">Next.js Web Apps</span>
-                          <span className="text-[11px] text-muted-dark">SSR, App Router &amp; APIs</span>
-                        </Link>
-                        <Link
-                          href="/services/ui-ux-design"
-                          onClick={() => setServicesDropdownOpen(false)}
-                          className="block p-2 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors"
-                        >
-                          <span className="font-semibold text-white block">UI/UX Design Systems</span>
-                          <span className="text-[11px] text-muted-dark">Figma tokens &amp; WCAG AA</span>
-                        </Link>
-                        <Link
-                          href="/services/web-design"
-                          onClick={() => setServicesDropdownOpen(false)}
-                          className="block p-2 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors"
-                        >
-                          <span className="font-semibold text-white block">Corporate Portals</span>
-                          <span className="text-[11px] text-muted-dark">High-trust lead funnels</span>
-                        </Link>
-                        <Link
-                          href="/services/digital-marketing"
-                          onClick={() => setServicesDropdownOpen(false)}
-                          className="block p-2 rounded-lg text-muted hover:text-white hover:bg-white/5 transition-colors"
-                        >
-                          <span className="font-semibold text-white block">Technical SEO &amp; Schema</span>
-                          <span className="text-[11px] text-muted-dark">Compounding organic traffic</span>
-                        </Link>
-                      </div>
-
-                      <div className="pt-2 border-t border-white/5">
-                        <div className="p-2.5 rounded-lg bg-brand-cyan/5 border border-brand-cyan/20 text-[11px] text-brand-cyan font-medium">
-                          ✦ 100% Code &amp; IP Transfer Guaranteed
-                        </div>
+                    <div className="pt-2 border-t border-white/5">
+                      <div className="p-2.5 rounded-lg bg-brand-cyan/5 border border-brand-cyan/20 text-[11px] text-brand-cyan font-medium">
+                        ✦ 100% Code &amp; IP Transfer Guaranteed
                       </div>
                     </div>
+                  </div>
 
-                    {/* Column 3: Spotlight Case Study Showcase */}
-                    <div className="col-span-12 lg:col-span-4 pl-0 lg:pl-1 mt-2 lg:mt-0 md:hidden lg:block">
-                      <span className="text-[11px] font-mono text-brand-cyan uppercase tracking-wider block mb-2">
-                        Case Study Spotlight
-                      </span>
-                      <div className="rounded-xl border border-border-subtle bg-surface/80 p-3.5 hover:border-brand-cyan/40 transition-all duration-300 group flex flex-col justify-between h-[calc(100%-28px)]">
-                        <div>
-                          <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-white/10 mb-3 bg-surface-elevated">
-                            <Image
-                              src="/images/case-studies/apex-cloud-case-study.svg"
-                              alt="Apex Cloud Platform Spotlight"
-                              fill
-                              sizes="280px"
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                            <span className="absolute top-2 left-2 text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-black/80 text-brand-cyan border border-brand-cyan/30">
-                              Production Study
-                            </span>
-                          </div>
-
-                          <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-brand-cyan transition-colors">
-                            Apex Cloud Enterprise Platform
-                          </h4>
-                          <p className="text-[11px] text-muted line-clamp-2 mt-1">
-                            High-throughput cloud management dashboard engineered with Next.js &amp; real-time telemetry streaming.
-                          </p>
-
-                          <div className="flex items-center gap-2 mt-2.5">
-                            <span className="text-[10px] font-mono text-brand-cyan px-2 py-0.5 rounded bg-brand-cyan/10 border border-brand-cyan/20">
-                              50K+ Nodes
-                            </span>
-                            <span className="text-[10px] font-mono text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
-                              0.08s Latency
-                            </span>
-                          </div>
+                  {/* Column 3: Spotlight Case Study Showcase */}
+                  <div className="col-span-12 lg:col-span-4 pl-0 lg:pl-1 mt-2 lg:mt-0 md:hidden lg:block">
+                    <span className="text-[11px] font-mono text-brand-cyan uppercase tracking-wider block mb-2">
+                      Case Study Spotlight
+                    </span>
+                    <div className="rounded-xl border border-border-subtle bg-surface/80 p-3.5 hover:border-brand-cyan/40 transition-all duration-300 group flex flex-col justify-between h-[calc(100%-28px)]">
+                      <div>
+                        <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-white/10 mb-3 bg-surface-elevated">
+                          <Image
+                            src="/images/case-studies/apex-cloud-case-study.svg"
+                            alt="Apex Cloud Platform Spotlight"
+                            fill
+                            sizes="280px"
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <span className="absolute top-2 left-2 text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded bg-black/80 text-brand-cyan border border-brand-cyan/30">
+                            Production Study
+                          </span>
                         </div>
 
-                        <div className="pt-3 mt-3 border-t border-white/5 flex items-center justify-between">
-                          <Link
-                            href="/case-studies/apex-cloud-enterprise-platform"
-                            onClick={() => setServicesDropdownOpen(false)}
-                            className="text-xs font-bold text-brand-bright hover:text-brand-cyan inline-flex items-center gap-1 transition-colors"
-                          >
-                            <span>Read Case Study</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
-                          <Link
-                            href="/contact"
-                            onClick={() => setServicesDropdownOpen(false)}
-                            className="text-[11px] text-muted hover:text-white font-medium"
-                          >
-                            Inquire Scope
-                          </Link>
+                        <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-brand-cyan transition-colors">
+                          Apex Cloud Enterprise Platform
+                        </h4>
+                        <p className="text-[11px] text-muted line-clamp-2 mt-1">
+                          High-throughput cloud management dashboard engineered with Next.js &amp; real-time telemetry streaming.
+                        </p>
+
+                        <div className="flex items-center gap-2 mt-2.5">
+                          <span className="text-[10px] font-mono text-brand-cyan px-2 py-0.5 rounded bg-brand-cyan/10 border border-brand-cyan/20">
+                            50K+ Nodes
+                          </span>
+                          <span className="text-[10px] font-mono text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                            0.08s Latency
+                          </span>
                         </div>
+                      </div>
+
+                      <div className="pt-3 mt-3 border-t border-white/5 flex items-center justify-between">
+                        <Link
+                          href="/case-studies/apex-cloud-enterprise-platform"
+                          onClick={() => setServicesDropdownOpen(false)}
+                          className="text-xs font-bold text-brand-bright hover:text-brand-cyan inline-flex items-center gap-1 transition-colors"
+                        >
+                          <span>Read Case Study</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                        <Link
+                          href="/contact"
+                          onClick={() => setServicesDropdownOpen(false)}
+                          className="text-[11px] text-muted hover:text-white font-medium"
+                        >
+                          Inquire Scope
+                        </Link>
                       </div>
                     </div>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
 
             <Link
               href="/portfolio"
               className={cn(
-                "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
+                "px-3.5 py-2 text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
                 isActive("/portfolio")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
+                  : "text-muted hover:text-brand-cyan"
               )}
             >
-              Portfolio
+              <span className="relative py-0.5">
+                Portfolio
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                    isActive("/portfolio")
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  )}
+                />
+              </span>
             </Link>
 
             <Link
               href="/case-studies"
               className={cn(
-                "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
+                "px-3.5 py-2 text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
                 isActive("/case-studies")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
+                  : "text-muted hover:text-brand-cyan"
               )}
             >
-              Case Studies
+              <span className="relative py-0.5">
+                Case Studies
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                    isActive("/case-studies")
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  )}
+                />
+              </span>
             </Link>
 
             <Link
               href="/blog"
               className={cn(
-                "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
+                "px-3.5 py-2 text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
                 isActive("/blog")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
+                  : "text-muted hover:text-brand-cyan"
               )}
             >
-              Blog
+              <span className="relative py-0.5">
+                Blog
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                    isActive("/blog")
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  )}
+                />
+              </span>
             </Link>
 
             <Link
               href="/contact"
               className={cn(
-                "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
+                "px-3.5 py-2 text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
                 isActive("/contact")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
+                  : "text-muted hover:text-brand-cyan"
               )}
             >
-              Contact
+              <span className="relative py-0.5">
+                Contact
+                <span
+                  className={cn(
+                    "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                    isActive("/contact")
+                      ? "w-full"
+                      : "w-0 group-hover:w-full"
+                  )}
+                />
+              </span>
             </Link>
           </nav>
 
