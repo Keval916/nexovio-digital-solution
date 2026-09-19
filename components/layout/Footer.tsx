@@ -11,30 +11,30 @@ export function Footer() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+15550192834";
 
   return (
-    <footer className="relative bg-surface border-t border-border-subtle pt-16 pb-12 overflow-hidden">
+    <footer className="relative bg-[#01234e] text-white keep-white border-t border-blue-900/40 pt-16 pb-12 overflow-hidden">
       {/* Background glow motif */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-radial-glow pointer-events-none opacity-40" />
 
       {/* Global Final Conversion Banner */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div className="group relative rounded-2xl border border-brand-cyan/25 bg-surface-elevated/90 p-8 sm:p-12 md:p-14 overflow-hidden shadow-md">
+        <div className="group relative rounded-2xl border border-brand-cyan/30 bg-[#021b3c] p-8 sm:p-12 md:p-14 overflow-hidden shadow-md">
           {/* Top Animated Left-to-Right Border */}
           <div className="absolute top-0 left-0 h-[2.5px] w-0 bg-gradient-brand group-hover:w-full transition-all duration-500 ease-out pointer-events-none" />
-          <div className="absolute -right-16 -bottom-16 w-80 h-80 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -left-16 -top-16 w-80 h-80 bg-brand-electric/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -right-16 -bottom-16 w-80 h-80 bg-brand-cyan/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -left-16 -top-16 w-80 h-80 bg-brand-electric/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 border border-brand-cyan/40 bg-brand-cyan/15 text-brand-cyan">
                 Ready For Real Growth?
               </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white keep-white tracking-tight leading-tight">
                 Have an idea worth building?{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Let’s turn it into a digital experience.
                 </span>
               </h2>
-              <p className="mt-3 text-muted text-sm sm:text-base leading-relaxed">
+              <p className="mt-3 text-slate-300 keep-slate text-sm sm:text-base leading-relaxed">
                 Connect directly with our engineering and design team to discuss your project scope, architecture, and timeline.
               </p>
             </div>
@@ -57,7 +57,7 @@ export function Footer() {
                 size="lg"
                 trackingName="footer_banner_view_work"
                 trackingLocation="footer_banner"
-                className="w-full sm:w-auto"
+                className="w-full sm:w-auto bg-[#072d60] text-white keep-white border-blue-400/30 hover:bg-[#093875]"
               >
                 View Our Work
               </Button>
@@ -68,7 +68,7 @@ export function Footer() {
 
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-white/5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-blue-900/40">
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
             <Link
@@ -76,39 +76,31 @@ export function Footer() {
               className="inline-flex items-center group outline-none focus:outline-none select-none p-0.5"
               aria-label="Nexovio Digital Solutions Homepage"
             >
-              {/* Dark Theme Logo */}
+              {/* White Brand Logo for #01234e Footer Background */}
               <Image
                 src="/images/brand/nexovio-digital-solution.webp"
                 alt="Nexovio Digital Solutions"
                 width={380}
                 height={100}
-                className="hidden dark:block h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
-              />
-              {/* Light Theme Logo */}
-              <Image
-                src="/images/brand/nexovio-digital-solution-light.webp"
-                alt="Nexovio Digital Solutions"
-                width={380}
-                height={100}
-                className="block dark:hidden h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
               />
             </Link>
 
-            <p className="text-sm text-muted leading-relaxed max-w-sm">
+            <p className="text-sm text-slate-300 keep-slate leading-relaxed max-w-sm">
               Nexovio Digital Solutions is an IT software development and digital solutions agency. We combine strategy, design, full-stack engineering, and search intelligence to build digital experiences that move businesses forward.
             </p>
 
             <div className="pt-2 space-y-2">
               <a
                 href={`mailto:${contactEmail}`}
-                className="flex items-center gap-2.5 text-xs text-muted hover:text-brand-cyan transition-colors"
+                className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
               >
                 <Mail className="w-3.5 h-3.5 text-brand-bright" />
                 <span>{contactEmail}</span>
               </a>
               <a
                 href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                className="flex items-center gap-2.5 text-xs text-muted hover:text-brand-cyan transition-colors"
+                className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
               >
                 <Phone className="w-3.5 h-3.5 text-brand-bright" />
                 <span>{contactPhone}</span>
@@ -117,7 +109,7 @@ export function Footer() {
                 href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2.5 text-xs text-muted hover:text-brand-cyan transition-colors"
+                className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
               >
                 <MessageSquare className="w-3.5 h-3.5 text-brand-cyan" />
                 <span>WhatsApp Consultation</span>
@@ -127,14 +119,14 @@ export function Footer() {
 
           {/* Services Column */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white keep-white mb-4">
               Core Services
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link
                   href="/services/web-development"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Web Development
                 </Link>
@@ -142,7 +134,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/services/web-design"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Web Design
                 </Link>
@@ -150,7 +142,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/services/ui-ux-design"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   UI/UX Design
                 </Link>
@@ -158,7 +150,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/services/graphic-design"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Graphic Design
                 </Link>
@@ -166,7 +158,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/services/digital-marketing"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Digital Marketing
                 </Link>
@@ -185,14 +177,14 @@ export function Footer() {
 
           {/* Company Column */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white keep-white mb-4">
               Company
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link
                   href="/about"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   About Nexovio
                 </Link>
@@ -200,7 +192,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/portfolio"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Portfolio
                 </Link>
@@ -208,7 +200,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/case-studies"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Case Studies
                 </Link>
@@ -216,7 +208,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/blog"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Engineering Blog
                 </Link>
@@ -224,7 +216,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Contact & Inquiries
                 </Link>
@@ -234,14 +226,14 @@ export function Footer() {
 
           {/* Resources & Legal Column */}
           <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-white mb-4">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-white keep-white mb-4">
               Trust & Legal
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link
                   href="/privacy-policy"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Privacy Policy
                 </Link>
@@ -249,7 +241,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/terms-and-conditions"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Terms & Conditions
                 </Link>
@@ -257,7 +249,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Request a Quote
                 </Link>
@@ -265,7 +257,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/about#how-we-work"
-                  className="text-muted hover:text-brand-cyan transition-colors"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   How We Work
                 </Link>
@@ -275,18 +267,18 @@ export function Footer() {
         </div>
 
         {/* Copyright & Disclaimer */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 keep-slate">
           <p>
             © {currentYear} Nexovio Digital Solutions. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="hover:text-white transition-colors">
+            <Link href="/privacy-policy" className="hover:text-brand-cyan transition-colors">
               Privacy
             </Link>
-            <Link href="/terms-and-conditions" className="hover:text-white transition-colors">
+            <Link href="/terms-and-conditions" className="hover:text-brand-cyan transition-colors">
               Terms
             </Link>
-            <Link href="/sitemap.xml" className="hover:text-white transition-colors">
+            <Link href="/sitemap.xml" className="hover:text-brand-cyan transition-colors">
               Sitemap
             </Link>
           </div>
@@ -295,3 +287,4 @@ export function Footer() {
     </footer>
   );
 }
+
