@@ -5,8 +5,8 @@ declare global {
   }
 }
 
-export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
-export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID || "G-N0YLWZTCPC";
+export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID || "GTM-5M9NKD8C";
 
 export function hasAnalyticsConsent(): boolean {
   if (typeof window === "undefined") return false;
