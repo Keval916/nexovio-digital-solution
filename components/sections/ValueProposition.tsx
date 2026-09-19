@@ -57,13 +57,13 @@ export function ValueProposition() {
                   className="flex flex-col justify-between h-full bg-surface-elevated/60"
                 >
                   <div>
-                    <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan mb-6 group-hover:scale-110 group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/40 transition-all duration-300">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <span className="text-xs font-mono text-muted-dark uppercase tracking-widest block mb-2">
+                    <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-2">
                       Phase 0{index + 1}
                     </span>
-                    <h3 className="text-lg font-bold text-white mb-3">
+                    <h3 className="text-lg font-bold text-white group-hover:text-brand-cyan transition-colors mb-3">
                       {pillar.title}
                     </h3>
                     <p className="text-sm text-muted leading-relaxed">

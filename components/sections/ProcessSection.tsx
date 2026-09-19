@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Card } from "@/components/ui/Card";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
@@ -54,23 +55,25 @@ export function ProcessSection() {
         <AnimateOnScroll variant="staggerChildren" stagger={0.1} duration={0.6}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {STEPS.map((item) => (
-              <div
+              <Card
                 key={item.step}
-                className="relative rounded-xl border border-border-subtle bg-surface/70 p-6 sm:p-8 hover:border-brand-cyan/40 transition-[border-color] duration-[400ms] group"
+                className="flex flex-col justify-between h-full bg-surface-elevated/70"
               >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-3xl font-extrabold font-mono text-brand-bright/30 group-hover:text-brand-cyan transition-colors">
-                    {item.step}
-                  </span>
-                  <span className="w-2 h-2 rounded-full bg-brand-cyan opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-2xl font-black font-mono px-3 py-1 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 transition-all duration-300">
+                      {item.step}
+                    </span>
+                    <span className="w-2.5 h-2.5 rounded-full bg-brand-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2.5 group-hover:text-brand-cyan transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-muted leading-relaxed">
+                    {item.summary}
+                  </p>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-cyan transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-muted leading-relaxed">
-                  {item.summary}
-                </p>
-              </div>
+              </Card>
             ))}
           </div>
         </AnimateOnScroll>
@@ -78,3 +81,4 @@ export function ProcessSection() {
     </section>
   );
 }
+

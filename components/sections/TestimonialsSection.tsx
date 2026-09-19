@@ -24,12 +24,12 @@ export function TestimonialsSection() {
             {[1, 2, 3].map((num) => (
               <div
                 key={num}
-                className="rounded-xl border border-dashed border-border-subtle bg-surface/40 p-6 sm:p-8 flex flex-col justify-between"
+                className="group relative rounded-2xl border border-dashed border-border-subtle bg-surface-elevated/60 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:-translate-y-1.5 hover:border-brand-cyan/45 hover:bg-surface-elevated hover:shadow-[0_20px_45px_-12px_rgba(23,105,255,0.18)] transition-all duration-300"
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <MessageSquareQuote className="w-6 h-6 text-brand-cyan/60" />
-                    <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded bg-white/5 text-muted">
+                    <MessageSquareQuote className="w-6 h-6 text-brand-cyan/60 group-hover:text-brand-cyan group-hover:scale-110 transition-all duration-300" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan font-semibold">
                       Slot #{num}
                     </span>
                   </div>
@@ -38,12 +38,12 @@ export function TestimonialsSection() {
                   </p>
                 </div>
 
-                <div className="pt-6 border-t border-white/5 flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-muted">
+                <div className="pt-6 border-t border-border-subtle flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-xs font-bold text-brand-cyan group-hover:scale-105 transition-transform">
                     CL
                   </div>
                   <div>
-                    <div className="text-xs font-semibold text-white">
+                    <div className="text-xs font-semibold text-white group-hover:text-brand-cyan transition-colors">
                       Client Review Slot
                     </div>
                     <div className="text-[10px] text-muted">

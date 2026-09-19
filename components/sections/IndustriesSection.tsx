@@ -50,9 +50,9 @@ export function IndustriesSection() {
               return (
                 <div
                   key={ind.name}
-                  className="p-5 rounded-xl border border-border-subtle bg-surface/60 hover:bg-surface-elevated hover:border-brand-bright/40 transition-all duration-200 group text-center flex flex-col items-center justify-center"
+                  className="p-5 rounded-2xl border border-border-subtle bg-surface-elevated/70 backdrop-blur-md hover:bg-surface-elevated hover:border-brand-cyan/45 hover:-translate-y-1 hover:shadow-[0_12px_25px_-8px_rgba(23,105,255,0.18)] transition-all duration-300 group text-center flex flex-col items-center justify-center relative overflow-hidden"
                 >
-                  <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/5 group-hover:border-brand-cyan/30 group-hover:text-brand-cyan text-muted flex items-center justify-center mb-3 transition-colors">
+                  <div className="w-11 h-11 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 group-hover:scale-110 group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/40 text-brand-cyan flex items-center justify-center mb-3 transition-all duration-300">
                     <Icon className="w-5 h-5" />
                   </div>
                   <h3 className="text-sm font-bold text-white mb-1 group-hover:text-brand-cyan transition-colors">
