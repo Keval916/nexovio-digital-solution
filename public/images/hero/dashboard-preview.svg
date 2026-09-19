@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="hero-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A1020" />
+      <stop offset="50%" stop-color="#070E1C" />
+      <stop offset="100%" stop-color="#03050A" />
+    </linearGradient>
+    <linearGradient id="cyan-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1769FF" />
+      <stop offset="100%" stop-color="#00C6FF" />
+    </linearGradient>
+    <linearGradient id="card-panel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#121B30" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#070D1A" stop-opacity="0.9" />
+    </linearGradient>
+    <linearGradient id="chart-area" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00C6FF" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#1769FF" stop-opacity="0.0" />
+    </linearGradient>
+    <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Outer Window Frame -->
+  <rect x="2" y="2" width="796" height="516" rx="16" fill="url(#hero-bg)" stroke="#1F2E4D" stroke-width="1.5" />
+
+  <!-- Top Window Header Bar -->
+  <path d="M 2 18 C 2 9.16 9.16 2 18 2 L 782 2 C 790.84 2 798 9.16 798 18 L 798 48 L 2 48 Z" fill="#0E1626" />
+  <line x1="2" y1="48" x2="798" y2="48" stroke="#1F2E4D" stroke-width="1" />
+
+  <!-- Window Dots -->
+  <circle cx="24" cy="25" r="5" fill="#EF4444" opacity="0.8" />
+  <circle cx="42" cy="25" r="5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="60" cy="25" r="5" fill="#10B981" opacity="0.8" />
+
+  <!-- Search / Command Bar Mock -->
+  <rect x="240" y="14" width="320" height="22" rx="6" fill="#162238" stroke="#253554" stroke-width="1" />
+  <text x="256" y="29" fill="#6B7C9E" font-family="monospace" font-size="11">https://console.nexovio.tech/vitals/live</text>
+
+  <!-- Status Chip -->
+  <rect x="680" y="15" width="94" height="20" rx="10" fill="#00C6FF" fill-opacity="0.12" stroke="#00C6FF" stroke-opacity="0.4" />
+  <circle cx="692" cy="25" r="3.5" fill="#00C6FF" />
+  <text x="702" y="29" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="10" font-weight="600">PRODUCTION</text>
+
+  <!-- Left Sidebar Mock -->
+  <rect x="16" y="64" width="160" height="436" rx="10" fill="url(#card-panel)" stroke="#1B2842" stroke-width="1" />
+  <text x="32" y="94" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="12" font-weight="700">CORE MODULES</text>
+  
+  <rect x="28" y="112" width="136" height="32" rx="6" fill="url(#cyan-glow)" fill-opacity="0.15" stroke="#00C6FF" stroke-opacity="0.4" />
+  <circle cx="44" cy="128" r="4" fill="#00C6FF" />
+  <text x="56" y="132" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Edge Telemetry</text>
+
+  <rect x="28" y="152" width="136" height="32" rx="6" fill="#121C30" />
+  <circle cx="44" cy="168" r="4" fill="#626D82" />
+  <text x="56" y="172" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">App Router</text>
+
+  <rect x="28" y="192" width="136" height="32" rx="6" fill="#121C30" />
+  <circle cx="44" cy="208" r="4" fill="#626D82" />
+  <text x="56" y="212" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">UI Design System</text>
+
+  <rect x="28" y="232" width="136" height="32" rx="6" fill="#121C30" />
+  <circle cx="44" cy="248" r="4" fill="#626D82" />
+  <text x="56" y="252" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">Search Architecture</text>
+
+  <!-- Sidebar Vitals Metric -->
+  <rect x="28" y="390" width="136" height="92" rx="8" fill="#091222" stroke="#1E2F50" stroke-width="1" />
+  <text x="40" y="412" fill="#6B7C9E" font-family="system-ui, sans-serif" font-size="10" font-weight="600">LIGHTHOUSE SCORE</text>
+  <text x="40" y="442" fill="#10B981" font-family="system-ui, sans-serif" font-size="28" font-weight="800">100<tspan font-size="14" fill="#6B7C9E">/100</tspan></text>
+  <text x="40" y="466" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="10">Sub-second LCP &amp; 0 CLS</text>
+
+  <!-- Top Metrics Bar (3 Bento Metric Cards) -->
+  <!-- Card 1 -->
+  <rect x="192" y="64" width="186" height="88" rx="10" fill="url(#card-panel)" stroke="#1B2842" stroke-width="1" />
+  <text x="210" y="88" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11" font-weight="600">EDGE RESPONSE TIME</text>
+  <text x="210" y="122" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="26" font-weight="800">18ms</text>
+  <rect x="310" y="104" width="54" height="18" rx="9" fill="#10B981" fill-opacity="0.15" />
+  <text x="318" y="117" fill="#10B981" font-family="system-ui, sans-serif" font-size="10" font-weight="700">▲ 99.4%</text>
+
+  <!-- Card 2 -->
+  <rect x="394" y="64" width="186" height="88" rx="10" fill="url(#card-panel)" stroke="#1B2842" stroke-width="1" />
+  <text x="412" y="88" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11" font-weight="600">CONVERSION VELOCITY</text>
+  <text x="412" y="122" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="26" font-weight="800">+185%</text>
+  <rect x="522" y="104" width="46" height="18" rx="9" fill="#00C6FF" fill-opacity="0.15" />
+  <text x="530" y="117" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="10" font-weight="700">MoM</text>
+
+  <!-- Card 3 -->
+  <rect x="596" y="64" width="186" height="88" rx="10" fill="url(#card-panel)" stroke="#1B2842" stroke-width="1" />
+  <text x="614" y="88" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11" font-weight="600">ACTIVE INSTANCES</text>
+  <text x="614" y="122" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="26" font-weight="800">54,290</text>
+  <rect x="712" y="104" width="56" height="18" rx="9" fill="#1769FF" fill-opacity="0.2" />
+  <text x="720" y="117" fill="#60A5FA" font-family="system-ui, sans-serif" font-size="10" font-weight="700">GLOBAL</text>
+
+  <!-- Center Main Chart Panel -->
+  <rect x="192" y="168" width="388" height="236" rx="10" fill="url(#card-panel)" stroke="#1B2842" stroke-width="1" />
+  <text x="212" y="196" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13" font-weight="700">Real-Time Throughput &amp; Traffic Scalability</text>
+  <text x="212" y="214" fill="#6B7C9E" font-family="system-ui, sans-serif" font-size="10">Automated Edge CDN caching with zero server downtime</text>
+
+  <!-- Grid lines inside chart -->
+  <line x1="212" y1="240" x2="560" y2="240" stroke="#1A2740" stroke-dasharray="3 3" />
+  <line x1="212" y1="280" x2="560" y2="280" stroke="#1A2740" stroke-dasharray="3 3" />
+  <line x1="212" y1="320" x2="560" y2="320" stroke="#1A2740" stroke-dasharray="3 3" />
+  <line x1="212" y1="360" x2="560" y2="360" stroke="#1A2740" stroke-dasharray="3 3" />
+
+  <!-- Area Chart Path -->
+  <path d="M 212 360 L 212 320 Q 260 300 290 270 T 370 250 T 450 210 T 520 190 L 560 175 L 560 360 Z" fill="url(#chart-area)" />
+  <path d="M 212 320 Q 260 300 290 270 T 370 250 T 450 210 T 520 190 L 560 175" stroke="#00C6FF" stroke-width="3" fill="none" filter="url(#neon-glow)" />
+
+  <!-- Highlight Data Point -->
+  <circle cx="450" cy="210" r="5" fill="#00C6FF" stroke="#FFFFFF" stroke-width="2" />
+  <rect x="420" y="172" width="60" height="22" rx="4" fill="#0A1426" stroke="#00C6FF" stroke-width="1" />
+  <text x="428" y="187" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="10" font-weight="700">99.98%</text>
+
+  <!-- Right Side Panel: System Health & Security Stack -->
+  <rect x="596" y="168" width="186" height="236" rx="10" fill="url(#card-panel)" stroke="#1B2842" stroke-width="1" />
+  <text x="614" y="196" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13" font-weight="700">Architecture Vitals</text>
+
+  <!-- Progress Bar 1: Next.js 14 SSR -->
+  <text x="614" y="228" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="11">Next.js 14 SSR</text>
+  <rect x="614" y="236" width="150" height="6" rx="3" fill="#141E34" />
+  <rect x="614" y="236" width="144" height="6" rx="3" fill="url(#cyan-glow)" />
+
+  <!-- Progress Bar 2: TypeScript Strictness -->
+  <text x="614" y="268" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="11">Strict TypeScript</text>
+  <rect x="614" y="276" width="150" height="6" rx="3" fill="#141E34" />
+  <rect x="614" y="276" width="150" height="6" rx="3" fill="#10B981" />
+
+  <!-- Progress Bar 3: SEO Indexation -->
+  <text x="614" y="308" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="11">Core Web Vitals</text>
+  <rect x="614" y="316" width="150" height="6" rx="3" fill="#141E34" />
+  <rect x="614" y="316" width="146" height="6" rx="3" fill="url(#cyan-glow)" />
+
+  <!-- Progress Bar 4: Security Hardening -->
+  <text x="614" y="348" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="11">OWASP Standard</text>
+  <rect x="614" y="356" width="150" height="6" rx="3" fill="#141E34" />
+  <rect x="614" y="356" width="150" height="6" rx="3" fill="#00C6FF" />
+
+  <rect x="614" y="374" width="150" height="20" rx="4" fill="#0E192D" />
+  <text x="626" y="388" fill="#00C6FF" font-family="monospace" font-size="10">✓ zero CVE warnings</text>
+
+  <!-- Bottom Terminal Strip -->
+  <rect x="192" y="416" width="590" height="84" rx="10" fill="#060C17" stroke="#16233B" stroke-width="1" />
+  <circle cx="212" cy="436" r="3.5" fill="#10B981" />
+  <text x="224" y="440" fill="#6B7C9E" font-family="monospace" font-size="11">DEPLOYMENT RUNTIME LOGS (LIVE)</text>
+  <text x="212" y="464" fill="#A7B0C0" font-family="monospace" font-size="11">> Compiled /services/web-development in <tspan fill="#00C6FF">142ms</tspan> (Edge Node: iad1)</text>
+  <text x="212" y="484" fill="#10B981" font-family="monospace" font-size="11">✔ Ready in 450ms. 0 vulnerabilities found. Static optimization complete.</text>
+</svg>

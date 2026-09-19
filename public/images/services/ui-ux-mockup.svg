@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="uiux-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1222" />
+      <stop offset="100%" stop-color="#050812" />
+    </linearGradient>
+    <linearGradient id="token-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00C6FF" />
+      <stop offset="100%" stop-color="#818CF8" />
+    </linearGradient>
+  </defs>
+
+  <rect width="700" height="450" rx="12" fill="url(#uiux-bg)" stroke="#1F2848" stroke-width="1.5" />
+
+  <!-- Figma-style Canvas Header -->
+  <rect x="0" y="0" width="700" height="42" fill="#0C101E" />
+  <line x1="0" y1="42" x2="700" y2="42" stroke="#1F2848" stroke-width="1" />
+  <circle cx="20" cy="21" r="4.5" fill="#EF4444" opacity="0.8" />
+  <circle cx="36" cy="21" r="4.5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="52" cy="21" r="4.5" fill="#10B981" opacity="0.8" />
+  <text x="80" y="26" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Nexovio Design System • Token Architecture &amp; User Flow Mapping</text>
+  <rect x="580" y="11" width="100" height="20" rx="10" fill="#818CF8" fill-opacity="0.15" stroke="#818CF8" stroke-opacity="0.3" />
+  <text x="592" y="25" fill="#C7D2FE" font-family="system-ui, sans-serif" font-size="10" font-weight="700">FIGMA TOKENS</text>
+
+  <!-- Left: User Journey Flow Diagram -->
+  <rect x="24" y="58" width="380" height="270" rx="10" fill="#0A0E1A" stroke="#1B243E" stroke-width="1" />
+  <text x="44" y="86" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Frictionless Onboarding User Flow</text>
+
+  <!-- Flow Step 1 -->
+  <rect x="44" y="110" width="90" height="60" rx="8" fill="#11182C" stroke="#00C6FF" stroke-width="1.5" />
+  <text x="56" y="132" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="10" font-weight="700">STEP 01</text>
+  <text x="56" y="152" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="10">Landing Intent</text>
+
+  <!-- Connector 1 -->
+  <line x1="134" y1="140" x2="164" y2="140" stroke="#00C6FF" stroke-width="2" />
+  <polygon points="164,136 172,140 164,144" fill="#00C6FF" />
+
+  <!-- Flow Step 2 -->
+  <rect x="174" y="110" width="90" height="60" rx="8" fill="#11182C" stroke="#818CF8" stroke-width="1.5" />
+  <text x="186" y="132" fill="#818CF8" font-family="system-ui, sans-serif" font-size="10" font-weight="700">STEP 02</text>
+  <text x="186" y="152" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="10">Smart Filter</text>
+
+  <!-- Connector 2 -->
+  <line x1="264" y1="140" x2="294" y2="140" stroke="#818CF8" stroke-width="2" />
+  <polygon points="294,136 302,140 294,144" fill="#818CF8" />
+
+  <!-- Flow Step 3 -->
+  <rect x="304" y="110" width="85" height="60" rx="8" fill="#11182C" stroke="#10B981" stroke-width="1.5" />
+  <text x="314" y="132" fill="#10B981" font-family="system-ui, sans-serif" font-size="10" font-weight="700">STEP 03</text>
+  <text x="314" y="152" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="10">Conversion</text>
+
+  <!-- Usability Testing Heatmap Panel -->
+  <rect x="44" y="190" width="345" height="120" rx="8" fill="#0E1424" stroke="#1E2844" stroke-width="1" />
+  <text x="60" y="214" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10" font-weight="600">HEATMAP &amp; ATTENTION ANALYSIS</text>
+  
+  <circle cx="110" cy="255" r="30" fill="#EF4444" fill-opacity="0.3" filter="blur(10px)" />
+  <circle cx="110" cy="255" r="14" fill="#EF4444" fill-opacity="0.6" />
+  <text x="96" y="260" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="10" font-weight="700">88%</text>
+  <text x="80" y="295" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">Primary CTA</text>
+
+  <circle cx="230" cy="255" r="24" fill="#F59E0B" fill-opacity="0.3" filter="blur(8px)" />
+  <circle cx="230" cy="255" r="10" fill="#F59E0B" fill-opacity="0.6" />
+  <text x="220" y="259" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="9" font-weight="700">64%</text>
+  <text x="205" y="295" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">Feature Video</text>
+
+  <circle cx="330" cy="255" r="20" fill="#3B82F6" fill-opacity="0.3" filter="blur(6px)" />
+  <circle cx="330" cy="255" r="8" fill="#3B82F6" fill-opacity="0.6" />
+  <text x="322" y="259" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="9" font-weight="700">42%</text>
+  <text x="310" y="295" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">Case Study</text>
+
+  <!-- Right: Design System Tokens & Components -->
+  <rect x="420" y="58" width="256" height="270" rx="10" fill="#0A0E1A" stroke="#1B243E" stroke-width="1" />
+  <text x="440" y="86" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Design System Components</text>
+
+  <!-- Button Components Mockup -->
+  <rect x="440" y="104" width="216" height="36" rx="8" fill="url(#token-grad)" />
+  <text x="495" y="127" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11" font-weight="700">Primary Button</text>
+
+  <rect x="440" y="150" width="216" height="36" rx="8" fill="#11182C" stroke="#00C6FF" stroke-opacity="0.5" stroke-width="1" />
+  <text x="488" y="173" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Secondary Outline</text>
+
+  <rect x="440" y="196" width="216" height="42" rx="8" fill="#11182C" stroke="#1E2844" stroke-width="1" />
+  <text x="454" y="214" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">INPUT FIELD COMPONENT</text>
+  <text x="454" y="230" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="10">user@company.com |</text>
+
+  <!-- WCAG Pill -->
+  <rect x="440" y="250" width="216" height="30" rx="6" fill="#051410" stroke="#10B981" stroke-opacity="0.4" stroke-width="1" />
+  <text x="475" y="270" fill="#10B981" font-family="system-ui, sans-serif" font-size="10" font-weight="700">✔ WCAG 2.1 AA Compliant</text>
+
+  <!-- Bottom Details Bar -->
+  <rect x="24" y="348" width="652" height="82" rx="8" fill="#090D18" stroke="#182036" stroke-width="1" />
+  <text x="44" y="374" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="11" font-weight="700">HUMAN-CENTERED USER EXPERIENCE METHODOLOGY</text>
+  <text x="44" y="394" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="10">User Interviews • Low/High Fidelity Prototyping • Micro-Animations • Accessibility Auditing</text>
+  <text x="44" y="412" fill="#8E9BB0" font-family="monospace" font-size="9">Figma Variables synced directly to Tailwind CSS configuration tokens</text>
+</svg>

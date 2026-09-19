@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="cs-apex-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B132B" />
+      <stop offset="50%" stop-color="#060C1D" />
+      <stop offset="100%" stop-color="#02040A" />
+    </linearGradient>
+    <linearGradient id="apex-mesh" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1769FF" />
+      <stop offset="100%" stop-color="#00C6FF" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="500" rx="16" fill="url(#cs-apex-bg)" stroke="#1F3054" stroke-width="1.5" />
+  
+  <!-- Ambient background glow circles -->
+  <circle cx="200" cy="150" r="180" fill="#1769FF" fill-opacity="0.12" filter="blur(60px)" />
+  <circle cx="700" cy="350" r="180" fill="#00C6FF" fill-opacity="0.1" filter="blur(60px)" />
+
+  <!-- Top bar -->
+  <rect x="0" y="0" width="900" height="50" fill="#091122" />
+  <line x1="0" y1="50" x2="900" y2="50" stroke="#1F3054" stroke-width="1" />
+  <circle cx="30" cy="25" r="5" fill="#EF4444" opacity="0.8" />
+  <circle cx="48" cy="25" r="5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="66" cy="25" r="5" fill="#10B981" opacity="0.8" />
+  <text x="100" y="30" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Nexovio Architecture Study // Apex Cloud Enterprise Platform</text>
+  
+  <rect x="740" y="14" width="130" height="24" rx="12" fill="#00C6FF" fill-opacity="0.15" stroke="#00C6FF" stroke-opacity="0.4" />
+  <text x="754" y="30" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="11" font-weight="700">ENTERPRISE SAAS</text>
+
+  <!-- Left: Main Mockup Window -->
+  <rect x="40" y="80" width="520" height="380" rx="12" fill="#0B152B" stroke="#1F3258" stroke-width="1.5" />
+  
+  <!-- Server Node Telemetry inside card -->
+  <rect x="64" y="104" width="472" height="150" rx="8" fill="#070E1E" stroke="#162644" stroke-width="1" />
+  <text x="80" y="130" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">50,000+ SERVER NODES TELEMETRY STREAM</text>
+  
+  <!-- Live Stream Graphic -->
+  <path d="M 80 220 L 140 190 L 180 205 L 240 160 L 300 185 L 360 140 L 420 165 L 480 130 L 520 145" stroke="#00C6FF" stroke-width="3" fill="none" />
+  <path d="M 80 220 L 140 190 L 180 205 L 240 160 L 300 185 L 360 140 L 420 165 L 480 130 L 520 145 L 520 240 L 80 240 Z" fill="url(#apex-mesh)" fill-opacity="0.15" />
+
+  <!-- Window Lower Bento Items -->
+  <rect x="64" y="270" width="226" height="160" rx="8" fill="#070E1E" stroke="#162644" stroke-width="1" />
+  <text x="80" y="296" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Cluster Diagnostics</text>
+  <text x="80" y="324" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="22" font-weight="800">99.99%</text>
+  <text x="80" y="344" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">Uptime across 18 clusters</text>
+  
+  <rect x="80" y="366" width="194" height="6" rx="3" fill="#13233E" />
+  <rect x="80" y="366" width="190" height="6" rx="3" fill="url(#apex-mesh)" />
+  <text x="80" y="394" fill="#10B981" font-family="system-ui, sans-serif" font-size="10">✔ Edge WebSockets Synced</text>
+
+  <rect x="310" y="270" width="226" height="160" rx="8" fill="#070E1E" stroke="#162644" stroke-width="1" />
+  <text x="326" y="296" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Render Speed</text>
+  <text x="326" y="324" fill="#10B981" font-family="system-ui, sans-serif" font-size="22" font-weight="800">60 FPS</text>
+  <text x="326" y="344" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">Virtualized Windowing</text>
+  
+  <rect x="326" y="366" width="194" height="6" rx="3" fill="#13233E" />
+  <rect x="326" y="366" width="194" height="6" rx="3" fill="#10B981" />
+  <text x="326" y="394" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="10">✔ Zero UI Stutter</text>
+
+  <!-- Right: Key Architectural Highlights Column -->
+  <rect x="580" y="80" width="280" height="380" rx="12" fill="#0B152B" stroke="#1F3258" stroke-width="1.5" />
+  <text x="604" y="112" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="14" font-weight="800">ENGINEERING STATS</text>
+  
+  <rect x="604" y="130" width="232" height="66" rx="8" fill="#060C1A" stroke="#162644" stroke-width="1" />
+  <text x="618" y="152" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">CLIENT-SIDE LATENCY</text>
+  <text x="618" y="178" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="20" font-weight="800">0.08s <tspan font-size="11" fill="#10B981">(-92%)</tspan></text>
+
+  <rect x="604" y="206" width="232" height="66" rx="8" fill="#060C1A" stroke="#162644" stroke-width="1" />
+  <text x="618" y="228" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">CORE WEB VITALS</text>
+  <text x="618" y="254" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="20" font-weight="800">100 / 100</text>
+
+  <rect x="604" y="282" width="232" height="66" rx="8" fill="#060C1A" stroke="#162644" stroke-width="1" />
+  <text x="618" y="304" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">PRODUCTION DEPLOYMENT</text>
+  <text x="618" y="330" fill="#60A5FA" font-family="system-ui, sans-serif" font-size="16" font-weight="700">Next.js Edge Runtime</text>
+
+  <rect x="604" y="362" width="232" height="74" rx="8" fill="#060C1A" stroke="#162644" stroke-width="1" />
+  <text x="618" y="386" fill="#A7B0C0" font-family="monospace" font-size="10">STACK: TypeScript, Tailwind,</text>
+  <text x="618" y="404" fill="#A7B0C0" font-family="monospace" font-size="10">React 18 Server Components,</text>
+  <text x="618" y="422" fill="#00C6FF" font-family="monospace" font-size="10">Real-time Stream Engine</text>
+</svg>

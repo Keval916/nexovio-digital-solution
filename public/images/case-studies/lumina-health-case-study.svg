@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="cs-lumina-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08182B" />
+      <stop offset="50%" stop-color="#040F1E" />
+      <stop offset="100%" stop-color="#02070F" />
+    </linearGradient>
+    <linearGradient id="lumina-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00C6FF" />
+      <stop offset="100%" stop-color="#00E5A3" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="500" rx="16" fill="url(#cs-lumina-bg)" stroke="#16345A" stroke-width="1.5" />
+
+  <!-- Top bar -->
+  <rect x="0" y="0" width="900" height="50" fill="#061324" />
+  <line x1="0" y1="50" x2="900" y2="50" stroke="#16345A" stroke-width="1" />
+  <circle cx="30" cy="25" r="5" fill="#EF4444" opacity="0.8" />
+  <circle cx="48" cy="25" r="5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="66" cy="25" r="5" fill="#10B981" opacity="0.8" />
+  <text x="100" y="30" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Nexovio Case Study // Lumina Health Patient Experience &amp; WCAG AA Systems</text>
+
+  <rect x="740" y="14" width="130" height="24" rx="12" fill="#00E5A3" fill-opacity="0.15" stroke="#00E5A3" stroke-opacity="0.4" />
+  <text x="758" y="30" fill="#00E5A3" font-family="system-ui, sans-serif" font-size="11" font-weight="700">UI/UX &amp; HEALTH</text>
+
+  <!-- Left: Main Mockup Window -->
+  <rect x="40" y="80" width="520" height="380" rx="12" fill="#0A1D34" stroke="#1A3F6C" stroke-width="1.5" />
+  
+  <rect x="64" y="104" width="472" height="170" rx="8" fill="#061222" stroke="#122A4A" stroke-width="1" />
+  <text x="80" y="130" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">ACCESSIBLE PATIENT TELEHEALTH DASHBOARD</text>
+
+  <!-- Doctor and Patient Call Visual -->
+  <circle cx="120" cy="190" r="32" fill="#00C6FF" fill-opacity="0.2" stroke="#00C6FF" stroke-width="2" />
+  <text x="108" y="196" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="20" font-weight="700">Dr</text>
+
+  <text x="170" y="176" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="15" font-weight="700">Dr. Sarah Lin, MD • Chief Cardiologist</text>
+  <text x="170" y="198" fill="#00E5A3" font-family="system-ui, sans-serif" font-size="12">● Encrypted HD Consultation in Session</text>
+  <text x="170" y="218" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">Next Appointment: Today 3:00 PM • Duration 30 mins</text>
+
+  <!-- Bottom Cards -->
+  <rect x="64" y="290" width="226" height="144" rx="8" fill="#061222" stroke="#122A4A" stroke-width="1" />
+  <text x="80" y="316" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Scheduling Completion</text>
+  <text x="80" y="348" fill="#00E5A3" font-family="system-ui, sans-serif" font-size="26" font-weight="800">94.6%</text>
+  <text x="80" y="370" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">Up from 68% prior to redesign</text>
+  <text x="80" y="400" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="11">✔ 3-Step Guided Funnel</text>
+
+  <rect x="310" y="290" width="226" height="144" rx="8" fill="#061222" stroke="#122A4A" stroke-width="1" />
+  <text x="326" y="316" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Accessibility Rating</text>
+  <text x="326" y="348" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="26" font-weight="800">WCAG AA</text>
+  <text x="326" y="370" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">100% Screen Reader Certified</text>
+  <text x="326" y="400" fill="#00E5A3" font-family="system-ui, sans-serif" font-size="11">✔ High Contrast Tokens</text>
+
+  <!-- Right: Metrics Column -->
+  <rect x="580" y="80" width="280" height="380" rx="12" fill="#0A1D34" stroke="#1A3F6C" stroke-width="1.5" />
+  <text x="604" y="112" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="14" font-weight="800">UX DELIVERABLES</text>
+
+  <rect x="604" y="130" width="232" height="66" rx="8" fill="#050E1A" stroke="#122A4A" stroke-width="1" />
+  <text x="618" y="152" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">SCHEDULE TIME</text>
+  <text x="618" y="178" fill="#00E5A3" font-family="system-ui, sans-serif" font-size="20" font-weight="800">48 Seconds <tspan font-size="11" fill="#6EE7B7">(-68%)</tspan></text>
+
+  <rect x="604" y="206" width="232" height="66" rx="8" fill="#050E1A" stroke="#122A4A" stroke-width="1" />
+  <text x="618" y="228" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">MOBILE RETENTION</text>
+  <text x="618" y="254" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="20" font-weight="800">82.4% <tspan font-size="11" fill="#7DD3FC">(+34%)</tspan></text>
+
+  <rect x="604" y="282" width="232" height="66" rx="8" fill="#050E1A" stroke="#122A4A" stroke-width="1" />
+  <text x="618" y="304" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">DESIGN SYSTEM</text>
+  <text x="618" y="330" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="700">Figma Tokens &amp; Tailwind</text>
+
+  <rect x="604" y="362" width="232" height="74" rx="8" fill="#050E1A" stroke="#122A4A" stroke-width="1" />
+  <text x="618" y="386" fill="#A7B0C0" font-family="monospace" font-size="10">ROLE: Research, Wireframing,</text>
+  <text x="618" y="404" fill="#A7B0C0" font-family="monospace" font-size="10">Interactive Prototypes,</text>
+  <text x="618" y="422" fill="#00E5A3" font-family="monospace" font-size="10">WCAG 2.1 AA Compliance</text>
+</svg>

@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="kora-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#181226" />
+      <stop offset="100%" stop-color="#08060E" />
+    </linearGradient>
+    <linearGradient id="kora-amber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#EC4899" />
+    </linearGradient>
+  </defs>
+
+  <rect width="700" height="450" rx="12" fill="url(#kora-bg)" stroke="#382856" stroke-width="1.5" />
+
+  <!-- Header Bar -->
+  <rect x="0" y="0" width="700" height="42" fill="#120D1E" />
+  <line x1="0" y1="42" x2="700" y2="42" stroke="#382856" stroke-width="1" />
+  <circle cx="20" cy="21" r="4.5" fill="#EF4444" opacity="0.8" />
+  <circle cx="36" cy="21" r="4.5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="52" cy="21" r="4.5" fill="#10B981" opacity="0.8" />
+  <text x="80" y="26" fill="#FDE68A" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Kora Modern Goods • High-Conversion Headless Storefront</text>
+  
+  <rect x="570" y="11" width="110" height="20" rx="10" fill="#F59E0B" fill-opacity="0.15" stroke="#F59E0B" stroke-opacity="0.4" />
+  <text x="584" y="25" fill="#FBBF24" font-family="system-ui, sans-serif" font-size="10" font-weight="700">SUB-SECOND LCP</text>
+
+  <!-- Left: Featured Product Grid Mockup -->
+  <rect x="24" y="58" width="380" height="270" rx="10" fill="#0E0A18" stroke="#2B1C44" stroke-width="1" />
+  <text x="44" y="86" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Headless Catalog &amp; 1-Click Checkout</text>
+
+  <!-- Product 1 -->
+  <rect x="44" y="106" width="165" height="190" rx="8" fill="#181128" stroke="#382558" stroke-width="1" />
+  <rect x="54" y="116" width="145" height="90" rx="6" fill="#25183E" />
+  <circle cx="126" cy="161" r="26" fill="url(#kora-amber)" fill-opacity="0.6" />
+  <text x="54" y="226" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11" font-weight="700">Kora Studio Audio</text>
+  <text x="54" y="244" fill="#F59E0B" font-family="system-ui, sans-serif" font-size="12" font-weight="800">$289.00</text>
+  <rect x="54" y="260" width="145" height="24" rx="4" fill="#F59E0B" />
+  <text x="100" y="276" fill="#000000" font-family="system-ui, sans-serif" font-size="10" font-weight="700">Instant Buy</text>
+
+  <!-- Product 2 -->
+  <rect x="224" y="106" width="165" height="190" rx="8" fill="#181128" stroke="#382558" stroke-width="1" />
+  <rect x="234" y="116" width="145" height="90" rx="6" fill="#25183E" />
+  <rect x="280" y="136" width="52" height="52" rx="10" fill="#EC4899" fill-opacity="0.4" />
+  <text x="234" y="226" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="11" font-weight="700">Ergonomic Desk Mat</text>
+  <text x="234" y="244" fill="#F59E0B" font-family="system-ui, sans-serif" font-size="12" font-weight="800">$74.00</text>
+  <rect x="234" y="260" width="145" height="24" rx="4" fill="#2E1C4C" stroke="#F59E0B" stroke-width="1" />
+  <text x="280" y="276" fill="#FDE68A" font-family="system-ui, sans-serif" font-size="10" font-weight="700">Add to Bag</text>
+
+  <!-- Right: Conversion Telemetry Column -->
+  <rect x="420" y="58" width="256" height="270" rx="10" fill="#0E0A18" stroke="#2B1C44" stroke-width="1" />
+  <text x="440" y="86" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">E-Commerce Metrics</text>
+
+  <rect x="440" y="104" width="216" height="60" rx="8" fill="#171026" stroke="#331E54" stroke-width="1" />
+  <text x="454" y="124" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">CART ABANDONMENT DROP</text>
+  <text x="454" y="148" fill="#10B981" font-family="system-ui, sans-serif" font-size="20" font-weight="800">-42.8%</text>
+
+  <rect x="440" y="174" width="216" height="60" rx="8" fill="#171026" stroke="#331E54" stroke-width="1" />
+  <text x="454" y="194" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">MOBILE CHECKOUT SPEED</text>
+  <text x="454" y="218" fill="#F59E0B" font-family="system-ui, sans-serif" font-size="20" font-weight="800">1.2 Seconds</text>
+
+  <rect x="440" y="244" width="216" height="64" rx="8" fill="#171026" stroke="#331E54" stroke-width="1" />
+  <text x="454" y="264" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">HEADLESS STACK</text>
+  <text x="454" y="286" fill="#FDE68A" font-family="monospace" font-size="11">Next.js • Edge APIs • Stripe</text>
+
+  <!-- Bottom Details Bar -->
+  <rect x="24" y="348" width="652" height="82" rx="8" fill="#100B1C" stroke="#2B1C44" stroke-width="1" />
+  <text x="44" y="374" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="11" font-weight="700">HIGH-PERFORMANCE HEADLESS COMMERCE ARCHITECTURE</text>
+  <text x="44" y="394" fill="#F59E0B" font-family="system-ui, sans-serif" font-size="10">Sub-second dynamic page transitions • Real-time inventory sync • Optimized mobile checkout</text>
+  <text x="44" y="412" fill="#8E9BB0" font-family="monospace" font-size="9">Engineered with Next.js App Router for enterprise scalability</text>
+</svg>

@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 380" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="arch-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#091326" />
+      <stop offset="100%" stop-color="#030710" />
+    </linearGradient>
+    <linearGradient id="arch-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1769FF" />
+      <stop offset="100%" stop-color="#00C6FF" />
+    </linearGradient>
+  </defs>
+
+  <rect width="750" height="380" rx="14" fill="url(#arch-bg)" stroke="#1B2B4A" stroke-width="1.5" />
+
+  <!-- Architecture Header -->
+  <text x="40" y="44" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="800">NEXOVIO HIGH-AVAILABILITY SYSTEM TOPOLOGY</text>
+  <text x="40" y="66" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">Production-Grade End-to-End Architecture: Zero Bloat, Zero Unverified Dependencies</text>
+
+  <!-- Node 1: Edge CDN & Global DNS -->
+  <rect x="40" y="100" width="180" height="180" rx="10" fill="#0A162B" stroke="#1D365F" stroke-width="1.5" />
+  <circle cx="80" cy="140" r="20" fill="#1769FF" fill-opacity="0.2" stroke="#1769FF" stroke-width="1.5" />
+  <text x="73" y="145" fill="#60A5FA" font-family="system-ui, sans-serif" font-size="14" font-weight="700">01</text>
+  <text x="40" y="180" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="start" dx="18">Global Edge CDN</text>
+  <text x="40" y="202" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10" text-anchor="start" dx="18">300+ Edge Nodes</text>
+  <text x="40" y="222" fill="#00C6FF" font-family="monospace" font-size="10" text-anchor="start" dx="18">DDoS Mitigation</text>
+  <text x="40" y="242" fill="#10B981" font-family="monospace" font-size="10" text-anchor="start" dx="18">Sub-20ms TTFB</text>
+
+  <!-- Arrow 1 to 2 -->
+  <line x1="220" y1="190" x2="275" y2="190" stroke="#00C6FF" stroke-width="2" stroke-dasharray="4 4" />
+  <polygon points="275,185 285,190 275,195" fill="#00C6FF" />
+
+  <!-- Node 2: React Server Components & App Router -->
+  <rect x="285" y="100" width="180" height="180" rx="10" fill="#0A162B" stroke="#00C6FF" stroke-width="1.5" />
+  <circle cx="325" cy="140" r="20" fill="#00C6FF" fill-opacity="0.2" stroke="#00C6FF" stroke-width="1.5" />
+  <text x="318" y="145" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="14" font-weight="700">02</text>
+  <text x="285" y="180" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="start" dx="18">Next.js 14 SSR</text>
+  <text x="285" y="202" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10" text-anchor="start" dx="18">Zero Client-Bundle Waste</text>
+  <text x="285" y="222" fill="#60A5FA" font-family="monospace" font-size="10" text-anchor="start" dx="18">Strict TypeScript</text>
+  <text x="285" y="242" fill="#10B981" font-family="monospace" font-size="10" text-anchor="start" dx="18">Streaming Hydration</text>
+
+  <!-- Arrow 2 to 3 -->
+  <line x1="465" y1="190" x2="520" y2="190" stroke="#00C6FF" stroke-width="2" stroke-dasharray="4 4" />
+  <polygon points="520,185 530,190 520,195" fill="#00C6FF" />
+
+  <!-- Node 3: Design System & Conversion Engine -->
+  <rect x="530" y="100" width="180" height="180" rx="10" fill="#0A162B" stroke="#1D365F" stroke-width="1.5" />
+  <circle cx="570" cy="140" r="20" fill="#10B981" fill-opacity="0.2" stroke="#10B981" stroke-width="1.5" />
+  <text x="563" y="145" fill="#10B981" font-family="system-ui, sans-serif" font-size="14" font-weight="700">03</text>
+  <text x="530" y="180" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="start" dx="18">Design Tokens &amp; SEO</text>
+  <text x="530" y="202" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10" text-anchor="start" dx="18">WCAG AA Accessibility</text>
+  <text x="530" y="222" fill="#38BDF8" font-family="monospace" font-size="10" text-anchor="start" dx="18">JSON-LD Rich Schema</text>
+  <text x="530" y="242" fill="#10B981" font-family="monospace" font-size="10" text-anchor="start" dx="18">Compounding Growth</text>
+
+  <!-- Bottom Verification Bar -->
+  <rect x="40" y="306" width="670" height="46" rx="8" fill="#050B16" stroke="#15243E" stroke-width="1" />
+  <text x="60" y="334" fill="#00C6FF" font-family="monospace" font-size="11">✔ Verified Production Guarantees: 100% IP Transfer • 0 Template Vulnerabilities • 60 FPS Smooth UI</text>
+</svg>

@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 500" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="cs-strata-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E1729" />
+      <stop offset="50%" stop-color="#070D18" />
+      <stop offset="100%" stop-color="#020408" />
+    </linearGradient>
+    <linearGradient id="strata-glow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38BDF8" />
+      <stop offset="100%" stop-color="#818CF8" />
+    </linearGradient>
+  </defs>
+
+  <rect width="900" height="500" rx="16" fill="url(#cs-strata-bg)" stroke="#1F3354" stroke-width="1.5" />
+
+  <!-- Top bar -->
+  <rect x="0" y="0" width="900" height="50" fill="#09111E" />
+  <line x1="0" y1="50" x2="900" y2="50" stroke="#1F3354" stroke-width="1" />
+  <circle cx="30" cy="25" r="5" fill="#EF4444" opacity="0.8" />
+  <circle cx="48" cy="25" r="5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="66" cy="25" r="5" fill="#10B981" opacity="0.8" />
+  <text x="100" y="30" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="12" font-weight="600">Nexovio Case Study // Strata Financial High-Trust Corporate Web Architecture</text>
+
+  <rect x="730" y="14" width="140" height="24" rx="12" fill="#38BDF8" fill-opacity="0.15" stroke="#38BDF8" stroke-opacity="0.4" />
+  <text x="746" y="30" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="11" font-weight="700">WEALTH &amp; FINTECH</text>
+
+  <!-- Left: Main Mockup Window -->
+  <rect x="40" y="80" width="520" height="380" rx="12" fill="#0C1526" stroke="#1F355A" stroke-width="1.5" />
+  
+  <rect x="64" y="104" width="472" height="170" rx="8" fill="#080E1A" stroke="#15243C" stroke-width="1" />
+  <text x="80" y="130" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">INSTITUTIONAL INVESTOR PORTAL &amp; YIELD CALCULATOR</text>
+
+  <text x="80" y="165" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="28" font-weight="800">$1,450,000,000</text>
+  <text x="320" y="165" fill="#10B981" font-family="system-ui, sans-serif" font-size="13" font-weight="700">▲ +18.4% YOY AUM</text>
+  
+  <!-- Interactive yield curves -->
+  <path d="M 80 230 Q 180 210 280 190 T 440 160 T 520 140" stroke="#38BDF8" stroke-width="3" fill="none" />
+  <path d="M 80 245 Q 180 235 280 215 T 440 195 T 520 180" stroke="#818CF8" stroke-width="2" stroke-dasharray="3 3" fill="none" />
+  <circle cx="440" cy="160" r="5" fill="#38BDF8" stroke="#FFFFFF" stroke-width="2" />
+
+  <!-- Bottom Cards -->
+  <rect x="64" y="290" width="226" height="144" rx="8" fill="#080E1A" stroke="#15243C" stroke-width="1" />
+  <text x="80" y="316" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Lead Conversion Rate</text>
+  <text x="80" y="348" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="26" font-weight="800">4.8x</text>
+  <text x="80" y="370" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">Advisory discovery bookings</text>
+  <text x="80" y="400" fill="#10B981" font-family="system-ui, sans-serif" font-size="11">✔ Verified HNW Funnel</text>
+
+  <rect x="310" y="290" width="226" height="144" rx="8" fill="#080E1A" stroke="#15243C" stroke-width="1" />
+  <text x="326" y="316" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Page Load Latency</text>
+  <text x="326" y="348" fill="#10B981" font-family="system-ui, sans-serif" font-size="26" font-weight="800">0.45s</text>
+  <text x="326" y="370" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">Sub-second global CDN delivery</text>
+  <text x="326" y="400" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="11">✔ Perfect Core Web Vitals</text>
+
+  <!-- Right: Metrics Column -->
+  <rect x="580" y="80" width="280" height="380" rx="12" fill="#0C1526" stroke="#1F355A" stroke-width="1.5" />
+  <text x="604" y="112" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="14" font-weight="800">PROJECT OUTCOMES</text>
+
+  <rect x="604" y="130" width="232" height="66" rx="8" fill="#060C16" stroke="#15243C" stroke-width="1" />
+  <text x="618" y="152" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">ENGAGEMENT DURATION</text>
+  <text x="618" y="178" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="20" font-weight="800">4m 32s <tspan font-size="11" fill="#7DD3FC">(+160%)</tspan></text>
+
+  <rect x="604" y="206" width="232" height="66" rx="8" fill="#060C16" stroke="#15243C" stroke-width="1" />
+  <text x="618" y="228" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">BOUNCE RATE</text>
+  <text x="618" y="254" fill="#10B981" font-family="system-ui, sans-serif" font-size="20" font-weight="800">22.1% <tspan font-size="11" fill="#6EE7B7">(-48%)</tspan></text>
+
+  <rect x="604" y="282" width="232" height="66" rx="8" fill="#060C16" stroke="#15243C" stroke-width="1" />
+  <text x="618" y="304" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">SECURITY STANDARD</text>
+  <text x="618" y="330" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="700">Bank-Grade TLS &amp; CSP</text>
+
+  <rect x="604" y="362" width="232" height="74" rx="8" fill="#060C16" stroke="#15243C" stroke-width="1" />
+  <text x="618" y="386" fill="#A7B0C0" font-family="monospace" font-size="10">FEATURES: Custom Calculator,</text>
+  <text x="618" y="404" fill="#A7B0C0" font-family="monospace" font-size="10">Client Portal Auth, Next.js,</text>
+  <text x="618" y="422" fill="#38BDF8" font-family="monospace" font-size="10">Editorial Typography Design</text>
+</svg>

@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="webdev-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#081022" />
+      <stop offset="100%" stop-color="#02050B" />
+    </linearGradient>
+    <linearGradient id="code-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1769FF" />
+      <stop offset="100%" stop-color="#00C6FF" />
+    </linearGradient>
+  </defs>
+
+  <rect width="700" height="450" rx="12" fill="url(#webdev-bg)" stroke="#1C2E52" stroke-width="1.5" />
+
+  <!-- Window Header -->
+  <rect x="0" y="0" width="700" height="42" fill="#0A1428" />
+  <line x1="0" y1="42" x2="700" y2="42" stroke="#1C2E52" stroke-width="1" />
+  <circle cx="20" cy="21" r="4.5" fill="#EF4444" opacity="0.8" />
+  <circle cx="36" cy="21" r="4.5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="52" cy="21" r="4.5" fill="#10B981" opacity="0.8" />
+  <text x="80" y="26" fill="#8E9BB0" font-family="monospace" font-size="11">app/api/telemetry/route.ts — Nexovio Edge Architecture</text>
+  <rect x="580" y="11" width="100" height="20" rx="10" fill="#00C6FF" fill-opacity="0.15" stroke="#00C6FF" stroke-opacity="0.3" />
+  <text x="596" y="25" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="10" font-weight="700">TypeScript 5</text>
+
+  <!-- Left Side: Code Editor Mockup -->
+  <rect x="24" y="58" width="410" height="368" rx="8" fill="#070E1E" stroke="#152442" stroke-width="1" />
+  
+  <!-- Line numbers and code snippet -->
+  <text x="40" y="90" fill="#4B5875" font-family="monospace" font-size="11">01</text>
+  <text x="70" y="90" fill="#C4B5FD" font-family="monospace" font-size="11">import</text>
+  <text x="120" y="90" fill="#FFFFFF" font-family="monospace" font-size="11">{ NextResponse } </text>
+  <text x="245" y="90" fill="#C4B5FD" font-family="monospace" font-size="11">from</text>
+  <text x="280" y="90" fill="#7DD3FC" font-family="monospace" font-size="11">"next/server"</text>
+
+  <text x="40" y="118" fill="#4B5875" font-family="monospace" font-size="11">02</text>
+  <text x="70" y="118" fill="#6B7C9E" font-family="monospace" font-size="11">// Nexovio Strict Server-Side Type Safety</text>
+
+  <text x="40" y="146" fill="#4B5875" font-family="monospace" font-size="11">03</text>
+  <text x="70" y="146" fill="#C4B5FD" font-family="monospace" font-size="11">export async function</text>
+  <text x="220" y="146" fill="#38BDF8" font-family="monospace" font-size="11">GET</text>
+  <text x="245" y="146" fill="#FFFFFF" font-family="monospace" font-size="11">(req: Request) {</text>
+
+  <text x="40" y="174" fill="#4B5875" font-family="monospace" font-size="11">04</text>
+  <text x="90" y="174" fill="#C4B5FD" font-family="monospace" font-size="11">const</text>
+  <text x="135" y="174" fill="#FFFFFF" font-family="monospace" font-size="11">telemetry = </text>
+  <text x="225" y="174" fill="#C4B5FD" font-family="monospace" font-size="11">await</text>
+  <text x="270" y="174" fill="#38BDF8" font-family="monospace" font-size="11">fetchStream()</text>
+
+  <text x="40" y="202" fill="#4B5875" font-family="monospace" font-size="11">05</text>
+  <text x="90" y="202" fill="#C4B5FD" font-family="monospace" font-size="11">return</text>
+  <text x="140" y="202" fill="#38BDF8" font-family="monospace" font-size="11">NextResponse.json</text>
+  <text x="275" y="202" fill="#FFFFFF" font-family="monospace" font-size="11">({</text>
+
+  <text x="40" y="230" fill="#4B5875" font-family="monospace" font-size="11">06</text>
+  <text x="110" y="230" fill="#7DD3FC" font-family="monospace" font-size="11">status:</text>
+  <text x="165" y="230" fill="#10B981" font-family="monospace" font-size="11">"optimal"</text>
+  <text x="235" y="230" fill="#FFFFFF" font-family="monospace" font-size="11">,</text>
+
+  <text x="40" y="258" fill="#4B5875" font-family="monospace" font-size="11">07</text>
+  <text x="110" y="258" fill="#7DD3FC" font-family="monospace" font-size="11">latencyMs:</text>
+  <text x="195" y="258" fill="#F59E0B" font-family="monospace" font-size="11">14.2</text>
+  <text x="235" y="258" fill="#FFFFFF" font-family="monospace" font-size="11">,</text>
+
+  <text x="40" y="286" fill="#4B5875" font-family="monospace" font-size="11">08</text>
+  <text x="110" y="286" fill="#7DD3FC" font-family="monospace" font-size="11">coreWebVitals:</text>
+  <text x="225" y="286" fill="#10B981" font-family="monospace" font-size="11">"100/100"</text>
+
+  <text x="40" y="314" fill="#4B5875" font-family="monospace" font-size="11">09</text>
+  <text x="90" y="314" fill="#FFFFFF" font-family="monospace" font-size="11">})</text>
+
+  <text x="40" y="342" fill="#4B5875" font-family="monospace" font-size="11">10</text>
+  <text x="70" y="342" fill="#FFFFFF" font-family="monospace" font-size="11">}</text>
+
+  <!-- Interactive Terminal at bottom of code editor -->
+  <rect x="40" y="364" width="378" height="46" rx="6" fill="#040810" />
+  <text x="56" y="384" fill="#10B981" font-family="monospace" font-size="10">✔ Server build passed in 218ms</text>
+  <text x="56" y="400" fill="#6B7C9E" font-family="monospace" font-size="10">0 type errors • Zero vulnerability report</text>
+
+  <!-- Right Side: Architecture & Deployment Badges -->
+  <rect x="450" y="58" width="226" height="175" rx="8" fill="#0A1428" stroke="#152442" stroke-width="1" />
+  <text x="468" y="86" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Engineering Benchmarks</text>
+
+  <rect x="468" y="102" width="190" height="34" rx="6" fill="#060D1A" />
+  <text x="480" y="124" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="11" font-weight="600">App Router SSR</text>
+
+  <rect x="468" y="144" width="190" height="34" rx="6" fill="#060D1A" />
+  <text x="480" y="166" fill="#10B981" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Edge API Routes (Node 20)</text>
+
+  <rect x="468" y="186" width="190" height="34" rx="6" fill="#060D1A" />
+  <text x="480" y="208" fill="#60A5FA" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Enterprise Headless Stack</text>
+
+  <!-- Right Bottom: Core Stack Pills -->
+  <rect x="450" y="250" width="226" height="176" rx="8" fill="#0A1428" stroke="#152442" stroke-width="1" />
+  <text x="468" y="278" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Deploy Target Vitals</text>
+
+  <text x="468" y="306" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">First Contentful Paint</text>
+  <text x="468" y="328" fill="#10B981" font-family="system-ui, sans-serif" font-size="18" font-weight="800">0.32s</text>
+
+  <text x="468" y="358" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11">Cumulative Layout Shift</text>
+  <text x="468" y="380" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="18" font-weight="800">0.000</text>
+
+  <text x="468" y="408" fill="#6B7C9E" font-family="monospace" font-size="10">100% Google Lighthouse</text>
+</svg>

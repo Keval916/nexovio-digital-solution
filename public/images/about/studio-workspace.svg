@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 480" width="100%" height="100%" fill="none">
+  <defs>
+    <linearGradient id="studio-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1326" />
+      <stop offset="50%" stop-color="#070D1A" />
+      <stop offset="100%" stop-color="#03060C" />
+    </linearGradient>
+    <linearGradient id="neon-glow-accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1769FF" />
+      <stop offset="100%" stop-color="#00C6FF" />
+    </linearGradient>
+  </defs>
+
+  <rect width="750" height="480" rx="16" fill="url(#studio-bg)" stroke="#1D2A4A" stroke-width="1.5" />
+
+  <!-- Ambient studio lighting -->
+  <circle cx="375" cy="180" r="160" fill="#1769FF" fill-opacity="0.15" filter="blur(50px)" />
+  <circle cx="620" cy="120" r="100" fill="#00C6FF" fill-opacity="0.12" filter="blur(40px)" />
+
+  <!-- Studio Top Bar -->
+  <rect x="0" y="0" width="750" height="42" fill="#080E1C" />
+  <line x1="0" y1="42" x2="750" y2="42" stroke="#1D2A4A" stroke-width="1" />
+  <circle cx="20" cy="21" r="4.5" fill="#EF4444" opacity="0.8" />
+  <circle cx="36" cy="21" r="4.5" fill="#F59E0B" opacity="0.8" />
+  <circle cx="52" cy="21" r="4.5" fill="#10B981" opacity="0.8" />
+  <text x="80" y="26" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Nexovio Engineering Lab &amp; Design Studio • Digital Operations Center</text>
+  <rect x="620" y="11" width="110" height="20" rx="10" fill="#00C6FF" fill-opacity="0.15" stroke="#00C6FF" stroke-opacity="0.3" />
+  <text x="636" y="25" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="10" font-weight="700">INNOVATION LAB</text>
+
+  <!-- Modern Multi-Monitor Engineering Workstation -->
+  <!-- Main Display (Center-Left) -->
+  <rect x="50" y="80" width="380" height="220" rx="10" fill="#070E1C" stroke="#253A66" stroke-width="2" />
+  <rect x="50" y="80" width="380" height="22" fill="#0E192E" />
+  <text x="65" y="95" fill="#6B7C9E" font-family="monospace" font-size="10">nexovio-architecture-engine [main]</text>
+
+  <!-- Code / Design split inside main display -->
+  <rect x="62" y="112" width="165" height="170" rx="6" fill="#040812" stroke="#13213B" stroke-width="1" />
+  <text x="74" y="132" fill="#00C6FF" font-family="monospace" font-size="9">> next build</text>
+  <text x="74" y="150" fill="#CBD3E1" font-family="monospace" font-size="9">▲ Next.js 14.2.15</text>
+  <text x="74" y="168" fill="#10B981" font-family="monospace" font-size="9">✔ Optimized 100%</text>
+  <text x="74" y="186" fill="#8E9BB0" font-family="monospace" font-size="9">λ (Server) 18ms</text>
+  <text x="74" y="204" fill="#8E9BB0" font-family="monospace" font-size="9">○ (Static) 0ms</text>
+  <text x="74" y="235" fill="#38BDF8" font-family="monospace" font-size="9">0 lint warnings</text>
+  <text x="74" y="255" fill="#10B981" font-family="monospace" font-size="9">● Ready for Edge</text>
+
+  <rect x="238" y="112" width="180" height="170" rx="6" fill="#050A14" stroke="#13213B" stroke-width="1" />
+  <rect x="250" y="125" width="156" height="12" rx="3" fill="url(#neon-glow-accent)" />
+  <rect x="250" y="145" width="100" height="8" rx="2" fill="#1E293B" />
+  <rect x="250" y="160" width="140" height="60" rx="4" fill="#0B1526" />
+  <circle cx="320" cy="190" r="16" fill="#00C6FF" fill-opacity="0.3" />
+  <rect x="250" y="230" width="70" height="18" rx="4" fill="#1769FF" />
+  <rect x="330" y="230" width="70" height="18" rx="4" fill="#152442" />
+
+  <!-- Monitor Stand -->
+  <polygon points="225,300 255,300 250,335 230,335" fill="#192A48" />
+  <rect x="200" y="335" width="80" height="8" rx="4" fill="#192A48" />
+
+  <!-- Secondary Vertical Monitor (Right) -->
+  <rect x="460" y="70" width="240" height="260" rx="10" fill="#070E1C" stroke="#253A66" stroke-width="2" />
+  <rect x="460" y="70" width="240" height="22" fill="#0E192E" />
+  <text x="475" y="85" fill="#6B7C9E" font-family="monospace" font-size="10">Telemetry &amp; Design Specs</text>
+
+  <!-- Metrics cards inside vertical monitor -->
+  <rect x="475" y="102" width="210" height="48" rx="6" fill="#040812" stroke="#13213B" stroke-width="1" />
+  <text x="488" y="120" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">CODE QUALITY STANDARD</text>
+  <text x="488" y="138" fill="#10B981" font-family="system-ui, sans-serif" font-size="14" font-weight="700">100% Strict TypeScript</text>
+
+  <rect x="475" y="158" width="210" height="48" rx="6" fill="#040812" stroke="#13213B" stroke-width="1" />
+  <text x="488" y="176" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">DESIGN COMPONENT TOKENS</text>
+  <text x="488" y="194" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="14" font-weight="700">64 Reusable Modules</text>
+
+  <rect x="475" y="214" width="210" height="48" rx="6" fill="#040812" stroke="#13213B" stroke-width="1" />
+  <text x="488" y="232" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="9">CORE WEB VITALS</text>
+  <text x="488" y="250" fill="#38BDF8" font-family="system-ui, sans-serif" font-size="14" font-weight="700">Sub-second Global LCP</text>
+
+  <polygon points="565,330 595,330 590,355 570,355" fill="#192A48" />
+  <rect x="545" y="355" width="70" height="8" rx="4" fill="#192A48" />
+
+  <!-- Bottom Studio Values Shelf -->
+  <rect x="50" y="375" width="650" height="78" rx="10" fill="#091222" stroke="#1D2A4A" stroke-width="1" />
+  <circle cx="78" cy="414" r="14" fill="#00C6FF" fill-opacity="0.15" stroke="#00C6FF" stroke-width="1.5" />
+  <text x="73" y="418" fill="#00C6FF" font-family="system-ui, sans-serif" font-size="12" font-weight="800">✦</text>
+  <text x="106" y="406" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Disciplined Execution Meets Creative Artistry</text>
+  <text x="106" y="424" fill="#8E9BB0" font-family="system-ui, sans-serif" font-size="10">No manufactured vanity metrics, no fragile third-party templates, 100% intellectual property transfer.</text>
+</svg>
