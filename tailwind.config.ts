@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,11 +10,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#03050A",
+        background: "var(--background)",
         surface: {
-          DEFAULT: "#070B12",
-          elevated: "#0A1020",
-          subtle: "#0E1528",
+          DEFAULT: "var(--surface-default)",
+          elevated: "var(--surface-elevated)",
+          subtle: "var(--surface-subtle)",
         },
         brand: {
           electric: "#1769FF",
@@ -22,14 +23,14 @@ const config: Config = {
           glow: "rgba(23, 105, 255, 0.35)",
         },
         muted: {
-          DEFAULT: "#A7B0C0",
-          light: "#CBD3E1",
-          dark: "#626D82",
+          DEFAULT: "var(--text-muted-val)",
+          light: "var(--text-muted-light-val)",
+          dark: "var(--text-muted-dark-val)",
         },
         border: {
-          subtle: "rgba(255, 255, 255, 0.10)",
-          highlight: "rgba(0, 198, 255, 0.35)",
-          active: "rgba(23, 105, 255, 0.50)",
+          subtle: "var(--border-subtle-val)",
+          highlight: "var(--border-highlight-val)",
+          active: "var(--border-active-val)",
         },
       },
       backgroundImage: {

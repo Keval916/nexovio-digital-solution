@@ -33,14 +33,15 @@ export function Button({
 
   const variantStyles = {
     primary:
-      "bg-gradient-brand text-white font-semibold shadow-[0_4px_15px_rgba(23,105,255,0.35)] hover:shadow-[0_6px_20px_rgba(23,105,255,0.5)] hover:brightness-110",
+      "bg-gradient-brand text-white keep-white font-semibold shadow-[0_4px_15px_rgba(23,105,255,0.35)] hover:shadow-[0_6px_20px_rgba(23,105,255,0.5)] hover:brightness-110",
     secondary:
-      "bg-surface-elevated/80 text-white/90 border border-white/[0.08] backdrop-blur-sm hover:bg-surface-elevated hover:border-white/[0.15]",
+      "bg-surface-elevated text-foreground border border-border-subtle backdrop-blur-sm hover:bg-surface-subtle hover:border-brand-cyan/40 shadow-sm",
     outline:
-      "bg-transparent text-white/85 border border-white/[0.12] hover:bg-white/[0.05] hover:border-white/[0.2]",
+      "bg-transparent text-foreground border border-border-subtle hover:bg-surface-subtle hover:border-brand-cyan/40",
     ghost:
-      "bg-transparent text-muted-light hover:bg-white/[0.05] hover:text-white",
+      "bg-transparent text-muted hover:bg-surface-subtle hover:text-foreground",
   };
+
 
   const sizeStyles = {
     sm: "text-xs px-4 py-2 gap-2 rounded-lg",

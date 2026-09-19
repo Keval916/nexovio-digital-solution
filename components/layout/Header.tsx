@@ -16,6 +16,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Button } from "@/lib/../components/ui/Button";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 const SERVICES_NAV = [
@@ -166,7 +167,7 @@ export function Header() {
                 "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
                 isActive("/") && pathname === "/"
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-white hover:bg-white/5"
+                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
               )}
             >
               Home
@@ -178,7 +179,7 @@ export function Header() {
                 "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
                 isActive("/about")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-white hover:bg-white/5"
+                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
               )}
             >
               About
@@ -197,7 +198,7 @@ export function Header() {
                   "flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium rounded-md transition-all duration-200 outline-none focus:outline-none",
                   isActive("/services") || servicesDropdownOpen
                     ? "text-brand-cyan font-semibold bg-white/5 shadow-[0_0_15px_rgba(0,198,255,0.15)]"
-                    : "text-muted hover:text-white hover:bg-white/5"
+                    : "text-muted hover:text-foreground hover:bg-surface-subtle"
                 )}
                 onClick={() => setServicesDropdownOpen((prev) => !prev)}
                 aria-expanded={servicesDropdownOpen}
@@ -382,7 +383,7 @@ export function Header() {
                 "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
                 isActive("/portfolio")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-white hover:bg-white/5"
+                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
               )}
             >
               Portfolio
@@ -394,7 +395,7 @@ export function Header() {
                 "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
                 isActive("/case-studies")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-white hover:bg-white/5"
+                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
               )}
             >
               Case Studies
@@ -406,7 +407,7 @@ export function Header() {
                 "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
                 isActive("/blog")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-white hover:bg-white/5"
+                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
               )}
             >
               Blog
@@ -418,15 +419,16 @@ export function Header() {
                 "px-3.5 py-2 text-sm font-medium rounded-md transition-colors",
                 isActive("/contact")
                   ? "text-brand-cyan font-semibold"
-                  : "text-muted hover:text-white hover:bg-white/5"
+                  : "text-muted hover:text-foreground hover:bg-surface-subtle"
               )}
             >
               Contact
             </Link>
           </nav>
 
-          {/* Header Action Button */}
+          {/* Header Action Buttons */}
           <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             <Button
               href="/contact"
               variant="primary"
@@ -439,8 +441,9 @@ export function Header() {
             </Button>
           </div>
 
-          {/* Mobile Hamburger Button */}
+          {/* Mobile Header Buttons */}
           <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle />
             <Button
               href="/contact"
               variant="primary"
@@ -577,7 +580,8 @@ export function Header() {
               Contact
             </Link>
 
-            <div className="pt-4 mt-2 border-t border-white/10">
+            <div className="pt-4 mt-2 border-t border-white/10 space-y-3">
+              <ThemeToggle showText className="w-full justify-center py-2.5" />
               <Button
                 href="/contact"
                 variant="primary"

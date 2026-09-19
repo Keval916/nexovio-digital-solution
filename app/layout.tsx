@@ -82,6 +82,22 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <head>
         <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var savedTheme = localStorage.getItem('theme');
+                  if (savedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
@@ -90,7 +106,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }}
         />
       </head>
-      <body className="min-h-screen bg-background text-white selection:bg-brand-bright selection:text-white flex flex-col font-sans">
+      <body className="min-h-screen bg-background text-foreground selection:bg-brand-bright selection:text-white flex flex-col font-sans transition-colors duration-300">
         <GoogleTagManager />
         <GoogleAnalytics />
         <Header />

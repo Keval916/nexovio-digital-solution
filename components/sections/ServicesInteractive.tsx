@@ -66,7 +66,7 @@ export function ServicesInteractive() {
                   onClick={() => setActiveSlug(service.slug)}
                   className={`group flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-[border-color,background-color,color,box-shadow] duration-[400ms] border outline-none select-none ${
                     isSelected
-                      ? "bg-gradient-brand text-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.4)]"
+                      ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.4)]"
                       : "bg-surface-elevated text-muted hover:text-white border-border-subtle hover:border-brand-bright/50 hover:bg-surface-subtle"
                   }`}
                 >

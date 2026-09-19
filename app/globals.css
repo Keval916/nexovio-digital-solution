@@ -3,13 +3,71 @@
 @tailwind utilities;
 
 :root {
+  /* LIGHT THEME (DEFAULT) */
+  --background: #fafcff;
+  --foreground: #0f172a;
+
+  --surface-default: #ffffff;
+  --surface-elevated: #ffffff;
+  --surface-subtle: #f1f5f9;
+
+  --text-main: #0f172a;
+  --text-muted-val: #475569;
+  --text-muted-light-val: #334155;
+  --text-muted-dark-val: #64748b;
+
+  --border-subtle-val: #e2e8f0;
+  --border-highlight-val: rgba(23, 105, 255, 0.4);
+  --border-active-val: rgba(0, 198, 255, 0.5);
+
+  --header-bg-scrolled: rgba(255, 255, 255, 0.94);
+  --header-nav-link: #475569;
+  --header-nav-link-hover: #0f172a;
+  --header-dropdown-bg: rgba(255, 255, 255, 0.98);
+
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+
+  color-scheme: light;
+}
+
+html.dark {
+  /* DARK THEME */
   --background: #03050a;
   --foreground: #ffffff;
+
+  --surface-default: #070b12;
+  --surface-elevated: #0a1020;
+  --surface-subtle: #0e1528;
+
+  --text-main: #ffffff;
+  --text-muted-val: #a7b0c0;
+  --text-muted-light-val: #cbd3e1;
+  --text-muted-dark-val: #626d82;
+
+  --border-subtle-val: rgba(255, 255, 255, 0.10);
+  --border-highlight-val: rgba(0, 198, 255, 0.35);
+  --border-active-val: rgba(23, 105, 255, 0.50);
+
+  --header-bg-scrolled: rgba(3, 5, 10, 0.90);
+  --header-nav-link: #a7b0c0;
+  --header-nav-link-hover: #ffffff;
+  --header-dropdown-bg: rgba(7, 13, 26, 0.95);
+
+  --card-bg: #0a1020;
+  --card-border: rgba(255, 255, 255, 0.10);
+
+  --scrollbar-track: #03050a;
+  --scrollbar-thumb: #172238;
+
+  color-scheme: dark;
 }
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
 }
 
 body {
@@ -19,7 +77,118 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* ==========================================================================
+   LIGHT MODE STYLING & CONTRAST OVERRIDES
+   ========================================================================== */
+
+/* Text colors in Light Mode */
+html:not(.dark) .text-white:not(.keep-white) {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .text-slate-300:not(.keep-slate) {
+  color: #334155 !important;
+}
+
+html:not(.dark) .text-slate-400:not(.keep-slate) {
+  color: #475569 !important;
+}
+
+html:not(.dark) .text-slate-200:not(.keep-slate) {
+  color: #1e293b !important;
+}
+
+html:not(.dark) .hover\:text-white:hover:not(.keep-white) {
+  color: #0f172a !important;
+}
+
+/* Background colors in Light Mode */
+html:not(.dark) .bg-slate-950:not(.keep-dark) {
+  background-color: #fafcff !important;
+}
+
+html:not(.dark) .bg-slate-900:not(.keep-dark),
+html:not(.dark) .bg-[#070D1A]:not(.keep-dark),
+html:not(.dark) .bg-[#070D18]:not(.keep-dark),
+html:not(.dark) .bg-[#070E1C]:not(.keep-dark),
+html:not(.dark) .bg-[#0A1020]:not(.keep-dark),
+html:not(.dark) .bg-[#03050a]:not(.keep-dark),
+html:not(.dark) .bg-[#070b12]:not(.keep-dark),
+html:not(.dark) .bg-[#0e1528]:not(.keep-dark) {
+  background-color: #ffffff !important;
+}
+
+html:not(.dark) .bg-surface-elevated {
+  background-color: #ffffff !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 32, 96, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) .bg-surface {
+  background-color: #fafcff !important;
+}
+
+html:not(.dark) .bg-surface-subtle {
+  background-color: #f1f5f9 !important;
+}
+
+/* Border colors in Light Mode */
+html:not(.dark) .border-white\/5:not(.keep-border) {
+  border-color: #f1f5f9 !important;
+}
+
+html:not(.dark) .border-white\/10:not(.keep-border) {
+  border-color: #e2e8f0 !important;
+}
+
+html:not(.dark) .border-white\/15:not(.keep-border) {
+  border-color: #cbd5e1 !important;
+}
+
+html:not(.dark) .border-white\/20:not(.keep-border) {
+  border-color: #cbd5e1 !important;
+}
+
+html:not(.dark) .border-border-subtle {
+  border-color: #e2e8f0 !important;
+}
+
+/* Semi-transparent overlay utilities in Light Mode */
+html:not(.dark) .bg-white\/5:not(.keep-bg) {
+  background-color: #f1f5f9 !important;
+}
+
+html:not(.dark) .bg-white\/10:not(.keep-bg) {
+  background-color: #e2e8f0 !important;
+}
+
+html:not(.dark) .bg-white\/15:not(.keep-bg) {
+  background-color: #cbd5e1 !important;
+}
+
+html:not(.dark) .hover\:bg-white\/5:hover:not(.keep-bg) {
+  background-color: #f1f5f9 !important;
+}
+
+html:not(.dark) .hover\:bg-white\/10:hover:not(.keep-bg) {
+  background-color: #e2e8f0 !important;
+}
+
+/* Header & Navigation Dropdown Light Mode Overrides */
+html:not(.dark) header.bg-background\/90 {
+  background-color: rgba(255, 255, 255, 0.94) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06) !important;
+}
+
+html:not(.dark) .megamenu-container,
+html:not(.dark) [role="menu"] {
+  background-color: rgba(255, 255, 255, 0.99) !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 20px 45px -5px rgba(0, 32, 96, 0.12), 0 8px 20px -4px rgba(0, 0, 0, 0.06) !important;
+}
+
 
 /* Eliminate unwanted click/tap outlines while preserving keyboard accessibility */
 * {
@@ -63,11 +232,11 @@ button, [role="button"], a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #03050a;
+  background: var(--scrollbar-track);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #172238;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
