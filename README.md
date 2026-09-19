@@ -175,7 +175,7 @@ nexovio-digital-solution/
 │   └── terms-and-conditions/page.tsx # Terms of service
 ├── components/
 │   ├── layout/                       # Header, Footer, Breadcrumbs
-│   ├── analytics/                    # GoogleAnalytics, GoogleTagManager, CookieConsent
+│   ├── analytics/                    # GoogleTagManager, CookieConsent
 │   ├── forms/                        # ContactForm with client validation
 │   ├── sections/                     # Hero, ValueProp, ServicesInteractive, WhyNexovio, etc.
 │   └── ui/                           # Button, Card, SectionHeading

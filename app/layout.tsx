@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
 import { CookieConsent } from "@/components/analytics/CookieConsent";
 import { getOrganizationSchema, getWebSiteSchema } from "@/lib/schema";
@@ -108,7 +107,6 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-background text-foreground selection:bg-brand-bright selection:text-white flex flex-col font-sans transition-colors duration-300">
         <GoogleTagManager />
-        <GoogleAnalytics />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
