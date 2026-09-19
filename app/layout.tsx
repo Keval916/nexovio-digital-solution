@@ -19,6 +19,16 @@ export const metadata: Metadata = {
   title: `${SITE_NAME} | ${SITE_TAGLINE}`,
   description:
     "Nexovio Digital Solutions provides strategy-led custom web development, bespoke web design, intuitive UI/UX systems, brand graphic design, and organic digital marketing services.",
+  keywords: [
+    "Web Development Company",
+    "Custom Web Application Engineering",
+    "Bespoke Web Design",
+    "UI/UX Design Studio",
+    "Brand Graphic Design",
+    "Digital Marketing Agency",
+    "Technical SEO Services",
+    "IT Software Development",
+  ],
   alternates: {
     canonical: SITE_URL,
   },

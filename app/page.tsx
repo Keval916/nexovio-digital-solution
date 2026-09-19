@@ -16,6 +16,15 @@ export const metadata = generatePageMetadata({
   title: "Web Development & Digital Marketing Company | Nexovio",
   description:
     "Nexovio Digital Solutions builds high-performing websites, web apps, mobile apps, UI/UX experiences and SEO strategies that help businesses attract, engage and convert more customers.",
+  keywords: [
+    "Web Development Company",
+    "Digital Marketing Agency",
+    "Custom Web Applications",
+    "UI UX Design Company",
+    "SEO Optimization Services",
+    "Mobile App Development",
+    "React Next.js Developers",
+  ],
   path: "/",
 });
 

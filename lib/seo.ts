@@ -3,11 +3,12 @@ import type { Metadata } from "next";
 export const SITE_NAME = "Nexovio Digital Solutions";
 export const SITE_TAGLINE = "IT Software Development & Digital Solutions Agency";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nexoviodigitalsolutions.com";
-export const DEFAULT_OG_IMAGE = "/images/brand/nexovio-digital-solutions-logo.jpeg";
+export const DEFAULT_OG_IMAGE = "/images/brand/nexovio-digital-solutions-og-image.jpg";
 
 export interface PageMetadataProps {
   title: string;
   description: string;
+  keywords?: string[] | string;
   path?: string;
   ogImage?: string;
   type?: "website" | "article";
@@ -26,6 +27,7 @@ export function getCanonicalUrl(path: string = ""): string {
 export function generatePageMetadata({
   title,
   description,
+  keywords,
   path = "",
   ogImage = DEFAULT_OG_IMAGE,
   type = "website",
@@ -41,6 +43,7 @@ export function generatePageMetadata({
   return {
     title: fullTitle,
     description,
+    ...(keywords ? { keywords } : {}),
     alternates: {
       canonical,
     },
