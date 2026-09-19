@@ -128,15 +128,25 @@ export function Header() {
   };
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled
-          ? "bg-background/90 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] py-2"
-          : "bg-transparent py-2.5 sm:py-3.5"
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <>
+      {/* Soft Page Backdrop Blur when Services MegaMenu is Open */}
+      <div
+        className={cn(
+          "fixed inset-0 z-40 bg-black/30 backdrop-blur-[3px] transition-all duration-300 pointer-events-none",
+          servicesDropdownOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        )}
+        aria-hidden="true"
+      />
+
+      <header
+        className={cn(
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          isScrolled
+            ? "bg-background/90 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] py-2"
+            : "bg-transparent py-2.5 sm:py-3.5"
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Full Brand Logo */}
           <Link
@@ -681,5 +691,6 @@ export function Header() {
         </div>
       )}
     </header>
+  </>
   );
 }
