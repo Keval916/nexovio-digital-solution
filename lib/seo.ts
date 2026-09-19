@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const SITE_NAME = "Nexovio Digital Solutions";
 export const SITE_TAGLINE = "IT Software Development & Digital Solutions Agency";
-export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://nexovio.com";
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nexoviodigitalsolutions.com";
 export const DEFAULT_OG_IMAGE = "/images/brand/nexovio-digital-solutions-logo.jpeg";
 
 export interface PageMetadataProps {

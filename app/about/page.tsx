@@ -106,7 +106,7 @@ export default function AboutPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
               Our Purpose &amp; Philosophy
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#001025] tracking-tight leading-[1.12]">
               Bridging High-Tech Engineering &amp;{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Human-Centered Design.

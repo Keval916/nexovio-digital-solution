@@ -6,7 +6,7 @@ import { Button } from "@/lib/../components/ui/Button";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@nexovio.com";
+  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
   const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+1 (555) 019-2834";
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+15550192834";
 
@@ -14,58 +14,6 @@ export function Footer() {
     <footer className="relative bg-[#001025] text-white keep-white border-t border-blue-900/40 pt-16 pb-12 overflow-hidden">
       {/* Background glow motif */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-radial-glow pointer-events-none opacity-40" />
-
-      {/* Global Final Conversion Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div className="group relative rounded-2xl border border-brand-cyan/30 bg-[#021b3c] p-8 sm:p-12 md:p-14 overflow-hidden shadow-md">
-          {/* Top Animated Left-to-Right Border */}
-          <div className="absolute top-0 left-0 h-[2.5px] w-0 bg-gradient-brand group-hover:w-full transition-all duration-500 ease-out pointer-events-none" />
-          <div className="absolute -right-16 -bottom-16 w-80 h-80 bg-brand-cyan/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -left-16 -top-16 w-80 h-80 bg-brand-electric/20 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-            <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4 border border-brand-cyan/40 bg-brand-cyan/15 text-brand-cyan">
-                Ready For Real Growth?
-              </span>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white keep-white tracking-tight leading-tight">
-                Have an idea worth building?{" "}
-                <span className="bg-gradient-brand bg-clip-text text-transparent">
-                  Let’s turn it into a digital experience.
-                </span>
-              </h2>
-              <p className="mt-3 text-slate-300 keep-slate text-sm sm:text-base leading-relaxed">
-                Connect directly with our engineering and design team to discuss your project scope, architecture, and timeline.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 w-full lg:w-auto">
-              <Button
-                href="/contact"
-                variant="primary"
-                size="lg"
-                trackingName="footer_banner_start_project"
-                trackingLocation="footer_banner"
-                icon={<ArrowRight className="w-4 h-4" />}
-                className="w-full sm:w-auto"
-              >
-                Start Your Project
-              </Button>
-              <Button
-                href="/portfolio"
-                variant="secondary"
-                size="lg"
-                trackingName="footer_banner_view_work"
-                trackingLocation="footer_banner"
-                className="w-full sm:w-auto bg-[#072d60] text-white keep-white border-blue-400/30 hover:bg-[#093875]"
-              >
-                View Our Work
-              </Button>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Footer Links */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-blue-900/40">
@@ -86,8 +34,12 @@ export function Footer() {
               />
             </Link>
 
+            <p className="text-xs font-mono font-bold text-brand-cyan tracking-wider uppercase">
+              Building digital experiences that help businesses move forward.
+            </p>
+
             <p className="text-sm text-slate-300 keep-slate leading-relaxed max-w-sm">
-              Nexovio Digital Solutions is an IT software development and digital solutions agency. We combine strategy, design, full-stack engineering, and search intelligence to build digital experiences that move businesses forward.
+              We combine web development, design, technology and digital marketing to help businesses create better digital experiences and reach more customers online.
             </p>
 
             <div className="pt-2 space-y-2">
@@ -120,7 +72,7 @@ export function Footer() {
           {/* Services Column */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-white keep-white mb-4">
-              Core Services
+              Services
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
@@ -149,27 +101,26 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/services/graphic-design"
+                  href="/services/mobile-app-development"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  Graphic Design
+                  Mobile App Development
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/services/digital-marketing"
+                  href="/services/seo-digital-marketing"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
+                >
+                  SEO Services
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/services/seo-digital-marketing"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
                   Digital Marketing
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services"
-                  className="text-xs text-brand-bright hover:underline inline-flex items-center gap-1 pt-1 font-semibold"
-                >
-                  <span>All Capabilities</span>
-                  <ArrowRight className="w-3 h-3" />
                 </Link>
               </li>
             </ul>
@@ -186,15 +137,15 @@ export function Footer() {
                   href="/about"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  About Nexovio
+                  About Us
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/portfolio"
+                  href="/#process"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  Portfolio
+                  Our Process
                 </Link>
               </li>
               <li>
@@ -207,10 +158,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/blog"
+                  href="/#industries"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  Engineering Blog
+                  Industries
                 </Link>
               </li>
               <li>
@@ -218,48 +169,72 @@ export function Footer() {
                   href="/contact"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  Contact & Inquiries
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
+                >
+                  Blog
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Resources & Legal Column */}
+          {/* Resources Column */}
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-white keep-white mb-4">
-              Trust & Legal
+              Resources
             </h3>
             <ul className="space-y-2.5 text-sm">
               <li>
                 <Link
-                  href="/privacy-policy"
+                  href="/services/web-development"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  Privacy Policy
+                  Web Development
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/terms-and-conditions"
+                  href="/services/seo-digital-marketing"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  Terms & Conditions
+                  SEO
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/contact"
+                  href="/services/seo-digital-marketing"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  Request a Quote
+                  Digital Marketing
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/about#how-we-work"
+                  href="/services/ui-ux-design"
                   className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                 >
-                  How We Work
+                  UI/UX Design
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/#technology"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
+                >
+                  Technology
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/blog"
+                  className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
+                >
+                  Business Growth
                 </Link>
               </li>
             </ul>

@@ -42,7 +42,7 @@ export function getAboutPageSchema() {
 }
 
 export function getContactPageSchema() {
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@nexovio.com";
+  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
   const contactPhone = process.env.NEXT_PUBLIC_PHONE;
 
   return {

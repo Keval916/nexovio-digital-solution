@@ -6,39 +6,52 @@ export interface GlobalFaq {
 
 export const GLOBAL_FAQS: GlobalFaq[] = [
   {
-    question: "How much does a custom digital solutions or web development project cost?",
+    question: "What services does Nexovio Digital Solutions provide?",
     answer:
-      "Project investments vary based on technical scope, architecture complexity, custom integrations, and design fidelity. Bespoke corporate web platforms typically range from structured entry builds to enterprise multi-system architectures. We provide detailed, transparent scope breakdowns and fixed-milestone estimates before any project kickoff.",
-    category: "General",
+      "Nexovio provides web development, web design, UI/UX design, mobile app development, SEO and digital marketing services. We can work on individual projects or combine multiple services into a complete digital solution.",
+    category: "Services",
   },
   {
-    question: "How long does it take to design and launch a custom website?",
+    question: "How do you approach a new website project?",
     answer:
-      "A custom corporate website typically takes between 4 to 8 weeks from initial discovery to production launch, depending on the complexity of functionality and feedback review cycles. Larger web applications and complex SaaS platforms follow structured agile sprints tailored to your release roadmap.",
+      "We begin by understanding your business, target audience, goals and requirements. From there, we plan the website structure, design the user experience, develop the website, test it and prepare it for launch.",
     category: "Process",
   },
   {
-    question: "Can Nexovio redesign or modernize an existing website without losing SEO rankings?",
+    question: "Can you build a custom website instead of using a template?",
     answer:
-      "Yes. SEO preservation is a top priority during any redesign. We map all existing URLs, execute strict 301 redirect architecture, preserve high-ranking on-page content structures, and ensure technical performance improvements that typically bolster long-term search crawlability.",
+      "Yes. We can create custom website experiences based on your brand, business requirements, functionality and customer journey rather than relying solely on pre-built templates.",
+    category: "Development",
+  },
+  {
+    question: "Do you provide SEO with website development?",
+    answer:
+      "SEO can be considered during the website planning and development process, including areas such as website structure, responsive design, technical foundations, performance and search-friendly content architecture. Ongoing SEO can also be handled as a separate service.",
     category: "SEO",
   },
   {
-    question: "Do you work with clients and companies remotely?",
+    question: "Can you redesign an existing website?",
     answer:
-      "Yes. Nexovio works seamlessly with clients worldwide. We use asynchronous communication tools, interactive Figma design reviews, recorded video walkthroughs, and scheduled video consultations to keep you fully informed at every project milestone.",
-    category: "Collaboration",
+      "Yes. We can evaluate an existing website and redesign its structure, UI/UX, content presentation and technical experience based on your business objectives.",
+    category: "Redesign",
   },
   {
-    question: "What information does Nexovio need to get started on a project?",
+    question: "Do you work with startups and small businesses?",
     answer:
-      "To initiate our scoping process, we review your business goals, target audience, preferred timelines, reference websites or competitors you admire, and any existing brand assets or functional specifications. If you are starting from scratch, our discovery session will guide you step by step.",
-    category: "Kickoff",
+      "Yes. Projects can be planned around the stage, goals and resources of the business, whether you're launching a new idea or improving an established digital presence.",
+    category: "Clients",
   },
   {
-    question: "Who owns the code and intellectual property after project completion?",
+    question: "Can you integrate third-party tools and APIs?",
     answer:
-      "You do. Upon project completion and settlement of final milestones, full ownership of all source code, design assets, and intellectual property is transferred directly to your organization with zero proprietary platform lock-in.",
-    category: "Legal",
+      "Yes. Depending on the project requirements, websites and applications can integrate with CRMs, payment gateways, analytics platforms, marketing tools, business systems and other third-party APIs.",
+    category: "Integrations",
+  },
+  {
+    question: "How long does website development take?",
+    answer:
+      "Project timelines depend on the number of pages, functionality, integrations, content requirements and feedback cycles. After understanding your requirements, we can provide a project-specific timeline.",
+    category: "Timelines",
   },
 ];
+

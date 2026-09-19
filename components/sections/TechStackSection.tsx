@@ -1,68 +1,76 @@
 "use client";
 
 import React from "react";
-import { Cpu, ShieldCheck, Zap, Server, Globe2, Sparkles } from "lucide-react";
+import { Layout, Server, Cloud, ShoppingBag, Link2, LineChart } from "lucide-react";
 import { Card } from "@/components/ui/Card";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
-const TECH_PILLARS = [
+const TECH_CATEGORIES = [
   {
-    icon: Cpu,
-    title: "Next.js App Router & React 18+",
-    description: "Hybrid server/client rendering with zero-waterfall data fetching, sub-second initial loads, and streaming HTML.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Strict TypeScript End-to-End",
-    description: "Rock-solid type safety across front-end components, API routes, and database models to prevent runtime regressions.",
-  },
-  {
-    icon: Zap,
-    title: "Tailwind CSS Design Tokens",
-    description: "Utility-first, purgeable CSS architecture producing lean stylesheets (<15KB) without unused framework overhead.",
+    icon: Layout,
+    title: "FRONTEND DEVELOPMENT",
+    description: "Modern responsive interfaces and interactive web experiences.",
   },
   {
     icon: Server,
-    title: "Modern API & Microservice Ready",
-    description: "Clean REST and GraphQL integration layers connecting seamlessly to CRMs, payment gateways, and cloud databases.",
+    title: "BACKEND DEVELOPMENT",
+    description: "Reliable APIs, databases and business logic designed for real-world applications.",
   },
   {
-    icon: Globe2,
-    title: "Global Edge CDN Caching",
-    description: "Asset distribution across low-latency edge nodes worldwide to deliver lightning-fast responses on any continent.",
+    icon: Cloud,
+    title: "CLOUD & INFRASTRUCTURE",
+    description: "Scalable infrastructure and deployment workflows built around your application's needs.",
   },
   {
-    icon: Sparkles,
-    title: "Core Web Vitals Obsession",
-    description: "Optimized image loading (WebP/AVIF), font preloading, and minimal layout shifts (CLS < 0.05) standard on every page.",
+    icon: ShoppingBag,
+    title: "CMS & ECOMMERCE",
+    description: "Flexible content management and ecommerce solutions for growing businesses.",
+  },
+  {
+    icon: Link2,
+    title: "APIs & INTEGRATIONS",
+    description: "Connect your website or application with the tools your business already uses.",
+  },
+  {
+    icon: LineChart,
+    title: "ANALYTICS & TRACKING",
+    description: "Understand how users interact with your digital experience and where opportunities exist.",
   },
 ];
 
 export function TechStackSection() {
   return (
-    <section className="section-blue pt-12 sm:pt-16 pb-4 sm:pb-6 relative">
+    <section className="section-blue pt-12 sm:pt-16 pb-6 sm:pb-8 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fadeUp" duration={0.7}>
-          <SectionHeading
-            badge="Engineering Rigor"
-            title="Modern Technology Stack,"
-            highlightText="Zero Compromises"
-            description="We do not build on outdated monolithic templates. Our applications are engineered using industry-leading modern tooling for optimal security, speed, and developer ergonomics."
-            align="center"
-          />
+          <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16 space-y-3">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
+              TECHNOLOGY &amp; DEVELOPMENT
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Modern Technology Stack, Zero Unnecessary Complexity
+            </h2>
+            <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
+              <p className="font-semibold text-white/90">
+                The right technology depends on the problem we&apos;re solving.
+              </p>
+              <p className="text-sm sm:text-base">
+                We choose tools and frameworks based on your project&apos;s requirements, performance expectations, scalability needs and long-term goals — rather than forcing every project into the same technology stack.
+              </p>
+            </div>
+          </div>
         </AnimateOnScroll>
 
         <AnimateOnScroll variant="staggerChildren" stagger={0.1} duration={0.6}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TECH_PILLARS.map((tech) => {
+            {TECH_CATEGORIES.map((tech) => {
               const Icon = tech.icon;
               return (
-                <Card key={tech.title} className="bg-surface-elevated/80 border-border-subtle">
+                <Card key={tech.title} className="bg-surface-elevated/80 border-border-subtle p-6 hover:border-brand-cyan/40">
                   <div className="w-10 h-10 rounded-lg bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan mb-4">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-base font-bold text-white mb-2">
+                  <h3 className="text-sm font-bold text-white tracking-wide mb-2">
                     {tech.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-muted leading-relaxed">
@@ -77,3 +85,4 @@ export function TechStackSection() {
     </section>
   );
 }
+

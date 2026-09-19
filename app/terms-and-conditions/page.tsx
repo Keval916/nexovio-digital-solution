@@ -10,7 +10,7 @@ export const metadata = generatePageMetadata({
 });
 
 export default function TermsPage() {
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@nexovio.com";
+  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
 
   return (
     <div className="pt-28 pb-20 bg-background">

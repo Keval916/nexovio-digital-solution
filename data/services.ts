@@ -35,28 +35,33 @@ export const SERVICES: ServiceItem[] = [
     slug: "web-development",
     iconName: "Code2",
     shortDescription:
-      "Engineered web applications, custom corporate portals, and high-performance websites built for reliability, security, and scalability.",
+      "Custom web application & website development using WordPress, React, Next.js, Vue, Node.js, PHP, and E-Commerce (Shopify/WooCommerce) platforms built for speed, security, and scalability.",
     fullDescription:
-      "We build robust, maintainable digital products that combine clean software architecture with high-speed rendering. From bespoke corporate web platforms to custom SaaS interfaces and API integrations, our engineering approach prioritizes measurable performance, security, and effortless maintainability.",
+      "We build robust, maintainable digital products across WordPress, React, Next.js, Vue, Node.js, and E-Commerce platforms. From custom WordPress CMS websites and headless WordPress setups to React & Next.js web applications, client portals, and Shopify/WooCommerce storefronts, our engineering delivers high performance, security, and effortless management.",
     businessProblem:
-      "Businesses often struggle with slow, bloated websites that fail to convert visitors, suffer from frequent downtime, and cannot scale as product lines or traffic volumes grow.",
+      "Businesses often struggle with slow, bloated websites that fail to convert visitors, suffer from security vulnerabilities, and cannot scale as product lines or traffic volumes grow.",
     whyItMatters:
       "A fast, modern website is the digital backbone of your business. Every 100ms of latency impacts conversion, search crawl efficiency, and brand credibility.",
     capabilities: [
       {
-        title: "Custom Web Application Development",
+        title: "WordPress & Custom CMS Websites",
         description:
-          "Full-stack custom applications tailored to your exact operational workflows, customer portals, and internal business dashboards.",
+          "Bespoke WordPress theme & plugin development, WooCommerce setups, custom CMS configurations, and effortless publishing interfaces tailored for your team.",
       },
       {
-        title: "Corporate & Business Websites",
+        title: "React & Next.js Web Applications",
         description:
-          "High-impact corporate web platforms engineered with modern frameworks (Next.js/React) for speed, security, and effortless content publishing.",
+          "High-impact web platforms engineered with React and Next.js for sub-second rendering, server-side performance, and modern web ergonomics.",
       },
       {
-        title: "High-Converting E-Commerce Solutions",
+        title: "Full-Stack Web Development (Vue, Node.js, PHP)",
         description:
-          "Seamless checkout flows, headless commerce architectures, custom product configurators, and resilient inventory integrations.",
+          "Full-stack custom applications tailored to your operational workflows, built with Vue.js, Node.js, PHP, and modern backend databases.",
+      },
+      {
+        title: "E-Commerce Solutions (Shopify & WooCommerce)",
+        description:
+          "Seamless checkout flows, headless commerce setups, custom Shopify theme configurations, WooCommerce integrations, and payment gateways.",
       },
       {
         title: "API & Third-Party Integrations",
@@ -64,14 +69,9 @@ export const SERVICES: ServiceItem[] = [
           "Robust API connections linking your web platform to CRM systems (HubSpot, Salesforce), ERPs, payment gateways, and custom backend databases.",
       },
       {
-        title: "Performance & Core Web Vitals Optimization",
+        title: "Performance, Security & Code Refactoring",
         description:
-          "Comprehensive refactoring to eliminate render-blocking assets, minimize JavaScript bundle footprints, and secure top-tier Core Web Vitals scores.",
-      },
-      {
-        title: "Website Modernization & Code Refactoring",
-        description:
-          "Migrating legacy monolithic websites or vulnerable legacy CMS setups to contemporary, secure, decoupled front-end architectures.",
+          "Comprehensive optimization to eliminate render-blocking assets, secure top-tier Core Web Vitals scores, and harden security protocols.",
       },
     ],
     process: [
@@ -79,7 +79,7 @@ export const SERVICES: ServiceItem[] = [
         step: "01",
         title: "Architecture & Technical Scoping",
         description:
-          "We analyze user load requirements, data flows, database schemas, and integration points to create a bulletproof architectural blueprint.",
+          "We analyze user load requirements, data flows, technology selection (WordPress, React, Next.js, etc.), and integration points.",
       },
       {
         step: "02",
@@ -107,14 +107,15 @@ export const SERVICES: ServiceItem[] = [
       },
     ],
     techStack: [
-      "Next.js (App Router)",
-      "React",
+      "WordPress / WooCommerce",
+      "React & Next.js",
+      "Vue.js",
+      "Node.js & PHP",
+      "Shopify & E-Commerce",
       "TypeScript",
-      "Node.js",
       "Tailwind CSS",
       "REST & GraphQL APIs",
-      "PostgreSQL / MongoDB",
-      "Edge Caching / Vercel / AWS",
+      "PostgreSQL / MySQL / MongoDB",
     ],
     deliverables: [
       "Clean, modular source code repository with comprehensive documentation",
@@ -484,21 +485,119 @@ export const SERVICES: ServiceItem[] = [
     ],
   },
   {
-    id: "digital-marketing",
-    name: "Digital Marketing",
-    slug: "digital-marketing",
+    id: "mobile-app-development",
+    name: "Mobile App Development",
+    slug: "mobile-app-development",
+    iconName: "Smartphone",
+    shortDescription:
+      "We build mobile applications that give businesses a direct way to connect with customers, teams and digital services.",
+    fullDescription:
+      "We build mobile applications that give businesses a direct way to connect with customers, teams and digital services. From product planning and UI/UX to development and deployment, we help turn mobile app ideas into practical products.",
+    businessProblem:
+      "Businesses need mobile experiences that operate reliably offline and across iOS and Android without fragmented, high-maintenance codebases.",
+    whyItMatters:
+      "Mobile products create direct touchpoints with users, offering higher retention and engagement than mobile browser sessions alone.",
+    capabilities: [
+      {
+        title: "Cross-Platform Mobile Development",
+        description:
+          "Engineering high-performance native-feeling mobile applications for iOS and Android using React Native and Flutter frameworks.",
+      },
+      {
+        title: "Mobile UI/UX Architecture",
+        description:
+          "Designing touch-optimized screens, intuitive gesture navigation, and accessible mobile component systems.",
+      },
+      {
+        title: "API & Backend Data Synchronization",
+        description:
+          "Connecting mobile apps to cloud APIs, authentication services, push notifications, and secure offline databases.",
+      },
+      {
+        title: "App Store Deployment & Lifecycle Support",
+        description:
+          "Managing Apple App Store and Google Play Store submission, compliance checks, over-the-air updates, and performance monitoring.",
+      },
+    ],
+    process: [
+      {
+        step: "01",
+        title: "Product Strategy & Technical Scoping",
+        description:
+          "Defining mobile feature requirements, platform targeting, offline capabilities, and backend API contracts.",
+      },
+      {
+        step: "02",
+        title: "Mobile UI Wireframing & Prototyping",
+        description:
+          "Designing screen flows and clickable mobile prototypes for iOS and Android form factors.",
+      },
+      {
+        step: "03",
+        title: "Cross-Platform Mobile Development",
+        description:
+          "Developing secure, performant mobile app code integrated with cloud backends and device sensors.",
+      },
+      {
+        step: "04",
+        title: "Device Testing & QA",
+        description:
+          "Validating app performance across real iOS and Android hardware models, battery usage, and network conditions.",
+      },
+      {
+        step: "05",
+        title: "App Store Publishing",
+        description:
+          "Deploying approved application packages to Apple App Store and Google Play Store.",
+      },
+    ],
+    techStack: [
+      "React Native",
+      "Flutter",
+      "iOS / Swift",
+      "Android / Kotlin",
+      "REST & GraphQL APIs",
+      "Firebase / Push Notifications",
+    ],
+    deliverables: [
+      "iOS App Store package and Google Play Store APK/AAB builds",
+      "Full mobile codebase with documentation and API bindings",
+      "Interactive Figma mobile design kit and component library",
+    ],
+    seoTitle: "Mobile App Development Services | Nexovio Digital Solutions",
+    seoDescription:
+      "Custom mobile app development services by Nexovio Digital Solutions. Cross-platform iOS and Android apps built for business performance.",
+    image: "/images/services/mobile-app-development-nexovio.webp",
+    imageAlt: "Mobile app development workflow by Nexovio Digital Solutions",
+    faqs: [
+      {
+        question: "Do you build apps for both iOS and Android?",
+        answer:
+          "Yes. We specialize in cross-platform development (React Native & Flutter), allowing you to deploy to both Apple App Store and Google Play Store simultaneously.",
+      },
+      {
+        question: "Can mobile apps work offline?",
+        answer:
+          "Yes. We can architect mobile apps with local database caching and background synchronization when connectivity is restored.",
+      },
+    ],
+  },
+  {
+    id: "seo-digital-marketing",
+    name: "SEO & Digital Marketing",
+    slug: "seo-digital-marketing",
     iconName: "TrendingUp",
     shortDescription:
-      "Strategy-led organic search engine optimization, content frameworks, and conversion optimization built for sustainable, compounding growth.",
+      "Turn online visibility into opportunity with search optimization, audience targeting, and measurable digital growth strategies.",
     fullDescription:
-      "Digital marketing should never rely on vanity metrics or empty ranking guarantees. At Nexovio Digital Solutions, we treat marketing as a rigorous, data-driven system combining technical SEO, search-intent content architecture, and conversion rate optimization (CRO) to attract qualified prospects and turn traffic into measurable business pipeline.",
+      "Getting traffic is only part of the job. Our SEO and digital marketing services focus on improving search visibility, reaching the right audience and creating digital campaigns that support measurable business growth.",
     businessProblem:
       "Companies invest heavily in websites that remain invisible to search engines, generate unqualified random visits, or fail to convert visitors into inquiries.",
     whyItMatters:
       "Sustainable organic search traffic compounds over time, lowering customer acquisition costs and creating an enduring inbound lead pipeline without continual ad spend dependence.",
     capabilities: [
       {
-        title: "Technical SEO & Site Health Auditing",
+        title: "Technical SEO & Site Architecture",
         description:
           "Fixing crawl errors, optimizing site architecture, configuring XML sitemaps, structured data (JSON-LD), canonicalization, and Core Web Vitals.",
       },
@@ -518,14 +617,9 @@ export const SERVICES: ServiceItem[] = [
           "Analyzing user friction, testing call-to-action placement, streamlining form fields, and refining copy to increase lead conversion percentages.",
       },
       {
-        title: "Analytics & Conversion Tracking Architecture",
+        title: "Analytics & Tracking Architecture",
         description:
           "Deploying Google Analytics 4 (GA4) and Google Tag Manager (GTM) with custom event tracking for form submissions, clicks, and downloads.",
-      },
-      {
-        title: "Local Search Optimization Readiness",
-        description:
-          "Preparing local schema, Google Business Profile readiness, and localized landing pages to win qualified regional market share.",
       },
     ],
     process: [
@@ -567,26 +661,21 @@ export const SERVICES: ServiceItem[] = [
       "Configured GA4 and GTM tracking container with conversion events",
       "On-page optimization guidelines and content calendar framework",
     ],
-    seoTitle: "Digital Marketing & SEO Services | Nexovio Digital Solutions",
+    seoTitle: "SEO & Digital Marketing Services | Nexovio Digital Solutions",
     seoDescription:
-      "Strategic digital marketing and SEO services by Nexovio Digital Solutions. Technical SEO, search-intent content strategy, and conversion rate optimization for sustainable growth.",
+      "SEO and digital marketing services by Nexovio Digital Solutions. Technical SEO, search-intent content strategy, and conversion rate optimization.",
     image: "/images/services/digital-marketing-strategy.webp",
     imageAlt: "Digital marketing strategy and organic search analytics dashboard by Nexovio Digital Solutions",
     faqs: [
       {
-        question: "Do you guarantee #1 rankings on Google?",
+        question: "Do you provide SEO with website development?",
         answer:
-          "No, and any agency that promises guaranteed #1 rankings is misleading you. Google's ranking algorithms are proprietary and dynamic. We promise rigorous, best-practice technical SEO, search-intent content alignment, and continuous optimization that drives compounding organic visibility over time.",
+          "Yes. Technical SEO, site structure, performance, mobile responsiveness, and search-friendly architecture are built in during development.",
       },
       {
         question: "How long does it take to see results from SEO?",
         answer:
-          "SEO is a compounding long-term investment. While technical crawl fixes and on-page improvements often yield positive signals within 4 to 8 weeks, substantial organic ranking and qualified traffic growth typically mature between 3 to 6 months.",
-      },
-      {
-        question: "How do you track and report marketing conversions?",
-        answer:
-          "We set up GA4 and Google Tag Manager to track meaningful business actions—such as form submissions, quote requests, phone taps, and WhatsApp inquiries—so you see exact lead pipeline contributions rather than vanity pageviews.",
+          "While technical fixes show immediate crawl improvements, organic ranking growth typically matures over 3 to 6 months.",
       },
     ],
   },

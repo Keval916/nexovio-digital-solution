@@ -2,54 +2,83 @@ import React from "react";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { ValueProposition } from "@/components/sections/ValueProposition";
 import { ServicesInteractive } from "@/components/sections/ServicesInteractive";
-import { WhyNexovio } from "@/components/sections/WhyNexovio";
 import { ProcessSection } from "@/components/sections/ProcessSection";
+import { WhyNexovio } from "@/components/sections/WhyNexovio";
 import { SelectedWork } from "@/components/sections/SelectedWork";
 import { IndustriesSection } from "@/components/sections/IndustriesSection";
 import { TechStackSection } from "@/components/sections/TechStackSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { FaqSection } from "@/components/sections/FaqSection";
-import { generatePageMetadata } from "@/lib/seo";
+import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
+import { generatePageMetadata, SITE_URL } from "@/lib/seo";
 
 export const metadata = generatePageMetadata({
-  title: "Nexovio Digital Solutions | Web Development, Design & Digital Marketing",
+  title: "Web Development & Digital Marketing Company | Nexovio",
   description:
-    "Nexovio Digital Solutions combines strategy, design, development and digital marketing to help businesses create better digital experiences and build a stronger online presence.",
+    "Nexovio Digital Solutions builds high-performing websites, web apps, mobile apps, UI/UX experiences and SEO strategies that help businesses attract, engage and convert more customers.",
   path: "/",
 });
 
 export default function HomePage() {
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "Nexovio Digital Solutions",
+    url: SITE_URL,
+    logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-logo.jpeg`,
+    description:
+      "Nexovio Digital Solutions builds high-performing websites, web apps, mobile apps, UI/UX experiences and SEO strategies that help businesses attract, engage and convert more customers.",
+    areaServed: "Worldwide",
+    serviceType: [
+      "Web Development",
+      "Web Design",
+      "UI/UX Design",
+      "Mobile App Development",
+      "SEO Services",
+      "Digital Marketing",
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+
       {/* 1. Hero Section */}
       <HeroSection />
 
-      {/* 2. Value Proposition Section */}
+      {/* 2. Introduction & Core Value Cards */}
       <ValueProposition />
 
-      {/* 3. Interactive Services Showcase */}
+      {/* 3. Services Showcase */}
       <ServicesInteractive />
 
-      {/* 4. Why Nexovio Differentiators */}
-      <WhyNexovio />
-
-      {/* 5. 6-Step Project Delivery Process */}
+      {/* 4. Our Process */}
       <ProcessSection />
 
-      {/* 6. Selected Work & Case Study Previews */}
+      {/* 5. Why Businesses Work With Us */}
+      <WhyNexovio />
+
+      {/* 6. Case Studies / Our Work */}
       <SelectedWork />
 
-      {/* 7. Industries / Target Audiences Served */}
+      {/* 7. Industries We Serve */}
       <IndustriesSection />
 
-      {/* 8. Design + Modern Technology Standards */}
+      {/* 8. Technology & Development */}
       <TechStackSection />
 
-      {/* 9. Authentic Testimonials Placeholder Architecture */}
+      {/* 9. Client Testimonials */}
       <TestimonialsSection />
 
-      {/* 10. Frequently Asked Questions with JSON-LD */}
+      {/* 10. Common Questions (FAQ) */}
       <FaqSection />
+
+      {/* 11. Final CTA */}
+      <FinalCtaSection />
     </>
   );
 }
+

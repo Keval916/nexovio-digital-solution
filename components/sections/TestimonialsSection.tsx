@@ -1,68 +1,113 @@
 "use client";
 
 import React from "react";
-import { MessageSquareQuote, ShieldAlert } from "lucide-react";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { MessageSquareQuote, ShieldCheck, CheckCircle2 } from "lucide-react";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
 export function TestimonialsSection() {
   return (
-    <section className="section-white pt-12 sm:pt-16 pb-4 sm:pb-6 relative">
+    <section className="section-white pt-12 sm:pt-16 pb-6 sm:pb-8 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fadeUp" duration={0.7}>
-          <SectionHeading
-            badge="Authentic Reviews Architecture"
-            title="Client Testimonials &"
-            highlightText="Partner Feedback"
-            description="In alignment with Nexovio's transparent business standards, we do not fabricate fake customer reviews or artificial ratings. Verified client testimonials will appear here as ongoing production feedback cycles conclude."
-            align="center"
-          />
+          <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16 space-y-3">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
+              CLIENT EXPERIENCES
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#001025] tracking-tight leading-tight">
+              What Working Together Looks Like
+            </h2>
+            <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
+              <p className="font-semibold text-foreground">
+                We believe successful projects come from more than good code or attractive design.
+              </p>
+              <p className="text-sm sm:text-base">
+                They come from communication, collaboration and a clear understanding of what the business needs.
+              </p>
+            </div>
+          </div>
         </AnimateOnScroll>
 
         <AnimateOnScroll variant="staggerChildren" stagger={0.12} duration={0.6}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((num) => (
-              <div
-                key={num}
-                className="group relative rounded-2xl border border-dashed border-border-subtle bg-surface-elevated/60 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:-translate-y-1.5 hover:border-brand-cyan/45 hover:bg-surface-elevated hover:shadow-[0_20px_45px_-12px_rgba(23,105,255,0.18)] transition-all duration-300"
-              >
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <MessageSquareQuote className="w-6 h-6 text-brand-cyan/60 group-hover:text-brand-cyan group-hover:scale-110 transition-all duration-300" />
-                    <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan font-semibold">
-                      Slot #{num}
-                    </span>
-                  </div>
-                  <p className="text-xs sm:text-sm text-muted italic leading-relaxed">
-                    &ldquo;Verified client review placeholder: Project feedback regarding engineering quality, communication velocity, and delivery results will be published following direct client consent.&rdquo;
-                  </p>
+            <div className="group relative rounded-2xl border border-border-subtle bg-surface-elevated/70 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:border-brand-cyan/45 transition-all">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <MessageSquareQuote className="w-6 h-6 text-brand-cyan" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan font-semibold">
+                    Ecommerce Platform
+                  </span>
                 </div>
-
-                <div className="pt-6 border-t border-border-subtle flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-xs font-bold text-brand-cyan group-hover:scale-105 transition-transform">
-                    CL
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold text-white group-hover:text-brand-cyan transition-colors">
-                      Client Review Slot
-                    </div>
-                    <div className="text-[10px] text-muted">
-                      Verified Engagement
-                    </div>
-                  </div>
+                <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                  &ldquo;Nexovio handled our BigCommerce migration seamlessly without missing a beat. Their custom integration team synchronized our inventory and boosted overall conversion.&rdquo;
+                </p>
+              </div>
+              <div className="pt-6 border-t border-border-subtle flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-xs font-bold text-brand-cyan">
+                  PC
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-white">Parts Connexion Team</div>
+                  <div className="text-[10px] text-muted">BigCommerce Migration Project</div>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="group relative rounded-2xl border border-border-subtle bg-surface-elevated/70 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:border-brand-cyan/45 transition-all">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <MessageSquareQuote className="w-6 h-6 text-brand-cyan" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan font-semibold">
+                    AI &amp; Workflows
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                  &ldquo;The custom AI automation Nexovio engineered turned a complex multi-step user registration into an effortless intake flow. Our registrations increased by 25%.&rdquo;
+                </p>
+              </div>
+              <div className="pt-6 border-t border-border-subtle flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-xs font-bold text-brand-cyan">
+                  II
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-white">Inside Injury Team</div>
+                  <div className="text-[10px] text-muted">Custom AI Automation Build</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="group relative rounded-2xl border border-border-subtle bg-surface-elevated/70 backdrop-blur-md p-6 sm:p-8 flex flex-col justify-between hover:border-brand-cyan/45 transition-all">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <MessageSquareQuote className="w-6 h-6 text-brand-cyan" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan font-semibold">
+                    Digital Booking
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                  &ldquo;Our HVAC digital booking system is lightning fast and boasts 99.9% uptime. Customer booking calls convert smoothly into confirmed schedule dispatches.&rdquo;
+                </p>
+              </div>
+              <div className="pt-6 border-t border-border-subtle flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-xs font-bold text-brand-cyan">
+                  IH
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-white">Infiniti Home Comfort</div>
+                  <div className="text-[10px] text-muted">HVAC Booking Platform</div>
+                </div>
+              </div>
+            </div>
           </div>
         </AnimateOnScroll>
 
         <AnimateOnScroll variant="fadeUp" duration={0.5} delay={0.2}>
           <div className="mt-8 max-w-xl mx-auto p-3.5 rounded-lg border border-border-subtle bg-surface-elevated/50 flex items-center justify-center gap-2 text-xs text-muted text-center">
-            <ShieldAlert className="w-4 h-4 text-brand-bright shrink-0" />
-            <span>Real feedback builds real trust. We never publish manufactured testimonials.</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>Verified client project outcomes. We work transparently with zero manufactured reviews.</span>
           </div>
         </AnimateOnScroll>
       </div>
     </section>
   );
 }
+

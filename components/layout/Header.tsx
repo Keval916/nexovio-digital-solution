@@ -23,7 +23,7 @@ const SERVICES_NAV = [
   {
     name: "Web Development",
     href: "/services/web-development",
-    description: "Custom corporate portals & scalable Next.js web applications",
+    description: "Custom corporate portals & scalable web applications",
     icon: Code2,
   },
   {
@@ -39,15 +39,15 @@ const SERVICES_NAV = [
     icon: Layout,
   },
   {
-    name: "Graphic Design",
-    href: "/services/graphic-design",
-    description: "Brand visual identities, digital assets & executive collateral",
+    name: "Mobile App Development",
+    href: "/services/mobile-app-development",
+    description: "Cross-platform iOS and Android mobile app development",
     icon: Sparkles,
   },
   {
-    name: "Digital Marketing",
-    href: "/services/digital-marketing",
-    description: "Technical SEO, search-intent content & conversion optimization",
+    name: "SEO & Digital Marketing",
+    href: "/services/seo-digital-marketing",
+    description: "Technical SEO, search visibility & conversion optimization",
     icon: TrendingUp,
   },
 ];

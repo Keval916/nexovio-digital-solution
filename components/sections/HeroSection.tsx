@@ -31,14 +31,14 @@ export function HeroSection() {
             <AnimateOnScroll variant="fadeDown" duration={0.6} start="top 95%">
               <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated/90 text-brand-cyan shadow-[0_0_20px_rgba(0,198,255,0.2)]">
                 <Sparkles className="w-3.5 h-3.5 text-brand-bright" />
-                <span>Digital Engineering &amp; Creative Studio</span>
+                <span>DIGITAL SOLUTIONS FOR MODERN BUSINESSES</span>
               </div>
             </AnimateOnScroll>
 
             {/* H1 Headline */}
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.15} start="top 95%">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
-                Digital Experiences Built to{" "}
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#001025] leading-[1.12]">
+                Digital Experiences That{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Move Your Business Forward.
                 </span>
@@ -47,9 +47,14 @@ export function HeroSection() {
 
             {/* Supporting Copy */}
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.3} start="top 95%">
-              <p className="text-base sm:text-lg md:text-xl text-muted leading-relaxed max-w-2xl">
-                Nexovio Digital Solutions combines strategy, design, development, and digital marketing to help businesses create better digital experiences and build a stronger online presence.
-              </p>
+              <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
+                <p className="font-medium text-foreground">
+                  We design, develop and grow digital experiences that help businesses turn ideas into real results.
+                </p>
+                <p>
+                  From high-converting websites and custom web applications to mobile apps, UI/UX design and SEO-driven digital marketing, Nexovio helps businesses build a stronger digital presence and create better experiences for their customers.
+                </p>
+              </div>
             </AnimateOnScroll>
 
             {/* Action Buttons */}
@@ -68,33 +73,30 @@ export function HeroSection() {
                 </Button>
 
                 <Button
-                  href="/portfolio"
+                  href="/services"
                   variant="secondary"
                   size="lg"
-                  trackingName="hero_view_work"
+                  trackingName="hero_explore_services"
                   trackingLocation="hero"
                   className="w-full sm:w-auto hover:border-brand-cyan/40"
                 >
-                  View Our Work
+                  Explore Our Services
                 </Button>
               </div>
             </AnimateOnScroll>
 
-            {/* Trust Points */}
+            {/* Supporting Text Bar */}
             <AnimateOnScroll variant="fadeUp" duration={0.6} delay={0.55} start="top 95%">
-              <div className="pt-6 border-t border-white/10 grid grid-cols-3 gap-4 text-xs text-muted">
-                <div className="flex items-center gap-2">
-                  <Cpu className="w-4 h-4 text-brand-bright shrink-0" />
-                  <span>Next.js Architecture</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-brand-cyan shrink-0" />
-                  <span>Modern Security</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-brand-bright shrink-0" />
-                  <span>Core Web Vitals</span>
-                </div>
+              <div className="pt-6 border-t border-white/10 text-xs font-semibold text-muted tracking-wide flex flex-wrap items-center gap-2">
+                <span>Web Development</span>
+                <span className="text-brand-cyan">•</span>
+                <span>UI/UX Design</span>
+                <span className="text-brand-cyan">•</span>
+                <span>Mobile Apps</span>
+                <span className="text-brand-cyan">•</span>
+                <span>SEO</span>
+                <span className="text-brand-cyan">•</span>
+                <span>Digital Marketing</span>
               </div>
             </AnimateOnScroll>
           </div>

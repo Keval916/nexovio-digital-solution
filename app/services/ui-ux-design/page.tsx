@@ -59,10 +59,10 @@ export default function UiUxDesignPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-2">
               Human-Centered Product Design
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
-              UI/UX Design Services Built for{" "}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#001025] tracking-tight leading-[1.12]">
+              UI/UX Design Services That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
-                Effortless Intuitive Usability.
+                Elevate Product Usability.
               </span>
             </h1>
             <p className="text-base sm:text-lg text-muted leading-relaxed">

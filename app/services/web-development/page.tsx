@@ -60,10 +60,10 @@ export default function WebDevelopmentPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-2">
               Custom Software &amp; Web Engineering
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
-              Custom Web Development Services for{" "}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#001025] tracking-tight leading-[1.12]">
+              Web Development Services Built for{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
-                High-Growth Enterprises.
+                Speed, Security &amp; Scale.
               </span>
             </h1>
             <p className="text-base sm:text-lg text-muted leading-relaxed">
@@ -105,7 +105,7 @@ export default function WebDevelopmentPage() {
                 priority
               />
               <div className="absolute top-3 right-3 text-[10px] font-mono uppercase px-2.5 py-1 rounded bg-black/80 text-brand-cyan border border-brand-cyan/30 backdrop-blur-sm">
-                Next.js App Router
+                WordPress • React • Next.js • Vue • Node.js
               </div>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function WebDevelopmentPage() {
             badge="Engineering Scope"
             title="What We Engineer &"
             highlightText="Deploy for Clients"
-            description="From bespoke corporate platforms to data-heavy web applications and headless e-commerce systems, we engineer software that solves real operational bottlenecks."
+            description="From custom WordPress CMS sites to React & Next.js web applications, Vue/Node.js portals, and Shopify/WooCommerce e-commerce stores."
             align="center"
           />
 
@@ -146,10 +146,10 @@ export default function WebDevelopmentPage() {
                 Technical Stack & Architecture
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                Modern Front-End Rigor Combined With Resilient Back-End APIs
+                WordPress, React, Next.js, Vue, Node.js &amp; E-Commerce
               </h2>
               <p className="text-sm text-muted leading-relaxed">
-                We believe software durability comes from clean separation of concerns, strict typing, and decoupled microservices. We build primarily with Next.js App Router, TypeScript, and Node.js to provide blazing sub-second page delivery and frictionless API connectivity.
+                We engineer custom websites and web applications across WordPress, React, Next.js, Vue.js, Node.js, PHP, and E-Commerce platforms (Shopify &amp; WooCommerce). Whether you need a flexible WordPress CMS website or a high-speed React/Next.js web portal, we tailor the ideal technology stack for your business.
               </p>
               <div className="pt-2">
                 <Link

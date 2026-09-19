@@ -76,7 +76,7 @@ Configure your production parameters:
 
 ```env
 # Production Domain (Used for absolute canonical URLs & Schema)
-NEXT_PUBLIC_SITE_URL=https://nexovio.com
+NEXT_PUBLIC_SITE_URL=https://www.nexoviodigitalsolutions.com
 
 # Analytics & Conversion Tracking
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
@@ -86,7 +86,7 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
 NEXT_PUBLIC_GSC_VERIFICATION=your-gsc-verification-code
 
 # Public Contact Details
-NEXT_PUBLIC_CONTACT_EMAIL=contact@nexovio.com
+NEXT_PUBLIC_CONTACT_EMAIL=info@nexoviodigitalsolutions.com
 NEXT_PUBLIC_PHONE=+1 (555) 019-2834
 NEXT_PUBLIC_WHATSAPP_NUMBER=+15550192834
 ```

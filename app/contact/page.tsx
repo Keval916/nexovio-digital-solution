@@ -38,7 +38,7 @@ const STEPS = [
 ];
 
 export default function ContactPage() {
-  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@nexovio.com";
+  const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
   const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+1 (555) 019-2834";
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+15550192834";
   const contactSchema = getContactPageSchema();
@@ -59,7 +59,7 @@ export default function ContactPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
               Direct Technical Inquiry
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#001025] tracking-tight leading-[1.12]">
               Let’s Build a Digital Experience That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Moves Your Business Forward.

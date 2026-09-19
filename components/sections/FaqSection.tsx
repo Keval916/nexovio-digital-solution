@@ -19,10 +19,10 @@ interface FaqSectionProps {
 
 export function FaqSection({
   faqs = GLOBAL_FAQS,
-  badge = "Frequently Asked Questions",
-  title = "Clear Answers to",
-  highlightText = "Common Inquiries",
-  description = "Get transparent information regarding project scopes, development timelines, remote collaboration, and IP ownership.",
+  badge = "COMMON QUESTIONS",
+  title = "Clear Answers to Common Questions",
+  highlightText = "",
+  description = "Find clear answers to standard questions about our web development, web design, UI/UX, mobile app, and SEO services.",
 }: FaqSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const schema = getFaqSchema(faqs);

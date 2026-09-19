@@ -38,7 +38,7 @@ export function SectionHeading({
         </div>
       )}
 
-      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#001025] leading-[1.15]">
         {title}{" "}
         {highlightText && (
           <span className="bg-gradient-brand bg-clip-text text-transparent">

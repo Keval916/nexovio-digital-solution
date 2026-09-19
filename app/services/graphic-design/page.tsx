@@ -58,10 +58,10 @@ export default function GraphicDesignPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-2">
               Brand Visual Identity &amp; Digital Creatives
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
-              Strategic Graphic Design Services That{" "}
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#001025] tracking-tight leading-[1.12]">
+              Graphic Design &amp; Visual Identity That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
-                Reinforce Brand Authority.
+                Captivates Audiences.
               </span>
             </h1>
             <p className="text-base sm:text-lg text-muted leading-relaxed">

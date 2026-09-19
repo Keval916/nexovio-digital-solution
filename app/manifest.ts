@@ -18,9 +18,9 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/svg+xml",
       },
       {
-        src: "/images/brand/nexovio-digital-solutions-logo.svg",
+        src: "/images/brand/nexovio-digital-solutions-logo.jpeg",
         sizes: "500x500",
-        type: "image/svg+xml",
+        type: "image/jpeg",
       },
     ],
   };

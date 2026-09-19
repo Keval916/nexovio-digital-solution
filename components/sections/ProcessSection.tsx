@@ -2,54 +2,74 @@
 
 import React from "react";
 import { Card } from "@/components/ui/Card";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
 const STEPS = [
   {
     step: "01",
-    title: "Discover",
-    summary: "Deep-dive analysis of your business model, customer journeys, technical requirements, and competitive ecosystem.",
+    h3Title: "Discover",
+    headline: "Understand Before We Build",
+    summary:
+      "We start by understanding your business, audience, competitors, existing digital presence and project objectives.",
   },
   {
     step: "02",
-    title: "Strategize",
-    summary: "Defining exact technical architecture, data structures, responsive wireframes, and milestone roadmaps.",
+    h3Title: "Plan",
+    headline: "Turn Ideas Into a Clear Roadmap",
+    summary:
+      "We define the structure, features, user journeys, technology requirements and project priorities before development begins.",
   },
   {
     step: "03",
-    title: "Design",
-    summary: "Crafting bespoke high-fidelity UI screens, interactive Figma prototypes, and cohesive design systems.",
+    h3Title: "Design",
+    headline: "Create the Experience",
+    summary:
+      "Our designers turn the strategy into intuitive interfaces, responsive layouts and a consistent visual system for your brand.",
   },
   {
     step: "04",
-    title: "Build",
-    summary: "Developing clean, modular TypeScript code with Next.js, API integrations, and continuous QA testing.",
+    h3Title: "Develop",
+    headline: "Bring the Product to Life",
+    summary:
+      "Our development team builds the website, web application or mobile product with performance, responsiveness, security and scalability in mind.",
   },
   {
     step: "05",
-    title: "Launch",
-    summary: "Executing rigorous cross-browser validation, Core Web Vitals tuning, and zero-downtime production deployment.",
+    h3Title: "Test",
+    headline: "Refine Every Important Detail",
+    summary:
+      "We test functionality, responsiveness, usability and key user journeys across different devices and screen sizes before launch.",
   },
   {
     step: "06",
-    title: "Grow",
-    summary: "Monitoring organic search crawling, refining conversion funnels, and supporting iterative feature releases.",
+    h3Title: "Launch & Grow",
+    headline: "Launch Is Just the Beginning",
+    summary:
+      "Once your product is live, we can continue supporting SEO, digital marketing, improvements, analytics and ongoing optimization.",
   },
 ];
 
 export function ProcessSection() {
   return (
-    <section className="section-white pt-12 sm:pt-16 pb-4 sm:pb-6 relative" id="process">
+    <section className="section-white pt-12 sm:pt-16 pb-6 sm:pb-8 relative" id="process">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll variant="fadeUp" duration={0.7}>
-          <SectionHeading
-            badge="Delivery Framework"
-            title="A Structured 6-Step"
-            highlightText="Engineering Process"
-            description="We minimize ambiguity through predictable, milestone-driven execution from project discovery through production deployment and beyond."
-            align="center"
-          />
+          <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16 space-y-3">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
+              OUR PROCESS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
+              From First Conversation to Final Launch
+            </h2>
+            <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
+              <p className="font-semibold text-foreground">
+                Great digital products aren&apos;t created in one step.
+              </p>
+              <p className="text-sm sm:text-base">
+                We work through a clear process that keeps strategy, design, development and business objectives connected from beginning to launch.
+              </p>
+            </div>
+          </div>
         </AnimateOnScroll>
 
         <AnimateOnScroll variant="staggerChildren" stagger={0.1} duration={0.6}>
@@ -57,19 +77,24 @@ export function ProcessSection() {
             {STEPS.map((item) => (
               <Card
                 key={item.step}
-                className="flex flex-col justify-between h-full bg-surface-elevated/70"
+                className="flex flex-col justify-between h-full bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-black font-mono px-3 py-1 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 transition-all duration-300">
+                    <span className="text-xl font-black font-mono px-3 py-1 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 transition-all duration-300">
                       {item.step}
                     </span>
-                    <span className="w-2.5 h-2.5 rounded-full bg-brand-cyan opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse" />
+                    <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">
+                      Phase {item.step}
+                    </span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2.5 group-hover:text-brand-cyan transition-colors">
-                    {item.title}
+                  <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-brand-cyan transition-colors">
+                    {item.h3Title}
                   </h3>
-                  <p className="text-sm text-muted leading-relaxed">
+                  <div className="text-sm font-semibold text-brand-bright mb-3">
+                    {item.headline}
+                  </div>
+                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
                     {item.summary}
                   </p>
                 </div>
@@ -81,4 +106,5 @@ export function ProcessSection() {
     </section>
   );
 }
+
 
