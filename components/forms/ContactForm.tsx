@@ -230,6 +230,7 @@ export function ContactForm() {
                 <option value="web-development">Web Development</option>
                 <option value="web-design">Web Design</option>
                 <option value="ui-ux-design">UI/UX Design</option>
+                <option value="mobile-app-development">Mobile App Development</option>
                 <option value="graphic-design">Graphic Design</option>
                 <option value="digital-marketing">Digital Marketing / SEO</option>
                 <option value="full-solution">Complete End-to-End Digital Solution</option>

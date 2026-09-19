@@ -15,6 +15,7 @@ function formatServiceLabel(serviceVal?: string): string {
   if (serviceVal === "web-development") return "Web Development";
   if (serviceVal === "web-design") return "Web Design";
   if (serviceVal === "ui-ux-design") return "UI/UX Design";
+  if (serviceVal === "mobile-app-development") return "Mobile App Development";
   if (serviceVal === "graphic-design") return "Graphic Design";
   if (serviceVal === "digital-marketing") return "Digital Marketing / SEO";
   if (serviceVal === "full-solution") return "Complete End-to-End Digital Solution";
