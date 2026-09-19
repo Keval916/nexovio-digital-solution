@@ -74,12 +74,21 @@ export function Footer() {
               className="inline-flex items-center group outline-none focus:outline-none select-none p-0.5"
               aria-label="Nexovio Digital Solutions Homepage"
             >
+              {/* Dark Theme Logo */}
               <Image
                 src="/images/brand/nexovio-digital-solution.webp"
                 alt="Nexovio Digital Solutions"
                 width={380}
                 height={100}
-                className="h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                className="hidden dark:block h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+              />
+              {/* Light Theme Logo */}
+              <Image
+                src="/images/brand/nexovio-digital-solution-light.webp"
+                alt="Nexovio Digital Solutions"
+                width={380}
+                height={100}
+                className="block dark:hidden h-10 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
               />
             </Link>
 

@@ -145,13 +145,23 @@ export function Header() {
             aria-label="Nexovio Digital Solutions Homepage"
           >
             <div className="relative flex items-center">
+              {/* Dark Theme Logo */}
               <Image
                 src="/images/brand/nexovio-digital-solution.webp"
                 alt="Nexovio Digital Solutions"
                 width={380}
                 height={100}
                 priority
-                className="h-10 sm:h-11 md:h-12 lg:h-14 xl:h-[60px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                className="hidden dark:block h-10 sm:h-11 md:h-12 lg:h-14 xl:h-[60px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+              />
+              {/* Light Theme Logo */}
+              <Image
+                src="/images/brand/nexovio-digital-solution-light.webp"
+                alt="Nexovio Digital Solutions"
+                width={380}
+                height={100}
+                priority
+                className="block dark:hidden h-10 sm:h-11 md:h-12 lg:h-14 xl:h-[60px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
               />
             </div>
           </Link>
