@@ -22,13 +22,14 @@ export async function POST(request: Request) {
       );
     }
 
-    const recipientEmail = process.env.CONTACT_RECEIVER_EMAIL || "info@nexoviodigitalsolutions.com";
+    const recipientEmail = (process.env.CONTACT_RECEIVER_EMAIL || "info@nexoviodigitalsolutions.com").trim();
 
-    // 2. Direct Backend Hostinger SMTP Configuration (uses SMTP_PASS from Vercel env)
-    const smtpHost = process.env.SMTP_HOST || "smtp.hostinger.com";
-    const smtpPort = parseInt(process.env.SMTP_PORT || "465", 10);
-    const smtpUser = process.env.SMTP_USER || "info@nexoviodigitalsolutions.com";
-    const smtpPass = process.env.SMTP_PASS;
+    // 2. Direct Backend Hostinger SMTP Configuration (Trims accidental whitespace/newlines)
+    const smtpHost = (process.env.SMTP_HOST || "smtp.hostinger.com").trim();
+    const smtpPort = parseInt((process.env.SMTP_PORT || "465").trim(), 10);
+    const smtpUser = (process.env.SMTP_USER || "info@nexoviodigitalsolutions.com").trim();
+    const rawPass = process.env.SMTP_PASS || "";
+    const smtpPass = rawPass.trim();
 
     // Build Transporter using Hostinger SMTP settings
     const transporter = nodemailer.createTransport({
