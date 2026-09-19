@@ -31,7 +31,7 @@
   <circle cx="70" cy="135" r="14" fill="url(#magenta-cyan)" />
   <text x="94" y="138" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="12" font-weight="800">NEXOVIO</text>
   <text x="70" y="174" fill="#CBD3E1" font-family="system-ui, sans-serif" font-size="9" font-weight="600">CREATIVE DIRECTOR</text>
-  <text x="70" y="190" fill="#8E9BB0" font-family="monospace" font-size="8">hello@nexovio.com • nexovio.com</text>
+  <text x="70" y="190" fill="#8E9BB0" font-family="monospace" font-size="8">info@nexoviodigitalsolutions.com • nexoviodigitalsolutions.com</text>
 
   <!-- Business Card 2: Light Gradient Accent (overlapping) -->
   <rect x="180" y="146" width="190" height="110" rx="8" fill="#1C1135" stroke="#00C6FF" stroke-opacity="0.5" stroke-width="1.5" />

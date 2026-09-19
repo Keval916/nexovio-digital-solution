@@ -98,7 +98,7 @@ NEXT_PUBLIC_WHATSAPP_NUMBER=+15550192834
 Follow this systematic 12-step operational roadmap for launching the website to search engines:
 
 1. **Add Production Domain:**
-   Ensure `NEXT_PUBLIC_SITE_URL` in `.env.local` matches your final domain (e.g. `https://nexovio.com` without a trailing slash).
+   Ensure `NEXT_PUBLIC_SITE_URL` in `.env.local` matches your final domain (e.g. `https://www.nexoviodigitalsolutions.com` without a trailing slash).
 
 2. **Configure Environment Variables:**
    Add your production variables in your hosting environment (Vercel, Netlify, AWS Amplify, or custom Docker container).
