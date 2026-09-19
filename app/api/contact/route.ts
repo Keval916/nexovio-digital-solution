@@ -69,35 +69,62 @@ export async function POST(request: Request) {
       },
     });
 
+    // Plain text alternative for anti-spam deliverability compliance
+    const textContent = `
+New Project Inquiry - Nexovio Digital Solutions
+
+Client Name: ${name}
+Email Address: ${email}
+Company: ${company || "Not Specified"}
+Phone / WhatsApp: ${phone || "Not Provided"}
+Service Needed: ${formattedService}
+Budget Range: ${formattedBudget}
+
+Project Details & Goals:
+${message}
+
+---
+Sent via Nexovio Digital Solutions Lead Server
+    `.trim();
+
+    // Enhanced HTML Email Template with High Deliverability & Premium Styling
     const htmlTemplate = `
       <!DOCTYPE html>
       <html>
         <head>
           <meta charset="utf-8">
           <style>
-            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; }
-            .card { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e1e8ed; }
-            .header { background: linear-gradient(135deg, #001025 0%, #031c3d 100%); padding: 25px; text-align: center; border-bottom: 3px solid #00c6ff; }
-            .header h1 { color: #ffffff; margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
-            .content { padding: 30px; color: #2d3748; }
-            .badge { display: inline-block; background-color: #e0f2fe; color: #0284c7; font-weight: bold; font-size: 12px; padding: 4px 10px; border-radius: 50px; margin-bottom: 15px; }
-            .info-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-            .info-table td { padding: 10px 12px; border-bottom: 1px solid #edf2f7; font-size: 14px; }
-            .info-table td.label { font-weight: 600; color: #64748b; width: 140px; }
-            .info-table td.value { color: #0f172a; font-weight: 500; }
-            .message-box { margin-top: 25px; padding: 18px; background-color: #f8fafc; border-left: 4px solid #00c6ff; border-radius: 6px; }
-            .message-title { font-size: 13px; font-weight: bold; color: #475569; text-transform: uppercase; margin: 0 0 8px 0; }
-            .message-body { font-size: 14px; color: #1e293b; line-height: 1.6; margin: 0; white-space: pre-wrap; }
-            .footer { background-color: #f8fafc; padding: 15px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #edf2f7; }
+            body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; color: #1e293b; }
+            .card { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 14px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid #e2e8f0; }
+            .header { background: #001025; padding: 28px 24px; text-align: center; border-bottom: 3px solid #00c6ff; }
+            .header h1 { color: #ffffff; margin: 0; font-size: 20px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
+            .header p { color: #00c6ff; margin: 4px 0 0 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+            .content { padding: 30px 24px; }
+            .badge { display: inline-block; background-color: #e0f2fe; color: #0088cc; font-weight: 700; font-size: 11px; padding: 5px 12px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 18px; border: 1px solid #bae6fd; }
+            .info-table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 24px; }
+            .info-table td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+            .info-table td.label { font-weight: 700; color: #64748b; width: 140px; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
+            .info-table td.value { color: #0f172a; font-weight: 600; }
+            .info-table td.value a { color: #0088cc; text-decoration: none; font-weight: 700; }
+            .service-text { color: #0088cc; font-weight: 800; }
+            .budget-badge { display: inline-block; background-color: #10b981; color: #ffffff; font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 6px; }
+            .message-box { background-color: #0f172a; border-radius: 10px; padding: 20px; color: #ffffff; border-left: 4px solid #00c6ff; margin-bottom: 24px; }
+            .message-title { font-size: 11px; font-weight: 700; color: #00c6ff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+            .message-body { font-size: 14px; color: #f8fafc; line-height: 1.6; margin: 0; white-space: pre-wrap; word-break: break-word; }
+            .btn-wrapper { text-align: center; margin: 24px 0 10px 0; }
+            .reply-btn { display: inline-block; background-color: #0088cc; color: #ffffff !important; font-weight: 700; font-size: 13px; text-decoration: none; padding: 12px 24px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+            .footer { background-color: #f8fafc; padding: 16px; text-align: center; font-size: 12px; color: #94a3b8; border-top: 1px solid #f1f5f9; }
           </style>
         </head>
         <body>
           <div class="card">
             <div class="header">
               <h1>Nexovio Digital Solutions</h1>
+              <p>IT Software Development &amp; Digital Agency</p>
             </div>
             <div class="content">
-              <span class="badge">NEW WEBSITE PROJECT INQUIRY</span>
+              <span class="badge">New Project Inquiry</span>
+
               <table class="info-table">
                 <tr>
                   <td class="label">Client Name</td>
@@ -105,7 +132,7 @@ export async function POST(request: Request) {
                 </tr>
                 <tr>
                   <td class="label">Email Address</td>
-                  <td class="value"><a href="mailto:${email}" style="color: #00c6ff; text-decoration: none;">${email}</a></td>
+                  <td class="value"><a href="mailto:${email}">${email}</a></td>
                 </tr>
                 <tr>
                   <td class="label">Company</td>
@@ -117,21 +144,29 @@ export async function POST(request: Request) {
                 </tr>
                 <tr>
                   <td class="label">Service Required</td>
-                  <td class="value" style="color: #0284c7; font-weight: bold;">${formattedService}</td>
+                  <td class="value service-text">${formattedService}</td>
                 </tr>
                 <tr>
                   <td class="label">Budget Range</td>
-                  <td class="value">${formattedBudget}</td>
+                  <td class="value">
+                    <span class="budget-badge">${formattedBudget}</span>
+                  </td>
                 </tr>
               </table>
 
               <div class="message-box">
-                <div class="message-title">Project Details & Requirements</div>
+                <div class="message-title">Project Scope &amp; Details</div>
                 <div class="message-body">${message}</div>
+              </div>
+
+              <div class="btn-wrapper">
+                <a href="mailto:${email}?subject=Re:%20Nexovio%20Project%20Consultation%20-%20${encodeURIComponent(name)}" class="reply-btn">
+                  Reply to ${name}
+                </a>
               </div>
             </div>
             <div class="footer">
-              This lead notification was generated automatically by the Nexovio Digital Solutions backend server.
+              Sent via Nexovio Digital Solutions Lead Server • ${new Date().toLocaleDateString("en-US")}
             </div>
           </div>
         </body>
@@ -139,12 +174,13 @@ export async function POST(request: Request) {
     `;
 
     if (smtpPass) {
-      // Send directly via SMTP
+      // Send directly via Hostinger SMTP
       await transporter.sendMail({
         from: `"Nexovio Website" <${smtpUser}>`,
-        replyTo: email,
+        replyTo: `"${name}" <${email}>`,
         to: recipientEmail,
-        subject: `🔥 New Lead: ${name} (${formattedService})`,
+        subject: `New Project Inquiry: ${name} (${formattedService})`,
+        text: textContent,
         html: htmlTemplate,
       });
 
