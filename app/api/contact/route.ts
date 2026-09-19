@@ -162,7 +162,8 @@ Sent via Nexovio Digital Solutions Contact Form
       });
 
       const mailOptions = {
-        from: `"Nexovio Digital Solutions" <${smtpUser}>`,
+        from: `"Nexovio Contact" <${smtpUser}>`,
+        sender: smtpUser,
         replyTo: `"${name}" <${email}>`,
         to: recipientEmail,
         subject: emailSubject,
@@ -170,7 +171,8 @@ Sent via Nexovio Digital Solutions Contact Form
         html: htmlTemplate,
         headers: {
           "X-Mailer": "Nexovio-Contact-Form",
-          "X-Priority": "1",
+          "X-Auto-Response-Suppress": "OOF, AutoReply",
+          "X-Report-Abuse": "Please report abuse to info@nexoviodigitalsolutions.com",
         },
       };
 
