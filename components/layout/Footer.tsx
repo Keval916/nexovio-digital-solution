@@ -17,7 +17,9 @@ export function Footer() {
 
       {/* Global Final Conversion Banner */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div className="relative rounded-2xl border border-brand-cyan/25 bg-surface-elevated/90 p-8 sm:p-12 md:p-14 overflow-hidden shadow-2xl">
+        <div className="group relative rounded-2xl border border-brand-cyan/25 bg-surface-elevated/90 p-8 sm:p-12 md:p-14 overflow-hidden shadow-md">
+          {/* Top Animated Left-to-Right Border */}
+          <div className="absolute top-0 left-0 h-[2.5px] w-0 bg-gradient-brand group-hover:w-full transition-all duration-500 ease-out pointer-events-none" />
           <div className="absolute -right-16 -bottom-16 w-80 h-80 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -left-16 -top-16 w-80 h-80 bg-brand-electric/15 rounded-full blur-3xl pointer-events-none" />
 

@@ -92,7 +92,8 @@ export function PortfolioClient() {
             {filteredProjects.map((project) => (
               <Card
                 key={project.id}
-                className="flex flex-col justify-between h-full bg-surface-elevated/70 p-5 sm:p-6 group hover:border-brand-cyan/45 shadow-card hover:shadow-[0_20px_40px_rgba(0,0,0,0.8),0_0_25px_rgba(0,198,255,0.15)]"
+                variant="scale"
+                className="flex flex-col justify-between h-full bg-surface-elevated/70 p-5 sm:p-6"
               >
                 <div>
                   {/* Visual Project Preview Image */}

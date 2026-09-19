@@ -7,6 +7,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   hoverEffect?: boolean;
   glow?: boolean;
   accentBar?: boolean;
+  variant?: "lift" | "shine" | "minimal" | "scale";
   children: React.ReactNode;
 }
 
@@ -14,28 +15,36 @@ export function Card({
   hoverEffect = true,
   glow = false,
   accentBar = true,
+  variant = "lift",
   className,
   children,
   ...props
 }: CardProps) {
+  const variantStyles = {
+    lift: "hover:-translate-y-1.5 hover:border-brand-cyan/40 hover:bg-surface-elevated hover:shadow-md",
+    shine: "hover:border-brand-bright/45 hover:bg-surface-elevated hover:shadow-sm",
+    minimal: "hover:border-brand-cyan/35 hover:bg-surface-elevated/90",
+    scale: "hover:scale-[1.015] hover:border-brand-cyan/40 hover:shadow-md",
+  };
+
   return (
     <div
       className={cn(
         "group relative rounded-2xl border border-border-subtle bg-surface-elevated/70 backdrop-blur-md p-6 sm:p-8 transition-all duration-300 ease-out overflow-hidden shadow-sm",
-        hoverEffect &&
-          "hover:-translate-y-1.5 hover:border-brand-cyan/45 hover:bg-surface-elevated hover:shadow-[0_20px_45px_-12px_rgba(23,105,255,0.18),0_0_25px_rgba(0,198,255,0.12)]",
-        glow && "border-brand-cyan/40 shadow-[0_0_30px_rgba(0,198,255,0.18)]",
+        hoverEffect && variantStyles[variant],
+        glow && "border-brand-cyan/40 shadow-sm",
         className
       )}
       {...props}
     >
-      {/* Top Hover Gradient Accent Line */}
+      {/* Top Hover Accent Line - Animates from Left to Right */}
       {accentBar && (
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-brand opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        <div className="absolute top-0 left-0 h-[2.5px] w-0 bg-gradient-brand group-hover:w-full transition-all duration-500 ease-out pointer-events-none" />
       )}
 
       {children}
     </div>
   );
 }
+
 

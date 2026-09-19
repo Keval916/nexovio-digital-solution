@@ -44,19 +44,20 @@ export function SelectedWork() {
         <AnimateOnScroll variant="staggerChildren" stagger={0.15} duration={0.7}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featured.map((project) => (
-              <div
+              <Card
                 key={project.id}
-                className="rounded-2xl border border-border-subtle bg-surface-elevated/70 p-5 sm:p-6 flex flex-col justify-between hover:border-brand-cyan/45 transition-[border-color,box-shadow] duration-[400ms] shadow-card hover:shadow-[0_20px_40px_rgba(0,0,0,0.8),0_0_25px_rgba(0,198,255,0.15)] group"
+                variant="scale"
+                className="flex flex-col justify-between h-full bg-surface-elevated/70 p-5 sm:p-6"
               >
                 <div>
                   {/* Visual Project Cover Image Showcase */}
-                  <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-white/10 group-hover:border-brand-cyan/30 mb-5 bg-[#050A14]">
+                  <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden border border-border-subtle group-hover:border-brand-cyan/35 mb-5 bg-[#050A14]">
                     <Image
                       src={project.featuredImage}
                       alt={project.imageAlt}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                     <span className="absolute top-3 left-3 text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-black/80 text-brand-cyan border border-brand-cyan/30 backdrop-blur-sm">
@@ -98,7 +99,7 @@ export function SelectedWork() {
                   )}
                 </div>
 
-                <div className="pt-4 border-t border-white/5 flex items-center justify-between">
+                <div className="pt-4 border-t border-border-subtle flex items-center justify-between">
                   {project.hasCaseStudy ? (
                     <Link
                       href={`/case-studies/${project.slug}`}
@@ -117,7 +118,7 @@ export function SelectedWork() {
                     </Link>
                   )}
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </AnimateOnScroll>
