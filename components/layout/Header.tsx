@@ -32,7 +32,7 @@ import { cn } from "@/lib/utils";
 // ============================================================================
 
 const WEB_DEV_SUBITEMS = [
-  { name: "Custom Website Development", href: "/services/web-development" },
+  { name: "Custom Website Development", href: "/services/web-development/custom-website-development" },
   { name: "WordPress Development", href: "/services/web-development" },
   { name: "React / Next.js Development", href: "/services/web-development" },
   { name: "E-commerce Development", href: "/services/web-development" },

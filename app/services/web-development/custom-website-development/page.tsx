@@ -922,110 +922,7 @@ export default function CustomWebsiteDevelopmentPage() {
           </Card>
         </div>
 
-        {/* SECTION 9 & 10: PERFORMANCE & TOOLS INTEGRATION */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-24">
-          {/* Performance */}
-          <div className="rounded-3xl border border-border-subtle bg-surface-elevated/70 p-8 space-y-6">
-            <div>
-              <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-1">
-                Sub-Second Speed
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                Performance Is Part of the User Experience
-              </h3>
-              <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                A website can have excellent design and still create a poor experience if pages take too long to load or interactions feel slow. Our development process considers performance from the beginning.
-              </p>
-            </div>
 
-            <div className="space-y-3">
-              {PERFORMANCE_PILLARS.map((pil) => (
-                <div key={pil.title} className="p-4 rounded-xl bg-surface/70 border border-white/5">
-                  <h4 className="text-sm font-bold text-white mb-1">{pil.title}</h4>
-                  <p className="text-xs text-muted leading-relaxed">{pil.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Tools Integration */}
-          <div className="rounded-3xl border border-border-subtle bg-surface-elevated/70 p-8 space-y-6">
-            <div>
-              <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-1">
-                Ecosystem Connected
-              </span>
-              <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
-                Integrate the Tools Your Business Already Uses
-              </h3>
-              <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                Your website doesn't have to operate as an isolated system. Depending on your requirements, we can connect your website with external platforms and services.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {TOOLS_INTEGRATIONS.map((tool) => (
-                <span
-                  key={tool}
-                  className="px-3 py-1.5 rounded-lg text-xs font-medium bg-surface/90 border border-brand-cyan/20 text-brand-cyan"
-                >
-                  {tool}
-                </span>
-              ))}
-            </div>
-
-            <p className="text-xs text-muted border-t border-white/5 pt-3">
-              This can help create a more connected workflow between your website and the systems your team already uses.
-            </p>
-          </div>
-        </div>
-
-        {/* SECTION 11 & 12: DESIGNED FOR GROWTH & SECURITY */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-24">
-          {/* Designed for Growth */}
-          <Card className="p-8 bg-surface-elevated/70 space-y-5">
-            <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block">
-              Scalable Architecture
-            </span>
-            <h3 className="text-xl sm:text-2xl font-bold text-white">
-              Designed for Growth, Not Just Launch Day
-            </h3>
-            <p className="text-xs sm:text-sm text-muted leading-relaxed">
-              Your website may start with a few important pages today and require significantly more functionality tomorrow. A custom development approach allows us to consider future requirements such as:
-            </p>
-            <div className="grid grid-cols-2 gap-2 text-xs text-muted-light">
-              {FUTURE_GROWTH.map((item) => (
-                <div key={item} className="flex items-center gap-2 p-2 rounded bg-surface/50">
-                  <Rocket className="w-3.5 h-3.5 text-brand-bright shrink-0" />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
-
-          {/* Security */}
-          <Card className="p-8 bg-surface-elevated/70 space-y-5">
-            <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block">
-              Hardened Codebase
-            </span>
-            <h3 className="text-xl sm:text-2xl font-bold text-white">
-              Security and Reliable Development
-            </h3>
-            <p className="text-xs sm:text-sm text-muted leading-relaxed">
-              Security should be considered throughout the development lifecycle rather than treated as a final step. Depending on the project, our development process can include:
-            </p>
-            <div className="grid grid-cols-2 gap-2 text-xs text-muted-light">
-              {SECURITY_PRACTICES.map((sec) => (
-                <div key={sec} className="flex items-center gap-2 p-2 rounded bg-surface/50">
-                  <ShieldCheck className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
-                  <span>{sec}</span>
-                </div>
-              ))}
-            </div>
-            <p className="text-[11px] text-muted-dark italic pt-1">
-              The exact security requirements depend on the website, technology stack, integrations, and type of information being handled.
-            </p>
-          </Card>
-        </div>
 
         {/* SECTION 13: 9-STEP DEVELOPMENT PROCESS */}
         <div className="mb-24 rounded-3xl border border-border-subtle bg-surface-elevated/80 p-8 sm:p-12">
@@ -1120,38 +1017,6 @@ export default function CustomWebsiteDevelopmentPage() {
           </div>
         </div>
 
-        {/* SECTION 17: SEE THE JOURNEY FROM IDEA TO WEBSITE (INTERACTIVE TIMELINE) */}
-        <div className="mb-24 rounded-3xl border border-brand-cyan/30 bg-gradient-to-r from-[#03132e] via-[#051f47] to-[#03132e] p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-          <SectionHeading
-            badge="VISUAL ROADMAP"
-            title="See the Journey From"
-            highlightText="Idea to Website"
-            description="From initial business concept to ongoing digital growth, here is how your custom website evolves."
-            align="center"
-            className="mb-10"
-          />
-
-          <div className="relative">
-            {/* Horizontal Line for Desktop */}
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-brand -translate-y-1/2 pointer-events-none opacity-40" />
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-9 gap-4 relative z-10">
-              {INTERACTIVE_JOURNEY.map((stepName, idx) => (
-                <div
-                  key={stepName}
-                  className="flex flex-col items-center text-center p-3.5 rounded-xl border border-brand-cyan/30 bg-surface/80 hover:bg-surface-elevated hover:scale-105 transition-all group cursor-pointer"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-brand text-white font-mono font-bold text-xs flex items-center justify-center mb-2 shadow-glow">
-                    {idx + 1}
-                  </div>
-                  <span className="text-xs font-bold text-white group-hover:text-brand-cyan transition-colors">
-                    {stepName}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* SECTION 18: WHEN SHOULD YOU CHOOSE CUSTOM WEBSITE DEVELOPMENT? */}
         <div className="mb-24 rounded-3xl border border-border-subtle bg-surface-elevated/70 p-8 sm:p-12">
@@ -1184,24 +1049,6 @@ export default function CustomWebsiteDevelopmentPage() {
           </div>
         </div>
 
-        {/* RECOMMENDED INTERNAL LINKS SECTION */}
-        <div className="mb-24 rounded-2xl border border-border-subtle bg-surface-elevated/50 p-8">
-          <h3 className="text-base font-bold text-white uppercase tracking-wider mb-4 border-b border-white/10 pb-3">
-            Explore Related Web Development Disciplines
-          </h3>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {INTERNAL_LINKS.map((link) => (
-              <Link
-                key={link.name}
-                href={link.url}
-                className="p-3 rounded-lg bg-surface/70 border border-white/5 hover:border-brand-cyan/40 text-xs font-semibold text-muted-light hover:text-brand-cyan transition-all flex items-center justify-between group"
-              >
-                <span>{link.name}</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform shrink-0" />
-              </Link>
-            ))}
-          </div>
-        </div>
 
         {/* FREQUENTLY ASKED QUESTIONS SECTION */}
         <FaqSection
@@ -1210,9 +1057,6 @@ export default function CustomWebsiteDevelopmentPage() {
           title="Frequently Asked"
           highlightText="Questions"
         />
-
-        {/* COMMON FINAL CTA SECTION (MUST BE ABOVE FOOTER ON ALL PAGES) */}
-        <FinalCtaSection />
       </div>
     </div>
   );

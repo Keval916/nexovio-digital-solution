@@ -88,6 +88,14 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
+                    href="/services/web-development/custom-website-development"
+                    className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
+                  >
+                    Custom Website Development
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/services/web-design"
                     className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                   >
