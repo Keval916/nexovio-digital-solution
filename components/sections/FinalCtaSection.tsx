@@ -43,15 +43,15 @@ export function FinalCtaSection() {
             {/* CTAs */}
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <Button
-                href="/contact"
+                href="https://calendly.com/nexoviodigitalsolutions-info"
                 variant="primary"
                 size="lg"
-                trackingName="final_cta_start_project"
+                trackingName="final_cta_schedule_call"
                 trackingLocation="final_cta"
                 icon={<ArrowRight className="w-4 h-4" />}
                 className="w-full sm:w-auto shadow-glow"
               >
-                Start a Project
+                Schedule a Call
               </Button>
 
               <Button
@@ -63,7 +63,7 @@ export function FinalCtaSection() {
                 icon={<MessageSquare className="w-4 h-4" />}
                 className="w-full sm:w-auto bg-[#082a57] text-white keep-white border-blue-400/30 hover:bg-[#0a356e]"
               >
-                Talk to Our Team
+                Get in Touch
               </Button>
             </div>
 

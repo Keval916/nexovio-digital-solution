@@ -79,8 +79,8 @@ export function SelectedWork() {
                     <span className="text-xs text-brand-cyan font-mono font-bold uppercase tracking-wider">
                       {project.industry}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-500/30">
-                      <Sparkles className="w-3 h-3" />
+                    <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-semibold px-2.5 py-1 rounded-lg border bg-emerald-50 text-emerald-800 border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-500/40 shadow-sm shrink-0">
+                      <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
                       <span>{project.results}</span>
                     </span>
                   </div>

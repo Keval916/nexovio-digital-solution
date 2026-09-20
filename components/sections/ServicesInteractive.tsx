@@ -69,10 +69,10 @@ export function ServicesInteractive() {
           </div>
         </AnimateOnScroll>
 
-        {/* Interactive Navigation Pills */}
+        {/* Interactive Navigation Pills (Responsive Flex-Wrap - No Scrollbar) */}
         <AnimateOnScroll variant="fadeUp" duration={0.6} delay={0.15}>
-          <div className="w-full overflow-x-auto pb-4 mb-10 scrollbar-none">
-            <div className="flex items-center justify-start sm:justify-center gap-2.5 min-w-max px-4 mx-auto">
+          <div className="w-full mb-10">
+            <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto px-2">
               {SERVICES.map((service, index) => {
                 const IconComponent = (ICONS as any)[service.iconName] || Code2;
                 const isSelected = service.slug === activeSlug;
@@ -82,14 +82,13 @@ export function ServicesInteractive() {
                     key={service.slug}
                     type="button"
                     onClick={() => setActiveSlug(service.slug)}
-                    className={`group flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 border outline-none select-none ${
+                    className={`group flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-300 border outline-none select-none ${
                       isSelected
-                        ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.4)]"
-                        : "bg-surface-elevated text-muted hover:text-white border-border-subtle hover:border-brand-bright/50 hover:bg-surface-subtle"
+                        ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.35)] scale-[1.02]"
+                        : "bg-surface-elevated text-muted hover:text-foreground border-border-subtle hover:border-brand-bright/40 hover:bg-surface-subtle"
                     }`}
                   >
-                    <span className="text-xs font-mono opacity-70">0{index + 1}</span>
-                    <IconComponent className="w-4 h-4 shrink-0" />
+                    <IconComponent className="w-4 h-4 shrink-0 text-brand-cyan" />
                     <span>{service.name}</span>
                   </button>
                 );

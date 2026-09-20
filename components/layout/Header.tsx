@@ -524,14 +524,14 @@ export function Header() {
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
             <Button
-              href="/contact"
+              href="https://calendly.com/nexoviodigitalsolutions-info"
               variant="primary"
               size="sm"
-              trackingName="header_start_project"
+              trackingName="header_schedule_call"
               trackingLocation="header"
               icon={<ArrowRight className="w-4 h-4" />}
             >
-              Start Your Project
+              Schedule a Call
             </Button>
           </div>
 
@@ -539,14 +539,14 @@ export function Header() {
           <div className="flex md:hidden items-center gap-2">
             <ThemeToggle />
             <Button
-              href="/contact"
+              href="https://calendly.com/nexoviodigitalsolutions-info"
               variant="primary"
               size="sm"
               trackingName="mobile_header_cta"
               trackingLocation="header_mobile"
               className="text-xs px-3 py-1.5"
             >
-              Start
+              Schedule
             </Button>
             <button
               type="button"
@@ -677,14 +677,14 @@ export function Header() {
             <div className="pt-4 mt-2 border-t border-white/10 space-y-3">
               <ThemeToggle showText className="w-full justify-center py-2.5" />
               <Button
-                href="/contact"
+                href="https://calendly.com/nexoviodigitalsolutions-info"
                 variant="primary"
                 size="lg"
-                trackingName="mobile_menu_start_project"
+                trackingName="mobile_menu_schedule_call"
                 trackingLocation="mobile_menu"
                 className="w-full justify-center"
               >
-                Start Your Project
+                Schedule a Call
               </Button>
             </div>
           </nav>

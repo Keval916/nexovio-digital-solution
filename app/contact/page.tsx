@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Mail, Phone, MessageSquare, Clock, ArrowRight, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Mail, Phone, MessageSquare, Clock, ArrowRight, ShieldCheck, CheckCircle2, Calendar } from "lucide-react";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { FaqSection } from "@/components/sections/FaqSection";
@@ -204,6 +204,52 @@ export default function ContactPage() {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Schedule a Call (Calendly Embed) */}
+      <section className="section-white pt-12 sm:pt-16 pb-12 sm:pb-16 border-t border-border-subtle relative" id="schedule-call">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-3">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
+              Schedule a {" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Call</span>
+            </h2>
+            <p className="text-base sm:text-lg text-muted max-w-2xl mx-auto">
+              Select a date and time that fits your schedule to discuss your project requirements, technical scope, and execution strategy.
+            </p>
+          </div>
+
+          <div className="w-full rounded-3xl border border-border-subtle bg-surface-elevated shadow-2xl p-3 sm:p-6 lg:p-8 relative">
+            <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-4 border-b border-border-subtle">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs font-mono font-semibold uppercase text-muted tracking-wider">
+                  Live Calendly Scheduling Widget
+                </span>
+              </div>
+              <a
+                href="https://calendly.com/nexoviodigitalsolutions-info"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-cyan hover:underline"
+              >
+                <span>Open Calendly in New Tab</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            <div className="w-full rounded-2xl overflow-hidden bg-white shadow-inner">
+              <iframe
+                src="https://calendly.com/nexoviodigitalsolutions-info?embed_domain=nexoviodigitalsolutions.com&embed_type=Inline"
+                width="100%"
+                height="700"
+                frameBorder="0"
+                title="Schedule a Call with Nexovio Digital Solutions"
+                className="w-full min-h-[680px] sm:min-h-[720px] rounded-xl border-0"
+              />
+            </div>
           </div>
         </div>
       </section>

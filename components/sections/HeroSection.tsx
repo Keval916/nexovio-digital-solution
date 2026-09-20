@@ -61,15 +61,15 @@ export function HeroSection() {
             <AnimateOnScroll variant="fadeUp" duration={0.7} delay={0.45} start="top 95%">
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Button
-                  href="/contact"
+                  href="https://calendly.com/nexoviodigitalsolutions-info"
                   variant="primary"
                   size="lg"
-                  trackingName="hero_start_project"
+                  trackingName="hero_schedule_call"
                   trackingLocation="hero"
                   icon={<ArrowRight className="w-4 h-4" />}
                   className="w-full sm:w-auto shadow-glow"
                 >
-                  Start Your Project
+                  Schedule a Call
                 </Button>
 
                 <Button
@@ -107,28 +107,28 @@ export function HeroSection() {
             <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
 
             {/* Top Floating Badge */}
-            <div className="absolute -top-4 -left-4 sm:left-4 z-20 px-3.5 py-2 rounded-xl border border-white/15 bg-surface-elevated/90 backdrop-blur-xl shadow-2xl flex items-center gap-2.5 animate-float">
+            <div className="absolute -top-4 -left-4 sm:left-4 z-20 px-3.5 py-2 rounded-xl border border-white/20 keep-border bg-[#070E1C] keep-dark backdrop-blur-xl shadow-2xl flex items-center gap-2.5 animate-float">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
               <div className="text-left">
-                <span className="text-[10px] text-muted uppercase tracking-wider block font-mono">
+                <span className="text-[10px] uppercase tracking-wider block font-mono" style={{ color: "#94a3b8" }}>
                   Performance Score
                 </span>
-                <span className="text-xs font-bold text-white flex items-center gap-1">
+                <span className="text-xs font-bold flex items-center gap-1" style={{ color: "#ffffff" }}>
                   100% Core Web Vitals
                 </span>
               </div>
             </div>
 
             {/* Bottom Floating Badge */}
-            <div className="absolute -bottom-5 -right-3 sm:right-4 z-20 px-3.5 py-2 rounded-xl border border-brand-cyan/30 bg-[#070E1C]/95 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,198,255,0.25)] flex items-center gap-2.5 animate-float-slow">
+            <div className="absolute -bottom-5 -right-3 sm:right-4 z-20 px-3.5 py-2 rounded-xl border border-brand-cyan/40 keep-border bg-[#070E1C] keep-dark backdrop-blur-xl shadow-[0_10px_30px_rgba(0,198,255,0.25)] flex items-center gap-2.5 animate-float-slow">
               <div className="p-1.5 rounded-lg bg-brand-cyan/15 text-brand-cyan">
-                <CheckCircle2 className="w-4 h-4" />
+                <CheckCircle2 className="w-4 h-4 text-brand-cyan" />
               </div>
               <div className="text-left">
-                <span className="text-[10px] text-brand-cyan uppercase tracking-wider block font-mono">
+                <span className="text-[10px] uppercase tracking-wider block font-mono" style={{ color: "#00c6ff" }}>
                   Edge Delivery
                 </span>
-                <span className="text-xs font-bold text-white">
+                <span className="text-xs font-bold" style={{ color: "#ffffff" }}>
                   0.08s Client Latency
                 </span>
               </div>

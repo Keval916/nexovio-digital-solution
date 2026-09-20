@@ -52,8 +52,8 @@ export function PortfolioClient() {
           </AnimateOnScroll>
 
           <AnimateOnScroll variant="fadeUp" duration={0.6} delay={0.1}>
-            <div className="w-full overflow-x-auto pb-2 scrollbar-none">
-              <div className="flex items-center gap-2.5 min-w-max px-1">
+            <div className="w-full mb-8">
+              <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto px-2">
                 {CATEGORIES.map((category) => {
                   const isSelected = category === activeCategory;
                   const count =
@@ -66,16 +66,18 @@ export function PortfolioClient() {
                       key={category}
                       type="button"
                       onClick={() => setActiveCategory(category)}
-                      className={`group flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-[border-color,background-color,color,box-shadow] duration-[400ms] border outline-none select-none ${
+                      className={`group flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-300 border outline-none select-none ${
                         isSelected
-                          ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.4)]"
-                          : "bg-surface-elevated text-muted hover:text-white border-border-subtle hover:border-brand-cyan/50 hover:bg-surface-subtle"
+                          ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.35)] scale-[1.02]"
+                          : "bg-surface-elevated text-muted hover:text-foreground border-border-subtle hover:border-brand-cyan/50 hover:bg-surface-subtle"
                       }`}
                     >
                       <span>{category}</span>
                       <span
-                        className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                          isSelected ? "bg-white/20 text-white" : "bg-white/5 text-muted-dark"
+                        className={`text-[11px] px-2 py-0.5 rounded-full font-mono transition-colors ${
+                          isSelected
+                            ? "bg-white/20 text-white"
+                            : "bg-surface-subtle text-slate-400 group-hover:text-slate-200"
                         }`}
                       >
                         {count}
