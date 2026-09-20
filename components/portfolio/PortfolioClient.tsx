@@ -58,7 +58,7 @@ export function PortfolioClient() {
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
                 Proven Digital Solutions
               </div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.14]">
                 Representative Projects &amp;{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Engineered Work.
@@ -197,7 +197,7 @@ export function PortfolioClient() {
           <AnimateOnScroll variant="scaleUp" duration={0.8}>
             <div className="rounded-2xl border border-brand-cyan/25 bg-surface-elevated/90 p-8 sm:p-12 text-center max-w-3xl mx-auto shadow-2xl relative overflow-hidden mb-16">
               <div className="absolute top-0 right-0 w-64 h-64 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
-              <h2 className="text-2xl sm:text-3xl font-bold mb-3">
+              <h2 className="text-xl sm:text-2xl font-bold mb-3">
                 Have a project with{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">similar technical requirements?</span>
               </h2>

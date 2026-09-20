@@ -64,7 +64,7 @@ export default function CaseStudiesPage() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
             Technical Architecture Teardowns
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
             Engineering Case Studies &amp;{" "}
             <span className="bg-gradient-brand bg-clip-text text-transparent">
               Proven Results.
@@ -94,7 +94,7 @@ export default function CaseStudiesPage() {
                     </span>
                   </div>
 
-                  <h2 className="text-2xl sm:text-3xl font-bold text-white leading-snug group-hover:text-brand-cyan transition-colors">
+                  <h2 className="text-xl sm:text-2xl font-bold text-white leading-snug group-hover:text-brand-cyan transition-colors">
                     <Link href={`/case-studies/${study.slug}`}>
                       {study.title}
                     </Link>
@@ -154,7 +154,7 @@ export default function CaseStudiesPage() {
 
         {/* Bottom Consultation Reassurance */}
         <div className="rounded-2xl border border-border-subtle bg-surface-elevated/80 p-8 sm:p-12 text-center max-w-3xl mx-auto mb-20">
-          <h2 className="text-2xl sm:text-3xl font-bold mb-3">
+          <h2 className="text-xl sm:text-2xl font-bold mb-3">
             Ready to architect a{" "}
             <span className="bg-gradient-brand bg-clip-text text-transparent">high-performance solution?</span>
           </h2>

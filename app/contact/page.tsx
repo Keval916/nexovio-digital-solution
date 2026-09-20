@@ -89,7 +89,7 @@ export default function ContactPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
               Direct Technical Inquiry
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
               Let’s Build a Digital Experience That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Moves Your Business Forward.
@@ -204,7 +204,7 @@ export default function ContactPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-2">
               Transparent Onboarding
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold">
+            <h2 className="text-xl sm:text-2xl font-bold">
               What Happens{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">After You Inquire</span>
             </h2>
@@ -235,7 +235,7 @@ export default function ContactPage() {
       <section className="section-white pt-12 sm:pt-16 pb-12 sm:pb-16 border-t border-border-subtle relative" id="schedule-call">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-10 space-y-3">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground tracking-tight leading-tight">
               Schedule a {" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Call</span>
             </h2>

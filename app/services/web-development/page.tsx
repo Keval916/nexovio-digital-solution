@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import {
   Code2,
   CheckCircle2,
@@ -11,7 +12,6 @@ import {
   ArrowRight,
   Server,
   Database,
-  Terminal,
   Search,
   Map,
   Palette,
@@ -26,6 +26,27 @@ import {
   Check,
   Building2,
   Users,
+  ChevronRight,
+  Briefcase,
+  GraduationCap,
+  Home,
+  Utensils,
+  Stethoscope,
+  PenTool,
+  Lock,
+  Workflow,
+  CheckSquare,
+  Shield,
+  Gauge,
+  Sliders,
+  Radio,
+  FileCode,
+  Terminal,
+  Activity,
+  Maximize2,
+  RefreshCw,
+  ExternalLink,
+  Layers3,
 } from "lucide-react";
 import { getServiceBySlug } from "@/data/services";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
@@ -38,268 +59,881 @@ import { getServiceSchema } from "@/lib/schema";
 
 const service = getServiceBySlug("web-development")!;
 
-export const metadata = generatePageMetadata({
-  title: service.seoTitle,
-  description: service.seoDescription,
-  keywords: [
-    "web development services",
-    "web development company",
-    "custom web development",
-    "website development services",
-    "custom website development",
-    "React development services",
-    "Next.js development services",
-    "ecommerce web development",
-    "web application development",
-    "API integration services",
-  ],
-  path: `/services/${service.slug}`,
-});
+export const metadata: Metadata = {
+  ...generatePageMetadata({
+    title: "Web Development Services | Websites, E-commerce & Web Apps | Nexovio",
+    description:
+      "Nexovio Digital Solutions offers web development services including custom websites, WordPress, React, Next.js, e-commerce, web applications and API integrations.",
+    keywords: [
+      "web development services",
+      "web development company",
+      "website development services",
+      "custom website development",
+      "custom web development",
+      "WordPress development",
+      "React development",
+      "Next.js development",
+      "e-commerce development",
+      "web application development",
+      "API development",
+      "API integration services",
+      "responsive web development",
+      "SEO-friendly web development",
+    ],
+    path: "/services/web-development",
+  }),
+  title: "Web Development Services | Websites, E-commerce & Web Apps | Nexovio",
+};
 
 // ==========================================
 // DATA STRUCTURES FOR WEB DEV PAGE
 // ==========================================
 
-const APPROACH_POINTS = [
-  "Modern frontend development",
-  "Responsive website architecture",
-  "Conversion-focused user experiences",
-  "SEO-friendly technical foundations",
-  "Secure backend development",
-  "Third-party API integrations",
-  "Performance optimization",
-  "Scalable architecture",
-];
-
-const CAPABILITIES = [
+const CORE_SERVICES = [
   {
+    id: "custom-website",
     icon: Globe,
     title: "Custom Website Development",
+    tagline: "Tailored Architecture & Brand Journeys",
     description:
-      "Create a website designed specifically around your brand, audience, features, and business objectives. We develop custom websites with flexible structures, responsive layouts, reusable components, and SEO-friendly foundations.",
-    bestFor: "Businesses, startups, professional services, agencies, and growing brands.",
+      "Build a site tailored to your brand, audience and business objectives with specific features and functionality.",
+    controls: [
+      "Website architecture",
+      "Page layouts",
+      "User journeys",
+      "Brand experience",
+      "Custom functionality",
+      "Forms and lead generation",
+      "Third-party integrations",
+      "Performance",
+      "SEO structure",
+      "Future expansion",
+    ],
+    note: "From corporate websites and startup websites to professional service websites and technology company websites, we build custom experiences around your requirements.",
+    bestFor:
+      "Companies, startups, agencies, professional services, technology firms, and expanding brands.",
+    previewType: "custom",
   },
   {
+    id: "wordpress",
     icon: Code2,
     title: "WordPress Development",
+    tagline: "Flexible CMS With High-Speed Execution",
     description:
-      "Build and manage a professional WordPress website without sacrificing performance or design flexibility. We develop custom WordPress websites, business websites, landing pages, and customized WordPress solutions.",
-    bestFor: "Business websites, blogs, service companies, content-driven websites, and marketing teams.",
+      "Construct a website professional enough for your team to manage and update effortlessly. We design and build WordPress websites for organizations, companies and small businesses who require a flexible content management system (CMS) without sacrificing design, functionality or speed.",
+    capabilities: [
+      "Custom WordPress websites",
+      "Custom theme development",
+      "Theme customization",
+      "Plugin integration",
+      "Custom functionality",
+      "Business websites",
+      "Blog and content platforms",
+      "Landing pages",
+      "WooCommerce websites",
+      "WordPress migrations",
+      "Performance optimization",
+      "Security-focused development",
+    ],
+    bestFor:
+      "Businesses, websites that are driven by content, agencies, service companies, publishers, and organizations looking for simple content management. ",
+    previewType: "wordpress",
   },
   {
+    id: "react-next",
     icon: Cpu,
-    title: "React / Next.js Development",
+    title: "React & Next.js Development",
+    tagline: "Sub-Second Speed & Modern Frontend Architecture",
     description:
-      "Develop modern, high-performance web experiences using React and Next.js. These technologies are suitable for businesses that need fast interfaces, scalable frontend architecture, dynamic experiences, and modern web applications.",
-    bestFor: "SaaS products, startups, dashboards, high-performance websites, and custom web platforms.",
+      "Build modern, fast, and scalable web experiences with React & Next.js. We leverage modern frontend tech including React to deliver solutions that involve interactive interfaces, flexible architectures, and high performance for websites and digital products.",
+    supports: [
+      "Business websites",
+      "Startup websites",
+      "SaaS websites",
+      "Product platforms",
+      "Customer portals",
+      "Interactive interfaces",
+      "Dashboards",
+      "Data-driven experiences",
+      "API-connected applications",
+      "Custom frontend systems",
+    ],
+    note: "We can structure React and Next.js projects around responsive design, reusable components, SEO requirements, performance, and future feature development.",
+    bestFor:
+      "Startups, SaaS companies, tech organisations, sites & custom digital products requiring high performance.",
+    previewType: "react",
   },
   {
+    id: "ecommerce",
     icon: ShoppingBag,
     title: "E-commerce Development",
+    tagline: "Frictionless Shopping & Conversion Funnels",
     description:
-      "Create online stores designed to make product discovery, shopping, checkout, and customer management simple. We develop responsive e-commerce experiences with product management, payment integration, order workflows, and third-party integrations.",
-    bestFor: "Retail brands, D2C businesses, manufacturers, product companies, and online sellers.",
+      "Build an online store to help customers find products, compare options, buy them, and come back to your brand.",
+    customerJourney: [
+      "Discover",
+      "Explore",
+      "Product",
+      "Cart",
+      "Checkout",
+      "Purchase",
+      "Retention",
+    ],
+    features: [
+      "Product catalogs",
+      "Categories",
+      "Product variations",
+      "Search",
+      "Filters",
+      "Shopping carts",
+      "Checkout",
+      "Payment gateway integration",
+      "Customer accounts",
+      "Order management",
+      "Coupons and promotions",
+      "Reviews",
+      "Shipping integrations",
+      "Analytics",
+      "Marketing integrations",
+    ],
+    note: "We also focus on mobile shopping experiences, product discoverability, performance, and technical SEO.",
+    bestFor:
+      "E-commerce brands, D2C businesses, retailers, manufacturers, product companies, businesses moving online with sales.",
+    previewType: "ecommerce",
   },
   {
+    id: "web-app",
     icon: Layers,
     title: "Web Application Development",
+    tagline: "Functional Platforms & Digital Workflows",
     description:
-      "Turn complex business requirements into custom web applications that help teams and customers perform tasks more efficiently. From customer-facing platforms to internal business tools, we build web applications around your workflows, user roles, data, and operational requirements.",
-    bestFor: "Startups, SaaS companies, service businesses, marketplaces, and businesses with custom workflows.",
+      "Convert business operations, thoughts, and workflow into working web apps. A standard website just conveys information. With a web application, users can take action, manage data, interact with systems, and follow processes.",
+    solutions: [
+      "Customer portals",
+      "Admin dashboards",
+      "Business platforms",
+      "Booking platforms",
+      "Membership systems",
+      "Internal tools",
+      "Workflow applications",
+      "Marketplaces",
+      "SaaS platforms",
+      "Reporting dashboards",
+      "Data-driven applications",
+      "Custom management systems",
+    ],
+    note: "We design application functionality around your users, roles, workflows, data, and business requirements.",
+    bestFor:
+      "startup, SaaS company, service business, organization with complex workflows, or a business looking to tell its manual processes.",
+    previewType: "webapp",
   },
   {
+    id: "api-integration",
     icon: Boxes,
     title: "API Development & Integration",
+    tagline: "Automated Data Movement & Connected Ecosystems",
     description:
-      "Connect your website or application with the tools and platforms your business already uses. We develop and integrate APIs for communication between websites, applications, databases, payment systems, CRMs, marketing platforms, and third-party services.",
-    bestFor: "Automation, software integrations, third-party platforms, mobile applications, and custom business systems.",
+      "Connect your website, application, and business tools for automatic information flow between systems. We create and integrate APIs that enable various platforms to communicate and share data.",
+    examples: [
+      "CRM integrations",
+      "Payment gateways",
+      "Marketing platforms",
+      "Analytics systems",
+      "E-commerce platforms",
+      "Authentication services",
+      "Communication tools",
+      "Booking systems",
+      "Business applications",
+      "Third-party APIs",
+      "Custom internal systems",
+    ],
+    workflow: [
+      "Website Form",
+      "API",
+      "CRM",
+      "Team Notification",
+      "Sales Follow-up",
+    ],
+    note: "Instead of keeping business systems disconnected, integrations can create more connected digital workflows.",
+    bestFor:
+      "Automation, connected digital systems, third-party software workflows, and custom enterprise tools.",
+    previewType: "api",
   },
 ];
 
-const DIFFERENTIATORS = [
+const APPROACH_PILLARS = [
+  "Strategy",
+  "UI/UX",
+  "Development",
+  "Performance",
+  "SEO",
+  "Integrations",
+  "Testing",
+];
+
+const IDEA_TO_EXPERIENCE_PHASES = [
   {
-    icon: TargetIcon,
-    title: "Business-Focused Development",
-    description:
-      "We don't start with technology alone. We first understand what your website needs to accomplish and then choose the right development approach.",
+    title: "We Start With Your Business Requirements",
+    subtitle: "We analyze your goals before we start the development.",
+    items: [
+      "Your business model",
+      "Target audience",
+      "Website goals",
+      "Services or products",
+      "Customer journey",
+      "Required functionality",
+      "Content",
+      "Integrations",
+      "Technology requirements",
+      "SEO requirements",
+      "Future plans",
+    ],
+    footerNote: "This helps us determine the right development approach for your project.",
   },
   {
-    icon: Search,
-    title: "SEO-Ready Architecture",
-    description:
-      "We build websites with clean structures, semantic HTML, crawlable content, metadata support, performance considerations, and technical SEO fundamentals.",
+    title: "Strategy & Website Architecture",
+    subtitle: "A well built website should be like a well structured book.",
+    items: [
+      "Sitemap",
+      "Navigation",
+      "Page hierarchy",
+      "Content structure",
+      "User journeys",
+      "Conversion paths",
+      "Internal linking",
+      "Technical requirements",
+    ],
+    footerNote: "The result is a website architecture that is easier for both users and search engines to understand.",
   },
   {
-    icon: Smartphone,
-    title: "Responsive by Design",
-    description:
-      "Your website should provide a consistent experience across desktops, tablets, and smartphones. Every interface is developed with responsive behavior in mind.",
-  },
-  {
-    icon: Zap,
-    title: "Performance-Focused",
-    description:
-      "Fast-loading pages create a better experience for users and provide a stronger technical foundation for search visibility. We consider assets, code structure, images, caching, and page performance during development.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Scalable Technology",
-    description:
-      "Your website should not become a limitation as your business grows. We use maintainable architecture and technologies that can support future features and integrations.",
+    title: "UI/UX Designed Before Development",
+    subtitle: "Development shouldn’t start with isolated screens and features.",
+    items: [
+      "User behavior",
+      "Navigation",
+      "Information hierarchy",
+      "Mobile experience",
+      "CTA placement",
+      "Forms",
+      "Interactions",
+      "Accessibility considerations",
+      "Brand identity",
+    ],
+    footerNote: "The goal is to create an interface that looks good while remaining easy to use.",
   },
 ];
 
-const PROCESS_STEPS = [
+const STACK_LAYERS = [
+  {
+    name: "Frontend Development",
+    desc: "We offer responsive design solutions that incorporate the latest standards of HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS. The technology is chosen for your project needs, not to squeeze every project into the same stack.",
+    pills: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS"],
+  },
+  {
+    name: "Backend Development",
+    desc: "If your project demands server-side processes, such as databases, authentication, business logic or customized workflows, we can develop the necessary backend infrastructure with the right technology.",
+    supports: [
+      "User accounts",
+      "Authentication",
+      "Data processing",
+      "Business logic",
+      "Admin functionality",
+      "API communication",
+      "Database operations",
+      "Custom workflows",
+    ],
+  },
+  {
+    name: "CMS Development",
+    desc: "For businesses that need to regularly update their website content, we can implement a content management solution.",
+    updates: [
+      "Pages",
+      "Services",
+      "Blog posts",
+      "Images",
+      "Products",
+      "FAQs",
+      "Case studies",
+      "Marketing content",
+    ],
+  },
+];
+
+const RESPONSIVE_FEATURES = [
+  "Clear navigation",
+  "Readable content",
+  "Usable forms",
+  "Appropriate spacing",
+  "Touch-friendly interactions",
+  "Optimized images",
+  "Consistent branding",
+  "Smooth user journeys",
+];
+
+const SEO_PILLARS = [
+  {
+    title: "Search-Friendly Architecture",
+    description: "Logical page structures and URLs make your website easier to navigate and understand.",
+  },
+  {
+    title: "Semantic HTML",
+    description: "Appropriate HTML structures help communicate the meaning and hierarchy of your content.",
+  },
+  {
+    title: "Heading Structure",
+    description: "Clear H1, H2, and H3 relationships help organize important information.",
+  },
+  {
+    title: "Metadata",
+    description: "The website can support page titles, meta descriptions, canonical URLs, and other SEO information.",
+  },
+  {
+    title: "Internal Linking",
+    description: "Relevant connections between pages help users discover related content and create a clearer site structure.",
+  },
+  {
+    title: "Mobile Experience",
+    description: "Responsive development supports users accessing your website from mobile devices.",
+  },
+  {
+    title: "Performance",
+    description: "Page speed and efficient resource delivery are considered during development.",
+  },
+  {
+    title: "Crawlability",
+    description: "We structure websites so important content and pages can be accessible to search engines.",
+  },
+];
+
+const PERFORMANCE_AREAS = [
+  "Image optimization",
+  "Efficient asset loading",
+  "Code structure",
+  "Caching opportunities",
+  "Responsive images",
+  "Font loading",
+  "JavaScript efficiency",
+  "Page rendering",
+  "Unnecessary resource reduction",
+];
+
+const CUSTOM_FEATURES = [
+  {
+    category: "Lead Generation",
+    items: ["Contact forms", "Multi-step forms", "Quote requests", "Lead qualification", "Enquiry workflows"],
+  },
+  {
+    category: "Customer Experience",
+    items: ["Customer accounts", "Portals", "Bookings", "Appointments", "Personalized experiences"],
+  },
+  {
+    category: "Business Operations",
+    items: ["Dashboards", "Approval workflows", "Reporting", "Notifications", "Internal tools"],
+  },
+  {
+    category: "E-commerce",
+    items: ["Product catalogs", "Shopping carts", "Checkout", "Payments", "Orders", "Shipping"],
+  },
+  {
+    category: "Interactive Experiences",
+    items: ["Calculators", "Search", "Filters", "Maps", "Interactive content", "Dynamic interfaces"],
+  },
+];
+
+const TOOL_INTEGRATIONS = [
+  {
+    name: "CRM",
+    desc: "Capture and transfer customer enquiries.",
+  },
+  {
+    name: "Payment Systems",
+    desc: "Process online transactions.",
+  },
+  {
+    name: "Analytics",
+    desc: "Send relevant website and conversion data to analytics platforms.",
+  },
+  {
+    name: "Marketing Platforms",
+    desc: "Connect forms, campaigns, customer information, and marketing workflows.",
+  },
+  {
+    name: "Communication Tools",
+    desc: "Connect notifications and customer communication systems.",
+  },
+  {
+    name: "Business Applications",
+    desc: "Exchange information between your website and other software.",
+  },
+];
+
+const SECURITY_CONSIDERATIONS = [
+  "Secure authentication",
+  "Authorization",
+  "User permissions",
+  "Input validation",
+  "Secure API communication",
+  "Form protection",
+  "Dependency management",
+  "Secure configuration",
+  "Access controls",
+  "Deployment security",
+];
+
+const FUTURE_EXPANSIONS = [
+  "New services",
+  "New locations",
+  "New landing pages",
+  "Additional content",
+  "Customer accounts",
+  "E-commerce functionality",
+  "New integrations",
+  "Custom dashboards",
+  "Additional languages",
+  "Marketing automation",
+  "New business workflows",
+];
+
+const INDUSTRIES = [
+  {
+    title: "E-commerce & Retail",
+    desc: "Online stores, product catalogs, shopping experiences, payment systems, and integrations.",
+    icon: ShoppingBag,
+  },
+  {
+    title: "Startups",
+    desc: "Launch-ready websites, product experiences, landing pages, and scalable technical foundations.",
+    icon: Rocket,
+  },
+  {
+    title: "SaaS & Technology",
+    desc: "Product websites, dashboards, customer portals, interactive experiences, and application interfaces.",
+    icon: Cpu,
+  },
+  {
+    title: "Professional Services",
+    desc: "Websites that communicate expertise, services, credibility, and enquiry opportunities.",
+    icon: Briefcase,
+  },
+  {
+    title: "Healthcare",
+    desc: "Information-focused websites, appointment experiences, service pages, and appropriate integrations based on requirements.",
+    icon: Stethoscope,
+  },
+  {
+    title: "Education",
+    desc: "Institutional websites, course information, enquiry systems, content platforms, and portals.",
+    icon: GraduationCap,
+  },
+  {
+    title: "Real Estate",
+    desc: "Property-focused websites, listings, search/filter experiences, enquiry forms, and integrations.",
+    icon: Home,
+  },
+  {
+    title: "Hospitality",
+    desc: "Hotel and hospitality websites with service information, booking journeys, location content, and integrations.",
+    icon: Globe,
+  },
+  {
+    title: "Restaurants & Food Businesses",
+    desc: "Menus, locations, reservations, ordering experiences, promotions, and customer engagement features.",
+    icon: Utensils,
+  },
+  {
+    title: "Agencies & Creative Businesses",
+    desc: "Portfolio-driven websites, case studies, service pages, lead-generation experiences, and interactive presentations.",
+    icon: PenTool,
+  },
+];
+
+const PROCESS_STEPS_FULL = [
   {
     step: "01",
-    icon: Search,
-    title: "Discovery & Requirement Analysis",
-    description:
-      "We understand your business, target audience, website goals, required features, competitors, integrations, and technical requirements.",
+    title: "Discovery",
+    desc: "We understand your business, audience, objectives, requirements, existing systems, and expectations.",
   },
   {
     step: "02",
-    icon: Map,
-    title: "Planning & Architecture",
-    description:
-      "We define the website structure, page hierarchy, functionality, technology stack, content requirements, and development approach.",
+    title: "Planning",
+    desc: "We define the sitemap, functionality, technology approach, integrations, content structure, and project scope.",
   },
   {
     step: "03",
-    icon: Palette,
-    title: "UI/UX Design",
-    description:
-      "Our design team creates intuitive interfaces that combine your brand identity with usability, responsive layouts, and conversion-focused user journeys.",
+    title: "UX & UI",
+    desc: "We plan and design the user experience, page layouts, components, responsive behavior, and visual direction.",
   },
   {
     step: "04",
-    icon: Code2,
     title: "Development",
-    description:
-      "We transform the approved designs into a functional website or web application using suitable frontend, backend, database, and integration technologies.",
+    desc: "Our development team builds the website, application, functionality, integrations, and required backend systems.",
   },
   {
     step: "05",
-    icon: CheckCircle2,
-    title: "Testing & Optimization",
-    description:
-      "We test functionality, responsiveness, forms, integrations, navigation, performance, browser compatibility, and important user journeys.",
+    title: "Content & SEO Implementation",
+    desc: "We implement content structures, metadata, internal linking, images, forms, tracking requirements, and technical SEO foundations.",
   },
   {
     step: "06",
-    icon: Rocket,
-    title: "Launch",
-    description:
-      "After final testing and approval, we deploy the website and ensure the production environment is configured correctly.",
+    title: "Testing & Quality Assurance",
+    desc: "We test navigation, forms, links, responsive layouts, browser compatibility, functionality, integrations, performance, and important user journeys.",
   },
   {
     step: "07",
-    icon: TrendingUp,
-    title: "Continuous Improvement",
-    description:
-      "Your website can continue to evolve with new features, content, integrations, performance improvements, SEO enhancements, and ongoing maintenance.",
+    title: "Deployment",
+    desc: "We prepare the production environment, deploy the website, and perform final checks.",
+  },
+  {
+    step: "08",
+    title: "Launch",
+    desc: "Your website goes live after the required checks and approval.",
+  },
+  {
+    step: "09",
+    title: "Ongoing Improvement",
+    desc: "After launch, we can continue supporting new features, content, performance improvements, SEO work, integrations, and technical updates.",
   },
 ];
 
-const TECH_CATEGORIES = [
+const TECH_CATEGORIES_GRID = [
   {
     title: "Frontend",
     icon: Layout,
-    techs: "React, Next.js, JavaScript, TypeScript, HTML, CSS, Tailwind CSS and modern frontend technologies.",
-  },
-  {
-    title: "Backend",
-    icon: Server,
-    techs: "Node.js and other suitable backend technologies based on the project's requirements.",
+    items: "React, Next.js, JavaScript, TypeScript, HTML, CSS, Tailwind CSS",
   },
   {
     title: "CMS",
     icon: Globe,
-    techs: "WordPress and custom content management solutions.",
+    items: "WordPress and suitable content management solutions",
+  },
+  {
+    title: "Backend",
+    icon: Server,
+    items: "Node.js and other suitable backend technologies depending on project requirements",
   },
   {
     title: "Databases",
     icon: Database,
-    techs: "Database technologies selected according to application requirements, data structure, scalability, and performance needs.",
+    items: "Database technologies selected according to the application's data, functionality, performance, and scalability requirements",
   },
   {
-    title: "Integrations",
+    title: "APIs & Integrations",
     icon: Boxes,
-    techs: "Payment gateways, third-party APIs, analytics platforms, marketing tools, business tools, authentication systems, and other external services.",
+    items: "REST APIs, third-party APIs, payment gateways, CRM systems, analytics, marketing platforms, authentication services, and business tools",
   },
 ];
 
-const BUSINESS_NEEDS = [
+const QUALITY_CHECKS = [
   {
-    title: "Startups",
-    icon: Rocket,
-    description:
-      "Launch a strong digital presence with a scalable website that can evolve as your startup grows.",
+    title: "Functional Testing",
+    desc: "Forms, buttons, navigation, interactions, workflows, and core functionality.",
   },
   {
-    title: "Small & Medium Businesses",
-    icon: Building2,
-    description:
-      "Build a professional website that clearly communicates your services and creates more opportunities for enquiries and conversions.",
+    title: "Responsive Testing",
+    desc: "Desktop, tablet, and mobile layouts.",
   },
   {
-    title: "E-commerce Brands",
-    icon: ShoppingBag,
-    description:
-      "Create an online shopping experience focused on product discovery, customer experience, and sales.",
+    title: "Browser Testing",
+    desc: "Relevant modern browsers and supported environments.",
   },
   {
-    title: "SaaS & Technology Companies",
-    icon: Cpu,
-    description:
-      "Develop high-performance websites, product interfaces, dashboards, and custom web applications.",
+    title: "Performance Review",
+    desc: "Page loading, media, assets, and technical performance considerations.",
   },
   {
-    title: "Professional Services",
-    icon: Users,
-    description:
-      "Present your expertise, services, case studies, and customer information through a professional and conversion-focused website.",
+    title: "SEO Review",
+    desc: "URLs, headings, metadata, internal links, indexing-related configuration, and other agreed SEO foundations.",
   },
   {
-    title: "Growing Enterprises",
-    icon: Layers,
-    description:
-      "Improve existing digital platforms with custom development, integrations, performance improvements, and scalable architecture.",
+    title: "Integration Testing",
+    desc: "APIs, forms, payment systems, analytics, CRM connections, and other integrations included in the project.",
   },
 ];
 
-const SEO_ELEMENTS = [
-  "Search-friendly URL structures",
-  "Semantic HTML",
-  "Page titles and meta descriptions",
-  "Heading hierarchy",
-  "Internal linking",
-  "Mobile responsiveness",
-  "Page performance",
-  "Image optimization",
-  "Structured content",
-  "XML sitemap compatibility",
-  "Canonical URL support",
-  "Search-engine crawlability",
-  "Core Web Vitals considerations",
+const WHY_NEXOVIO_REASONS = [
+  {
+    title: "Business Understanding",
+    desc: "We focus on what the website needs to accomplish for your business.",
+  },
+  {
+    title: "Custom Approach",
+    desc: "Your website structure and functionality are planned around your actual requirements.",
+  },
+  {
+    title: "User-Focused Experience",
+    desc: "We consider how customers navigate, understand information, and take action.",
+  },
+  {
+    title: "Modern Development",
+    desc: "We use appropriate modern technologies and development practices based on the project.",
+  },
+  {
+    title: "SEO Foundation",
+    desc: "We consider technical SEO during architecture and development rather than treating it as an afterthought.",
+  },
+  {
+    title: "Performance Focus",
+    desc: "We consider website performance throughout development and optimization.",
+  },
+  {
+    title: "Scalable Architecture",
+    desc: "We plan for future improvements and functionality where appropriate.",
+  },
+  {
+    title: "Clear Communication",
+    desc: "Project requirements, progress, changes, testing, and launch requirements should remain clear throughout development.",
+  },
 ];
 
-// Helper icon for Target
-function TargetIcon(props: React.SVGProps<SVGSVGElement>) {
+const BUILD_OPTIONS = [
+  "A simple business website to establish your online presence,",
+  "A custom corporate website to communicate your organization and services,",
+  "A WordPress website that your team can manage,",
+  "An e-commerce store to sell products online,",
+  "A React or Next.js experience for a modern high-performance interface,",
+  "A web application to digitize a business workflow,",
+  "An integrated digital platform connecting multiple systems through APIs,",
+];
+
+// ==========================================
+// REALISTIC VISUAL MOCKUP COMPONENTS
+// ==========================================
+
+function RealisticHeroMockup() {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <circle cx="12" cy="12" r="10" />
-      <circle cx="12" cy="12" r="6" />
-      <circle cx="12" cy="12" r="2" />
-    </svg>
+    <div className="relative w-full rounded-2xl border border-brand-cyan/40 bg-[#070D1B] backdrop-blur-xl p-3 shadow-[0_25px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(0,198,255,0.2)] overflow-hidden group">
+      {/* Top Browser Bar */}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-white/10 bg-[#0B152B] rounded-t-xl">
+        <div className="flex items-center gap-2">
+          <span className="w-3 h-3 rounded-full bg-red-500/80" />
+          <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
+          <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
+        </div>
+        <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-[#050914] border border-white/10 text-[11px] font-mono text-slate-300 w-full max-w-xs mx-auto">
+          <Lock className="w-3 h-3 text-emerald-400 shrink-0" />
+          <span className="truncate">https://nexoviodigitalsolutions.com/web-dev</span>
+        </div>
+        <div className="flex items-center gap-2 text-slate-400">
+          <Activity className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
+        </div>
+      </div>
+
+      {/* Main Split Interface */}
+      <div className="grid grid-cols-12 gap-3 p-3 bg-[#050914] rounded-b-xl min-h-[340px]">
+        {/* Code Editor Panel */}
+        <div className="col-span-12 sm:col-span-7 bg-[#091224] rounded-xl border border-white/10 p-3.5 text-left font-mono text-[11px] space-y-2 text-slate-300 shadow-inner">
+          <div className="flex items-center justify-between text-[10px] text-slate-400 pb-2 border-b border-white/10">
+            <span className="text-brand-cyan flex items-center gap-1.5 font-bold">
+              <FileCode className="w-3.5 h-3.5" /> NextServer.ts
+            </span>
+            <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+              Active Build 200 OK
+            </span>
+          </div>
+
+          <div className="space-y-1 pt-1 leading-relaxed">
+            <p className="text-purple-400">
+              <span className="text-blue-400">export async function</span> GET(req: Request) &#123;
+            </p>
+            <p className="pl-4 text-slate-400">
+              // Strict Type Safety &amp; Edge Caching
+            </p>
+            <p className="pl-4 text-slate-200">
+              const <span className="text-amber-300">siteData</span> = await fetchEngine();
+            </p>
+            <p className="pl-4 text-purple-400">
+              return <span className="text-sky-300">NextResponse.json</span>(&#123;
+            </p>
+            <p className="pl-8 text-emerald-400">performance: "100/100",</p>
+            <p className="pl-8 text-sky-300">security: "TLS_1.3_Encrypted",</p>
+            <p className="pl-8 text-purple-300">seoReady: true</p>
+            <p className="pl-4 text-purple-400">&#125;);</p>
+            <p className="text-purple-400">&#125;</p>
+          </div>
+
+          <div className="pt-2 border-t border-white/10 flex items-center gap-2 text-[10px] text-slate-400">
+            <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="text-emerald-400 font-bold">Compiled successfully in 0.08s</span>
+          </div>
+        </div>
+
+        {/* Live UI Output Panel */}
+        <div className="col-span-12 sm:col-span-5 bg-gradient-to-br from-[#0c1834] to-[#081022] rounded-xl border border-brand-cyan/30 p-3.5 text-left flex flex-col justify-between space-y-3">
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono text-brand-cyan uppercase font-bold tracking-wider">
+                Live Web App Output
+              </span>
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            </div>
+
+            <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 space-y-1.5">
+              <div className="w-2/3 h-2.5 rounded bg-brand-cyan/40 animate-pulse" />
+              <div className="w-full h-2 rounded bg-white/20" />
+              <div className="w-4/5 h-2 rounded bg-white/15" />
+            </div>
+
+            <div className="grid grid-cols-2 gap-2 pt-1">
+              <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-center">
+                <span className="text-[10px] text-slate-400 block font-mono">Core Vitals</span>
+                <span className="text-xs font-bold text-emerald-400">100/100 Score</span>
+              </div>
+              <div className="p-2 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 text-center">
+                <span className="text-[10px] text-slate-400 block font-mono">Client TTFB</span>
+                <span className="text-xs font-bold text-brand-cyan">0.08s Latency</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-slate-300">
+            <span>Responsive Viewport</span>
+            <span className="text-brand-cyan font-semibold">100% SEO Ready</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RealisticServiceMockup({ previewType }: { previewType: string }) {
+  if (previewType === "custom") {
+    return (
+      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#0a152e] to-[#050b18] border border-brand-cyan/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
+        <div className="flex items-center justify-between pb-2 border-b border-white/10">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+          </div>
+          <span className="text-[10px] font-mono text-brand-cyan">Custom Corporate Platform</span>
+        </div>
+        <div className="space-y-2 my-auto">
+          <div className="h-3 w-3/4 rounded bg-gradient-to-r from-brand-cyan to-brand-bright" />
+          <div className="h-2 w-full rounded bg-white/20" />
+          <div className="h-2 w-5/6 rounded bg-white/15" />
+          <div className="flex gap-2 pt-1">
+            <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">Lead Form API</span>
+            <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Custom CRM Hook</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (previewType === "wordpress") {
+    return (
+      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#0c1834] to-[#081022] border border-blue-500/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
+        <div className="flex items-center justify-between pb-2 border-b border-white/10">
+          <span className="text-[10px] font-mono text-blue-400 font-bold flex items-center gap-1">
+            <Code2 className="w-3 h-3" /> WP Admin &amp; Gutenberg Block Engine
+          </span>
+          <span className="text-[9px] font-mono bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">Custom Theme</span>
+        </div>
+        <div className="grid grid-cols-12 gap-2 my-auto text-left text-[10px]">
+          <div className="col-span-4 bg-white/5 p-2 rounded border border-white/10 space-y-1">
+            <span className="text-[9px] font-bold text-slate-300 block">Pages &amp; Posts</span>
+            <div className="h-1.5 w-full bg-blue-400/40 rounded" />
+            <div className="h-1.5 w-3/4 bg-white/20 rounded" />
+          </div>
+          <div className="col-span-8 bg-white/5 p-2 rounded border border-white/10 space-y-1.5">
+            <span className="text-[9px] font-bold text-emerald-400 block">Custom Plugin &amp; SEO Schema</span>
+            <div className="h-1.5 w-full bg-white/25 rounded" />
+            <div className="h-1.5 w-4/5 bg-white/15 rounded" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (previewType === "react") {
+    return (
+      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#071328] to-[#030814] border border-cyan-400/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
+        <div className="flex items-center justify-between pb-2 border-b border-white/10">
+          <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1">
+            <Cpu className="w-3 h-3" /> React 18 &amp; Next.js App Router
+          </span>
+          <span className="text-[9px] font-mono bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">SSR Sub-Second</span>
+        </div>
+        <div className="space-y-2 my-auto font-mono text-[10px]">
+          <div className="p-2 rounded bg-black/40 border border-cyan-400/20 text-slate-300">
+            &lt;<span className="text-cyan-400">InteractiveDashboard</span> <span className="text-amber-300">data</span>=&#123;realtimeData&#125; /&gt;
+          </div>
+          <div className="flex items-center justify-between text-[9px] text-slate-400">
+            <span>Component Reusability</span>
+            <span className="text-emerald-400 font-bold">100% Client Hydrated</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (previewType === "ecommerce") {
+    return (
+      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#0a1836] to-[#040a16] border border-amber-500/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
+        <div className="flex items-center justify-between pb-2 border-b border-white/10">
+          <span className="text-[10px] font-mono text-amber-400 font-bold flex items-center gap-1">
+            <ShoppingBag className="w-3 h-3" /> Storefront &amp; Payment Gateway
+          </span>
+          <span className="text-[9px] font-mono bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">Stripe / WooCommerce</span>
+        </div>
+        <div className="grid grid-cols-3 gap-2 my-auto">
+          <div className="p-2 bg-white/5 rounded border border-white/10 text-center space-y-1">
+            <div className="h-6 w-full bg-amber-400/20 rounded" />
+            <span className="text-[9px] font-bold text-slate-200 block">Product</span>
+          </div>
+          <div className="p-2 bg-white/5 rounded border border-white/10 text-center space-y-1">
+            <div className="h-6 w-full bg-brand-cyan/20 rounded" />
+            <span className="text-[9px] font-bold text-slate-200 block">Cart</span>
+          </div>
+          <div className="p-2 bg-emerald-500/10 rounded border border-emerald-500/20 text-center space-y-1">
+            <div className="h-6 w-full bg-emerald-400/30 rounded" />
+            <span className="text-[9px] font-bold text-emerald-400 block">Checkout</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (previewType === "webapp") {
+    return (
+      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#081226] to-[#030712] border border-purple-500/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
+        <div className="flex items-center justify-between pb-2 border-b border-white/10">
+          <span className="text-[10px] font-mono text-purple-400 font-bold flex items-center gap-1">
+            <Layers className="w-3 h-3" /> Custom SaaS &amp; Portal Workflows
+          </span>
+          <span className="text-[9px] font-mono bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">Role Permissions</span>
+        </div>
+        <div className="space-y-1.5 my-auto text-[10px]">
+          <div className="flex items-center justify-between p-1.5 rounded bg-white/5 border border-white/10">
+            <span className="text-slate-300 font-semibold">User Role Matrix</span>
+            <span className="text-emerald-400 font-bold">Admin Portal</span>
+          </div>
+          <div className="flex items-center justify-between p-1.5 rounded bg-white/5 border border-white/10">
+            <span className="text-slate-300 font-semibold">Database Workflow</span>
+            <span className="text-brand-cyan font-bold">Realtime Sync</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // API
+  return (
+    <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#061022] to-[#02050c] border border-emerald-500/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
+      <div className="flex items-center justify-between pb-2 border-b border-white/10">
+        <span className="text-[10px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+          <Boxes className="w-3 h-3" /> REST &amp; GraphQL API Pipeline
+        </span>
+        <span className="text-[9px] font-mono bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">Webhook Handler</span>
+      </div>
+      <div className="flex items-center justify-between my-auto px-2 text-[10px] font-mono text-slate-300">
+        <span className="p-1.5 bg-brand-cyan/20 rounded border border-brand-cyan/30 text-brand-cyan font-bold">Web Form</span>
+        <ArrowRight className="w-3 h-3 text-slate-500" />
+        <span className="p-1.5 bg-emerald-500/20 rounded border border-emerald-500/30 text-emerald-400 font-bold">API Router</span>
+        <ArrowRight className="w-3 h-3 text-slate-500" />
+        <span className="p-1.5 bg-purple-500/20 rounded border border-purple-500/30 text-purple-300 font-bold">CRM System</span>
+      </div>
+    </div>
   );
 }
 
@@ -316,200 +950,320 @@ export default function WebDevelopmentPage() {
   });
 
   return (
-    <div className="pt-24 sm:pt-28 pb-20 bg-background overflow-hidden">
+    <div className="bg-background overflow-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Trail */}
-        <Breadcrumbs
-          items={[
-            { name: "Services", url: "/services" },
-            { name: service.name, url: `/services/${service.slug}` },
-          ]}
-        />
+      {/* 1. HERO BANNER SECTION (Dark/Gradient Hero Background) */}
+      <section className="pt-24 sm:pt-28 pb-20 bg-background relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Breadcrumbs
+            items={[
+              { name: "Services", url: "/services" },
+              { name: "Web Development", url: `/services/${service.slug}` },
+            ]}
+          />
 
-        {/* 1. HERO BANNER SECTION (Left Copy & CTAs + Right Interactive Mockup) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-20 sm:mb-24 pt-4">
-          <div className="lg:col-span-7 space-y-6 text-left">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated/90 text-brand-cyan shadow-[0_0_20px_rgba(0,198,255,0.2)]">
-              <Sparkles className="w-3.5 h-3.5 text-brand-bright" />
-              <span>CUSTOM SOFTWARE &amp; WEB ENGINEERING</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.12]">
-              Web Development Services That Turn Ideas Into{" "}
-              <span className="bg-gradient-brand bg-clip-text text-transparent">
-                Scalable Digital Experiences.
-              </span>
-            </h1>
-
-            <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed">
-              <p className="font-semibold text-slate-900 dark:text-white">
-                Build a website or web application that does more than look good. Nexovio Digital Solutions provides custom web development services for businesses that need fast, secure, responsive, and scalable digital solutions.
-              </p>
-              <p className="text-sm sm:text-base">
-                From business websites and e-commerce platforms to custom web applications and API integrations, we combine modern technologies, thoughtful UX, and SEO-ready development to create web experiences designed around real business goals.
-              </p>
-            </div>
-
-            <div className="pt-2 flex flex-wrap items-center gap-4">
-              <Button
-                href="/contact"
-                variant="primary"
-                size="lg"
-                trackingName="web_dev_start_project"
-                trackingLocation="service_hero"
-                icon={<ArrowRight className="w-4 h-4" />}
-                className="w-full sm:w-auto shadow-glow"
-              >
-                Start Your Web Project
-              </Button>
-              <Button
-                href="/services"
-                variant="secondary"
-                size="lg"
-                trackingName="web_dev_explore_services"
-                trackingLocation="service_hero"
-                className="w-full sm:w-auto hover:border-brand-cyan/40"
-              >
-                Explore Our Web Development Services
-              </Button>
-            </div>
-          </div>
-
-          {/* Right Side Image / Mockup Section */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
-            {/* Ambient Back Glow */}
-            <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
-
-            {/* Top Floating Badge */}
-            <div className="absolute -top-4 -left-4 sm:left-2 z-20 px-3.5 py-2 rounded-xl border border-white/20 keep-border bg-[#070E1C] keep-dark backdrop-blur-xl shadow-2xl flex items-center gap-2.5 animate-float">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-              <div className="text-left">
-                <span className="text-[10px] uppercase tracking-wider block font-mono text-slate-400">
-                  Performance Score
-                </span>
-                <span className="text-xs font-bold text-white flex items-center gap-1">
-                  100% Core Web Vitals
-                </span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-4">
+            <div className="lg:col-span-6 space-y-6 text-left">
+              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated/90 text-brand-cyan shadow-[0_0_20px_rgba(0,198,255,0.2)]">
+                <Sparkles className="w-3.5 h-3.5 text-brand-bright" />
+                <span>WEB DEVELOPMENT SERVICES</span>
               </div>
-            </div>
 
-            {/* Bottom Floating Badge */}
-            <div className="absolute -bottom-5 -right-3 sm:right-2 z-20 px-3.5 py-2 rounded-xl border border-brand-cyan/40 keep-border bg-[#070E1C] keep-dark backdrop-blur-xl shadow-[0_10px_30px_rgba(0,198,255,0.25)] flex items-center gap-2.5 animate-float-slow">
-              <div className="p-1.5 rounded-lg bg-brand-cyan/15 text-brand-cyan">
-                <CheckCircle2 className="w-4 h-4 text-brand-cyan" />
-              </div>
-              <div className="text-left">
-                <span className="text-[10px] uppercase tracking-wider block font-mono text-brand-cyan">
-                  Edge Delivery
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.14]">
+                Web Development That Turns Your Ideas Into{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">
+                  Digital Experiences
                 </span>
-                <span className="text-xs font-bold text-white">
-                  0.08s Client Latency
-                </span>
+              </h1>
+
+              <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed">
+                <p className="font-medium text-md text-slate-900 dark:text-white">We craft clean, modern, responsive and scalable digital experience to connect businesses with customers, build trust and help them grow online. Business websites and e-commerce stores to web applications and API powered platforms, we architect solutions aligned to your objectives.</p>
               </div>
-            </div>
 
-            {/* Main Interactive Dashboard Frame */}
-            <div className="relative w-full rounded-2xl border border-brand-cyan/30 bg-surface-elevated/80 backdrop-blur-md p-2 sm:p-3 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_30px_rgba(23,105,255,0.2)] overflow-hidden group hover:border-brand-cyan/60 transition-all duration-500">
-              <div className="relative w-full aspect-[16/10.5] rounded-xl overflow-hidden bg-[#070D18]">
-                <Image
-                  src="/images/services/web-development-mockup.svg"
-                  alt="Nexovio Web Development Code & Architecture Dashboard"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 550px"
-                  className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                  priority
-                />
-                <div className="absolute top-3 right-3 text-[10px] font-mono uppercase px-2.5 py-1 rounded-md bg-black/80 text-brand-cyan border border-brand-cyan/30 backdrop-blur-sm">
-                  WordPress • React • Next.js • Node.js
-                </div>
+              {/* 6 Banner Badges in 3-Column Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
+                {[
+                  { name: "Custom Web Development", icon: Globe },
+                  { name: "Responsive Web Development", icon: Smartphone },
+                  { name: "E-Commerce Development", icon: ShoppingBag },
+                  { name: "Web Application Development", icon: Cpu },
+                  { name: "API Integration", icon: Boxes },
+                  { name: "SEO-Friendly Development", icon: Search },
+                ].map((badge) => {
+                  const BadgeIcon = badge.icon;
+                  return (
+                    <div
+                      key={badge.name}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#070F22] text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs hover:border-brand-cyan/40 transition-colors"
+                    >
+                      <BadgeIcon className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                      <span className="truncate">{badge.name}</span>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-          </div>
-        </div>
 
-        {/* 2. BUILD A WEBSITE THAT WORKS FOR YOUR BUSINESS */}
-        <div className="mb-24 rounded-2xl border border-border-subtle bg-surface-elevated/70 p-8 sm:p-12 shadow-xl">
-          <div className="max-w-4xl mx-auto text-center mb-10 space-y-3">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-              STRATEGIC WEB ENGINEERING
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Build a Website That Works for Your Business
-            </h2>
-            <p className="text-base sm:text-lg text-muted leading-relaxed">
-              Your website is often the first interaction customers have with your brand. It needs to communicate your value quickly, work smoothly across devices, and provide a clear path toward enquiry, purchase, booking, or conversion.
-            </p>
-          </div>
-
-          {/* 8-Point Approach Grid */}
-          <div className="space-y-4 mb-8">
-            <h3 className="text-xs font-mono font-bold text-brand-bright uppercase tracking-widest text-center">
-              OUR WEB DEVELOPMENT APPROACH COMBINES:
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {APPROACH_POINTS.map((point) => (
-                <div
-                  key={point}
-                  className="p-4 rounded-xl border border-border-subtle bg-surface/80 flex items-center gap-3 hover:border-brand-cyan/40 transition-colors"
+              <div className="pt-2 flex flex-wrap items-center gap-4">
+                <Button
+                  href="/contact"
+                  variant="primary"
+                  size="lg"
+                  trackingName="web_dev_start_project"
+                  trackingLocation="service_hero"
+                  icon={<ArrowRight className="w-4 h-4" />}
+                  className="w-full sm:w-auto shadow-glow"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-brand-cyan/15 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan shrink-0">
-                    <Check className="w-4 h-4" />
-                  </div>
-                  <span className="text-xs font-semibold text-slate-900 dark:text-white">
-                    {point}
-                  </span>
+                  Start Your Web Project
+                </Button>
+                <Button
+                  href="/contact"
+                  variant="secondary"
+                  size="lg"
+                  trackingName="web_dev_talk_team"
+                  trackingLocation="service_hero"
+                  className="w-full sm:w-auto hover:border-brand-cyan/40"
+                >
+                  Talk to Our Team
+                </Button>
+              </div>
+            </div>
+
+            {/* Right Side Image Banner (50% Width Both Sides) */}
+            <div className="lg:col-span-6 relative flex items-center justify-center h-full">
+              <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
+              <div className="relative w-full rounded-2xl border border-brand-cyan/30 dark:border-brand-cyan/40 bg-surface-elevated/80 backdrop-blur-xl p-2.5 sm:p-3 shadow-[0_25px_60px_rgba(0,0,0,0.3)] overflow-hidden group">
+                <div className="relative overflow-hidden rounded-xl h-[400px] sm:h-[460px] lg:h-[520px] w-full">
+                  <Image
+                    src="/images/services/web-development-digital-experience-team.webp"
+                    alt="Web development team building modern custom digital solutions"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    priority
+                    className="w-full h-full object-cover object-center rounded-xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  />
+                  {/* Subtle Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/80 via-transparent to-transparent pointer-events-none rounded-xl" />
                 </div>
-              ))}
+              </div>
             </div>
           </div>
-
-          <p className="text-sm text-center text-muted max-w-3xl mx-auto border-t border-border-subtle pt-6">
-            Whether you are launching a new business website, rebuilding an outdated website, or developing a complex web platform, we create solutions based on your specific requirements.
-          </p>
         </div>
+      </section>
 
-        {/* 3. CAPABILITIES GRID SECTION */}
-        <div className="mb-24">
+      {/* 2. BUILD A WEBSITE AROUND YOUR BUSINESS, NOT A TEMPLATE (Section Blue Background) */}
+      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+
+            {/* Left Side Custom Web Development Process Solutions Image */}
+            <div className="lg:col-span-6 relative flex items-center justify-center">
+              <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
+              <div className="relative w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071024] p-2.5 sm:p-3 shadow-xl overflow-hidden group">
+                <div className="relative overflow-hidden rounded-xl w-full flex items-center justify-center">
+                  <Image
+                    src="/images/services/custom-web-development-process-solutions.webp"
+                    alt="Custom web development team building tailored digital solutions"
+                    width={800}
+                    height={600}
+                    priority
+                    className="w-full h-auto object-contain rounded-xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
+                  />
+                  {/* Subtle Gradient Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/40 via-transparent to-transparent pointer-events-none rounded-xl" />
+                </div>
+              </div>
+            </div>
+            <div className="lg:col-span-6 space-y-6">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
+                STRATEGIC WEB ENGINEERING
+              </span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Build a Website Around Your Business, Not a Template
+              </h2>
+              <div className="space-y-4 text-base text-muted leading-relaxed">
+                <p className="font-semibold text-slate-900 dark:text-white">
+                  All businesses have different customers, processes, goals, and challenges. This is why we approach every website project differently.
+                </p>
+                <p>
+                  We use strategy, UI/UX, development, performance, SEO, integrations, and testing to build websites that are tailored to how your business truly operates.
+                </p>
+                <p className="text-sm font-medium text-brand-cyan italic">
+                  We provide you with a simple business website or a complex digital platform, we help you to transform your requirements into a tangible web experience.
+                </p>
+              </div>
+
+              {/* Approach Pillars Badges */}
+              <div className="pt-2 space-y-3">
+                <h3 className="text-xs font-mono font-bold text-brand-bright uppercase tracking-widest">
+                  OUR INTEGRATED WEB DEVELOPMENT PILLARS:
+                </h3>
+                <div className="flex flex-wrap gap-2.5">
+                  {APPROACH_PILLARS.map((pillar) => (
+                    <div
+                      key={pillar}
+                      className="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#070F22] flex items-center gap-2 shadow-xs"
+                    >
+                      <Check className="w-3.5 h-3.5 text-brand-cyan" />
+                      <span className="text-xs font-semibold text-slate-900 dark:text-white">
+                        {pillar}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. OUR WEB DEVELOPMENT SERVICES (White Background) */}
+      <section className="bg-white dark:bg-background py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            badge="END-TO-END CAPABILITIES"
+            badge="OUR SERVICES"
             title="Our Web Development"
-            highlightText="Capabilities"
-            description="Comprehensive engineering disciplines tailored for startups, growing brands, e-commerce businesses, and enterprise platforms."
+            highlightText="Services"
+            description="Web engineering end-to-end, customized to your business goals, technology stack, and future growth."
             align="center"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {CAPABILITIES.map((cap) => {
-              const Icon = cap.icon;
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-12">
+            {CORE_SERVICES.map((srv, idx) => {
+              const Icon = srv.icon;
               return (
                 <Card
-                  key={cap.title}
-                  className="flex flex-col justify-between h-full bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle hover:border-brand-cyan/45 transition-all group"
+                  key={srv.title}
+                  className="flex flex-col justify-between h-full bg-white dark:bg-[#071328] p-6 sm:p-7 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/60 dark:hover:border-brand-cyan/60 shadow-sm hover:shadow-xl transition-all duration-300 group"
                 >
-                  <div>
-                    <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/40 transition-all duration-300 mb-5">
-                      <Icon className="w-6 h-6" />
+                  <div className="space-y-4">
+                    {/* Visual Realistic Preview Graphic */}
+                    <RealisticServiceMockup previewType={srv.previewType} />
+
+                    <div className="flex items-center gap-3 pt-2">
+                      <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan shrink-0 group-hover:scale-105 transition-transform">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-mono font-bold text-brand-cyan uppercase tracking-wider block">
+                          Service 0{idx + 1}
+                        </span>
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors h-[56px] overflow-hidden">
+                          {srv.title}
+                        </h3>
+                      </div>
                     </div>
 
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors mb-3">
-                      {cap.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-muted leading-relaxed mb-6">
-                      {cap.description}
+                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                      {srv.description}
                     </p>
+
+                    {srv.controls && (
+                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                          Allows you to control:
+                        </span>
+                        <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
+                          {srv.controls.slice(0, 6).map((c) => (
+                            <div key={c} className="flex items-center gap-1.5 truncate">
+                              <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />
+                              <span className="truncate">{c}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {srv.capabilities && (
+                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                          What WordPress can do:
+                        </span>
+                        <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
+                          {srv.capabilities.slice(0, 6).map((c) => (
+                            <div key={c} className="flex items-center gap-1.5 truncate">
+                              <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />
+                              <span className="truncate">{c}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {srv.supports && (
+                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                          React &amp; Next.js supports:
+                        </span>
+                        <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
+                          {srv.supports.slice(0, 6).map((s) => (
+                            <div key={s} className="flex items-center gap-1.5 truncate">
+                              <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />
+                              <span className="truncate">{s}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {srv.features && (
+                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                          E-commerce development covers:
+                        </span>
+                        <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
+                          {srv.features.slice(0, 6).map((f) => (
+                            <div key={f} className="flex items-center gap-1.5 truncate">
+                              <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />
+                              <span className="truncate">{f}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {srv.solutions && (
+                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                          Web application solutions:
+                        </span>
+                        <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
+                          {srv.solutions.slice(0, 6).map((sol) => (
+                            <div key={sol} className="flex items-center gap-1.5 truncate">
+                              <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />
+                              <span className="truncate">{sol}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {srv.examples && (
+                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                          API integration use cases:
+                        </span>
+                        <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
+                          {srv.examples.slice(0, 6).map((ex) => (
+                            <div key={ex} className="flex items-center gap-1.5 truncate">
+                              <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />
+                              <span className="truncate">{ex}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="pt-4 border-t border-border-subtle">
-                    <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-brand-bright block mb-1">
+                  <div className="pt-4 border-t border-slate-100 dark:border-white/10 mt-6">
+                    <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-brand-cyan block mb-1">
                       Best for:
                     </span>
                     <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-                      {cap.bestFor}
+                      {srv.bestFor}
                     </span>
                   </div>
                 </Card>
@@ -517,106 +1271,499 @@ export default function WebDevelopmentPage() {
             })}
           </div>
         </div>
+      </section>
 
-        {/* 4. DIFFERENTIATORS SECTION */}
-        <div className="mb-24">
+      {/* 4. FROM WEBSITE IDEA TO WORKING DIGITAL EXPERIENCE (Section Blue Background) */}
+      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            badge="WHY CHOOSE NEXOVIO"
-            title="What Makes Our Approach"
-            highlightText="Different?"
-            description="We bridge strategic clarity, clean code, responsive design, and search visibility to build digital products that scale."
+            badge="END-TO-END METHODOLOGY"
+            title="From Website Vision to"
+            highlightText="Living, Breathing Online Presence"
+            description="We bring together business strategy, UX planning, and front-end / back-end development to create end-to-end web platforms."
             align="center"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {DIFFERENTIATORS.map((diff, idx) => {
-              const Icon = diff.icon;
-              return (
-                <Card
-                  key={diff.title}
-                  className="bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle hover:border-brand-cyan/40 transition-all"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 mb-12">
+            {IDEA_TO_EXPERIENCE_PHASES.map((phase, pIdx) => (
+              <div
+                key={phase.title}
+                className="p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow"
+              >
+                <div>
+                  <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/20 inline-block mb-3">
+                    Phase 0{pIdx + 1}
+                  </span>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                    {phase.title}
+                  </h3>
+                  <p className="text-xs text-muted leading-relaxed mb-4">
+                    {phase.subtitle}
+                  </p>
+
+                  <div className="space-y-2 mb-6">
+                    <span className="text-[10px] uppercase font-mono font-bold text-brand-bright block">
+                      We consider &amp; plan:
+                    </span>
+                    {phase.items.map((item) => (
+                      <div key={item} className="flex items-center gap-2 text-xs text-slate-800 dark:text-slate-200">
+                        <Check className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 dark:border-white/10">
+                  <p className="text-xs font-medium text-brand-cyan italic">
+                    {phase.footerNote}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Development Built Around the Right Technology */}
+          <div className="border-t border-slate-200 dark:border-white/10 pt-10">
+            <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2 text-center">
+              Development Built On the Right Technology
+            </h3>
+            <p className="text-sm text-muted text-center max-w-2xl mx-auto mb-8">
+              Selected as per your project needs, not trying to fit every project into the same stack.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {STACK_LAYERS.map((layer) => (
+                <div
+                  key={layer.name}
+                  className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071226] space-y-4 shadow-sm"
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                      <Icon className="w-5 h-5" />
+                  <h4 className="text-lg font-bold text-slate-900 dark:text-white">
+                    {layer.name}
+                  </h4>
+                  <p className="text-xs text-muted leading-relaxed">
+                    {layer.desc}
+                  </p>
+
+                  {layer.pills && (
+                    <div className="flex flex-wrap gap-1.5 pt-2">
+                      {layer.pills.map((pill) => (
+                        <span
+                          key={pill}
+                          className="px-2.5 py-1 rounded-md text-[11px] font-medium bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20"
+                        >
+                          {pill}
+                        </span>
+                      ))}
                     </div>
-                    <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/20">
-                      0{idx + 1}
+                  )}
+
+                  {layer.supports && (
+                    <div className="space-y-1.5 pt-2">
+                      <span className="text-[10px] font-mono uppercase font-bold text-brand-bright block">
+                        This can support:
+                      </span>
+                      <div className="grid grid-cols-2 gap-1 text-xs text-slate-700 dark:text-slate-300">
+                        {layer.supports.map((sup) => (
+                          <div key={sup} className="flex items-center gap-1.5">
+                            <Check className="w-3 h-3 text-brand-cyan shrink-0" />
+                            <span>{sup}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {layer.updates && (
+                    <div className="space-y-1.5 pt-2">
+                      <span className="text-[10px] font-mono uppercase font-bold text-brand-bright block">
+                        Easier to update:
+                      </span>
+                      <div className="grid grid-cols-2 gap-1 text-xs text-slate-700 dark:text-slate-300">
+                        {layer.updates.map((upd) => (
+                          <div key={upd} className="flex items-center gap-1.5">
+                            <Check className="w-3 h-3 text-brand-cyan shrink-0" />
+                            <span>{upd}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. WEBSITES BUILT FOR EVERY SCREEN (White Background) */}
+      <section className="bg-white dark:bg-background py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-6 space-y-6">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
+                RESPONSIVE WEB DEVELOPMENT
+              </span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Websites for All Screens
+              </h2>
+              <p className="text-base text-muted leading-relaxed">
+                Your customers might find your business from a laptop, tablet, smartphone or other device.We create responsive experiences that adapt to various screen sizes while preserving:
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                {RESPONSIVE_FEATURES.map((feat) => (
+                  <div key={feat} className="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-surface/80">
+                    <Smartphone className="w-4 h-4 text-brand-cyan shrink-0" />
+                    <span className="text-xs font-semibold text-slate-900 dark:text-white">{feat}</span>
+                  </div>
+                ))}
+              </div>
+
+              <p className="text-xs sm:text-sm text-brand-cyan italic font-medium pt-3 border-t border-slate-100 dark:border-white/10">
+                A responsive website is one that feels like it was designed specifically for mobile rather than being a shrunken desktop version.
+              </p>
+            </div>
+
+            {/* Right Side Realistic Multi-Device Showcase */}
+            <div className="lg:col-span-6">
+              <div className="relative p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-900 text-white shadow-2xl space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                  <span className="text-xs font-mono font-bold text-brand-cyan">
+                    Fluid Breakpoint Scaling (320px to 4K)
+                  </span>
+                  <span className="text-[10px] font-mono text-emerald-400">100% Mobile Ready</span>
+                </div>
+
+                {/* Desktop & Mobile Dual Frame Preview */}
+                <div className="grid grid-cols-12 gap-3 items-end pt-2">
+                  <div className="col-span-8 bg-[#0a152e] rounded-xl border border-white/10 p-3 space-y-2">
+                    <div className="flex items-center gap-1.5 pb-2 border-b border-white/10">
+                      <span className="w-2 h-2 rounded-full bg-red-400" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                      <span className="text-[9px] font-mono text-slate-400">Desktop Viewport 1920px</span>
+                    </div>
+                    <div className="h-3.5 w-3/4 bg-brand-cyan/40 rounded" />
+                    <div className="h-2 w-full bg-white/20 rounded" />
+                    <div className="h-2 w-5/6 bg-white/15 rounded" />
+                  </div>
+
+                  <div className="col-span-4 bg-[#050b18] rounded-2xl border border-brand-cyan/40 p-2.5 space-y-2 shadow-lg">
+                    <div className="w-6 h-1 rounded-full bg-white/30 mx-auto mb-1" />
+                    <div className="h-2.5 w-full bg-brand-cyan/50 rounded" />
+                    <div className="h-1.5 w-3/4 bg-white/30 rounded" />
+                    <div className="h-1.5 w-full bg-white/20 rounded" />
+                    <span className="text-[8px] font-mono text-brand-cyan block text-center">Touch 44px</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. SEO-FRIENDLY WEB DEVELOPMENT (Section Blue Background) */}
+      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="TECHNICAL SEARCH FOUNDATIONS"
+            title="SEO-Friendly Web Development"
+            highlightText="Build a Strong Technical Foundation for Search"
+            description="SEO starts with more than adding keywords to a page. During development, we consider technical and structural elements that can support your broader SEO strategy."
+            align="center"
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
+            {SEO_PILLARS.map((sp) => (
+              <div
+                key={sp.title}
+                className="p-5 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] space-y-2 hover:border-brand-cyan/40 transition-colors shadow-sm"
+              >
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" />
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                    {sp.title}
+                  </h3>
+                </div>
+                <p className="text-xs text-muted leading-relaxed">
+                  {sp.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 7. PERFORMANCE THAT SUPPORTS BETTER EXPERIENCES (White Background) */}
+      <section className="bg-white dark:bg-background py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-7 space-y-6">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
+                CORE WEB VITALS
+              </span>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Performance That Supports Better Experiences
+              </h2>
+              <h3 className="text-lg font-semibold text-brand-bright">
+                Fast Websites Feel Better to Use
+              </h3>
+              <p className="text-base text-muted leading-relaxed">
+                Performance affects how users interact with your website. We consider areas such as:
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2">
+                {PERFORMANCE_AREAS.map((area) => (
+                  <div
+                    key={area}
+                    className="p-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-surface/80 flex items-center gap-2.5"
+                  >
+                    <Zap className="w-4 h-4 text-brand-cyan shrink-0" />
+                    <span className="text-xs font-semibold text-slate-900 dark:text-white">
+                      {area}
                     </span>
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 tracking-wide">
-                    {diff.title}
+                ))}
+              </div>
+
+              <p className="text-xs sm:text-sm text-muted italic pt-3 border-t border-slate-100 dark:border-white/10">
+                Where appropriate, we also consider Core Web Vitals and other performance signals during development and optimization.
+              </p>
+            </div>
+
+            {/* Right Side Realistic Performance Score Panel */}
+            <div className="lg:col-span-5">
+              <div className="p-6 rounded-2xl border border-emerald-500/30 bg-[#061226] text-white shadow-2xl space-y-4 text-center">
+                <div className="w-20 h-20 rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center mx-auto text-emerald-400 text-2xl font-mono font-extrabold shadow-[0_0_25px_rgba(16,185,129,0.3)]">
+                  100
+                </div>
+                <h3 className="text-lg font-bold text-white">Google Lighthouse Benchmark</h3>
+                <div className="grid grid-cols-3 gap-2 text-left pt-2">
+                  <div className="p-2 rounded bg-white/5 border border-white/10 text-center">
+                    <span className="text-[10px] text-slate-400 block font-mono">FCP</span>
+                    <span className="text-xs font-bold text-emerald-400">0.32s</span>
+                  </div>
+                  <div className="p-2 rounded bg-white/5 border border-white/10 text-center">
+                    <span className="text-[10px] text-slate-400 block font-mono">LCP</span>
+                    <span className="text-xs font-bold text-emerald-400">0.45s</span>
+                  </div>
+                  <div className="p-2 rounded bg-white/5 border border-white/10 text-center">
+                    <span className="text-[10px] text-slate-400 block font-mono">CLS</span>
+                    <span className="text-xs font-bold text-emerald-400">0.000</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 8. CUSTOM FEATURES FOR REAL BUSINESS REQUIREMENTS (Section Blue Background) */}
+      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="TAILORED FUNCTIONALITY"
+            title="Custom Features for Real"
+            highlightText="Business Requirements"
+            description="Not every business needs the same features. Depending on your requirements, we can develop functionality tailored to your workflows."
+            align="center"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {CUSTOM_FEATURES.map((cf) => (
+              <Card
+                key={cf.category}
+                className="bg-white dark:bg-[#071328] p-6 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/40 transition-all shadow-sm"
+              >
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-brand-cyan" />
+                  {cf.category}
+                </h3>
+                <div className="space-y-2">
+                  {cf.items.map((item) => (
+                    <div key={item} className="flex items-center gap-2 text-xs sm:text-sm text-muted">
+                      <Check className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 9. CONNECT YOUR WEBSITE WITH THE TOOLS YOU ALREADY USE (White Background) */}
+      <section className="bg-white dark:bg-background py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="API INTEGRATIONS"
+            title="Connect Your Website With the"
+            highlightText="Tools You Already Use"
+            description="Your website may need to communicate with several external systems. We can work with available APIs and integration requirements."
+            align="center"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {TOOL_INTEGRATIONS.map((tool) => (
+              <div
+                key={tool.name}
+                className="p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-slate-50/50 dark:bg-[#071226] space-y-2 shadow-xs"
+              >
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Boxes className="w-4 h-4 text-brand-cyan shrink-0" />
+                  {tool.name}
+                </h3>
+                <p className="text-xs text-muted leading-relaxed">
+                  {tool.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10. SECURITY CONSIDERATIONS (Section Blue Background) */}
+      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="ENTERPRISE SECURITY"
+            title="Security Considerations From"
+            highlightText="Development to Deployment"
+            description="Security requirements vary depending on the type of website and information being handled. We build with security in mind."
+            align="center"
+          />
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-12 mb-8">
+            {SECURITY_CONSIDERATIONS.map((sec) => (
+              <div
+                key={sec}
+                className="p-3.5 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] flex items-center gap-2.5 text-center justify-center shadow-xs"
+              >
+                <ShieldCheck className="w-4 h-4 text-brand-cyan shrink-0" />
+                <span className="text-xs font-semibold text-slate-900 dark:text-white">{sec}</span>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-xs sm:text-sm text-center text-muted border-t border-slate-200 dark:border-white/10 pt-6">
+            For applications handling sensitive information or complex user roles, security requirements are defined specifically around the project.
+          </p>
+        </div>
+      </section>
+
+      {/* 11. BUILT TO GROW WITH YOUR BUSINESS (White Background) */}
+      <section className="bg-white dark:bg-background py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="SCALABILITY &amp; EXPANSION"
+            title="Built to Grow With Your Business"
+            highlightText="Your Website Shouldn't Become a Limitation"
+            description="Your requirements can change after launch. We plan maintainability and future expansion while planning the architecture."
+            align="center"
+          />
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mt-12 mb-8">
+            {FUTURE_EXPANSIONS.map((exp) => (
+              <div
+                key={exp}
+                className="p-3 rounded-xl border border-slate-200/90 dark:border-white/10 bg-slate-50/50 dark:bg-surface/80 flex items-center gap-2"
+              >
+                <TrendingUp className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                <span className="text-xs font-semibold text-slate-900 dark:text-white">{exp}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 12. WEB DEVELOPMENT FOR DIFFERENT INDUSTRIES (Section Blue Background) */}
+      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="INDUSTRIES WE SERVE"
+            title="Web Development for"
+            highlightText="Different Industries"
+            description="Digital Experiences for Different Business Models"
+            align="center"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {INDUSTRIES.map((ind) => {
+              const Icon = ind.icon;
+              return (
+                <Card
+                  key={ind.title}
+                  className="bg-white dark:bg-[#071328] p-6 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/40 transition-all shadow-sm"
+                >
+                  <div className="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4">
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
+                    {ind.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {diff.description}
+                    {ind.desc}
                   </p>
                 </Card>
               );
             })}
           </div>
         </div>
+      </section>
 
-        {/* 5. PROCESS TIMELINE SECTION */}
-        <div className="mb-24">
+      {/* 13. OUR WEB DEVELOPMENT PROCESS (White Background) */}
+      <section className="bg-white dark:bg-background py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            badge="EXECUTION PIPELINE"
+            badge="OUR METHODOLOGY"
             title="Our Web Development"
             highlightText="Process"
-            description="A transparent 7-step engineering methodology that connects strategy, UI/UX design, development, and post-launch growth."
+            description="A structured 9-step execution pipeline from discovery to ongoing post-launch improvement."
             align="center"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {PROCESS_STEPS.map((step) => {
-              const Icon = step.icon;
-              return (
-                <Card
-                  key={step.step}
-                  className="flex flex-col justify-between h-full bg-surface-elevated/70 p-6 border-border-subtle"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="w-11 h-11 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan group-hover:scale-110 transition-transform">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/20">
-                        Phase {step.step}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                      {step.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
-                </Card>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {PROCESS_STEPS_FULL.map((pst) => (
+              <Card
+                key={pst.step}
+                className="bg-slate-50/50 dark:bg-[#071328] p-6 border-slate-200/90 dark:border-white/10 shadow-xs"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/20">
+                    Step {pst.step}
+                  </span>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                  {pst.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                  {pst.desc}
+                </p>
+              </Card>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* 6. TECHNOLOGIES WE WORK WITH */}
-        <div className="mb-24 rounded-2xl border border-border-subtle bg-surface-elevated/80 p-8 sm:p-12 shadow-xl">
-          <div className="max-w-3xl mx-auto text-center mb-10 space-y-3">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-              MODERN TECH STACK
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Technologies We Work With
-            </h2>
-            <p className="text-sm sm:text-base text-muted leading-relaxed">
-              We select tools and frameworks according to your project's requirements, performance expectations, scalability needs, and long-term goals.
-            </p>
-          </div>
+      {/* 14. TECHNOLOGY WE WORK WITH (Section Blue Background) */}
+      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="MODERN TECH STACK"
+            title="Technology We Work With"
+            highlightText="Modern Tools for Modern Web Projects"
+            description="The technology stack is selected according to your project—not because one technology is appropriate for every business."
+            align="center"
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TECH_CATEGORIES.map((cat) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 mb-8">
+            {TECH_CATEGORIES_GRID.map((cat) => {
               const Icon = cat.icon;
               return (
                 <div
                   key={cat.title}
-                  className="p-6 rounded-xl border border-border-subtle bg-surface/90 flex flex-col justify-between"
+                  className="p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] flex flex-col justify-between shadow-sm"
                 >
                   <div>
                     <div className="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4">
@@ -626,7 +1773,7 @@ export default function WebDevelopmentPage() {
                       {cat.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                      {cat.techs}
+                      {cat.items}
                     </p>
                   </div>
                 </div>
@@ -634,74 +1781,74 @@ export default function WebDevelopmentPage() {
             })}
           </div>
         </div>
+      </section>
 
-        {/* 7. BUSINESS NEEDS SECTION */}
-        <div className="mb-24">
+      {/* 15. QUALITY CHECKS BEFORE YOUR WEBSITE GOES LIVE (White Background) */}
+      <section className="bg-white dark:bg-background py-16 sm:py-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
-            badge="TAILORED SOLUTIONS"
-            title="Web Development for"
-            highlightText="Different Business Needs"
-            description="Whether launching a new venture, modernizing an SMB, or scaling an enterprise platform, we adapt our development approach to your goals."
+            badge="QUALITY ASSURANCE"
+            title="Quality Checks Before Your Website Goes Live"
+            highlightText='We Don&apos;t Stop at "It Works on My Computer"'
+            description="Before launch, we review important functional, responsive, performance, and SEO areas of the website."
             align="center"
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {BUSINESS_NEEDS.map((biz) => {
-              const Icon = biz.icon;
-              return (
-                <Card
-                  key={biz.title}
-                  className="bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle hover:border-brand-cyan/40 transition-all"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-                    {biz.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {biz.description}
-                  </p>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 8. SEO-FRIENDLY WEB DEVELOPMENT SECTION */}
-        <div className="mb-24 rounded-2xl border border-brand-cyan/30 bg-surface-elevated/90 p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="max-w-4xl mx-auto text-center mb-10 space-y-3 relative z-10">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-              TECHNICAL SEO FOUNDATIONS
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              SEO-Friendly Web Development
-            </h2>
-            <p className="text-base sm:text-lg text-muted leading-relaxed">
-              A website needs more than visually attractive pages to perform well in search engines. Our development process considers important technical and structural SEO elements, creating a strong technical foundation for your broader SEO strategy.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 relative z-10">
-            {SEO_ELEMENTS.map((elem) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {QUALITY_CHECKS.map((qc) => (
               <div
-                key={elem}
-                className="p-3.5 rounded-xl border border-border-subtle bg-surface/90 flex items-center gap-3 hover:border-brand-cyan/40 transition-colors"
+                key={qc.title}
+                className="p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-slate-50/50 dark:bg-[#071226] space-y-2 shadow-xs"
               >
-                <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" />
-                <span className="text-xs font-semibold text-slate-900 dark:text-white">
-                  {elem}
-                </span>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" />
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                    {qc.title}
+                  </h3>
+                </div>
+                <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                  {qc.desc}
+                </p>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* 9. SERVICE SPECIFIC FAQS */}
-        <FaqSection faqs={service.faqs} />
-      </div>
+      {/* 16. WHY BUSINESSES WORK WITH NEXOVIO DIGITAL SOLUTIONS (Section Blue Background) */}
+      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            badge="WHY CHOOSE US"
+            title="Why Businesses Work With Nexovio Digital Solutions"
+            highlightText="One Web Development Partner From Idea to Launch"
+            description="Instead of treating design, development, SEO, and integrations as completely disconnected activities, we bring them together within the project."
+            align="center"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+            {WHY_NEXOVIO_REASONS.map((reason) => (
+              <div
+                key={reason.title}
+                className="p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] space-y-2 shadow-sm"
+              >
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <Check className="w-4 h-4 text-brand-cyan shrink-0" />
+                  {reason.title}
+                </h3>
+                <p className="text-xs text-muted leading-relaxed">
+                  {reason.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* 18. FREQUENTLY ASKED QUESTIONS (FaqSection with built-in section-blue) */}
+      <FaqSection faqs={service.faqs} />
     </div>
   );
 }

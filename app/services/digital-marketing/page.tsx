@@ -65,7 +65,7 @@ export default function DigitalMarketingPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-2">
               Technical SEO &amp; Organic Acquisition
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
               Digital Marketing &amp; SEO Services That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Drive Organic Revenue.
@@ -123,7 +123,7 @@ export default function DigitalMarketingPage() {
               <ShieldAlert className="w-4 h-4 text-brand-bright" />
               <span>Our Honest SEO & Growth Charter</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold">
+            <h2 className="text-xl sm:text-2xl font-bold">
               No Gimmicks. No Fake #1 Guarantees.{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Just Disciplined Engineering.</span>
             </h2>

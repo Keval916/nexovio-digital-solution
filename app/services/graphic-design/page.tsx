@@ -65,7 +65,7 @@ export default function GraphicDesignPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-2">
               Brand Visual Identity &amp; Digital Creatives
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
               Graphic Design &amp; Visual Identity That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Captivates Audiences.
@@ -122,7 +122,7 @@ export default function GraphicDesignPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-2">
               Commercial Credibility
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4">
+            <h2 className="text-xl sm:text-2xl font-bold mb-4">
               Visual Consistency Builds{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Compounding Market Trust</span>
             </h2>

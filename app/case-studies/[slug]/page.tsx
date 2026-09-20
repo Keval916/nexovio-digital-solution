@@ -74,7 +74,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight leading-[1.15]">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-[1.15]">
             <span className="bg-gradient-brand bg-clip-text text-transparent">{study.title}</span>
           </h1>
 

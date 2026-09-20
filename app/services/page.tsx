@@ -97,7 +97,7 @@ export default function ServicesPage() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
             Comprehensive Digital Disciplines
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.14]">
             End-to-End Digital Engineering &amp;{" "}
             <span className="bg-gradient-brand bg-clip-text text-transparent">
               Creative Solutions.
@@ -134,7 +134,7 @@ export default function ServicesPage() {
                         <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan">
                           Service 0{index + 1}
                         </span>
-                        <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-brand bg-clip-text text-transparent">
+                        <h2 className="text-xl sm:text-2xl font-bold bg-gradient-brand bg-clip-text text-transparent">
                           {service.name}
                         </h2>
                       </div>

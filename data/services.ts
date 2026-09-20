@@ -123,41 +123,81 @@ export const SERVICES: ServiceItem[] = [
       "Fully integrated APIs, contact forms, and lead capture hooks",
       "Automated CI/CD deployment configuration",
     ],
-    seoTitle: "Web Development Services | Custom Website Development | Nexovio",
+    seoTitle: "Web Development Services | Websites, E-commerce & Web Apps | Nexovio",
     seoDescription:
-      "Nexovio provides custom web development services including business websites, WordPress, React, Next.js, e-commerce, web applications, and API integrations.",
+      "Nexovio Digital Solutions offers web development services including custom websites, WordPress, React, Next.js, e-commerce, web applications and API integrations.",
     image: "/images/services/nexovio-web-development-services.webp",
-    imageAlt: "web development architecture and responsive dashboard interface of Nexovio Digital Solutions",
+    imageAlt: "web development architecture and responsive dashboard interface of Nexovio Digital Solutions",
     faqs: [
       {
-        question: "What type of websites does Nexovio Digital Solutions develop?",
+        question: "What web development services does Nexovio provide?",
         answer:
-          "We develop business websites, corporate websites, service websites, e-commerce websites, startup websites, SaaS websites, custom web applications, and other tailored digital experiences.",
+          "We provide custom website development, WordPress development, React and Next.js development, e-commerce development, web application development, API development, and third-party integrations.",
       },
       {
-        question: "Do you build custom websites from scratch?",
+        question: "Can you build a completely custom website?",
         answer:
-          "Yes. Custom development allows us to create the structure, functionality, design implementation, and integrations around your specific business requirements.",
+          "Yes. We can create a website around your brand, content, customer journey, functionality, integrations, and business requirements.",
       },
       {
-        question: "Do you provide WordPress development?",
+        question: "Do you develop WordPress websites?",
         answer:
-          "Yes. We develop and customize WordPress websites for businesses that need a flexible content management system.",
+          "Yes. We can develop and customize WordPress websites, including custom themes, functionality, integrations, WooCommerce, migrations, and performance improvements.",
       },
       {
-        question: "Can you develop React and Next.js websites?",
+        question: "Do you work with React and Next.js?",
         answer:
-          "Yes. We use modern frontend technologies such as React and Next.js for suitable websites and web applications that require modern, scalable, and high-performance experiences.",
+          "Yes. React and Next.js can be used for modern websites, SaaS experiences, interactive interfaces, dashboards, and custom web applications where they fit the project requirements.",
       },
       {
-        question: "Can you integrate third-party APIs?",
+        question: "Can you build an e-commerce website?",
         answer:
-          "Yes. We can integrate APIs and external services such as payment gateways, communication platforms, analytics tools, marketing platforms, authentication systems, and other business applications based on project requirements.",
+          "Yes. We can develop e-commerce experiences covering product catalogs, product pages, carts, checkout, payment integration, orders, shipping, customer accounts, and other required functionality.",
       },
       {
-        question: "Is SEO included in web development?",
+        question: "Can you develop custom web applications?",
         answer:
-          "We build an SEO-friendly technical foundation into the website. Ongoing SEO, content strategy, keyword targeting, and search optimization can be handled as part of a separate SEO and digital marketing engagement.",
+          "Yes. We can build custom web applications such as portals, dashboards, workflow systems, customer platforms, SaaS products, marketplaces, and other application-based solutions.",
+      },
+      {
+        question: "Can you connect my website with other software?",
+        answer:
+          "Yes. We can integrate websites and applications with suitable third-party APIs, CRM systems, payment gateways, analytics platforms, marketing tools, authentication systems, and other business applications.",
+      },
+      {
+        question: "Will my website be mobile responsive?",
+        answer:
+          "Yes. Responsive behavior is considered throughout the design and development process so the website can provide an appropriate experience across desktop, tablet, and mobile devices.",
+      },
+      {
+        question: "Will the website be SEO-friendly?",
+        answer:
+          "We build important technical SEO foundations into the website, including structured content, headings, URLs, metadata support, responsive development, internal linking considerations, and performance considerations. Ongoing SEO involves additional activities such as keyword research, content development, authority building, technical monitoring, and continuous optimization.",
+      },
+      {
+        question: "Can you redesign my existing website?",
+        answer:
+          "Yes. We can analyze an existing website and redesign or rebuild it according to your current business, UX, technology, performance, and SEO requirements.",
+      },
+      {
+        question: "Can you migrate an existing website?",
+        answer:
+          "Yes. Depending on the current platform and target technology, migration can include pages, content, media, URLs, redirects, functionality, and other relevant website components.",
+      },
+      {
+        question: "How long does web development take?",
+        answer:
+          "The timeline depends on the project's scope, number of pages, design requirements, functionality, integrations, content readiness, testing requirements, and technology. A straightforward business website will have different requirements from a custom web application or e-commerce platform.",
+      },
+      {
+        question: "How much does website development cost?",
+        answer:
+          "There is no single price for every website. Cost depends on functionality, design, number of pages, technology, integrations, content, and project complexity. We can define the requirements and provide a project-specific estimate.",
+      },
+      {
+        question: "Can you maintain the website after launch?",
+        answer:
+          "Yes. Depending on your requirements, ongoing support can include technical maintenance, content updates, performance improvements, new features, integrations, and SEO-related development work.",
       },
     ],
   },
@@ -251,41 +291,76 @@ export const SERVICES: ServiceItem[] = [
       "Design system style guide (typography, colors, components, states)",
       "Optimized production visual assets and SVG icon library",
     ],
-    seoTitle: "Web Design Services – Responsive & Conversion-Focused Design",
+    seoTitle: "Web Design Services | UI/UX & Responsive Website Design | Nexovio",
     seoDescription:
-      "Great web design is visual communication engineered to build trust and guide visitors toward meaningful actions. Bespoke mobile-first web design.",
+      "Nexovio Digital Solutions provides modern web design and UI/UX services for businesses, startups, e-commerce brands and SaaS companies with responsive, user-focused and conversion-ready experiences.",
     image: "/images/services/web-design-services-nexovio.webp",
     imageAlt: "Modern web design interface system designed by Nexovio Digital Solutions",
     faqs: [
       {
-        question: "How is Nexovio's web design approach different from standard agency templates?",
+        question: "What does your web design service include?",
         answer:
-          "We reject off-the-shelf templates and generic themes. Every website we design is tailored from scratch around your brand identity, target demographic, and conversion goals, ensuring an authentic digital presence.",
+          "Our web design service can include website strategy, information architecture, user flows, wireframes, UI design, responsive layouts, prototypes, design systems, interaction design, and development handoff depending on the project scope.",
       },
       {
-        question: "Will the design look good on mobile devices?",
+        question: "Do you design complete business websites?",
         answer:
-          "Yes. We design mobile-first with intentional adaptations for 320px, 375px, 768px, 1024px, and ultra-wide screens. Navigation, typography, and buttons are custom-tuned for touch interaction.",
+          "Yes. We design complete business websites including homepages, service pages, about pages, portfolios, case studies, testimonials, contact pages, landing pages, and other required sections.",
       },
       {
-        question: "Can I review and approve designs before development begins?",
+        question: "Do you provide UI/UX design?",
         answer:
-          "Absolutely. We provide interactive Figma prototypes and conduct iterative feedback cycles at wireframe and high-fidelity stages so you approve every detail before code is written.",
+          "Yes. UI/UX is a core part of our web design process, including user flows, wireframes, interface design, prototypes, components, and responsive experiences.",
       },
       {
-        question: "Do you design custom icons and graphics for websites?",
+        question: "Can you redesign an existing website?",
         answer:
-          "Yes. We craft custom vector graphics, unique icon sets, micro-interactions, and visual motifs that align with your visual identity and enhance usability.",
+          "Yes. We can review an existing website and redesign its visual system, UX, navigation, content hierarchy, responsive experience, and conversion paths.",
       },
       {
-        question: "How do you ensure high conversion rates in website layouts?",
+        question: "Do you design e-commerce websites?",
         answer:
-          "We structure content hierarchies around proven eye-tracking patterns, clear visual contrast, strategic call-to-action placement, and prominent trust signals.",
+          "Yes. We design e-commerce experiences including product pages, categories, search, filters, cart, checkout, customer accounts, promotional sections, and mobile shopping experiences.",
       },
       {
-        question: "What tools do you use for web design and prototyping?",
+        question: "Can you design SaaS websites?",
         answer:
-          "We primary use Figma for visual design, responsive auto-layout wireframes, interactive prototyping, and component design systems.",
+          "Yes. We design SaaS and technology websites with product explanations, feature sections, pricing, integrations, use cases, product visuals, and conversion-focused journeys.",
+      },
+      {
+        question: "Can you design dashboards and web applications?",
+        answer:
+          "Yes. We can design dashboards, portals, admin panels, booking systems, workflow applications, SaaS interfaces, and other complex digital products.",
+      },
+      {
+        question: "Is responsive design included?",
+        answer:
+          "Yes. Responsive layouts for desktop, tablet, and mobile are considered as part of the design process.",
+      },
+      {
+        question: "Do you create wireframes and prototypes?",
+        answer:
+          "Yes. Wireframes can be used to establish the structure before high-fidelity design, while interactive prototypes can demonstrate important user flows and interactions.",
+      },
+      {
+        question: "Can you create a design system?",
+        answer:
+          "Yes. Depending on project requirements, we can create reusable components, typography, colors, buttons, forms, cards, navigation patterns, and interaction states.",
+      },
+      {
+        question: "Can you also develop the website?",
+        answer:
+          "Yes. Nexovio provides both web design and web development, allowing the design to move into development through the same project workflow.",
+      },
+      {
+        question: "Will the design be SEO-friendly?",
+        answer:
+          "We consider content hierarchy, navigation, readability, mobile usability, and page structure during design. Technical SEO implementation is completed during development, with ongoing SEO requiring additional optimization and content work.",
+      },
+      {
+        question: "How long does a web design project take?",
+        answer:
+          "The timeline depends on the number of pages, complexity, functionality, feedback cycles, content readiness, and whether UX research, prototyping, design systems, and development are included.",
       },
     ],
   },

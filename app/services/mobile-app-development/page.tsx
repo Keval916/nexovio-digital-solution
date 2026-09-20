@@ -18,6 +18,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
 import { generatePageMetadata } from "@/lib/seo";
 import { getServiceSchema } from "@/lib/schema";
 
@@ -68,11 +69,11 @@ export default function MobileAppDevelopmentPage() {
 
         {/* Hero Section with Visual Mockup */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center mb-20 sm:mb-24">
-          <div className="lg:col-span-7 space-y-6">
+          <div className="lg:col-span-6 space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-2">
               Cross-Platform iOS &amp; Android Apps
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
               Mobile App Development Built for{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Performance &amp; Engagement.
@@ -106,17 +107,18 @@ export default function MobileAppDevelopmentPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="relative w-full aspect-[16/10.5] rounded-2xl overflow-hidden border border-brand-cyan/30 bg-[#060D1A] shadow-2xl group">
+          <div className="lg:col-span-6">
+            <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] lg:aspect-[16/10] rounded-2xl overflow-hidden border border-brand-cyan/40 bg-[#060D1A] shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(0,198,255,0.15)] group">
               <Image
                 src={service.image}
                 alt={service.imageAlt}
                 fill
-                sizes="(max-width: 768px) 100vw, 500px"
-                className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
+                sizes="(max-width: 768px) 100vw, 600px"
+                className="object-cover object-center group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                 priority
               />
-              <div className="absolute top-3 left-3 text-[10px] font-mono uppercase px-2.5 py-1 rounded bg-black/80 text-brand-cyan border border-brand-cyan/30 backdrop-blur-sm">
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+              <div className="absolute top-3 left-3 text-[11px] font-mono uppercase tracking-wider px-3 py-1 rounded-full bg-black/80 text-brand-cyan border border-brand-cyan/40 backdrop-blur-md shadow-lg">
                 iOS &amp; Android Architecture
               </div>
             </div>

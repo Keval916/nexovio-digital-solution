@@ -141,7 +141,7 @@ export default function AboutPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
               Our Purpose &amp; Philosophy
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.14]">
               Bridging High-Tech Engineering &amp;{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Human-Centered Design.
@@ -157,7 +157,7 @@ export default function AboutPage() {
               <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block">
                 Our Story
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold leading-snug">
+              <h2 className="text-xl sm:text-2xl font-bold leading-snug">
                 Why Nexovio{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">Exists</span>
               </h2>

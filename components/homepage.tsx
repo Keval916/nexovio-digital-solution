@@ -332,7 +332,7 @@ export function HeroSection() {
 
             {/* H1 Headline */}
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.15} start="top 95%">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
                 Digital Experiences That{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Drive Your Business Forward.
@@ -402,7 +402,7 @@ export function HeroSection() {
             <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
 
             {/* Top Floating Badge */}
-            <div className="absolute -top-4 -left-4 sm:left-4 z-20 px-3.5 py-2 rounded-xl border border-white/20 keep-border bg-[#070E1C] keep-dark backdrop-blur-xl shadow-2xl flex items-center gap-2.5 animate-float">
+            {/* <div className="absolute -top-4 -left-4 sm:left-4 z-20 px-3.5 py-2 rounded-xl border border-white/20 keep-border bg-[#070E1C] keep-dark backdrop-blur-xl shadow-2xl flex items-center gap-2.5 animate-float">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
               <div className="text-left">
                 <span className="text-[10px] uppercase tracking-wider block font-mono" style={{ color: "#94a3b8" }}>
@@ -412,10 +412,10 @@ export function HeroSection() {
                   100% Core Web Vitals
                 </span>
               </div>
-            </div>
+            </div> */}
 
             {/* Bottom Floating Badge */}
-            <div className="absolute -bottom-5 -right-3 sm:right-4 z-20 px-3.5 py-2 rounded-xl border border-brand-cyan/40 keep-border bg-[#070E1C] keep-dark backdrop-blur-xl shadow-[0_10px_30px_rgba(0,198,255,0.25)] flex items-center gap-2.5 animate-float-slow">
+            {/* <div className="absolute -bottom-5 -right-3 sm:right-4 z-20 px-3.5 py-2 rounded-xl border border-brand-cyan/40 keep-border bg-[#070E1C] keep-dark backdrop-blur-xl shadow-[0_10px_30px_rgba(0,198,255,0.25)] flex items-center gap-2.5 animate-float-slow">
               <div className="p-1.5 rounded-lg bg-brand-cyan/15 text-brand-cyan">
                 <CheckCircle2 className="w-4 h-4 text-brand-cyan" />
               </div>
@@ -427,19 +427,21 @@ export function HeroSection() {
                   0.08s Client Latency
                 </span>
               </div>
-            </div>
+            </div> */}
 
-            {/* Main Interactive Dashboard Mockup Frame */}
-            <div className="relative w-full rounded-2xl border border-brand-cyan/30 bg-surface-elevated/80 backdrop-blur-md p-2 sm:p-3 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_30px_rgba(23,105,255,0.2)] overflow-hidden group hover:border-brand-cyan/60 transition-all duration-500">
-              <div className="relative w-full aspect-[16/10.5] rounded-xl overflow-hidden bg-[#070D18]">
+            {/* Main Interactive Image Frame (1:1 Aspect Ratio) */}
+            <div className="relative w-full max-w-lg mx-auto rounded-2xl border border-brand-cyan/70 bg-surface-elevated/80 backdrop-blur-md p-2.5 shadow-xl overflow-hidden group hover:border-brand-cyan/60 transition-all duration-500">
+              <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-[#070D18]">
                 <Image
-                  src="/images/hero/dashboard-preview.svg"
-                  alt="Nexovio Digital Solutions Production Telemetry Dashboard"
+                  src="/images/hero/digital-experience-web-development-team.webp"
+                  alt="Web development professional creating modern digital experiences"
                   fill
-                  sizes="(max-width: 768px) 100vw, 600px"
-                  className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  className="w-full h-full object-cover object-center rounded-xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                   priority
                 />
+                {/* Subtle Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/10 via-transparent to-transparent pointer-events-none rounded-xl" />
               </div>
             </div>
           </AnimateOnScroll>
@@ -459,7 +461,7 @@ export function ValueProposition() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               HOW WE HELP BUSINESSES GROW
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
               From Your Idea to a{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Digital Experience That Works</span>
             </h2>
@@ -528,7 +530,7 @@ export function ServicesInteractive() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               WHAT WE DO
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
               Built for Impact,{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Designed for Scale</span>
             </h2>
@@ -689,7 +691,7 @@ export function ProcessSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               OUR PROCESS
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
               From First Conversation to{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Final Launch</span>
             </h2>
@@ -751,7 +753,7 @@ export function WhyNexovio() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               WHY BEHIND OUR BUSINESS “SHARK TANK” INVESTORS
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
               Technology With{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Purpose, Not Complexity</span>
             </h2>
@@ -808,7 +810,7 @@ export function SelectedWork() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan mb-3">
               OUR WORK
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight max-w-4xl">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight max-w-4xl">
               Digital Solutions Built Around{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Real Business Goals</span>
             </h2>
@@ -917,7 +919,7 @@ export function IndustriesSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               SOLUTIONS FOR DIFFERENT BUSINESS NEEDS
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
               Digital Business Solutions for{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">All Industries</span>
             </h2>
@@ -1018,7 +1020,7 @@ export function TechStackSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               TECHNOLOGY &amp; DEVELOPMENT
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
               Modern Technology Stack,{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Zero Unnecessary Complexity</span>
             </h2>
@@ -1067,7 +1069,7 @@ export function TestimonialsSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               CLIENT EXPERIENCES
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">What Working Together{" "} <span className="bg-gradient-brand bg-clip-text text-transparent">Looks Like</span></h2>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">What Working Together{" "} <span className="bg-gradient-brand bg-clip-text text-transparent">Looks Like</span></h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
               <p className="font-semibold text-foreground">
                 We glauben dass gute Projekte aus mehr als guter Programmierung oder attraktivem Design entstehen.

@@ -47,7 +47,7 @@ export function TechStackSection() {
             <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
               TECHNOLOGY &amp; DEVELOPMENT
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-3xl font-extrabold tracking-tight leading-tight">
               Modern Technology Stack,{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Zero Unnecessary Complexity</span>
             </h2>

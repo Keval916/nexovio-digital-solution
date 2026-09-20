@@ -37,7 +37,7 @@ export function HeroSection() {
 
             {/* H1 Headline */}
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.15} start="top 95%">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
                 Digital Experiences That{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Drive Your Business Forward.
@@ -134,17 +134,19 @@ export function HeroSection() {
               </div>
             </div>
 
-            {/* Main Interactive Dashboard Mockup Frame */}
-            <div className="relative w-full rounded-2xl border border-brand-cyan/30 bg-surface-elevated/80 backdrop-blur-md p-2 sm:p-3 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_30px_rgba(23,105,255,0.2)] overflow-hidden group hover:border-brand-cyan/60 transition-all duration-500">
-              <div className="relative w-full aspect-[16/10.5] rounded-xl overflow-hidden bg-[#070D18]">
+            {/* Main Interactive Image Frame (1:1 Aspect Ratio) */}
+            <div className="relative w-full max-w-lg mx-auto rounded-2xl border border-brand-cyan/30 bg-surface-elevated/80 backdrop-blur-md p-2.5 sm:p-3 shadow-[0_25px_60px_rgba(0,0,0,0.85),0_0_30px_rgba(23,105,255,0.2)] overflow-hidden group hover:border-brand-cyan/60 transition-all duration-500">
+              <div className="relative w-full aspect-square rounded-xl overflow-hidden bg-[#070D18]">
                 <Image
-                  src="/images/hero/dashboard-preview.svg"
-                  alt="Nexovio Digital Solutions Production Telemetry Dashboard"
+                  src="/images/hero/digital-experience-web-development-team.webp"
+                  alt="Nexovio Digital Experience Web Development Team"
                   fill
-                  sizes="(max-width: 768px) 100vw, 600px"
-                  className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
+                  sizes="(max-width: 1024px) 100vw, 500px"
+                  className="w-full h-full object-cover object-center rounded-xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
                   priority
                 />
+                {/* Subtle Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/50 via-transparent to-transparent pointer-events-none rounded-xl" />
               </div>
             </div>
           </AnimateOnScroll>

@@ -66,7 +66,7 @@ export default function UiUxDesignPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-2">
               Human-Centered Product Design
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
               UI/UX Design Services That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Elevate Product Usability.
@@ -178,7 +178,7 @@ export default function UiUxDesignPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block">
               Engineering Handoff
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold">
+            <h2 className="text-xl sm:text-2xl font-bold">
               Zero Guesswork for{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Software Developers</span>
             </h2>

@@ -64,7 +64,7 @@ export default function BlogHubPage() {
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
             Engineering & Strategy Journal
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
             Engineering Insights &amp;{" "}
             <span className="bg-gradient-brand bg-clip-text text-transparent">
               Digital Strategy.
