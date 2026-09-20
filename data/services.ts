@@ -37,41 +37,41 @@ export const SERVICES: ServiceItem[] = [
     shortDescription:
       "Custom web application & website development using WordPress, React, Next.js, Vue, Node.js, PHP, and E-Commerce (Shopify/WooCommerce) platforms built for speed, security, and scalability.",
     fullDescription:
-      "We build robust, maintainable digital products across WordPress, React, Next.js, Vue, Node.js, and E-Commerce platforms. From custom WordPress CMS websites and headless WordPress setups to React & Next.js web applications, client portals, and Shopify/WooCommerce storefronts, our engineering delivers high performance, security, and effortless management.",
+      "We create powerful, easily maintained digital products in WordPress, React, Next.js, Vue, Node.js, and E-Commerce solutions. From tailor made WordPress CMS websites and headless WordPress configurations to React & Next.js web applications, client portals, and Shopify/WooCommerce storefronts, our engineering ensures high performance, security and effortless administration.",
     businessProblem:
-      "Businesses often struggle with slow, bloated websites that fail to convert visitors, suffer from security vulnerabilities, and cannot scale as product lines or traffic volumes grow.",
+      "Companies regularly complain about sluggish, heavy websites that don’t convert visitors, have security holes, and fail to scale as the product line or traffic volume grows.",
     whyItMatters:
-      "A fast, modern website is the digital backbone of your business. Every 100ms of latency impacts conversion, search crawl efficiency, and brand credibility.",
+      "A fast, modern website is the digital backbone of your business. Every delay of 100 ms affects conversion, crawl efficiency of site in search, and brand credibility.",
     capabilities: [
       {
         title: "WordPress & Custom CMS Websites",
         description:
-          "Bespoke WordPress theme & plugin development, WooCommerce setups, custom CMS configurations, and effortless publishing interfaces tailored for your team.",
+          "Custom WordPress theme and plugin development, WooCommerce implementations, unique CMS solutions, and easy to use publishing systems designed for your team.",
       },
       {
         title: "React & Next.js Web Applications",
         description:
-          "High-impact web platforms engineered with React and Next.js for sub-second rendering, server-side performance, and modern web ergonomics.",
+          "Powerful web platforms developed in React and Next.js providing sub-second rendering, server-side efficiency and cutting-edge web renderer experience.",
       },
       {
         title: "Full-Stack Web Development (Vue, Node.js, PHP)",
         description:
-          "Full-stack custom applications tailored to your operational workflows, built with Vue.js, Node.js, PHP, and modern backend databases.",
+          "Full stack custom applications designed around your unique business needs using Vue.js, Node.js, PHP, and the latest back-end data storage solutions.",
       },
       {
         title: "E-Commerce Solutions (Shopify & WooCommerce)",
         description:
-          "Seamless checkout flows, headless commerce setups, custom Shopify theme configurations, WooCommerce integrations, and payment gateways.",
+          "Smooth checkout flows, headless commerce systems, custom Shopify theme",
       },
       {
         title: "API & Third-Party Integrations",
         description:
-          "Robust API connections linking your web platform to CRM systems (HubSpot, Salesforce), ERPs, payment gateways, and custom backend databases.",
+          "Seamless API integrations that connect your web platform to CRM systems (HubSpot, Salesforce), ERPs, payment gateways and custom backend databases.",
       },
       {
         title: "Performance, Security & Code Refactoring",
         description:
-          "Comprehensive optimization to eliminate render-blocking assets, secure top-tier Core Web Vitals scores, and harden security protocols.",
+          "Extensive optimization to get rid of render-blocking assets, secure top-tier Core Web Vitals scores, and strengthen security protocols.",
       },
     ],
     process: [
@@ -79,31 +79,31 @@ export const SERVICES: ServiceItem[] = [
         step: "01",
         title: "Architecture & Technical Scoping",
         description:
-          "We analyze user load requirements, data flows, technology selection (WordPress, React, Next.js, etc.), and integration points.",
+          "We evaluate user load, data flows, technology choices (WordPress, React, Next.js, etc.), and integration points.",
       },
       {
         step: "02",
         title: "Component & System Construction",
         description:
-          "Modular development using strict TypeScript, component libraries, and clean code principles with continuous integration checks.",
+          "Strict Typescript, clean code, continuous integration suites, modular development, component libraries and more.",
       },
       {
         step: "03",
         title: "API Integration & Data Binding",
         description:
-          "Connecting front-end interfaces to secure backend APIs, webhook handlers, databases, and third-party SaaS services.",
+          "Building interfaces on the front end that connect to secure back-end APIs, webhook handlers, databases and third-party SaaS products.",
       },
       {
         step: "04",
         title: "Rigorous Testing & QA",
         description:
-          "Cross-browser validation, responsive viewport checks, load stress testing, accessibility auditing, and security vulnerability scans.",
+          "Performing cross-browser testing, responsive testing, load testing, accessibility testing and security scanning.",
       },
       {
         step: "05",
         title: "Deployment & Production Monitoring",
         description:
-          "Zero-downtime deployment pipelines, edge caching configuration, uptime monitoring, and error tracking instrumentation.",
+          "No-downtime delivery pipelines, edge caching setup, uptime monitoring, and error tracking instrumentation.",
       },
     ],
     techStack: [
@@ -118,36 +118,36 @@ export const SERVICES: ServiceItem[] = [
       "PostgreSQL / MySQL / MongoDB",
     ],
     deliverables: [
-      "Clean, modular source code repository with comprehensive documentation",
-      "Optimized production build with high Core Web Vitals scores",
+      "Clean, modular source code with full documentation, thorough coverage",
+      "Production build optimized for Core Web Vitals scores",
       "Fully integrated APIs, contact forms, and lead capture hooks",
       "Automated CI/CD deployment configuration",
     ],
-    seoTitle: "Web Development Services – Custom WordPress & React Apps",
+    seoTitle: "Web Development Services – Custom WordPress & React Apps",
     seoDescription:
-      "We build robust, maintainable digital products across WordPress, React, Next.js, Vue, Node.js and E-Commerce platforms, delivering speed, security, and scale.",
+      "We develop powerful, sustainable digital products on WordPress, React, Next.js, Vue, Node.js, E-Commerce & more offering speed, security & scale.",
     image: "/images/services/nexovio-web-development-services.webp",
-    imageAlt: "Nexovio Digital Solutions web development architecture and responsive dashboard interface",
+    imageAlt: "web development architecture and responsive dashboard interface of Nexovio Digital Solutions",
     faqs: [
       {
-        question: "What web development technologies does Nexovio specialize in?",
+        question: "What web development services does Nexovio offer?",
         answer:
-          "We specialize in modern web architectures centered on Next.js, React, TypeScript, Node.js, and Tailwind CSS. We emphasize server components, optimized static/dynamic rendering, and clean headless integrations.",
+          "Our expertise ranges over extras modern web architectures built with Next.js, React, TypeScript, Node.js and Tailwind CSS. We are focused on server components, efficient static/dynamic rendering, and pure headless integrations.",
       },
       {
-        question: "Can Nexovio rebuild or modernize an existing legacy website?",
+        question: "Is it possible for Nexovio to refactor or redesign a legacy site?",
         answer:
-          "Yes. We frequently modernize legacy websites by refactoring outdated codebases, migrating from slow monoliths to modern frameworks like Next.js, preserving existing SEO rankings with careful 301 redirects, and improving performance.",
+          "Yes. We often refactor legacy websites to modernize them by replacing antiquated codebases, migrating from sluggish monoliths to contemporary frameworks such as Next.js, maintaining existing SEO rankings with prudent 301 redirects, and optimizing performance.",
       },
       {
-        question: "Do you build custom web applications or only standard websites?",
+        question: "Do you make custom web applications or just basic websites?",
         answer:
-          "We engineer both. Our team builds complex web applications including client portals, SaaS interfaces, dashboard systems, and custom business management software alongside standard marketing websites.",
+          "We do both. We design and develop custom business software and complex Web applications including client portals, SaaS user interfaces, dashboard solutions and more as well as standard marketing web sites and e-commerce platforms.",
       },
       {
-        question: "How do you ensure web application security?",
+        question: "How can I be sure that my web application is secure?",
         answer:
-          "We follow OWASP best practices, enforce strict HTTPS and security headers (CSP, HSTS, X-Frame-Options), validate all inputs on both client and server, protect against CSRF/XSS, and never expose sensitive keys in client bundles.",
+          "We adhere to OWASP best practices, require strict HTTPS security headers (CSP, HSTS, X-Frame-Options), sanitize all inputs client and server side, defend against CSRF/XSS, and we don't ever leak sensitive keys in client bundles.",
       },
     ],
   },

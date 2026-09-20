@@ -47,7 +47,7 @@ export function TestimonialsSection() {
                   PC
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-white">Parts Connexion Team</div>
+                  <div className="text-xs font-semibold text-slate-900 dark:text-white">Parts Connexion Team</div>
                   <div className="text-[10px] text-muted">BigCommerce Migration Project</div>
                 </div>
               </div>
@@ -70,7 +70,7 @@ export function TestimonialsSection() {
                   II
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-white">Inside Injury Team</div>
+                  <div className="text-xs font-semibold text-slate-900 dark:text-white">Inside Injury Team</div>
                   <div className="text-[10px] text-muted">Custom AI Automation Build</div>
                 </div>
               </div>
@@ -93,7 +93,7 @@ export function TestimonialsSection() {
                   IH
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-white">Infiniti Home Comfort</div>
+                  <div className="text-xs font-semibold text-slate-900 dark:text-white">Infiniti Home Comfort</div>
                   <div className="text-[10px] text-muted">HVAC Booking Platform</div>
                 </div>
               </div>

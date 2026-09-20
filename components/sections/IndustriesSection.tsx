@@ -92,7 +92,7 @@ export function IndustriesSection() {
               <span className="bg-gradient-brand bg-clip-text text-transparent">Across Industries</span>
             </h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
-              <p className="font-semibold text-white/90">
+              <p className="font-semibold text-slate-900 dark:text-white/90">
                 Every industry has different customers, workflows and challenges.
               </p>
               <p className="text-sm sm:text-base">
@@ -117,14 +117,14 @@ export function IndustriesSection() {
                     <div className="w-11 h-11 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4 group-hover:scale-110 transition-transform">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-lg font-bold text-white group-hover:text-brand-cyan transition-colors mb-2">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors mb-2">
                       {card.title}
                     </h3>
                     <p className="text-xs sm:text-sm text-muted leading-relaxed">
                       {card.description}
                     </p>
                   </div>
-                  <div className="pt-4 mt-4 border-t border-white/5 flex items-center text-xs font-bold text-brand-cyan group-hover:text-white transition-colors">
+                  <div className="pt-4 mt-4 border-t border-border-subtle flex items-center text-xs font-bold text-brand-cyan group-hover:text-slate-900 dark:group-hover:text-white transition-colors">
                     <span>Explore Solutions</span>
                     <ArrowRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-1 transition-transform" />
                   </div>
@@ -145,7 +145,7 @@ export function IndustriesSection() {
               {displayedIndustries.map((ind, idx) => (
                 <div
                   key={ind}
-                  className="text-xs text-muted hover:text-white flex items-center gap-2 py-1 px-2.5 rounded-lg bg-white/5 border border-white/5 hover:border-brand-cyan/30 transition-colors"
+                  className="text-xs text-muted hover:text-slate-900 dark:hover:text-white flex items-center gap-2 py-1 px-2.5 rounded-lg bg-surface-subtle dark:bg-white/5 border border-border-subtle dark:border-white/5 hover:border-brand-cyan/30 transition-colors"
                 >
                   <span className="text-[10px] font-mono text-brand-cyan font-bold">
                     {String(idx + 1).padStart(2, "0")}.

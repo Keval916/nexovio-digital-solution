@@ -55,15 +55,15 @@ export function ServicesInteractive() {
               WHAT WE DO
             </span>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-              Engineered for Impact,{" "}
-              <span className="bg-gradient-brand bg-clip-text text-transparent">Designed for Growth</span>
+              Built for Impact,{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">Designed for Scale</span>
             </h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
               <p className="font-semibold text-foreground">
-                Your business doesn&apos;t need another generic website. It needs a digital experience that supports the way you actually operate and the way your customers make decisions.
+                Your business isn’t after another run-of-the-mill Web site. It requires a digital experience that reflects how you really do business and how your customers buy.
               </p>
               <p className="text-sm sm:text-base">
-                Our services bring design, development, technology and marketing together under one roof, giving you a connected digital foundation instead of disconnected solutions.
+                Our service offerings combine design, development, technology, and marketing, bringing you a unified digital platform instead of a series of isolating solutions.
               </p>
             </div>
           </div>
@@ -76,17 +76,15 @@ export function ServicesInteractive() {
               {SERVICES.map((service, index) => {
                 const IconComponent = (ICONS as any)[service.iconName] || Code2;
                 const isSelected = service.slug === activeSlug;
-
                 return (
                   <button
                     key={service.slug}
                     type="button"
                     onClick={() => setActiveSlug(service.slug)}
-                    className={`group flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-300 border outline-none select-none ${
-                      isSelected
-                        ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.35)] scale-[1.02]"
-                        : "bg-surface-elevated text-muted hover:text-foreground border-border-subtle hover:border-brand-bright/40 hover:bg-surface-subtle"
-                    }`}
+                    className={`group flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-300 border outline-none select-none ${isSelected
+                      ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.35)] scale-[1.02]"
+                      : "bg-surface-elevated text-muted hover:text-foreground border-border-subtle hover:border-brand-bright/40 hover:bg-surface-subtle"
+                      }`}
                   >
                     <IconComponent className="w-4 h-4 shrink-0 text-brand-cyan" />
                     <span>{service.name}</span>
@@ -107,7 +105,7 @@ export function ServicesInteractive() {
                   <span className="text-xs font-mono text-brand-cyan tracking-widest uppercase block mb-1">
                     SERVICE 0{SERVICES.findIndex((s) => s.slug === activeService.slug) + 1}
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-2">
                     {activeService.name}
                   </h3>
                   <div className="text-lg font-semibold text-brand-bright">
@@ -121,7 +119,7 @@ export function ServicesInteractive() {
 
                 {/* Capabilities List */}
                 <div className="space-y-3 pt-2">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-white border-b border-white/10 pb-2">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white border-b border-border-subtle dark:border-white/10 pb-2">
                     Key Capabilities &amp; Deliverables
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -129,7 +127,7 @@ export function ServicesInteractive() {
                       <div key={cap.title} className="flex items-start gap-2.5">
                         <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
                         <div>
-                          <h5 className="text-xs font-semibold text-white">
+                          <h5 className="text-xs font-semibold text-slate-900 dark:text-white">
                             {cap.title}
                           </h5>
                           <p className="text-[11px] text-muted mt-0.5 line-clamp-2">
@@ -183,13 +181,12 @@ export function ServicesInteractive() {
                     <Link
                       key={s.slug}
                       href={`/services/${s.slug}`}
-                      className={`p-3.5 rounded-xl border transition-all text-left block ${
-                        s.slug === activeService.slug
-                          ? "border-brand-cyan/50 bg-brand-cyan/10"
-                          : "border-border-subtle bg-surface/60 hover:border-brand-cyan/30"
-                      }`}
+                      className={`p-3.5 rounded-xl border transition-all text-left block ${s.slug === activeService.slug
+                        ? "border-brand-cyan/50 bg-brand-cyan/10"
+                        : "border-border-subtle bg-surface/60 hover:border-brand-cyan/30"
+                        }`}
                     >
-                      <div className="text-xs font-bold text-white flex items-center justify-between">
+                      <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center justify-between">
                         <span>{s.name}</span>
                         <ArrowRight className="w-3 h-3 text-brand-cyan opacity-0 group-hover:opacity-100" />
                       </div>

@@ -8,36 +8,32 @@ import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
 const VALUE_CARDS = [
   {
-    number: "01",
-    pillarLabel: "STRATEGY BEFORE DEVELOPMENT",
+    pillarLabel: "STRATEGY PRIOR TO DEVELOPMENT",
     icon: Compass,
     title: "Clear Direction. Better Decisions.",
     description:
-      "Before writing code, we understand your business, audience, goals and challenges. This helps us create a digital solution with a clear purpose instead of building features simply because they are possible.",
+      "We delineate writing on the basis of your business, audience, goals and challenges, prior to writing code. It allows us to design a digital solution with a clear intent rather than developing features just because we can.",
   },
   {
-    number: "02",
-    pillarLabel: "DESIGN THAT FEELS NATURAL",
+    pillarLabel: "DESIGN THAT ALWAYS FEELS RIGHT",
     icon: PenTool,
     title: "Simple Experiences. Stronger Connections.",
     description:
-      "We create clean, intuitive UI/UX experiences that make it easy for visitors and customers to navigate your website or application and understand what you offer.",
+      "We design clean and simple UI/UX interfaces to help the users find what you want to tell them to say and make it simple for you to attract visitors and customers to your site or app.",
   },
   {
-    number: "03",
-    pillarLabel: "TECHNOLOGY BUILT FOR GROWTH",
+    pillarLabel: "SCALE-READY TECHNOLOGY",
     icon: Terminal,
     title: "Flexible Today. Ready for Tomorrow.",
     description:
-      "From business websites to custom web applications and mobile products, we use modern development practices to build digital solutions that can evolve with your business.",
+      "Whether you're building out business websites or custom web and mobile applications that help your company differentiate in the marketplace, we apply forward-looking development techniques and tools to ensure your digital solutions can evolve as your needs change.",
   },
   {
-    number: "04",
-    pillarLabel: "MARKETING THAT BRINGS VISIBILITY",
+    pillarLabel: "BUSINESS-BUILDING MARKETING",
     icon: LineChart,
     title: "Get Found. Get Remembered. Get Results.",
     description:
-      "A website is only valuable when people can find it. Our SEO and digital marketing strategies help businesses improve visibility, attract relevant traffic and create more opportunities online.",
+      "A website has value, but only if people can find it. Our proven SEO and digital marketing techniques enable businesses to increase their visibility, drive targeted traffic and generate more leads on the internet.",
   },
 ];
 
@@ -56,13 +52,13 @@ export function ValueProposition() {
             </h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-3 pt-2">
               <p className="font-semibold text-foreground/90">
-                A good digital product should do more than look impressive. It should make it easier for people to understand your business, trust your brand and take action.
+                Good digital product is not just about looks. It should help people to easily grasp your business, believe in your brand and feel compelled to take action.
               </p>
               <p>
-                At Nexovio, we combine strategy, design, development and digital marketing to create digital solutions built around your actual business goals — not just trends.
+                At Nexovio, we use strategy, design, development and digital marketing to deliver digital solutions aligned with your real business objectives — not just trends.
               </p>
               <p className="text-sm sm:text-base">
-                Whether you&apos;re launching a new business, redesigning an outdated website or building a completely custom digital product, we help turn your ideas into something useful, scalable and ready for growth.
+                Whether you are starting a new business, wanting to redevelop an old website or creating a totally custom digital product, we help you to transform your concepts into something useful, repeatable and ready to grow.
               </p>
             </div>
           </div>
@@ -74,7 +70,7 @@ export function ValueProposition() {
               const Icon = card.icon;
               return (
                 <Card
-                  key={card.number}
+                  key={card.pillarLabel}
                   className="flex flex-col justify-between h-full bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle hover:border-brand-cyan/40 transition-all"
                 >
                   <div>
@@ -82,9 +78,6 @@ export function ValueProposition() {
                       <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/40 transition-all duration-300">
                         <Icon className="w-6 h-6" />
                       </div>
-                      <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/20">
-                        {card.number}
-                      </span>
                     </div>
 
                     <span className="text-[11px] font-mono font-bold text-brand-bright uppercase tracking-widest block mb-2">

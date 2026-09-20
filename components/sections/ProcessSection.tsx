@@ -1,51 +1,52 @@
 "use client";
 
 import React from "react";
+import { Search, Map, Palette, Code2, CheckCircle2, Rocket } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
 const STEPS = [
   {
-    step: "01",
+    icon: Search,
     h3Title: "Discover",
-    headline: "Understand Before We Build",
+    headline: "Know Before We Go",
     summary:
-      "We start by understanding your business, audience, competitors, existing digital presence and project objectives.",
+      "We begin by getting a clear understanding of your business, your audience, your competitors, your current digital presence, and the goals of the project.",
   },
   {
-    step: "02",
+    icon: Map,
     h3Title: "Plan",
-    headline: "Turn Ideas Into a Clear Roadmap",
+    headline: "From ideas into a detailed roadmap",
     summary:
-      "We define the structure, features, user journeys, technology requirements and project priorities before development begins.",
+      "We outline the structure, functionality, user flows, technology needs and project priorities before starting the development.",
   },
   {
-    step: "03",
+    icon: Palette,
     h3Title: "Design",
-    headline: "Create the Experience",
+    headline: "Build the Experience",
     summary:
-      "Our designers turn the strategy into intuitive interfaces, responsive layouts and a consistent visual system for your brand.",
+      "Our designers transform the strategy into fluid interactions, flexible grid systems and a cohesive visual system for your company.",
   },
   {
-    step: "04",
+    icon: Code2,
     h3Title: "Develop",
-    headline: "Bring the Product to Life",
+    headline: "Make the Product a Reality",
     summary:
-      "Our development team builds the website, web application or mobile product with performance, responsiveness, security and scalability in mind.",
+      "Our development team designs and develops software and websites for optimized performance, responsiveness, security and scalability.",
   },
   {
-    step: "05",
+    icon: CheckCircle2,
     h3Title: "Test",
-    headline: "Refine Every Important Detail",
+    headline: "Polish Every Detail That Matters",
     summary:
-      "We test functionality, responsiveness, usability and key user journeys across different devices and screen sizes before launch.",
+      "Prior to launch, we check the functionality, responsiveness, usability, and important user flows on varying devices and screen resolutions.",
   },
   {
-    step: "06",
+    icon: Rocket,
     h3Title: "Launch & Grow",
-    headline: "Launch Is Just the Beginning",
+    headline: "Launch Is Just the Beginning",
     summary:
-      "Once your product is live, we can continue supporting SEO, digital marketing, improvements, analytics and ongoing optimization.",
+      "After your product is live, we can help continue to support SEO, digital marketing, development, analytics and ongoing optimization.",
   },
 ];
 
@@ -64,10 +65,10 @@ export function ProcessSection() {
             </h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
               <p className="font-semibold text-foreground">
-                Great digital products aren&apos;t created in one step.
+                Great digital products aren&apos;t built in a day.
               </p>
               <p className="text-sm sm:text-base">
-                We work through a clear process that keeps strategy, design, development and business objectives connected from beginning to launch.
+                We follow a transparent process that ensures strategy, design, development and business goals are linked from start to launch.
               </p>
             </div>
           </div>
@@ -75,37 +76,38 @@ export function ProcessSection() {
 
         <AnimateOnScroll variant="staggerChildren" stagger={0.1} duration={0.6}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {STEPS.map((item) => (
-              <Card
-                key={item.step}
-                className="flex flex-col justify-between h-full bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-xl font-black font-mono px-3 py-1 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 transition-all duration-300">
-                      {item.step}
-                    </span>
-                    <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">
-                      Phase {item.step}
-                    </span>
+            {STEPS.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <Card
+                  key={item.h3Title}
+                  className="flex flex-col justify-between h-full bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/40 transition-all duration-300">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">
+                        Phase 0{index + 1}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-brand-cyan transition-colors">
+                      {item.h3Title}
+                    </h3>
+                    <div className="text-sm font-semibold text-brand-bright mb-3">
+                      {item.headline}
+                    </div>
+                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                      {item.summary}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-brand-cyan transition-colors">
-                    {item.h3Title}
-                  </h3>
-                  <div className="text-sm font-semibold text-brand-bright mb-3">
-                    {item.headline}
-                  </div>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {item.summary}
-                  </p>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
         </AnimateOnScroll>
       </div>
     </section>
   );
 }
-
-

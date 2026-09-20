@@ -52,7 +52,7 @@ export function TechStackSection() {
               <span className="bg-gradient-brand bg-clip-text text-transparent">Zero Unnecessary Complexity</span>
             </h2>
             <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
-              <p className="font-semibold text-white/90">
+              <p className="font-semibold text-slate-900 dark:text-white/90">
                 The right technology depends on the problem we&apos;re solving.
               </p>
               <p className="text-sm sm:text-base">
@@ -71,7 +71,7 @@ export function TechStackSection() {
                   <div className="w-10 h-10 rounded-lg bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan mb-4">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-sm font-bold text-white tracking-wide mb-2">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-wide mb-2">
                     {tech.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-muted leading-relaxed">

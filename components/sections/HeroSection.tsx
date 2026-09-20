@@ -37,10 +37,10 @@ export function HeroSection() {
 
             {/* H1 Headline */}
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.15} start="top 95%">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
                 Digital Experiences That{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
-                  Move Your Business Forward.
+                  Drive Your Business Forward.
                 </span>
               </h1>
             </AnimateOnScroll>
@@ -49,10 +49,10 @@ export function HeroSection() {
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.3} start="top 95%">
               <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
                 <p className="font-medium text-foreground">
-                  We design, develop and grow digital experiences that help businesses turn ideas into real results.
+                  We create, build and scale digital experiences that enable businesses to transform concepts into real outcomes.
                 </p>
                 <p>
-                  From high-converting websites and custom web applications to mobile apps, UI/UX design and SEO-driven digital marketing, Nexovio helps businesses build a stronger digital presence and create better experiences for their customers.
+                  From high converting websites, custom web applications and mobile apps to UI/UX design and SEO focused digital marketing, Nexovio empowers companies to establish a more powerful digital presence and provide their customers with superior experiences.
                 </p>
               </div>
             </AnimateOnScroll>

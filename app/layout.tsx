@@ -5,6 +5,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { CookieConsent } from "@/components/analytics/CookieConsent";
 import { getOrganizationSchema, getWebSiteSchema } from "@/lib/schema";
 import { SITE_NAME, SITE_TAGLINE, SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/seo";
@@ -118,6 +119,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-background text-foreground selection:bg-brand-bright selection:text-white flex flex-col font-sans transition-colors duration-300">
         <GoogleTagManager />
+        <GoogleAnalytics />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

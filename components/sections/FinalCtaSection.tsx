@@ -31,13 +31,12 @@ export function FinalCtaSection() {
             </h2>
 
             {/* Description Text - Luminous High Contrast Silver/White */}
-            <div className="mt-3 text-sm sm:text-base text-slate-200 keep-slate max-w-3xl mx-auto leading-relaxed space-y-2">
+            <div className="mt-3 text-sm sm:text-base text-slate-200 keep-slate max-w-3xl mx-auto leading-relaxed space-y-2">
               <p className="font-semibold text-white keep-white">
-                Whether you have a website that needs a refresh, a new product idea or a digital challenge you&apos;re trying to solve, let&apos;s talk about it.
+                Whether you have a site that’s overdue for a makeover, a new product concept, or a digital dilemma you’re eager to solve, let’s talk.
               </p>
-              <p className="text-slate-300 keep-slate text-xs sm:text-sm">
-                Tell us what you&apos;re trying to achieve. We&apos;ll help you understand the possible approach, technology and next steps.
-              </p>
+              <p className="text-slate-300 keep-slate text-xs sm:text-sm">
+                Just tell us what you are trying to achieve. We will make you know the possible solution, technology and how to proceed.</p>
             </div>
 
             {/* CTAs */}
