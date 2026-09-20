@@ -52,36 +52,38 @@ export function PortfolioClient() {
           </AnimateOnScroll>
 
           <AnimateOnScroll variant="fadeUp" duration={0.6} delay={0.1}>
-            <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none">
-              {CATEGORIES.map((category) => {
-                const isSelected = category === activeCategory;
-                const count =
-                  category === "All Categories"
-                    ? PORTFOLIO_PROJECTS.length
-                    : PORTFOLIO_PROJECTS.filter((p) => p.category === category).length;
+            <div className="w-full overflow-x-auto pb-2 scrollbar-none">
+              <div className="flex items-center gap-2.5 min-w-max px-1">
+                {CATEGORIES.map((category) => {
+                  const isSelected = category === activeCategory;
+                  const count =
+                    category === "All Categories"
+                      ? PORTFOLIO_PROJECTS.length
+                      : PORTFOLIO_PROJECTS.filter((p) => p.category === category).length;
 
-                return (
-                  <button
-                    key={category}
-                    type="button"
-                    onClick={() => setActiveCategory(category)}
-                    className={`group flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-[border-color,background-color,color,box-shadow] duration-[400ms] border outline-none select-none ${
-                      isSelected
-                        ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.4)]"
-                        : "bg-surface-elevated text-muted hover:text-white border-border-subtle hover:border-brand-cyan/50 hover:bg-surface-subtle"
-                    }`}
-                  >
-                    <span>{category}</span>
-                    <span
-                      className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                        isSelected ? "bg-white/20 text-white" : "bg-white/5 text-muted-dark"
+                  return (
+                    <button
+                      key={category}
+                      type="button"
+                      onClick={() => setActiveCategory(category)}
+                      className={`group flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold whitespace-nowrap transition-[border-color,background-color,color,box-shadow] duration-[400ms] border outline-none select-none ${
+                        isSelected
+                          ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.4)]"
+                          : "bg-surface-elevated text-muted hover:text-white border-border-subtle hover:border-brand-cyan/50 hover:bg-surface-subtle"
                       }`}
                     >
-                      {count}
-                    </span>
-                  </button>
-                );
-              })}
+                      <span>{category}</span>
+                      <span
+                        className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
+                          isSelected ? "bg-white/20 text-white" : "bg-white/5 text-muted-dark"
+                        }`}
+                      >
+                        {count}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </AnimateOnScroll>
         </div>

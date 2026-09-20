@@ -71,28 +71,30 @@ export function ServicesInteractive() {
 
         {/* Interactive Navigation Pills */}
         <AnimateOnScroll variant="fadeUp" duration={0.6} delay={0.15}>
-          <div className="flex items-center justify-start lg:justify-center gap-2.5 overflow-x-auto pb-4 mb-10 scrollbar-none">
-            {SERVICES.map((service, index) => {
-              const IconComponent = (ICONS as any)[service.iconName] || Code2;
-              const isSelected = service.slug === activeSlug;
+          <div className="w-full overflow-x-auto pb-4 mb-10 scrollbar-none">
+            <div className="flex items-center justify-start sm:justify-center gap-2.5 min-w-max px-4 mx-auto">
+              {SERVICES.map((service, index) => {
+                const IconComponent = (ICONS as any)[service.iconName] || Code2;
+                const isSelected = service.slug === activeSlug;
 
-              return (
-                <button
-                  key={service.slug}
-                  type="button"
-                  onClick={() => setActiveSlug(service.slug)}
-                  className={`group flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 border outline-none select-none ${
-                    isSelected
-                      ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.4)]"
-                      : "bg-surface-elevated text-muted hover:text-white border-border-subtle hover:border-brand-bright/50 hover:bg-surface-subtle"
-                  }`}
-                >
-                  <span className="text-xs font-mono opacity-70">0{index + 1}</span>
-                  <IconComponent className="w-4 h-4 shrink-0" />
-                  <span>{service.name}</span>
-                </button>
-              );
-            })}
+                return (
+                  <button
+                    key={service.slug}
+                    type="button"
+                    onClick={() => setActiveSlug(service.slug)}
+                    className={`group flex items-center gap-2.5 px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all duration-300 border outline-none select-none ${
+                      isSelected
+                        ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.4)]"
+                        : "bg-surface-elevated text-muted hover:text-white border-border-subtle hover:border-brand-bright/50 hover:bg-surface-subtle"
+                    }`}
+                  >
+                    <span className="text-xs font-mono opacity-70">0{index + 1}</span>
+                    <IconComponent className="w-4 h-4 shrink-0" />
+                    <span>{service.name}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </AnimateOnScroll>
 

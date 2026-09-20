@@ -65,7 +65,7 @@ export default function DigitalMarketingPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-2">
               Technical SEO &amp; Organic Acquisition
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#001025] tracking-tight leading-[1.12]">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
               Digital Marketing &amp; SEO Services That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Drive Organic Revenue.

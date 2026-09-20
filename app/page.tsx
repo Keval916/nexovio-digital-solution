@@ -9,12 +9,13 @@ import { IndustriesSection } from "@/components/sections/IndustriesSection";
 import { TechStackSection } from "@/components/sections/TechStackSection";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { FaqSection } from "@/components/sections/FaqSection";
-import { generatePageMetadata, SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { generatePageMetadata } from "@/lib/seo";
+import { getOrganizationSchema } from "@/lib/schema";
 
 export const metadata = generatePageMetadata({
-  title: "Web Development & Digital Marketing Company | Nexovio",
+  title: "Nexovio Digital Solutions – Web Development, Design & SEO",
   description:
-    "Nexovio Digital Solutions builds high-performing websites, web apps, mobile apps, UI/UX experiences and SEO strategies that help businesses attract, engage and convert more customers.",
+    "Nexovio combines strategy, design and development to create digital experiences that help businesses turn ideas into real results.",
   keywords: [
     "Web Development Company",
     "Digital Marketing Agency",
@@ -28,25 +29,7 @@ export const metadata = generatePageMetadata({
 });
 
 export default function HomePage() {
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    name: "Nexovio Digital Solutions",
-    url: SITE_URL,
-    logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-logo.jpeg`,
-    image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
-    description:
-      "Nexovio Digital Solutions builds high-performing websites, web apps, mobile apps, UI/UX experiences and SEO strategies that help businesses attract, engage and convert more customers.",
-    areaServed: "Worldwide",
-    serviceType: [
-      "Web Development",
-      "Web Design",
-      "UI/UX Design",
-      "Mobile App Development",
-      "SEO Services",
-      "Digital Marketing",
-    ],
-  };
+  const organizationSchema = getOrganizationSchema();
 
   return (
     <>

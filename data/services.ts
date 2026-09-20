@@ -123,9 +123,9 @@ export const SERVICES: ServiceItem[] = [
       "Fully integrated APIs, contact forms, and lead capture hooks",
       "Automated CI/CD deployment configuration",
     ],
-    seoTitle: "Web Development Services | Nexovio Digital Solutions",
+    seoTitle: "Web Development Services – Custom WordPress & React Apps",
     seoDescription:
-      "Custom web development and engineering services by Nexovio Digital Solutions. Scalable Next.js web applications, corporate websites, and high-performance digital platforms.",
+      "We build robust, maintainable digital products across WordPress, React, Next.js, Vue, Node.js and E-Commerce platforms, delivering speed, security, and scale.",
     image: "/images/services/nexovio-web-development-services.webp",
     imageAlt: "Nexovio Digital Solutions web development architecture and responsive dashboard interface",
     faqs: [
@@ -241,9 +241,9 @@ export const SERVICES: ServiceItem[] = [
       "Design system style guide (typography, colors, components, states)",
       "Optimized production visual assets and SVG icon library",
     ],
-    seoTitle: "Web Design Services | Nexovio Digital Solutions",
+    seoTitle: "Web Design Services – Responsive & Conversion-Focused Design",
     seoDescription:
-      "Professional web design services by Nexovio Digital Solutions. Bespoke, conversion-focused, mobile-first website designs crafted for growing businesses.",
+      "Great web design is visual communication engineered to build trust and guide visitors toward meaningful actions. Bespoke mobile-first web design.",
     image: "/images/services/web-design-services-nexovio.webp",
     imageAlt: "Modern web design interface system designed by Nexovio Digital Solutions",
     faqs: [
@@ -354,9 +354,9 @@ export const SERVICES: ServiceItem[] = [
       "Full interactive prototype in Figma covering primary user workflows",
       "Production-ready design system token package for developers",
     ],
-    seoTitle: "UI/UX Design Services | Nexovio Digital Solutions",
+    seoTitle: "UI/UX Design Services – Usability & Design Systems",
     seoDescription:
-      "User-centered UI/UX design services by Nexovio Digital Solutions. Wireframing, interactive prototyping, user journey mapping, and scalable design systems.",
+      "Complex digital products require clear, intuitive interfaces. We transform intricate software features into clean, engaging digital interactions.",
     image: "/images/services/ui-ux-design-process.webp",
     imageAlt: "UI/UX design wireframe and interface workflow crafted by Nexovio Digital Solutions",
     faqs: [
@@ -461,9 +461,9 @@ export const SERVICES: ServiceItem[] = [
       "Social media graphic templates and campaign creative pack",
       "Custom vector iconography set in SVG and PNG formats",
     ],
-    seoTitle: "Graphic Design Services | Nexovio Digital Solutions",
+    seoTitle: "Graphic Design Services – Brand Visual Identity & Collateral",
     seoDescription:
-      "Strategic graphic design services by Nexovio Digital Solutions. Brand visual identity systems, digital marketing assets, presentation decks, and marketing collateral.",
+      "Strategic graphic design services by Nexovio. Brand visual identity systems, digital marketing assets, presentation decks, and executive collateral.",
     image: "/images/services/graphic-design-visual-systems.webp",
     imageAlt: "Brand graphic design system and corporate collateral designed by Nexovio Digital Solutions",
     faqs: [
@@ -564,9 +564,9 @@ export const SERVICES: ServiceItem[] = [
       "Full mobile codebase with documentation and API bindings",
       "Interactive Figma mobile design kit and component library",
     ],
-    seoTitle: "Mobile App Development Services | Nexovio Digital Solutions",
+    seoTitle: "Mobile App Development – iOS & Android Solutions",
     seoDescription:
-      "Custom mobile app development services by Nexovio Digital Solutions. Cross-platform iOS and Android apps built for business performance.",
+      "We build mobile applications that give businesses a direct way to connect with customers, teams and digital services across iOS and Android.",
     image: "/images/services/mobile-app-development-nexovio.webp",
     imageAlt: "Mobile app development workflow by Nexovio Digital Solutions",
     faqs: [
@@ -661,9 +661,9 @@ export const SERVICES: ServiceItem[] = [
       "Configured GA4 and GTM tracking container with conversion events",
       "On-page optimization guidelines and content calendar framework",
     ],
-    seoTitle: "SEO & Digital Marketing Services | Nexovio Digital Solutions",
+    seoTitle: "SEO & Digital Marketing Services – Improve Search Visibility",
     seoDescription:
-      "SEO and digital marketing services by Nexovio Digital Solutions. Technical SEO, search-intent content strategy, and conversion rate optimization.",
+      "Our SEO & digital marketing services focus on improving search visibility, reaching the right audience and creating campaigns for measurable growth.",
     image: "/images/services/digital-marketing-strategy.webp",
     imageAlt: "Digital marketing strategy and organic search analytics dashboard by Nexovio Digital Solutions",
     faqs: [
@@ -676,97 +676,6 @@ export const SERVICES: ServiceItem[] = [
         question: "How long does it take to see results from SEO?",
         answer:
           "While technical fixes show immediate crawl improvements, organic ranking growth typically matures over 3 to 6 months.",
-      },
-    ],
-  },
-  {
-    id: "graphic-design",
-    name: "Graphic Design",
-    slug: "graphic-design",
-    iconName: "Palette",
-    shortDescription:
-      "Brand visual identity, digital creative assets, marketing collateral, and UI graphics tailored to elevate your business presentation.",
-    fullDescription:
-      "We design compelling visual assets that articulate your brand's unique identity. From logo design and typography systems to digital ad creatives, presentation decks, and marketing collateral, our graphic design service ensures visual consistency and high commercial impact across every touchpoint.",
-    businessProblem:
-      "Inconsistent visual branding, amateur marketing graphics, and poorly designed collateral erode brand credibility and fail to capture customer attention.",
-    whyItMatters:
-      "Strong visual design establishes immediate market authority, improves brand recognition, and communicates quality before a single word is read.",
-    capabilities: [
-      {
-        title: "Brand Identity & Logo Design",
-        description:
-          "Designing memorable logo marks, typography pairings, color systems, and comprehensive brand identity guidelines.",
-      },
-      {
-        title: "Digital Marketing & Ad Creatives",
-        description:
-          "Crafting high-converting social media graphics, banner ads, email templates, and promotional visual assets.",
-      },
-      {
-        title: "Marketing Collateral & Print Design",
-        description:
-          "Designing brochures, pitch decks, whitepapers, business cards, and event signage with print-ready precision.",
-      },
-      {
-        title: "Custom Vector Illustration & Icons",
-        description:
-          "Bespoke SVG illustrations, custom icon sets, and infographics that simplify complex concepts into visual stories.",
-      },
-    ],
-    process: [
-      {
-        step: "01",
-        title: "Brand Discovery & Creative Brief",
-        description:
-          "Understanding your audience, positioning, visual preferences, and business goals to define the design direction.",
-      },
-      {
-        step: "02",
-        title: "Concept Exploration & Moodboards",
-        description:
-          "Developing initial visual concepts, typography exploration, and color palettes for stakeholder review.",
-      },
-      {
-        step: "03",
-        title: "Refinement & Final Asset Production",
-        description:
-          "Fleshing out selected design directions into polished, pixel-perfect visual assets and multi-format exports.",
-      },
-      {
-        step: "04",
-        title: "Asset Handoff & Guidelines",
-        description:
-          "Delivering organized asset packages (SVG, PNG, PDF, EPS) along with visual style guides for future team use.",
-      },
-    ],
-    techStack: [
-      "Figma",
-      "Adobe Illustrator",
-      "Adobe Photoshop",
-      "Vector SVG Graphics",
-      "Print & Digital Pre-press Workflows",
-    ],
-    deliverables: [
-      "Vector logo files (SVG, EPS, PNG, PDF) and brand style guide",
-      "Social media graphic templates and digital banner packages",
-      "Custom vector illustration library and icon sets",
-    ],
-    seoTitle: "Graphic Design & Branding Services | Nexovio Digital Solutions",
-    seoDescription:
-      "Professional graphic design and brand identity services by Nexovio Digital Solutions. Elevate your brand with custom logos, digital marketing creatives, and collateral.",
-    image: "/images/services/graphic-design-mockup.svg",
-    imageAlt: "Graphic design and brand identity visual assets by Nexovio Digital Solutions",
-    faqs: [
-      {
-        question: "What visual assets do you provide with graphic design services?",
-        answer:
-          "We provide logo packages, brand style guides, digital marketing creatives, vector illustrations, social media assets, and print collateral.",
-      },
-      {
-        question: "In what formats will I receive my final design assets?",
-        answer:
-          "You will receive editable vector files (SVG, EPS, AI, PDF) alongside high-resolution web-ready formats (PNG, WebP, JPG).",
       },
     ],
   },

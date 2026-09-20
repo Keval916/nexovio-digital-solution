@@ -37,7 +37,7 @@ export function HeroSection() {
 
             {/* H1 Headline */}
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.15} start="top 95%">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-[#001025] leading-[1.12]">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
                 Digital Experiences That{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Move Your Business Forward.

@@ -19,8 +19,9 @@ export function getOrganizationSchema() {
     areaServed: ["Worldwide", "North America", "Europe", "Asia"],
     knowsAbout: [
       "Custom Web Development",
-      "React & Next.js Engineering",
+      "Web Design",
       "UI/UX Design Systems",
+      "Mobile App Development",
       "E-Commerce Migration",
       "Technical SEO Audits",
       "Digital Marketing Campaigns",
@@ -58,6 +59,14 @@ export function getOrganizationSchema() {
             "@type": "Service",
             name: "UI/UX Design Systems",
             url: `${SITE_URL}/services/ui-ux-design`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Mobile App Development",
+            url: `${SITE_URL}/services/mobile-app-development`,
           },
         },
         {

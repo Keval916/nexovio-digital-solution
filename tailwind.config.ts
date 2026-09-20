@@ -11,6 +11,7 @@ const config: Config = {
     extend: {
       colors: {
         background: "var(--background)",
+        foreground: "var(--foreground)",
         surface: {
           DEFAULT: "var(--surface-default)",
           elevated: "var(--surface-elevated)",
