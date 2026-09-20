@@ -52,6 +52,29 @@ const SERVICE_MOCKUPS: Record<string, string> = {
   "digital-marketing": "/images/services/digital-marketing-mockup.svg",
 };
 
+const SERVICES_HUB_FAQS = [
+  {
+    question: "Can Nexovio combine multiple services into a single project engagement?",
+    answer:
+      "Yes. Many client projects combine UI/UX Design, Custom Web Development, and Technical SEO into an integrated full-cycle delivery.",
+  },
+  {
+    question: "How do I choose between custom Next.js development and WordPress?",
+    answer:
+      "WordPress is ideal for business websites requiring straightforward content management. Next.js is best for high-performance web apps, SaaS platforms, e-commerce storefronts, and enterprise portals requiring sub-second speed.",
+  },
+  {
+    question: "Do you offer post-launch support and ongoing maintenance across services?",
+    answer:
+      "Yes. We offer ongoing technical maintenance, security patch updates, Core Web Vitals monitoring, design iterations, and continuous SEO optimization retainers.",
+  },
+  {
+    question: "What is the typical starting engagement model?",
+    answer:
+      "We offer fixed-scope project agreements with explicit deliverables and timelines, as well as monthly dedicated retainer arrangements for continuous development.",
+  },
+];
+
 export default function ServicesPage() {
   const schema = getCollectionPageSchema(
     "Digital Solutions & IT Services",
@@ -216,7 +239,12 @@ export default function ServicesPage() {
         </div>
 
         {/* Global FAQs */}
-        <FaqSection />
+        <FaqSection
+          faqs={SERVICES_HUB_FAQS}
+          badge="SERVICES FAQ"
+          title="Questions About"
+          highlightText="Our Core Disciplines"
+        />
       </div>
     </div>
   );

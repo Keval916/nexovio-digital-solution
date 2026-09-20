@@ -123,31 +123,41 @@ export const SERVICES: ServiceItem[] = [
       "Fully integrated APIs, contact forms, and lead capture hooks",
       "Automated CI/CD deployment configuration",
     ],
-    seoTitle: "Web Development Services – Custom WordPress & React Apps",
+    seoTitle: "Web Development Services | Custom Website Development | Nexovio",
     seoDescription:
-      "We develop powerful, sustainable digital products on WordPress, React, Next.js, Vue, Node.js, E-Commerce & more offering speed, security & scale.",
+      "Nexovio provides custom web development services including business websites, WordPress, React, Next.js, e-commerce, web applications, and API integrations.",
     image: "/images/services/nexovio-web-development-services.webp",
     imageAlt: "web development architecture and responsive dashboard interface of Nexovio Digital Solutions",
     faqs: [
       {
-        question: "What web development services does Nexovio offer?",
+        question: "What type of websites does Nexovio Digital Solutions develop?",
         answer:
-          "Our expertise ranges over extras modern web architectures built with Next.js, React, TypeScript, Node.js and Tailwind CSS. We are focused on server components, efficient static/dynamic rendering, and pure headless integrations.",
+          "We develop business websites, corporate websites, service websites, e-commerce websites, startup websites, SaaS websites, custom web applications, and other tailored digital experiences.",
       },
       {
-        question: "Is it possible for Nexovio to refactor or redesign a legacy site?",
+        question: "Do you build custom websites from scratch?",
         answer:
-          "Yes. We often refactor legacy websites to modernize them by replacing antiquated codebases, migrating from sluggish monoliths to contemporary frameworks such as Next.js, maintaining existing SEO rankings with prudent 301 redirects, and optimizing performance.",
+          "Yes. Custom development allows us to create the structure, functionality, design implementation, and integrations around your specific business requirements.",
       },
       {
-        question: "Do you make custom web applications or just basic websites?",
+        question: "Do you provide WordPress development?",
         answer:
-          "We do both. We design and develop custom business software and complex Web applications including client portals, SaaS user interfaces, dashboard solutions and more as well as standard marketing web sites and e-commerce platforms.",
+          "Yes. We develop and customize WordPress websites for businesses that need a flexible content management system.",
       },
       {
-        question: "How can I be sure that my web application is secure?",
+        question: "Can you develop React and Next.js websites?",
         answer:
-          "We adhere to OWASP best practices, require strict HTTPS security headers (CSP, HSTS, X-Frame-Options), sanitize all inputs client and server side, defend against CSRF/XSS, and we don't ever leak sensitive keys in client bundles.",
+          "Yes. We use modern frontend technologies such as React and Next.js for suitable websites and web applications that require modern, scalable, and high-performance experiences.",
+      },
+      {
+        question: "Can you integrate third-party APIs?",
+        answer:
+          "Yes. We can integrate APIs and external services such as payment gateways, communication platforms, analytics tools, marketing platforms, authentication systems, and other business applications based on project requirements.",
+      },
+      {
+        question: "Is SEO included in web development?",
+        answer:
+          "We build an SEO-friendly technical foundation into the website. Ongoing SEO, content strategy, keyword targeting, and search optimization can be handled as part of a separate SEO and digital marketing engagement.",
       },
     ],
   },
@@ -262,6 +272,21 @@ export const SERVICES: ServiceItem[] = [
         answer:
           "Absolutely. We provide interactive Figma prototypes and conduct iterative feedback cycles at wireframe and high-fidelity stages so you approve every detail before code is written.",
       },
+      {
+        question: "Do you design custom icons and graphics for websites?",
+        answer:
+          "Yes. We craft custom vector graphics, unique icon sets, micro-interactions, and visual motifs that align with your visual identity and enhance usability.",
+      },
+      {
+        question: "How do you ensure high conversion rates in website layouts?",
+        answer:
+          "We structure content hierarchies around proven eye-tracking patterns, clear visual contrast, strategic call-to-action placement, and prominent trust signals.",
+      },
+      {
+        question: "What tools do you use for web design and prototyping?",
+        answer:
+          "We primary use Figma for visual design, responsive auto-layout wireframes, interactive prototyping, and component design systems.",
+      },
     ],
   },
   {
@@ -375,6 +400,21 @@ export const SERVICES: ServiceItem[] = [
         answer:
           "Yes. We design comprehensive, tokenized design systems in Figma complete with variants, autolayout, typography hierarchies, and dark/light mode configurations that synchronize smoothly with modern codebases.",
       },
+      {
+        question: "What is involved in user experience research?",
+        answer:
+          "Our UX research includes stakeholder discovery calls, user interviews, competitor interface audits, user journey mapping, and usability friction analysis.",
+      },
+      {
+        question: "How do design systems accelerate development?",
+        answer:
+          "Design systems define reusable UI components, colors, typography scales, and state behaviors upfront, allowing developers to build features faster with consistent quality and zero visual regression.",
+      },
+      {
+        question: "Do you provide interactive clickable prototypes?",
+        answer:
+          "Yes. We build clickable prototypes in Figma that simulate real user interactions, screen transitions, modal dialogs, and navigation flows before writing frontend code.",
+      },
     ],
   },
   {
@@ -482,6 +522,21 @@ export const SERVICES: ServiceItem[] = [
         answer:
           "Yes. We specialize in transforming dense technical content and complex business propositions into clear, visually captivating presentation decks.",
       },
+      {
+        question: "Can you create custom brand style guides?",
+        answer:
+          "Yes. We craft brand identity guidelines that define logo usage rules, primary and secondary color palettes, typography scales, graphic motifs, and imagery rules.",
+      },
+      {
+        question: "Do you design social media graphic templates?",
+        answer:
+          "Yes. We create social media brand kits and reusable templates for LinkedIn, Twitter/X, Instagram, and Facebook to keep your social presence visually cohesive.",
+      },
+      {
+        question: "Can you create custom vector icon sets?",
+        answer:
+          "Yes. We design pixel-precise vector iconography and technical diagrams tailored specifically to match your digital products and visual branding.",
+      },
     ],
   },
   {
@@ -573,12 +628,32 @@ export const SERVICES: ServiceItem[] = [
       {
         question: "Do you build apps for both iOS and Android?",
         answer:
-          "Yes. We specialize in cross-platform development (React Native & Flutter), allowing you to deploy to both Apple App Store and Google Play Store simultaneously.",
+          "Yes. We specialize in cross-platform development (React Native & Flutter), allowing you to deploy to both Apple App Store and Google Play Store simultaneously with a single unified codebase.",
       },
       {
         question: "Can mobile apps work offline?",
         answer:
-          "Yes. We can architect mobile apps with local database caching and background synchronization when connectivity is restored.",
+          "Yes. We can architect mobile apps with local database caching and background data synchronization when internet connectivity is restored.",
+      },
+      {
+        question: "What frameworks do you use for cross-platform app development?",
+        answer:
+          "We primarily build with React Native and Flutter, which deliver native performance, access to device sensors, and smooth 60fps UI animations across iOS and Android.",
+      },
+      {
+        question: "How long does custom mobile app development take?",
+        answer:
+          "Typical cross-platform mobile app development takes between 8 and 16 weeks depending on feature complexity, backend API integrations, and user authentication requirements.",
+      },
+      {
+        question: "Do you assist with Apple App Store and Google Play Store submission?",
+        answer:
+          "Yes. We manage the entire deployment process, including developer account setup, build compliance, App Store review guidelines, metadata submission, and release monitoring.",
+      },
+      {
+        question: "Can you integrate push notifications and user authentication?",
+        answer:
+          "Yes. We integrate secure OAuth/JWT authentication, social logins, Firebase Cloud Messaging, and targeted push notification flows for user retention.",
       },
     ],
   },
@@ -675,7 +750,27 @@ export const SERVICES: ServiceItem[] = [
       {
         question: "How long does it take to see results from SEO?",
         answer:
-          "While technical fixes show immediate crawl improvements, organic ranking growth typically matures over 3 to 6 months.",
+          "While technical fixes show immediate crawl improvements, organic ranking growth typically matures over 3 to 6 months of continuous optimization.",
+      },
+      {
+        question: "What is Technical SEO and why is it essential?",
+        answer:
+          "Technical SEO optimizes site speed, Core Web Vitals, XML sitemaps, structured data schema, canonical URLs, and indexation, ensuring search engine bots crawl and index your site without friction.",
+      },
+      {
+        question: "Do you guarantee #1 rankings on Google?",
+        answer:
+          "No reputable agency can guarantee #1 rankings on Google because search algorithms constantly adapt. We follow ethical, white-hat SEO engineering principles that build durable, long-term search authority.",
+      },
+      {
+        question: "What analytics tools do you configure for tracking growth?",
+        answer:
+          "We set up Google Analytics 4 (GA4) and Google Tag Manager (GTM) with custom conversion events to measure key actions like form submissions, phone calls, and CTA clicks.",
+      },
+      {
+        question: "Can you perform an audit on an existing website losing organic traffic?",
+        answer:
+          "Yes. We conduct full technical and content audits to identify crawl issues, keyword cannibalization, broken links, or lost rankings and provide a prioritized recovery roadmap.",
       },
     ],
   },

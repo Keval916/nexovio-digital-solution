@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { generatePageMetadata } from "@/lib/seo";
 import { getCollectionPageSchema } from "@/lib/schema";
 
@@ -22,6 +23,24 @@ export const metadata = generatePageMetadata({
   ],
   path: "/case-studies",
 });
+
+const CASE_STUDIES_FAQS = [
+  {
+    question: "Are the performance metrics in Nexovio's case studies verified?",
+    answer:
+      "Yes. All conversion stats, Core Web Vitals performance improvements, and page loading speed metrics are verified through Google PageSpeed Insights, Lighthouse audits, and GA4 analytics.",
+  },
+  {
+    question: "Can Nexovio handle projects similar to those shown in your case studies?",
+    answer:
+      "Absolutely. We specialize in custom web development, legacy site migrations, Next.js architecture, UI/UX redesigns, and technical SEO for growing businesses.",
+  },
+  {
+    question: "Do you sign non-disclosure agreements (NDAs) for proprietary project case studies?",
+    answer:
+      "Yes. For clients with confidential business logic or unreleased products, we strictly execute NDAs and only publish anonymized case study teardowns with prior authorization.",
+  },
+];
 
 export default function CaseStudiesPage() {
   const schema = getCollectionPageSchema(
@@ -134,7 +153,7 @@ export default function CaseStudiesPage() {
         </div>
 
         {/* Bottom Consultation Reassurance */}
-        <div className="rounded-2xl border border-border-subtle bg-surface-elevated/80 p-8 sm:p-12 text-center max-w-3xl mx-auto">
+        <div className="rounded-2xl border border-border-subtle bg-surface-elevated/80 p-8 sm:p-12 text-center max-w-3xl mx-auto mb-20">
           <h2 className="text-2xl sm:text-3xl font-bold mb-3">
             Ready to architect a{" "}
             <span className="bg-gradient-brand bg-clip-text text-transparent">high-performance solution?</span>
@@ -154,6 +173,14 @@ export default function CaseStudiesPage() {
             Start Your Project Inquiry
           </Button>
         </div>
+
+        {/* FAQs */}
+        <FaqSection
+          faqs={CASE_STUDIES_FAQS}
+          badge="CASE STUDY FAQ"
+          title="Questions About"
+          highlightText="Our Proven Results"
+        />
       </div>
     </div>
   );

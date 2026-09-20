@@ -94,6 +94,34 @@ const LEADERSHIP = [
   },
 ];
 
+const ABOUT_FAQS = [
+  {
+    question: "What makes Nexovio Digital Solutions different from standard agencies?",
+    answer:
+      "We combine high-performance software engineering with human-centered UI/UX design and technical SEO. You work directly with senior architects and designers, ensuring total technical discipline without non-technical intermediaries.",
+  },
+  {
+    question: "Where is Nexovio Digital Solutions located and who do you serve?",
+    answer:
+      "We are a digital engineering studio serving ambitious startups, growing SMBs, and established enterprises globally across North America, Europe, and Asia-Pacific.",
+  },
+  {
+    question: "Who owns the source code and intellectual property after project completion?",
+    answer:
+      "You do. Upon full project completion and settlement, 100% of code repositories, design tokens, asset libraries, and intellectual property belong entirely to your organization.",
+  },
+  {
+    question: "How does Nexovio ensure quality and performance during development?",
+    answer:
+      "We enforce strict TypeScript standards, automated CI/CD pipelines, Core Web Vitals targets, and WCAG accessibility compliance across every software release.",
+  },
+  {
+    question: "Can Nexovio collaborate with our existing in-house technical team?",
+    answer:
+      "Yes. We frequently integrate with internal product teams to lead frontend engineering, perform UX redesigns, or build scalable headless web architectures.",
+  },
+];
+
 export default function AboutPage() {
   const aboutSchema = getAboutPageSchema();
 
@@ -341,7 +369,12 @@ export default function AboutPage() {
       </section>
 
       {/* 7. FAQ Section */}
-      <FaqSection />
+      <FaqSection
+        faqs={ABOUT_FAQS}
+        badge="ABOUT NEXOVIO FAQ"
+        title="Questions About"
+        highlightText="Our Studio & Craft"
+      />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { BLOG_ARTICLES } from "@/data/blog";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "@/components/ui/Card";
+import { FaqSection } from "@/components/sections/FaqSection";
 import { formatDate } from "@/lib/utils";
 import { generatePageMetadata } from "@/lib/seo";
 import { getCollectionPageSchema } from "@/lib/schema";
@@ -22,6 +23,24 @@ export const metadata = generatePageMetadata({
   ],
   path: "/blog",
 });
+
+const BLOG_FAQS = [
+  {
+    question: "Who writes the technical articles on the Nexovio blog?",
+    answer:
+      "Our articles are written directly by senior software architects, lead UI/UX designers, and technical SEO strategists based on real client project experience.",
+  },
+  {
+    question: "Can I share or reference Nexovio engineering guides?",
+    answer:
+      "Yes. You are welcome to reference and link to our guides for educational and industry purposes.",
+  },
+  {
+    question: "How frequently does Nexovio publish new technical articles?",
+    answer:
+      "We regularly publish in-depth technical teardowns, framework comparisons, Core Web Vitals guides, and SEO strategies.",
+  },
+];
 
 export default function BlogHubPage() {
   const schema = getCollectionPageSchema(
@@ -102,6 +121,14 @@ export default function BlogHubPage() {
             </Card>
           ))}
         </div>
+
+        {/* FAQs */}
+        <FaqSection
+          faqs={BLOG_FAQS}
+          badge="ENGINEERING BLOG FAQ"
+          title="Questions About"
+          highlightText="Our Technical Articles"
+        />
       </div>
     </div>
   );

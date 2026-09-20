@@ -9,6 +9,7 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
+import { FaqSection } from "@/components/sections/FaqSection";
 
 const CATEGORIES = [
   "All Categories",
@@ -17,6 +18,24 @@ const CATEGORIES = [
   "UI/UX Design",
   "Graphic Design",
   "Digital Marketing",
+];
+
+const PORTFOLIO_FAQS = [
+  {
+    question: "Can I view live staging links or live demos of these portfolio projects?",
+    answer:
+      "Yes. In addition to our published case study teardowns, we can share live staging links or interactive previews during your technical consultation.",
+  },
+  {
+    question: "How long does a typical project shown in your portfolio take to complete?",
+    answer:
+      "Project timelines range from 3 to 6 weeks for custom websites and UI/UX design systems, and 8 to 16 weeks for full-stack Next.js web applications or SaaS platforms.",
+  },
+  {
+    question: "Do you offer custom designs tailored to our specific industry?",
+    answer:
+      "Yes. Every project in our portfolio is custom-engineered from scratch around the client's industry, brand strategy, and user conversion funnels.",
+  },
 ];
 
 export function PortfolioClient() {
@@ -176,7 +195,7 @@ export function PortfolioClient() {
           </AnimateOnScroll>
 
           <AnimateOnScroll variant="scaleUp" duration={0.8}>
-            <div className="rounded-2xl border border-brand-cyan/25 bg-surface-elevated/90 p-8 sm:p-12 text-center max-w-3xl mx-auto shadow-2xl relative overflow-hidden">
+            <div className="rounded-2xl border border-brand-cyan/25 bg-surface-elevated/90 p-8 sm:p-12 text-center max-w-3xl mx-auto shadow-2xl relative overflow-hidden mb-16">
               <div className="absolute top-0 right-0 w-64 h-64 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
               <h2 className="text-2xl sm:text-3xl font-bold mb-3">
                 Have a project with{" "}
@@ -198,6 +217,14 @@ export function PortfolioClient() {
               </Button>
             </div>
           </AnimateOnScroll>
+
+          {/* FAQs */}
+          <FaqSection
+            faqs={PORTFOLIO_FAQS}
+            badge="PORTFOLIO FAQ"
+            title="Questions About"
+            highlightText="Our Delivered Projects"
+          />
         </div>
       </section>
     </div>

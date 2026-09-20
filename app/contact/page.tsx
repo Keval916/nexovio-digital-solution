@@ -44,6 +44,29 @@ const STEPS = [
   },
 ];
 
+const CONTACT_FAQS = [
+  {
+    question: "How quickly will I receive a response after submitting the contact form?",
+    answer:
+      "Our engineering and strategy leads review all project inquiries within 1 business day (24 hours).",
+  },
+  {
+    question: "Is the initial project consultation free?",
+    answer:
+      "Yes. Initial scope reviews, preliminary technical assessments, and strategy calls are 100% complimentary with zero obligation.",
+  },
+  {
+    question: "Can we schedule a live video call via Google Meet or Zoom?",
+    answer:
+      "Yes. You can use our embedded Calendly scheduler on this page to pick a video call slot that suits your timezone.",
+  },
+  {
+    question: "What information should I prepare before our initial conversation?",
+    answer:
+      "Having a brief overview of your business objectives, target audience, preferred timeline, and any existing design references or feature lists is helpful, but not required.",
+  },
+];
+
 export default function ContactPage() {
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
   const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
@@ -255,7 +278,12 @@ export default function ContactPage() {
       </section>
 
       {/* 3. Contact FAQ */}
-      <FaqSection />
+      <FaqSection
+        faqs={CONTACT_FAQS}
+        badge="CONSULTATION FAQ"
+        title="Questions About"
+        highlightText="Getting Started With Nexovio"
+      />
     </div>
   );
 }
