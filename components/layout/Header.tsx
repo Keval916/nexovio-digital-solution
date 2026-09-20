@@ -31,16 +31,13 @@ import { cn } from "@/lib/utils";
 // NAVIGATION DATA STRUCTURES
 // ============================================================================
 
-const WEB_DEV_SUBITEMS = [
-  { name: "Custom Website Development", href: "/services/web-development" },
-  { name: "WordPress Development", href: "/services/web-development" },
-  { name: "React / Next.js Development", href: "/services/web-development" },
-  { name: "E-commerce Development", href: "/services/web-development" },
-  { name: "Web Application Development", href: "/services/web-development" },
-  { name: "API Development & Integration", href: "/services/web-development" },
-];
-
-const OTHER_SERVICES = [
+const ALL_SERVICES = [
+  {
+    name: "Web Development",
+    href: "/services/web-development",
+    description: "Scalable web applications, responsive websites & API integrations",
+    icon: Code2,
+  },
   {
     name: "Web Design",
     href: "/services/web-design",
@@ -96,7 +93,6 @@ export function Header() {
 
   // Mobile accordion states
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const [mobileWebDevOpen, setMobileWebDevOpen] = useState(false);
   const [mobileAiOpen, setMobileAiOpen] = useState(false);
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
 
@@ -139,7 +135,6 @@ export function Header() {
     setMobileMenuOpen(false);
     setActiveDropdown(null);
     setMobileServicesOpen(false);
-    setMobileWebDevOpen(false);
     setMobileAiOpen(false);
     setMobileSolutionsOpen(false);
   }, [pathname]);
@@ -276,7 +271,7 @@ export function Header() {
                 {/* Services Desktop Dropdown Panel */}
                 <div
                   className={cn(
-                    "absolute top-full mt-2 -left-[220px] xl:-left-[240px] w-[780px] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/98 dark:bg-[#070D1A]/98 backdrop-blur-2xl p-5 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-50",
+                    "absolute top-full mt-2 -left-[180px] xl:-left-[200px] w-[700px] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/98 dark:bg-[#070D1A]/98 backdrop-blur-2xl p-5 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-50",
                     "transition-all duration-300 ease-out origin-top transform-gpu",
                     activeDropdown === "services"
                       ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
@@ -300,63 +295,30 @@ export function Header() {
                     </Link>
                   </div>
 
-                  <div className="grid grid-cols-12 gap-5">
-                    {/* Left Sub-column: Web Development with 6 Sub-items */}
-                    <div className="col-span-6 border-r border-slate-100 dark:border-white/10 pr-4 space-y-2">
-                      <div className="flex items-center gap-2 px-2.5 py-1.5 bg-brand-cyan/10 rounded-lg border border-brand-cyan/20">
-                        <Code2 className="w-4 h-4 text-brand-cyan" />
+                  <div className="grid grid-cols-2 gap-3">
+                    {ALL_SERVICES.map((svc) => {
+                      const Icon = svc.icon;
+                      return (
                         <Link
-                          href="/services/web-development"
+                          key={svc.name}
+                          href={svc.href}
                           onClick={() => setActiveDropdown(null)}
-                          className="text-xs font-bold text-slate-900 dark:text-white hover:text-brand-cyan uppercase tracking-wider"
+                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 border border-slate-100 dark:border-white/5 hover:border-brand-cyan/30 transition-all duration-200 group"
                         >
-                          Web Development
+                          <div className="p-2 rounded-lg bg-slate-100 dark:bg-surface-subtle border border-slate-200 dark:border-white/10 group-hover:border-brand-cyan/50 group-hover:bg-brand-cyan/10 text-slate-500 dark:text-muted group-hover:text-brand-cyan transition-all shrink-0">
+                            <Icon className="w-4 h-4" />
+                          </div>
+                          <div>
+                            <div className="text-xs font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
+                              {svc.name}
+                            </div>
+                            <div className="text-[11px] text-slate-500 dark:text-muted line-clamp-2 mt-0.5 leading-relaxed">
+                              {svc.description}
+                            </div>
+                          </div>
                         </Link>
-                      </div>
-
-                      <div className="space-y-1 pl-2">
-                        {WEB_DEV_SUBITEMS.map((sub) => (
-                          <Link
-                            key={sub.name}
-                            href={sub.href}
-                            onClick={() => setActiveDropdown(null)}
-                            className="block px-2.5 py-1.5 rounded-md text-xs text-slate-600 dark:text-muted hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-white/5 transition-colors"
-                          >
-                            <span className="hover:text-brand-cyan transition-colors">{sub.name}</span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Right Sub-column: Other 4 Core Services */}
-                    <div className="col-span-6 space-y-2">
-                      <span className="text-[11px] font-mono text-slate-400 dark:text-muted uppercase tracking-wider block px-1">
-                        Core Capabilities
-                      </span>
-                      {OTHER_SERVICES.map((svc) => {
-                        const Icon = svc.icon;
-                        return (
-                          <Link
-                            key={svc.name}
-                            href={svc.href}
-                            onClick={() => setActiveDropdown(null)}
-                            className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 border border-transparent hover:border-brand-cyan/30 transition-all duration-200 group"
-                          >
-                            <div className="p-1.5 rounded-lg bg-slate-100 dark:bg-surface-subtle border border-slate-200 dark:border-white/10 group-hover:border-brand-cyan/50 group-hover:bg-brand-cyan/10 text-slate-500 dark:text-muted group-hover:text-brand-cyan transition-all shrink-0">
-                              <Icon className="w-3.5 h-3.5" />
-                            </div>
-                            <div>
-                              <div className="text-xs font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
-                                {svc.name}
-                              </div>
-                              <div className="text-[11px] text-slate-500 dark:text-muted line-clamp-1 mt-0.5">
-                                {svc.description}
-                              </div>
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -640,42 +602,21 @@ export function Header() {
                 </button>
 
                 {mobileServicesOpen && (
-                  <div className="px-3 pb-3 space-y-2 border-t border-white/5 pt-2 animate-in fade-in duration-200">
-                    {/* Web Development Sub-accordion */}
-                    <div className="rounded-lg bg-white/5 p-2 space-y-1">
-                      <button
-                        type="button"
-                        onClick={() => setMobileWebDevOpen(!mobileWebDevOpen)}
-                        className="w-full flex items-center justify-between text-xs font-bold text-brand-cyan px-2 py-1"
-                      >
-                        <span>Web Development</span>
-                        <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", mobileWebDevOpen && "rotate-180")} />
-                      </button>
-                      {mobileWebDevOpen && (
-                        <div className="pl-3 space-y-1 pt-1">
-                          {WEB_DEV_SUBITEMS.map((sub) => (
-                            <Link
-                              key={sub.name}
-                              href={sub.href}
-                              className="block py-1 text-xs text-muted hover:text-white"
-                            >
-                              {sub.name}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Other Services */}
-                    {OTHER_SERVICES.map((svc) => (
-                      <Link
-                        key={svc.name}
-                        href={svc.href}
-                        className="block px-3 py-1.5 rounded-lg text-xs font-medium text-muted hover:text-white hover:bg-white/5"
-                      >
-                        {svc.name}
-                      </Link>
-                    ))}
+                  <div className="px-3 pb-3 space-y-1 border-t border-white/5 pt-2 animate-in fade-in duration-200">
+                    {ALL_SERVICES.map((svc) => {
+                      const Icon = svc.icon;
+                      return (
+                        <Link
+                          key={svc.name}
+                          href={svc.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-muted hover:text-white hover:bg-white/5"
+                        >
+                          <Icon className="w-4 h-4 text-brand-cyan shrink-0" />
+                          <span>{svc.name}</span>
+                        </Link>
+                      );
+                    })}
                   </div>
                 )}
               </div>
