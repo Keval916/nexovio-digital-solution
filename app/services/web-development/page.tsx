@@ -78,6 +78,7 @@ const CAPABILITIES = [
     description:
       "Create a website designed specifically around your brand, audience, features, and business objectives. We develop custom websites with flexible structures, responsive layouts, reusable components, and SEO-friendly foundations.",
     bestFor: "Businesses, startups, professional services, agencies, and growing brands.",
+    href: "/services/web-development/custom-website-development",
   },
   {
     icon: Code2,
@@ -511,6 +512,17 @@ export default function WebDevelopmentPage() {
                     <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
                       {cap.bestFor}
                     </span>
+                    {cap.href && (
+                      <div className="pt-3">
+                        <Link
+                          href={cap.href}
+                          className="text-xs font-bold text-brand-cyan hover:underline inline-flex items-center gap-1.5"
+                        >
+                          <span>Explore Custom Website Development Page</span>
+                          <ArrowRight className="w-3 h-3" />
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </Card>
               );
