@@ -92,7 +92,6 @@ export default function GraphicDesignPage() {
                 size="lg"
                 trackingName="graphic_design_view_work"
                 trackingLocation="service_hero"
-                className="hover:border-brand-cyan/40"
               >
                 View Graphic Assets
               </Button>

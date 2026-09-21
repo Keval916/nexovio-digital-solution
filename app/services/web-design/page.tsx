@@ -660,12 +660,12 @@ export default function WebDesignPage() {
                   Design Your Website
                 </Button>
                 <Button
-                  href="/portfolio"
+                  href="/contact"
                   variant="secondary"
                   size="lg"
-                  trackingName="web_design_view_work"
+                  trackingName="web_design_talk_team"
                   trackingLocation="service_hero"
-                  className="w-full sm:w-auto hover:border-brand-cyan/40"
+                  className="w-full sm:w-auto"
                 >
                   View Our Work
                 </Button>

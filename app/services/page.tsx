@@ -172,7 +172,6 @@ export default function ServicesPage() {
                         size="md"
                         trackingName={`services_overview_quote_${service.slug}`}
                         trackingLocation="services_hub"
-                        className="hover:border-brand-cyan/40"
                       >
                         Request a Quote
                       </Button>

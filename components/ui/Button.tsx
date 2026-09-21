@@ -35,9 +35,9 @@ export function Button({
     primary:
       "bg-gradient-brand text-white keep-white font-semibold shadow-[0_4px_15px_rgba(23,105,255,0.35)] hover:shadow-[0_6px_20px_rgba(23,105,255,0.5)] hover:brightness-110",
     secondary:
-      "bg-surface-elevated text-foreground border border-border-subtle backdrop-blur-sm hover:bg-surface-subtle hover:border-brand-cyan/40 shadow-sm",
+      "bg-surface-elevated text-foreground border border-border-subtle backdrop-blur-sm hover:border-brand-bright hover:text-brand-bright transition-all duration-200 shadow-sm",
     outline:
-      "bg-transparent text-foreground border border-border-subtle hover:bg-surface-subtle hover:border-brand-cyan/40",
+      "bg-transparent text-foreground border border-border-subtle hover:border-brand-bright hover:text-brand-bright transition-all duration-200",
     ghost:
       "bg-transparent text-muted hover:bg-surface-subtle hover:text-foreground",
   };

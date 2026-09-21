@@ -90,6 +90,8 @@ html {
 }
 
 body {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-weight: 400;
   background-color: var(--background);
   color: var(--foreground);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
@@ -97,6 +99,81 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ==========================================================================
+   SITE-WIDE TYPOGRAPHY SPECIFICATIONS
+   ========================================================================== */
+
+/* H1: Plus Jakarta Sans (Weight: 700-800) */
+h1, .h1 {
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif !important;
+  font-weight: 800;
+}
+
+/* H2: Plus Jakarta Sans (Weight: 700) */
+h2, .h2 {
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif !important;
+  font-weight: 700;
+}
+
+/* H3: Plus Jakarta Sans (Weight: 600-700) */
+h3, .h3 {
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif !important;
+  font-weight: 600;
+}
+
+/* Service Titles: Plus Jakarta Sans (Weight: 600-700) */
+.service-title,
+.card-heading,
+.service-name {
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif !important;
+  font-weight: 600;
+}
+
+/* General Headings fallback */
+.font-heading,
+.font-jakarta {
+  font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif !important;
+}
+
+/* Body: Inter (Weight: 400) */
+p, li, span:not(.font-mono):not(.font-heading):not(.font-jakarta), body {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* Body Emphasis: Inter (Weight: 500-600) */
+b, strong, .font-semibold, .font-bold:not(h1):not(h2):not(h3):not(h4) {
+  font-weight: 600;
+}
+
+/* Navigation: Inter (Weight: 500) */
+nav a, .nav-link, header a:not(.btn) {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-weight: 500;
+}
+
+/* Buttons: Inter (Weight: 600) */
+button, .btn, [role="button"], a.btn {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif !important;
+  font-weight: 600;
+}
+
+/* Breadcrumb: Inter (Weight: 400-500) */
+nav[aria-label="Breadcrumb"], nav[aria-label="Breadcrumb"] a, nav[aria-label="Breadcrumb"] span {
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* Small Labels: IBM Plex Mono (Weight: 500-600) */
+.badge, .pill-badge, .label-mono, code {
+  font-family: var(--font-ibm-plex-mono), monospace !important;
+  font-weight: 500;
+}
+
+/* Numbers / Steps: IBM Plex Mono (Weight: 500-600) */
+.font-mono, .step-number, .number-step {
+  font-family: var(--font-ibm-plex-mono), monospace !important;
+  font-weight: 500;
 }
 
 /* ==========================================================================
@@ -196,8 +273,37 @@ html:not(.dark) .border-white\/20:not(.keep-border) {
   border-color: #cbd5e1 !important;
 }
 
+html:not(.dark) .border-border-subtle:not(:hover) {
+  border-color: #e2e8f0;
+}
+
 html:not(.dark) .border-border-subtle {
-  border-color: #e2e8f0 !important;
+  border-color: #e2e8f0;
+}
+
+/* Hover Border & Text Overrides for Light Mode */
+html:not(.dark) .hover\:border-brand-bright:hover {
+  border-color: #008cff !important;
+}
+
+html:not(.dark) .hover\:text-brand-bright:hover {
+  color: #008cff !important;
+}
+
+html:not(.dark) .hover\:border-brand-cyan:hover {
+  border-color: #00c6ff !important;
+}
+
+html:not(.dark) .hover\:text-brand-cyan:hover {
+  color: #00c6ff !important;
+}
+
+html:not(.dark) .hover\:border-brand-electric:hover {
+  border-color: #1769ff !important;
+}
+
+html:not(.dark) .hover\:text-brand-electric:hover {
+  color: #1769ff !important;
 }
 
 /* Semi-transparent overlay utilities in Light Mode */

@@ -373,27 +373,27 @@ const RESPONSIVE_FEATURES = [
 const SEO_PILLARS = [
   {
     title: "Search-Friendly Architecture",
-    description: "Logical page structures and URLs make your website easier to navigate and understand.",
+    description: "Logical page structures and URLs make your website easy to navigate and interpret.",
   },
   {
     title: "Semantic HTML",
-    description: "Appropriate HTML structures help communicate the meaning and hierarchy of your content.",
+    description: "Correct HTML structures help convey the meaning and hierarchy of your content.",
   },
   {
     title: "Heading Structure",
-    description: "Clear H1, H2, and H3 relationships help organize important information.",
+    description: "Clear H1, H2, and H3 relationships help organize key information.",
   },
   {
     title: "Metadata",
-    description: "The website can support page titles, meta descriptions, canonical URLs, and other SEO information.",
+    description: "The website can expose page titles, meta descriptions, canonical URLs, and other SEO information.",
   },
   {
     title: "Internal Linking",
-    description: "Relevant connections between pages help users discover related content and create a clearer site structure.",
+    description: "Relevant links between pages assist users in finding related content and contribute to a more organized site structure.",
   },
   {
     title: "Mobile Experience",
-    description: "Responsive development supports users accessing your website from mobile devices.",
+    description: "Responsive development supports users accessing your website through mobile devices.",
   },
   {
     title: "Performance",
@@ -401,20 +401,20 @@ const SEO_PILLARS = [
   },
   {
     title: "Crawlability",
-    description: "We structure websites so important content and pages can be accessible to search engines.",
+    description: "We build websites in a way that important content and pages are easily crawlable by search engines.",
   },
 ];
 
 const PERFORMANCE_AREAS = [
   "Image optimization",
-  "Efficient asset loading",
+  "Asset loading efficiency",
   "Code structure",
   "Caching opportunities",
   "Responsive images",
   "Font loading",
   "JavaScript efficiency",
   "Page rendering",
-  "Unnecessary resource reduction",
+  "Remove unnecessary resources",
 ];
 
 const CUSTOM_FEATURES = [
@@ -443,30 +443,29 @@ const CUSTOM_FEATURES = [
 const TOOL_INTEGRATIONS = [
   {
     name: "CRM",
-    desc: "Capture and transfer customer enquiries.",
+    desc: "Capture and pass on customer enquiries.",
   },
   {
     name: "Payment Systems",
-    desc: "Process online transactions.",
+    desc: "Handle payments over the web.",
   },
   {
     name: "Analytics",
-    desc: "Send relevant website and conversion data to analytics platforms.",
+    desc: "Provide website and conversion data appropriate for analytics tools.",
   },
   {
     name: "Marketing Platforms",
-    desc: "Connect forms, campaigns, customer information, and marketing workflows.",
+    desc: "Integrate forms, campaigns, customer data, and marketing processes.",
   },
   {
     name: "Communication Tools",
-    desc: "Connect notifications and customer communication systems.",
+    desc: "Integrate your notifications and customer communications.",
   },
   {
     name: "Business Applications",
-    desc: "Exchange information between your website and other software.",
+    desc: "Share data between your website and your applications.",
   },
 ];
-
 const SECURITY_CONSIDERATIONS = [
   "Secure authentication",
   "Authorization",
@@ -497,12 +496,12 @@ const FUTURE_EXPANSIONS = [
 const INDUSTRIES = [
   {
     title: "E-commerce & Retail",
-    desc: "Online stores, product catalogs, shopping experiences, payment systems, and integrations.",
+    desc: "eCommerce stores, product catalogs, shopping experiences, payment systems, and integrations.",
     icon: ShoppingBag,
   },
   {
     title: "Startups",
-    desc: "Launch-ready websites, product experiences, landing pages, and scalable technical foundations.",
+    desc: "Launch-ready websites, product experiences, landing pages and scalable technical foundations.",
     icon: Rocket,
   },
   {
@@ -512,27 +511,27 @@ const INDUSTRIES = [
   },
   {
     title: "Professional Services",
-    desc: "Websites that communicate expertise, services, credibility, and enquiry opportunities.",
+    desc: "Websites that communicate knowledge, services, trust and opportunity to enquire.",
     icon: Briefcase,
   },
   {
     title: "Healthcare",
-    desc: "Information-focused websites, appointment experiences, service pages, and appropriate integrations based on requirements.",
+    desc: "Content-heavy websites, booking experiences, service pages, and appropriate integrations dependent on requirements.",
     icon: Stethoscope,
   },
   {
     title: "Education",
-    desc: "Institutional websites, course information, enquiry systems, content platforms, and portals.",
+    desc: "Institutional sites, course information, enquiry systems, content platforms, and portals.",
     icon: GraduationCap,
   },
   {
     title: "Real Estate",
-    desc: "Property-focused websites, listings, search/filter experiences, enquiry forms, and integrations.",
+    desc: "Property-based websites, listings, search/filter experiences, enquiry forms, and integrations.",
     icon: Home,
   },
   {
     title: "Hospitality",
-    desc: "Hotel and hospitality websites with service information, booking journeys, location content, and integrations.",
+    desc: "Hotel & hospitality site with service detail, booking processes, location information, and integration.",
     icon: Globe,
   },
   {
@@ -542,7 +541,7 @@ const INDUSTRIES = [
   },
   {
     title: "Agencies & Creative Businesses",
-    desc: "Portfolio-driven websites, case studies, service pages, lead-generation experiences, and interactive presentations.",
+    desc: "Portfolio-focused websites, case studies, service pages, lead-generation experiences and interactive presentations.",
     icon: PenTool,
   },
 ];
@@ -551,47 +550,47 @@ const PROCESS_STEPS_FULL = [
   {
     step: "01",
     title: "Discovery",
-    desc: "We understand your business, audience, objectives, requirements, existing systems, and expectations.",
+    desc: "We know your industry, target market, goals, needs, current systems, and what you’re looking for.",
   },
   {
     step: "02",
     title: "Planning",
-    desc: "We define the sitemap, functionality, technology approach, integrations, content structure, and project scope.",
+    desc: "We establish the sitemap, functionality, technology approach, integrations, content type and project size.",
   },
   {
     step: "03",
     title: "UX & UI",
-    desc: "We plan and design the user experience, page layouts, components, responsive behavior, and visual direction.",
+    desc: "We design the user experience, wireframes, page layouts, elements, responsive features and style guide.",
   },
   {
     step: "04",
     title: "Development",
-    desc: "Our development team builds the website, application, functionality, integrations, and required backend systems.",
+    desc: "Our development team develops the site with all the functionality and requirements, including the integration of the necessary back end systems."
   },
   {
     step: "05",
     title: "Content & SEO Implementation",
-    desc: "We implement content structures, metadata, internal linking, images, forms, tracking requirements, and technical SEO foundations.",
+    desc: "We add content models, metadata, internal links, images, forms, tracking needs and tech nic al SEO foundations."
   },
   {
     step: "06",
     title: "Testing & Quality Assurance",
-    desc: "We test navigation, forms, links, responsive layouts, browser compatibility, functionality, integrations, performance, and important user journeys.",
+    desc: "We navigate, fill out forms, click links, test responsive design, test cross browser, test functionality, integrations, test performance, and hit key user experiences."
   },
   {
     step: "07",
     title: "Deployment",
-    desc: "We prepare the production environment, deploy the website, and perform final checks.",
+    desc: "We set up the production environment, upload the site, and conduct final inspections."
   },
   {
     step: "08",
     title: "Launch",
-    desc: "Your website goes live after the required checks and approval.",
+    desc: "Your website will be live once we’ve done the necessary checks and you’ve given us the thumbs up."
   },
   {
     step: "09",
     title: "Ongoing Improvement",
-    desc: "After launch, we can continue supporting new features, content, performance improvements, SEO work, integrations, and technical updates.",
+    desc: "After the launch, we can though continue to support new capabilities, content, performance enhancements, SEO work, integration and either technical or content updates."
   },
 ];
 
@@ -604,17 +603,17 @@ const TECH_CATEGORIES_GRID = [
   {
     title: "CMS",
     icon: Globe,
-    items: "WordPress and suitable content management solutions",
+    items: "WordPress and other appropriate content management solutions",
   },
   {
     title: "Backend",
     icon: Server,
-    items: "Node.js and other suitable backend technologies depending on project requirements",
+    items: "Node.js and other backend technologies as required by the project",
   },
   {
     title: "Databases",
     icon: Database,
-    items: "Database technologies selected according to the application's data, functionality, performance, and scalability requirements",
+    items: "Database technologies chosen based on the application's data, functionality, performance, and scalability needs",
   },
   {
     title: "APIs & Integrations",
@@ -653,51 +652,37 @@ const QUALITY_CHECKS = [
 const WHY_NEXOVIO_REASONS = [
   {
     title: "Business Understanding",
-    desc: "We focus on what the website needs to accomplish for your business.",
+    desc: "We build websites that work for your business, not just look pretty.",
   },
   {
     title: "Custom Approach",
-    desc: "Your website structure and functionality are planned around your actual requirements.",
+    desc: "Your website structure and functionality are designed specifically for your needs.",
   },
   {
     title: "User-Focused Experience",
-    desc: "We consider how customers navigate, understand information, and take action.",
+    desc: "We think about how customers browse, learn, and interact with content.",
   },
   {
     title: "Modern Development",
-    desc: "We use appropriate modern technologies and development practices based on the project.",
+    desc: "We employ relevant modern technologies and development practices depending on the project.",
   },
   {
     title: "SEO Foundation",
-    desc: "We consider technical SEO during architecture and development rather than treating it as an afterthought.",
+    desc: "Technical SEO is integrated into the architecture and development of your website from the beginning, not added on as an afterthought.",
   },
   {
     title: "Performance Focus",
-    desc: "We consider website performance throughout development and optimization.",
+    desc: "Website performance is a key consideration throughout the development and optimization process.",
   },
   {
     title: "Scalable Architecture",
-    desc: "We plan for future improvements and functionality where appropriate.",
+    desc: "We plan for future enhancements and functionalities when necessary.",
   },
   {
     title: "Clear Communication",
-    desc: "Project requirements, progress, changes, testing, and launch requirements should remain clear throughout development.",
+    desc: "Project requirements, progress, changes, testing, and launch requirements should always be transparent throughout development.",
   },
 ];
-
-const BUILD_OPTIONS = [
-  "A simple business website to establish your online presence,",
-  "A custom corporate website to communicate your organization and services,",
-  "A WordPress website that your team can manage,",
-  "An e-commerce store to sell products online,",
-  "A React or Next.js experience for a modern high-performance interface,",
-  "A web application to digitize a business workflow,",
-  "An integrated digital platform connecting multiple systems through APIs,",
-];
-
-// ==========================================
-// REALISTIC VISUAL MOCKUP COMPONENTS
-// ==========================================
 
 function RealisticHeroMockup() {
   return (
@@ -1025,7 +1010,7 @@ export default function WebDevelopmentPage() {
                   size="lg"
                   trackingName="web_dev_talk_team"
                   trackingLocation="service_hero"
-                  className="w-full sm:w-auto hover:border-brand-cyan/40"
+                  className="w-full sm:w-auto"
                 >
                   Talk to Our Team
                 </Button>
@@ -1468,8 +1453,8 @@ export default function WebDevelopmentPage() {
           <SectionHeading
             badge="TECHNICAL SEARCH FOUNDATIONS"
             title="SEO-Friendly Web Development"
-            highlightText="Build a Strong Technical Foundation for Search"
-            description="SEO starts with more than adding keywords to a page. During development, we consider technical and structural elements that can support your broader SEO strategy."
+            highlightText="Establish a Solid Technical Base for Search"
+            description="SEO is about more than adding a few keywords to a page. We take into account the technical and structural issues that can assist your overall SEO strategy while developing the content."
             align="center"
           />
 
@@ -1503,13 +1488,13 @@ export default function WebDevelopmentPage() {
                 CORE WEB VITALS
               </span>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Performance That Supports Better Experiences
+                Performance That Enables Better Experiences
               </h2>
               <h3 className="text-lg font-semibold text-brand-bright">
-                Fast Websites Feel Better to Use
+                Fast Websites Are More Enjoyable to Use
               </h3>
               <p className="text-base text-muted leading-relaxed">
-                Performance affects how users interact with your website. We consider areas such as:
+                Performance has an impact on how users engage with your site.We look at areas like:
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 pt-2">
@@ -1563,9 +1548,9 @@ export default function WebDevelopmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="TAILORED FUNCTIONALITY"
-            title="Custom Features for Real"
-            highlightText="Business Requirements"
-            description="Not every business needs the same features. Depending on your requirements, we can develop functionality tailored to your workflows."
+            title="Custom Solutions for"
+            highlightText="Real Business Needs"
+            description="No two businesses are the same, and they don’t need the same features, either. Based on your needs, we can create custom functionality for your workflows."
             align="center"
           />
 
@@ -1598,9 +1583,9 @@ export default function WebDevelopmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="API INTEGRATIONS"
-            title="Connect Your Website With the"
-            highlightText="Tools You Already Use"
-            description="Your website may need to communicate with several external systems. We can work with available APIs and integration requirements."
+            title="Integrate Your Website with the"
+            highlightText="Tools You Use"
+            description="There are a vast number of external systems with which your website might be required to talk. We can work with you based on desired APIs or integration requirements."
             align="center"
           />
 
@@ -1628,9 +1613,9 @@ export default function WebDevelopmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="ENTERPRISE SECURITY"
-            title="Security Considerations From"
-            highlightText="Development to Deployment"
-            description="Security requirements vary depending on the type of website and information being handled. We build with security in mind."
+            title="Security Issues From"
+            highlightText="Development Through Deployment"
+            description="The security needs are different for each site, because they process different types of information. Security FirstWe design and build just with security."
             align="center"
           />
 
@@ -1659,7 +1644,7 @@ export default function WebDevelopmentPage() {
             badge="SCALABILITY &amp; EXPANSION"
             title="Built to Grow With Your Business"
             highlightText="Your Website Shouldn't Become a Limitation"
-            description="Your requirements can change after launch. We plan maintainability and future expansion while planning the architecture."
+            description="We plan for maintainability and future expansion during the architecture phase, as your requirements can change after launch."
             align="center"
           />
 
@@ -1683,8 +1668,8 @@ export default function WebDevelopmentPage() {
           <SectionHeading
             badge="INDUSTRIES WE SERVE"
             title="Web Development for"
-            highlightText="Different Industries"
-            description="Digital Experiences for Different Business Models"
+            highlightText="Different Sectors"
+            description="Digital Experiences Across Business Types"
             align="center"
           />
 
@@ -1719,7 +1704,7 @@ export default function WebDevelopmentPage() {
             badge="OUR METHODOLOGY"
             title="Our Web Development"
             highlightText="Process"
-            description="A structured 9-step execution pipeline from discovery to ongoing post-launch improvement."
+            description="A 9-step discovery to ongoing post-launch optimization 15-track structured execution pipeline."
             align="center"
           />
 
@@ -1751,9 +1736,9 @@ export default function WebDevelopmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="MODERN TECH STACK"
-            title="Technology We Work With"
-            highlightText="Modern Tools for Modern Web Projects"
-            description="The technology stack is selected according to your project—not because one technology is appropriate for every business."
+            title="The Technology "
+            highlightText="Behind Your Website"
+            description="Not every website is the same. We use the appropriate web development technologies to create fast, responsive, scalable websites, online stores, and web apps. "
             align="center"
           />
 
@@ -1788,9 +1773,9 @@ export default function WebDevelopmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="QUALITY ASSURANCE"
-            title="Quality Checks Before Your Website Goes Live"
-            highlightText='We Don&apos;t Stop at "It Works on My Computer"'
-            description="Before launch, we review important functional, responsive, performance, and SEO areas of the website."
+            title="Quality Testing Prior to"
+            highlightText="Website Launch"
+            description="We test your website for functionality, mobile responsiveness, performance, and SEO before launch — so everything is ready for real users."
             align="center"
           />
 
@@ -1820,9 +1805,9 @@ export default function WebDevelopmentPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             badge="WHY CHOOSE US"
-            title="Why Businesses Work With Nexovio Digital Solutions"
-            highlightText="One Web Development Partner From Idea to Launch"
-            description="Instead of treating design, development, SEO, and integrations as completely disconnected activities, we bring them together within the project."
+            title="Why Businesses Choose"
+            highlightText="Nexovio Digital Solutions"
+            description="Design, development, SEO, and integrations—all in one place for a website focused on your business. "
             align="center"
           />
 

@@ -91,9 +91,8 @@ export default function UiUxDesignPage() {
                 href="/portfolio"
                 variant="secondary"
                 size="lg"
-                trackingName="uiux_view_work"
+                trackingName="ui_ux_view_work"
                 trackingLocation="service_hero"
-                className="hover:border-brand-cyan/40"
               >
                 View UI/UX Work
               </Button>

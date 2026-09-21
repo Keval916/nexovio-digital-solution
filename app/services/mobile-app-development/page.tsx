@@ -18,7 +18,6 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { FaqSection } from "@/components/sections/FaqSection";
-import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
 import { generatePageMetadata } from "@/lib/seo";
 import { getServiceSchema } from "@/lib/schema";
 
@@ -100,7 +99,6 @@ export default function MobileAppDevelopmentPage() {
                 size="lg"
                 trackingName="mobile_app_view_work"
                 trackingLocation="service_hero"
-                className="hover:border-brand-cyan/40"
               >
                 View App Portfolio
               </Button>
