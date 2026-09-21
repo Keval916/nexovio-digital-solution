@@ -35,7 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     })),
     {
-      url: `${cleanSiteUrl}/services/digital-marketing`,
+      url: `${cleanSiteUrl}/services/seo-digital-marketing`,
       lastModified: now,
       changeFrequency: "weekly" as const,
       priority: 0.9,

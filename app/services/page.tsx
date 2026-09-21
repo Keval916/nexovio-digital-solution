@@ -21,17 +21,18 @@ import { generatePageMetadata } from "@/lib/seo";
 import { getCollectionPageSchema } from "@/lib/schema";
 
 export const metadata = generatePageMetadata({
-  title: "Digital Solutions & IT Services | Nexovio Digital Solutions",
+  title: "Digital Engineering & IT Services | Nexovio Digital Solutions",
   description:
-    "Explore Nexovio's 5 core digital disciplines: Web Development, Web Design, UI/UX Design, Graphic Design, and Digital Marketing. Strategy-led digital solutions for ambitious brands.",
+    "Explore our end-to-end digital services: web development, bespoke UI/UX and web design, mobile app development, graphic design, and SEO & digital marketing. We create solutions that drive growth.",
   keywords: [
-    "IT Services",
+    "IT services",
+    "web development services",
+    "SEO and marketing",
+    "mobile app development",
+    "UI/UX services",
     "Digital Solutions",
-    "Web Development Services",
     "Web Design Agency",
-    "UI UX Services",
     "Graphic Design",
-    "Digital Marketing Services",
   ],
   path: "/services",
 });

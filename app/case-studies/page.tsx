@@ -14,12 +14,14 @@ import { getCollectionPageSchema } from "@/lib/schema";
 export const metadata = generatePageMetadata({
   title: "Case Studies | Nexovio Digital Solutions",
   description:
-    "Explore in-depth technical case studies documenting how Nexovio Digital Solutions architects web applications, redesigns user journeys, and optimizes organic search pipelines.",
+    "Explore Nexovio’s project case studies in web development, UX design and digital marketing. See how our technical solutions helped clients improve conversion rates, efficiency and customer experience.",
   keywords: [
+    "web development case study",
+    "UX design case study",
+    "SEO case study",
+    "digital agency portfolio",
     "Engineering Case Studies",
-    "Web Development Case Studies",
     "BigCommerce Migration Case Study",
-    "Technical Architecture Teardowns",
   ],
   path: "/case-studies",
 });

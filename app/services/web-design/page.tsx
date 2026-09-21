@@ -68,26 +68,17 @@ const service = getServiceBySlug("web-design")!;
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
-    title: "Web Design Services | UI/UX & Responsive Website Design | Nexovio",
+    title: "Web Design Services | Responsive UI/UX Website Design",
     description:
-      "Nexovio Digital Solutions provides modern web design and UI/UX services for businesses, startups, e-commerce brands and SaaS companies with responsive, user-focused and conversion-ready experiences.",
+      "Bespoke website design focused on UX and conversions. Nexovio creates modern, responsive websites and landing pages with intuitive layouts and brand-driven graphics.",
     keywords: [
       "web design services",
-      "web design company",
-      "website design services",
-      "professional web design",
-      "responsive web design",
-      "UI/UX design services",
+      "responsive website design",
+      "UI/UX design",
+      "conversion-focused design",
       "custom web design",
-      "business website design",
       "website redesign services",
       "e-commerce web design",
-      "SaaS web design",
-      "landing page design",
-      "UI design services",
-      "UX design services",
-      "website UI UX design",
-      "mobile responsive web design",
     ],
     path: "/services/web-design",
   }),

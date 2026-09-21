@@ -23,16 +23,19 @@ import { getServiceSchema } from "@/lib/schema";
 const service = getServiceBySlug("graphic-design")!;
 
 export const metadata = generatePageMetadata({
-  title: service.seoTitle,
-  description: service.seoDescription,
+  title: "Graphic Design Services | Branding & Marketing Collateral",
+  description:
+    "Creative graphic design and brand identity services. We design cohesive logos, social media graphics, presentation decks and marketing materials that strengthen your brand.",
   keywords: [
+    "graphic design services",
+    "brand identity",
+    "marketing graphics",
+    "logo design",
+    "visual design services",
     "Brand Graphic Design",
     "Visual Identity Systems",
-    "Custom Logo Design",
-    "Corporate Branding Agency",
-    "Marketing Collateral Design",
   ],
-  path: `/services/${service.slug}`,
+  path: "/services/graphic-design",
 });
 
 export default function GraphicDesignPage() {

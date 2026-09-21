@@ -5,11 +5,11 @@ import { generatePageMetadata } from "@/lib/seo";
 export const metadata = generatePageMetadata({
   title: "Privacy Policy | Nexovio Digital Solutions",
   description:
-    "Review the Nexovio Digital Solutions privacy policy explaining how we collect, handle, and protect your information across our website and consultation forms.",
+    "Nexovio Digital Solutions Privacy Policy – how we collect, use and protect your personal information when you use our website or request services.",
   keywords: [
-    "Privacy Policy",
-    "Data Handling",
-    "Nexovio Privacy Policy",
+    "privacy policy",
+    "data protection",
+    "Nexovio confidentiality",
     "GDPR Cookie Terms",
   ],
   path: "/privacy-policy",

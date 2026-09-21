@@ -24,16 +24,19 @@ import { getServiceSchema } from "@/lib/schema";
 const service = getServiceBySlug("ui-ux-design")!;
 
 export const metadata = generatePageMetadata({
-  title: service.seoTitle,
-  description: service.seoDescription,
+  title: "UI/UX Design Services | Product & App Interface Design",
+  description:
+    "End-to-end UX design services: user research, wireframes and interactive Figma prototypes. We build intuitive design systems that elevate usability and user engagement.",
   keywords: [
+    "UX design services",
+    "user experience design",
+    "Figma prototype",
+    "interface design",
+    "design system",
     "UI UX Design Services",
     "User Experience Architecture",
-    "Design Systems Agency",
-    "Interactive Wireframing",
-    "Mobile App UX Design",
   ],
-  path: `/services/${service.slug}`,
+  path: "/services/ui-ux-design",
 });
 
 export default function UiUxDesignPage() {

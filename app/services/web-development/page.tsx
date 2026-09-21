@@ -61,24 +61,18 @@ const service = getServiceBySlug("web-development")!;
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
-    title: "Web Development Services | Websites, E-commerce & Web Apps | Nexovio",
+    title: "Web Development Services | Custom Websites & E-commerce | Nexovio",
     description:
-      "Nexovio Digital Solutions offers web development services including custom websites, WordPress, React, Next.js, e-commerce, web applications and API integrations.",
+      "Professional web development services for custom websites, e-commerce and web apps. We use WordPress, React/Next.js and headless CMS to build fast, secure, scalable online platforms.",
     keywords: [
       "web development services",
-      "web development company",
-      "website development services",
-      "custom website development",
-      "custom web development",
+      "custom web apps",
+      "React JS developer",
       "WordPress development",
-      "React development",
+      "ecommerce solutions",
+      "custom website development",
       "Next.js development",
-      "e-commerce development",
-      "web application development",
-      "API development",
       "API integration services",
-      "responsive web development",
-      "SEO-friendly web development",
     ],
     path: "/services/web-development",
   }),

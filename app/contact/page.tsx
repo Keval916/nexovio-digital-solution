@@ -8,15 +8,16 @@ import { generatePageMetadata } from "@/lib/seo";
 import { getContactPageSchema } from "@/lib/schema";
 
 export const metadata = generatePageMetadata({
-  title: "Contact Us & Project Consultation | Nexovio Digital Solutions",
+  title: "Contact Nexovio Digital Solutions – Start Your Project",
   description:
-    "Start your project consultation with Nexovio Digital Solutions. Discuss custom web development, UI/UX design, or digital marketing scope with our technical team.",
+    "Ready to build a website, app or digital marketing strategy? Contact Nexovio to discuss your project. Our technical team will review your requirements and respond within one business day.",
   keywords: [
+    "contact web development agency",
+    "request quote digital marketing",
+    "SEO consultation",
+    "software development inquiry",
     "Contact Nexovio",
-    "Project Consultation",
-    "Web Development Inquiry",
     "Hire Web Developers",
-    "Request Quote Nexovio",
   ],
   path: "/contact",
 });

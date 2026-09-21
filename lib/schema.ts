@@ -82,7 +82,7 @@ export function getOrganizationSchema() {
           itemOffered: {
             "@type": "Service",
             name: "Digital Marketing & SEO",
-            url: `${SITE_URL}/services/digital-marketing`,
+            url: `${SITE_URL}/services/seo-digital-marketing`,
           },
         },
       ],

@@ -11,15 +11,17 @@ import { generatePageMetadata } from "@/lib/seo";
 import { getCollectionPageSchema } from "@/lib/schema";
 
 export const metadata = generatePageMetadata({
-  title: "Engineering Blog & Digital Insights | Nexovio Digital Solutions",
+  title: "Nexovio Blog – Engineering & Digital Strategy Insights",
   description:
-    "Original, practical guides and architectural insights on modern web development, Core Web Vitals, UI/UX design systems, and technical SEO.",
+    "Original articles and insights on web development, UX/UI design, Core Web Vitals and technical SEO. Learn best practices and trends to improve your website and growth strategy.",
   keywords: [
+    "web development blog",
+    "digital strategy blog",
+    "UX design articles",
+    "technical SEO tips",
     "Engineering Blog",
     "Web Development Articles",
     "Core Web Vitals Guide",
-    "UI UX Design Insights",
-    "Technical SEO Checklist",
   ],
   path: "/blog",
 });

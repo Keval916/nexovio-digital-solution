@@ -22,16 +22,17 @@ import { generatePageMetadata } from "@/lib/seo";
 import { getServiceSchema } from "@/lib/schema";
 
 export const metadata = generatePageMetadata({
-  title: "Mobile App Development Services – iOS & Android Solutions | Nexovio",
+  title: "Mobile App Development | iOS & Android App Solutions",
   description:
-    "Custom mobile app development services by Nexovio Digital Solutions. Cross-platform iOS and Android apps built with React Native & Flutter for performance.",
+    "Cross-platform mobile app development using React Native and Flutter. We build performant iOS/Android apps with intuitive UX to engage your customers and integrate seamlessly with your systems.",
   keywords: [
+    "mobile app development",
+    "iOS Android apps",
+    "React Native",
+    "Flutter",
+    "cross-platform development",
     "Mobile App Development Services",
     "iOS and Android App Developers",
-    "React Native App Development",
-    "Flutter Mobile Apps",
-    "Cross-Platform Mobile Apps",
-    "Nexovio Mobile App Engineering",
   ],
   path: "/services/mobile-app-development",
 });

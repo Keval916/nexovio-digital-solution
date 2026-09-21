@@ -3,14 +3,15 @@ import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { generatePageMetadata } from "@/lib/seo";
 
 export const metadata = generatePageMetadata({
-  title: "Terms and Conditions | Nexovio Digital Solutions",
+  title: "Terms & Conditions | Nexovio Digital Solutions",
   description:
-    "Review the terms and conditions governing the use of the Nexovio Digital Solutions website, services, project inquiries, and intellectual property.",
+    "Review the Terms & Conditions governing use of the Nexovio Digital Solutions website and services. Includes service scope, intellectual property and legal disclaimers.",
   keywords: [
-    "Terms and Conditions",
+    "terms and conditions",
+    "usage policy",
+    "legal disclaimers",
+    "Nexovio policy",
     "Terms of Service",
-    "Nexovio Client Agreement",
-    "Legal Terms",
   ],
   path: "/terms-and-conditions",
 });
