@@ -596,7 +596,7 @@ export default function AboutPage() {
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Button
-                  href="/contact"
+                  href="https://calendly.com/nexoviodigitalsolutions-info"
                   variant="primary"
                   size="lg"
                   trackingName="about_hero_contact"
