@@ -37,7 +37,7 @@ export function generatePageMetadata({
   noIndex = false,
 }: PageMetadataProps): Metadata {
   const canonical = getCanonicalUrl(path);
-  const fullTitle = title.includes(SITE_NAME) ? title : `${title} | ${SITE_NAME}`;
+  const fullTitle = title.includes(SITE_NAME) || title.includes("Nexovio") ? title : `${title} | ${SITE_NAME}`;
   const fullImageUrl = ogImage.startsWith("http") ? ogImage : `${SITE_URL}${ogImage.startsWith("/") ? ogImage : `/${ogImage}`}`;
 
   return {
@@ -49,20 +49,20 @@ export function generatePageMetadata({
     },
     robots: noIndex
       ? {
-          index: false,
-          follow: false,
-        }
+        index: false,
+        follow: false,
+      }
       : {
+        index: true,
+        follow: true,
+        googleBot: {
           index: true,
           follow: true,
-          googleBot: {
-            index: true,
-            follow: true,
-            "max-video-preview": -1,
-            "max-image-preview": "large",
-            "max-snippet": -1,
-          },
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
         },
+      },
     openGraph: {
       title: fullTitle,
       description,
@@ -80,10 +80,10 @@ export function generatePageMetadata({
       ],
       ...(type === "article" && publishedTime
         ? {
-            publishedTime,
-            modifiedTime: modifiedTime || publishedTime,
-            authors: authors || [SITE_NAME],
-          }
+          publishedTime,
+          modifiedTime: modifiedTime || publishedTime,
+          authors: authors || [SITE_NAME],
+        }
         : {}),
     },
     twitter: {
