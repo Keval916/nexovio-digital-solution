@@ -4,19 +4,21 @@ import { generatePageMetadata } from "@/lib/seo";
 import { getOrganizationSchema } from "@/lib/schema";
 
 export const metadata = generatePageMetadata({
-  title: "Nexovio Digital Solutions | Web Development, UI/UX & SEO Agency",
+  title: "Web Development Company | Web Design, SEO & AI Solutions | Nexovio",
   description:
-    "Nexovio Digital Solutions offers custom web development, UI/UX design and technical SEO services worldwide. We build fast, SEO-friendly websites and apps to boost your traffic and conversions.",
+    "Nexovio Digital Solutions offers custom web development, web design, UI/UX, eCommerce, SEO, digital marketing and AI solutions for modern businesses worldwide.",
   keywords: [
-    "digital agency",
-    "web development",
-    "SEO services",
+    "web development company",
+    "web development services",
+    "web design company",
+    "custom web development",
+    "website development",
     "UI/UX design",
-    "global tech solutions",
-    "Web Development Company",
-    "Digital Marketing Agency",
-    "Custom Web Applications",
-    "React Next.js Developers",
+    "eCommerce development",
+    "SEO services",
+    "digital marketing",
+    "AI web development",
+    "AI solutions",
   ],
   path: "/",
 });
