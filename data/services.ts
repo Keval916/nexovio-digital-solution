@@ -818,34 +818,64 @@ export const SERVICES: ServiceItem[] = [
     imageAlt: "Digital marketing strategy and organic search analytics dashboard by Nexovio Digital Solutions",
     faqs: [
       {
-        question: "Do you provide SEO with website development?",
+        question: "What SEO services does Nexovio provide?",
         answer:
-          "Yes. Technical SEO, site structure, performance, mobile responsiveness, and search-friendly architecture are built in during development.",
+          "The service covers technical SEO and site architecture, search-intent content strategy, on-page content optimization, conversion rate optimization, GA4/GTM analytics architecture, SEO audits and recovery roadmaps.",
       },
       {
-        question: "How long does it take to see results from SEO?",
+        question: "What is technical SEO?",
         answer:
-          "While technical fixes show immediate crawl improvements, organic ranking growth typically matures over 3 to 6 months of continuous optimization.",
+          "Technical SEO focuses on the parts of a website that affect how search engines discover, crawl, understand and index pages, including architecture, sitemaps, canonical URLs, structured data, performance and related implementation details.",
       },
       {
-        question: "What is Technical SEO and why is it essential?",
+        question: "How long does SEO take to show results?",
         answer:
-          "Technical SEO optimizes site speed, Core Web Vitals, XML sitemaps, structured data schema, canonical URLs, and indexation, ensuring search engine bots crawl and index your site without friction.",
+          "Technical fixes can improve crawl conditions quickly, while broader organic ranking growth typically matures over about 3 to 6 months of continuous optimization. Actual timelines vary by site condition, competition, content quality and target market.",
       },
       {
-        question: "Do you guarantee #1 rankings on Google?",
+        question: "Do you guarantee #1 Google rankings?",
         answer:
-          "No reputable agency can guarantee #1 rankings on Google because search algorithms constantly adapt. We follow ethical, white-hat SEO engineering principles that build durable, long-term search authority.",
+          "No. Nexovio explicitly rejects #1 ranking guarantees and describes SEO as a long-term, ethical optimization discipline.",
       },
       {
-        question: "What analytics tools do you configure for tracking growth?",
+        question: "What is an SEO audit?",
         answer:
-          "We set up Google Analytics 4 (GA4) and Google Tag Manager (GTM) with custom conversion events to measure key actions like form submissions, phone calls, and CTA clicks.",
+          "An SEO audit is a structured review of technical health, content, indexation, internal linking, search visibility and other ranking-related factors. The output is a prioritized roadmap showing what should be fixed first.",
       },
       {
-        question: "Can you perform an audit on an existing website losing organic traffic?",
+        question: "How do you choose SEO keywords?",
         answer:
-          "Yes. We conduct full technical and content audits to identify crawl issues, keyword cannibalization, broken links, or lost rankings and provide a prioritized recovery roadmap.",
+          "We start with business goals and customer search behavior, evaluating intent, relevance, competition, current visibility and the required page type. Search volume is a useful signal, but not the only one.",
+      },
+      {
+        question: "Do you provide on-page SEO services?",
+        answer:
+          "Yes. Our offering includes H1-H3 structure, semantic HTML, contextual internal links, descriptive meta descriptions and image alt architecture.",
+      },
+      {
+        question: "Can you improve a website that is losing organic traffic?",
+        answer:
+          "Yes. Nexovio can audit existing websites to identify crawl issues, keyword cannibalization, broken links and lost rankings, then provide a prioritized recovery roadmap.",
+      },
+      {
+        question: "Do you work on local SEO and international SEO?",
+        answer:
+          "Local SEO is a natural extension of our search-visibility offering. International SEO can be positioned for businesses targeting multiple markets, including market-specific keyword research, localization and technical regional targeting.",
+      },
+      {
+        question: "What analytics tools do you use?",
+        answer:
+          "We configure Google Analytics 4 and Google Tag Manager with custom event tracking for form submissions, clicks and downloads.",
+      },
+      {
+        question: "Can SEO be combined with web development or redesign?",
+        answer:
+          "Yes. Nexovio provides web development, web design and UI/UX alongside SEO and digital marketing, allowing technical, structural and experience-related issues to be addressed within a connected digital project.",
+      },
+      {
+        question: "Can you create SEO content for our website?",
+        answer:
+          "Yes. The content strategy focuses on search intent, customer questions, commercial priorities and topical depth, while keeping the language natural and genuinely useful to readers.",
       },
     ],
   },

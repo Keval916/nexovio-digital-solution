@@ -929,7 +929,7 @@ export default function WebDevelopmentPage() {
   });
 
   return (
-    <div className="bg-background overflow-hidden">
+    <div className="bg-background overflow-x-clip">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
@@ -952,15 +952,15 @@ export default function WebDevelopmentPage() {
                 <span>WEB DEVELOPMENT SERVICES</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.14]">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight !leading-[1.14]">
                 Web Development That Turns Your Ideas Into{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
-                  Digital Experiences
+                  Digital Experiences
                 </span>
               </h1>
 
               <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed">
-                <p className="font-medium text-md text-slate-900 dark:text-white">We craft clean, modern, responsive and scalable digital experience to connect businesses with customers, build trust and help them grow online. Business websites and e-commerce stores to web applications and API powered platforms, we architect solutions aligned to your objectives.</p>
+                <p className="font-medium text-md text-slate-900 dark:text-white">We craft clean, modern, responsive and scalable digital experience to connect businesses with customers, build trust and help them grow online. Business websites and e-commerce stores to web applications and API powered platforms, we architect solutions aligned to your objectives.</p>
               </div>
 
               {/* 6 Banner Badges in 3-Column Grid */}
@@ -998,16 +998,6 @@ export default function WebDevelopmentPage() {
                 >
                   Start Your Web Project
                 </Button>
-                <Button
-                  href="/contact"
-                  variant="secondary"
-                  size="lg"
-                  trackingName="web_dev_talk_team"
-                  trackingLocation="service_hero"
-                  className="w-full sm:w-auto"
-                >
-                  Talk to Our Team
-                </Button>
               </div>
             </div>
 
@@ -1036,10 +1026,10 @@ export default function WebDevelopmentPage() {
       {/* 2. BUILD A WEBSITE AROUND YOUR BUSINESS, NOT A TEMPLATE (Section Blue Background) */}
       <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
 
-            {/* Left Side Custom Web Development Process Solutions Image */}
-            <div className="lg:col-span-6 relative flex items-center justify-center">
+            {/* Left Side Custom Web Development Process Solutions Image (Sticky on Top during Scroll) */}
+            <div className="lg:col-span-6 lg:sticky lg:top-28 self-start z-10 relative flex items-center justify-center">
               <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
               <div className="relative w-full rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071024] p-2.5 sm:p-3 shadow-xl overflow-hidden group">
                 <div className="relative overflow-hidden rounded-xl w-full flex items-center justify-center">
