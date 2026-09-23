@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -38,6 +38,13 @@ import {
   MessageSquareQuote,
   ChevronDown,
   Map,
+  Brain,
+  Wand2,
+  Bot,
+  MessageSquare,
+  Globe,
+  Sliders,
+  Boxes,
 } from "lucide-react";
 
 import { SERVICES } from "@/data/services";
@@ -295,6 +302,119 @@ const TECH_CATEGORIES = [
     description: "Learn how users engage with your digital experiences and where you can improve them.",
   },
 ];
+
+const TYPEWRITER_PHRASES = [
+  "Web Development.",
+  "Web Design.",
+  "UI/UX Design.",
+  "AI Solutions.",
+  "Digital Marketing.",
+];
+
+const AI_CAPABILITIES = [
+  {
+    title: "AI Development Services",
+    description:
+      "Build custom AI-powered features and applications around a defined business problem, data source and user workflow.",
+    icon: Brain,
+  },
+  {
+    title: "Generative AI Development",
+    description:
+      "Create applications that use generative models for content, knowledge tasks, summarization, drafting, classification and other practical workflows.",
+    icon: Wand2,
+  },
+  {
+    title: "AI Agent Development",
+    description:
+      "Design task-oriented AI agents that can reason through defined workflows, use approved tools and help users complete multi-step tasks.",
+    icon: Bot,
+  },
+  {
+    title: "AI Chatbot Development",
+    description:
+      "Create conversational assistants for websites, apps and internal teams that can answer questions and guide users through common tasks.",
+    icon: MessageSquare,
+  },
+  {
+    title: "AI Automation Solutions",
+    description:
+      "Use AI to reduce repetitive work across support, operations, content, document handling, lead workflows and internal processes.",
+    icon: Zap,
+  },
+  {
+    title: "AI Web & App Development",
+    description:
+      "Embed AI capabilities into websites and applications so intelligence is part of the product experience rather than a separate tool.",
+    icon: Globe,
+  },
+  {
+    title: "AI Search & RAG Solutions",
+    description:
+      "Connect language models to approved business knowledge so users can find relevant answers from internal documents and structured sources.",
+    icon: Search,
+  },
+  {
+    title: "AI API & Model Integration",
+    description:
+      "Integrate third-party or private AI models through secure APIs and product-specific orchestration.",
+    icon: Sliders,
+  },
+  {
+    title: "AI Recommendation Systems",
+    description:
+      "Use behavioral or product data to deliver more relevant recommendations, discovery experiences or next-best actions where appropriate.",
+    icon: TrendingUp,
+  },
+  {
+    title: "Custom AI Solutions",
+    description:
+      "Combine models, workflows, data, interfaces and automation into a solution designed around the exact business requirement.",
+    icon: Boxes,
+  },
+];
+
+function TypewriterHeading() {
+  const [text, setText] = useState("Web Development.");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [phraseIndex, setPhraseIndex] = useState(0);
+  const [typingSpeed, setTypingSpeed] = useState(80);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    const currentPhrase = TYPEWRITER_PHRASES[phraseIndex];
+
+    if (!isDeleting && text === currentPhrase) {
+      timer = setTimeout(() => {
+        setIsDeleting(true);
+        setTypingSpeed(40);
+      }, 2400);
+    } else if (isDeleting && text === "") {
+      setIsDeleting(false);
+      const nextIndex = (phraseIndex + 1) % TYPEWRITER_PHRASES.length;
+      setPhraseIndex(nextIndex);
+      setTypingSpeed(80);
+    } else {
+      timer = setTimeout(() => {
+        const nextText = isDeleting
+          ? currentPhrase.substring(0, text.length - 1)
+          : currentPhrase.substring(0, text.length + 1);
+        setText(nextText);
+      }, typingSpeed);
+    }
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, phraseIndex, typingSpeed]);
+
+  return (
+    <span className="inline-block relative whitespace-nowrap min-h-[1.2em]">
+      <span className="bg-gradient-brand bg-clip-text text-transparent">
+        {text}
+      </span>
+      <span className="inline-block w-[3px] h-[0.85em] bg-brand-cyan ml-1 align-middle animate-pulse rounded-full shadow-[0_0_10px_#00c6ff]" />
+    </span>
+  );
+}
 
 // ==========================================
 // SECTION COMPONENTS
@@ -681,7 +801,93 @@ export function ServicesInteractive() {
   );
 }
 
-// 4. Process Section
+// 4. AI Solutions & Capabilities Section
+export function AiSolutionsSection() {
+  return (
+    <section className="section-blue pt-12 sm:pt-16 pb-12 sm:pb-16 relative overflow-hidden" id="ai-solutions">
+      {/* Background glow accents */}
+      <div className="absolute top-1/4 -left-32 w-96 h-96 bg-brand-cyan/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-brand-electric/10 rounded-full blur-[100px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <AnimateOnScroll variant="fadeUp" duration={0.7}>
+          <div className="text-center max-w-4xl mx-auto mb-10 sm:mb-14 space-y-4">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-brand-bright" />
+              <span>AI CAPABILITY &amp; INTEGRATION</span>
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight text-slate-900 dark:text-white">
+              AI Solutions for{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                Smarter Digital Products and Workflows
+              </span>
+            </h2>
+            <p className="text-base sm:text-lg text-muted leading-relaxed max-w-3xl mx-auto">
+              AI can be useful when it helps people work faster, find information more easily, serve customers better or make products more intelligent. Nexovio can bring AI into websites, applications and business workflows without making the experience feel complicated.
+            </p>
+
+
+          </div>
+        </AnimateOnScroll>
+
+        {/* 10 AI Capability Cards */}
+        <AnimateOnScroll variant="staggerChildren" stagger={0.08} duration={0.6}>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {AI_CAPABILITIES.map((card) => {
+              const IconComponent = card.icon;
+              return (
+                <Card
+                  key={card.title}
+                  accentBar={true}
+                  className="group relative flex flex-col justify-between h-full bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle hover:border-brand-cyan/50 hover:shadow-[0_10px_30px_rgba(0,198,255,0.18)] hover:-translate-y-2 transition-all duration-300 rounded-2xl overflow-hidden"
+                >
+                  {/* Glowing background hint on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand-cyan/5 via-transparent to-brand-electric/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-5">
+                      <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/50 group-hover:shadow-[0_0_20px_rgba(0,198,255,0.35)] transition-all duration-300">
+                        <IconComponent className="w-6 h-6" />
+                      </div>
+                    </div>
+
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors duration-300 leading-snug mb-3">
+                      {card.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                      {card.description}
+                    </p>
+                  </div>
+                </Card>
+              );
+            })}
+
+          </div>
+          {/* AI Positioning Banner */}
+          <div className="pt-2">
+            <div className="relative max-w-3xl mx-auto rounded-2xl border border-brand-cyan/30 bg-surface-elevated/80 backdrop-blur-md p-5 sm:p-6 shadow-md hover:border-brand-cyan/50 transition-all text-left group">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="w-10 h-10 rounded-xl bg-brand-bright/10 border border-brand-cyan/30 flex items-center justify-center shrink-0 text-brand-cyan group-hover:scale-105 group-hover:bg-brand-cyan/20 transition-all duration-300">
+                  <Sparkles className="w-5 h-5 text-brand-cyan" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-[11px] font-mono font-bold tracking-widest text-brand-cyan uppercase block">
+                    AI POSITIONING
+                  </span>
+                  <p className="text-xs sm:text-sm text-foreground/90 font-medium leading-relaxed">
+                    Treat AI as an enabling capability across Nexovio&apos;s existing digital services. The homepage should avoid implying that every client needs AI; the message should be practical, outcome-driven and tied to real use cases.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </AnimateOnScroll>
+      </div>
+    </section>
+  );
+}
+
+// 5. Process Section
 export function ProcessSection() {
   return (
     <section className="section-white pt-12 sm:pt-16 pb-6 sm:pb-8 relative" id="process">
@@ -1302,7 +1508,10 @@ export default function Homepage() {
       {/* 3. Services Showcase */}
       <ServicesInteractive />
 
-      {/* 4. Our Process */}
+      {/* 4. AI Solutions & Capabilities */}
+      <AiSolutionsSection />
+
+      {/* 5. Our Process */}
       <ProcessSection />
 
       {/* 5. Why Businesses Work With Us */}
