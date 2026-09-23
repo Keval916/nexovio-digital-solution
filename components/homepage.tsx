@@ -512,6 +512,8 @@ export function HeroSection() {
                 <span>SEO</span>
                 <span className="text-brand-cyan">•</span>
                 <span>Digital Marketing</span>
+                <span className="text-brand-cyan">•</span>
+                <span>AI Solutions</span>
               </div>
             </AnimateOnScroll>
           </div>
