@@ -27,20 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // Service pages
-  const serviceRoutes = [
-    ...SERVICES.map((service) => ({
-      url: `${cleanSiteUrl}/services/${service.slug}`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.9,
-    })),
-    {
-      url: `${cleanSiteUrl}/services/seo-digital-marketing`,
-      lastModified: now,
-      changeFrequency: "weekly" as const,
-      priority: 0.9,
-    },
-  ];
+  const serviceRoutes = SERVICES.map((service) => ({
+    url: `${cleanSiteUrl}/services/${service.slug}`,
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  }));
 
   // Case study pages
   const caseStudyRoutes = CASE_STUDIES.map((study) => ({

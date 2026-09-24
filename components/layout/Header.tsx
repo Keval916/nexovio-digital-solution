@@ -14,6 +14,7 @@ import {
   Layout,
   Smartphone,
   TrendingUp,
+  PenTool,
   Bot,
   Cpu,
   BrainCircuit,
@@ -61,6 +62,12 @@ const ALL_SERVICES = [
     href: "/services/mobile-app-development",
     description: "Cross-platform iOS & Android mobile application engineering",
     icon: Smartphone,
+  },
+  {
+    name: "Graphic Design",
+    href: "/services/graphic-design",
+    description: "Brand identity, logos, marketing collateral & visual systems",
+    icon: PenTool,
   },
   {
     name: "SEO & Digital Marketing",
@@ -620,7 +627,7 @@ export function Header() {
                   <div className="flex items-center gap-2">
                     <span>Services</span>
                     <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.2 rounded bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">
-                      5 Disciplines
+                      6 Disciplines
                     </span>
                   </div>
                   <ChevronDown

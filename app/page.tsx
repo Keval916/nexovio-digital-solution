@@ -1,38 +1,28 @@
 import React from "react";
 import Homepage from "@/components/homepage";
 import { generatePageMetadata } from "@/lib/seo";
-import { getOrganizationSchema } from "@/lib/schema";
 
 export const metadata = generatePageMetadata({
-  title: "Web Development Company | Web Design, SEO & AI Solutions | Nexovio",
+  title: "Web Development Company | AI, Web Design & SEO | Nexovio",
   description:
-    "Nexovio Digital Solutions offers custom web development, web design, UI/UX, eCommerce, SEO, digital marketing and AI solutions for modern businesses worldwide.",
+    "Nexovio Digital Solutions is a global web development and AI solutions company offering custom web development, web design, UI/UX, eCommerce, SEO and digital marketing services for modern businesses.",
   keywords: [
     "web development company",
     "web development services",
-    "web design company",
     "custom web development",
-    "website development",
-    "UI/UX design",
+    "website development company",
+    "web design company",
+    "web design services",
+    "AI solutions",
+    "AI web development",
+    "UI/UX design services",
     "eCommerce development",
     "SEO services",
-    "digital marketing",
-    "AI web development",
-    "AI solutions",
+    "digital marketing services",
   ],
   path: "/",
 });
 
 export default function Page() {
-  const organizationSchema = getOrganizationSchema();
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-      />
-      <Homepage />
-    </>
-  );
+  return <Homepage />;
 }
