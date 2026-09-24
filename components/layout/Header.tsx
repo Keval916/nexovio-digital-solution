@@ -22,10 +22,16 @@ import {
   ShoppingBag,
   Layers,
   Sparkles,
+  PhoneCall,
+  MessageSquare,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { cn } from "@/lib/utils";
+
+const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
+const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
+const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+91-6351312234";
 
 // ============================================================================
 // NAVIGATION DATA STRUCTURES
@@ -182,149 +188,169 @@ export function Header() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           isScrolled || activeDropdown
-            ? "bg-white/95 dark:bg-[#070D1A]/95 backdrop-blur-2xl border-b border-slate-200/80 dark:border-white/10 shadow-lg py-2"
-            : "bg-transparent py-2.5 sm:py-3.5"
+            ? "bg-white/95 dark:bg-[#070D1A]/95 backdrop-blur-2xl border-b border-slate-200/80 dark:border-white/10 shadow-lg"
+            : "bg-white/95 dark:bg-[#070D1A]/95 backdrop-blur-md border-b border-slate-200/60 dark:border-white/10"
         )}
         ref={dropdownRef}
       >
-        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            {/* Full Brand Logo */}
-            <Link
-              href="/"
-              className="flex items-center group outline-none focus:outline-none select-none py-0.5 px-1 transition-transform hover:opacity-95 shrink-0"
-              aria-label="Nexovio Digital Solutions Homepage"
+        {/* Topbar above header */}
+        <div className="topbar-container bg-[#0f2f56] text-white keep-white text-xs py-2 px-4 border-b border-slate-800/80 hidden md:block" style={{ color: "#ffffff" }}>
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <span className="flex items-center gap-1.5 text-white keep-white font-medium" style={{ color: "#ffffff" }}>
+              <Sparkles className="w-3.5 h-3.5 text-white keep-white" style={{ color: "#ffffff" }} />
+              Your Digital Growth Partner for Web Development, Web Design, SEO & AI Solutions
+            </span>
+            <a
+              href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
             >
-              <div className="relative flex items-center">
-                {/* Dark Theme Logo */}
-                <Image
-                  src="/images/brand/nexovio-digital-solution.webp"
-                  alt="Nexovio Digital Solutions"
-                  width={380}
-                  height={100}
-                  priority
-                  className="hidden dark:block h-9 sm:h-11 md:h-12 lg:h-13 xl:h-[56px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
-                />
-                {/* Light Theme Logo */}
-                <Image
-                  src="/images/brand/nexovio-digital-solution-light.webp"
-                  alt="Nexovio Digital Solutions"
-                  width={380}
-                  height={100}
-                  priority
-                  className="block dark:hidden h-9 sm:h-11 md:h-12 lg:h-13 xl:h-[56px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
-                />
-              </div>
-            </Link>
+              <MessageSquare className="w-3.5 h-3.5 text-brand-cyan" />
+              <span>WhatsApp Consultation</span>
+            </a>
+          </div>
+        </div>
 
-            {/* Desktop Main Navigation */}
-            <nav
-              className="hidden lg:flex items-center gap-0.5 xl:gap-1.5"
-              aria-label="Main Navigation"
-            >
-              {/* 1. Home */}
+        <div className={cn("transition-all duration-300", isScrolled || activeDropdown ? "py-2" : "py-2.5 sm:py-3.5")}>
+          <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between">
+              {/* Full Brand Logo */}
               <Link
                 href="/"
-                className={cn(
-                  "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                  isActive("/") && pathname === "/"
-                    ? "text-brand-cyan font-semibold"
-                    : "text-muted hover:text-brand-cyan"
-                )}
+                className="flex items-center group outline-none focus:outline-none select-none py-0.5 px-1 transition-transform hover:opacity-95 shrink-0"
+                aria-label="Nexovio Digital Solutions Homepage"
               >
-                <span className="relative py-0.5">
-                  Home
-                  <span
-                    className={cn(
-                      "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                      isActive("/") && pathname === "/" ? "w-full" : "w-0 group-hover:w-full"
-                    )}
+                <div className="relative flex items-center">
+                  {/* Dark Theme Logo */}
+                  <Image
+                    src="/images/brand/nexovio-digital-solution.webp"
+                    alt="Nexovio Digital Solutions"
+                    width={380}
+                    height={100}
+                    priority
+                    className="hidden dark:block h-9 sm:h-11 md:h-12 lg:h-13 xl:h-[56px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
                   />
-                </span>
+                  {/* Light Theme Logo */}
+                  <Image
+                    src="/images/brand/nexovio-digital-solution-light.webp"
+                    alt="Nexovio Digital Solutions"
+                    width={380}
+                    height={100}
+                    priority
+                    className="block dark:hidden h-9 sm:h-11 md:h-12 lg:h-13 xl:h-[56px] w-auto object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+                  />
+                </div>
               </Link>
 
-              {/* 2. Services MegaMenu ▾ */}
-              <div
-                className="relative"
-                onMouseEnter={() => handleMouseEnter("services")}
-                onMouseLeave={handleMouseLeave}
+              {/* Desktop Main Navigation */}
+              <nav
+                className="hidden lg:flex items-center gap-0.5 xl:gap-1.5"
+                aria-label="Main Navigation"
               >
-                <button
-                  type="button"
+                {/* 1. Home */}
+                <Link
+                  href="/"
                   className={cn(
-                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center gap-1",
-                    isActive("/services") || activeDropdown === "services"
+                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
+                    isActive("/") && pathname === "/"
                       ? "text-brand-cyan font-semibold"
                       : "text-muted hover:text-brand-cyan"
                   )}
-                  onClick={() => setActiveDropdown(activeDropdown === "services" ? null : "services")}
                 >
-                  <span>Services</span>
-                  <ChevronDown
-                    className={cn(
-                      "w-3.5 h-3.5 transition-transform duration-300",
-                      activeDropdown === "services" ? "rotate-180 text-brand-cyan" : "text-muted group-hover:text-brand-cyan"
-                    )}
-                  />
-                </button>
+                  <span className="relative py-0.5">
+                    Home
+                    <span
+                      className={cn(
+                        "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                        isActive("/") && pathname === "/" ? "w-full" : "w-0 group-hover:w-full"
+                      )}
+                    />
+                  </span>
+                </Link>
 
-                {/* Services Desktop Dropdown Panel */}
+                {/* 2. Services MegaMenu ▾ */}
                 <div
-                  className={cn(
-                    "absolute top-full mt-2 -left-[180px] xl:-left-[200px] w-[700px] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/98 dark:bg-[#070D1A]/98 backdrop-blur-2xl p-5 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-50",
-                    "transition-all duration-300 ease-out origin-top transform-gpu",
-                    activeDropdown === "services"
-                      ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
-                      : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
-                  )}
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter("services")}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 dark:border-white/10">
-                    <div className="flex items-center gap-2">
-                      <Code2 className="w-4 h-4 text-brand-cyan" />
-                      <span className="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-muted">
-                        Nexovio Engineering Disciplines
-                      </span>
-                    </div>
-                    <Link
-                      href="/services"
-                      onClick={() => setActiveDropdown(null)}
-                      className="text-xs font-bold uppercase tracking-wider text-brand-cyan hover:text-brand-electric dark:hover:text-white flex items-center gap-1 transition-colors"
-                    >
-                      <span>Explore All Services</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
+                  <button
+                    type="button"
+                    className={cn(
+                      "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center gap-1",
+                      isActive("/services") || activeDropdown === "services"
+                        ? "text-brand-cyan font-semibold"
+                        : "text-muted hover:text-brand-cyan"
+                    )}
+                    onClick={() => setActiveDropdown(activeDropdown === "services" ? null : "services")}
+                  >
+                    <span>Services</span>
+                    <ChevronDown
+                      className={cn(
+                        "w-3.5 h-3.5 transition-transform duration-300",
+                        activeDropdown === "services" ? "rotate-180 text-brand-cyan" : "text-muted group-hover:text-brand-cyan"
+                      )}
+                    />
+                  </button>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    {ALL_SERVICES.map((svc) => {
-                      const Icon = svc.icon;
-                      return (
-                        <Link
-                          key={svc.name}
-                          href={svc.href}
-                          onClick={() => setActiveDropdown(null)}
-                          className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 border border-slate-100 dark:border-white/5 hover:border-brand-cyan/30 transition-all duration-200 group"
-                        >
-                          <div className="p-2 rounded-lg bg-slate-100 dark:bg-surface-subtle border border-slate-200 dark:border-white/10 group-hover:border-brand-cyan/50 group-hover:bg-brand-cyan/10 text-slate-500 dark:text-muted group-hover:text-brand-cyan transition-all shrink-0">
-                            <Icon className="w-4 h-4" />
-                          </div>
-                          <div>
-                            <div className="text-xs font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
-                              {svc.name}
+                  {/* Services Desktop Dropdown Panel */}
+                  <div
+                    className={cn(
+                      "absolute top-full mt-2 -left-[180px] xl:-left-[200px] w-[700px] max-w-[calc(100vw-3rem)] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/98 dark:bg-[#070D1A]/98 backdrop-blur-2xl p-5 shadow-2xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-50",
+                      "transition-all duration-300 ease-out origin-top transform-gpu",
+                      activeDropdown === "services"
+                        ? "opacity-100 visible translate-y-0 scale-100 pointer-events-auto"
+                        : "opacity-0 invisible -translate-y-2 scale-95 pointer-events-none"
+                    )}
+                  >
+                    <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 dark:border-white/10">
+                      <div className="flex items-center gap-2">
+                        <Code2 className="w-4 h-4 text-brand-cyan" />
+                        <span className="text-xs font-mono uppercase tracking-widest text-slate-500 dark:text-muted">
+                          Nexovio Engineering Disciplines
+                        </span>
+                      </div>
+                      <Link
+                        href="/services"
+                        onClick={() => setActiveDropdown(null)}
+                        className="text-xs font-bold uppercase tracking-wider text-brand-cyan hover:text-brand-electric dark:hover:text-white flex items-center gap-1 transition-colors"
+                      >
+                        <span>Explore All Services</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      {ALL_SERVICES.map((svc) => {
+                        const Icon = svc.icon;
+                        return (
+                          <Link
+                            key={svc.name}
+                            href={svc.href}
+                            onClick={() => setActiveDropdown(null)}
+                            className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-slate-100/80 dark:hover:bg-white/5 border border-slate-100 dark:border-white/5 hover:border-brand-cyan/30 transition-all duration-200 group"
+                          >
+                            <div className="p-2 rounded-lg bg-slate-100 dark:bg-surface-subtle border border-slate-200 dark:border-white/10 group-hover:border-brand-cyan/50 group-hover:bg-brand-cyan/10 text-slate-500 dark:text-muted group-hover:text-brand-cyan transition-all shrink-0">
+                              <Icon className="w-4 h-4" />
                             </div>
-                            <div className="text-[11px] text-slate-500 dark:text-muted line-clamp-2 mt-0.5 leading-relaxed">
-                              {svc.description}
+                            <div>
+                              <div className="text-xs font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
+                                {svc.name}
+                              </div>
+                              <div className="text-[11px] text-slate-500 dark:text-muted line-clamp-2 mt-0.5 leading-relaxed">
+                                {svc.description}
+                              </div>
                             </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* 3. AI Solutions ▾ */}
-              {/* <div
+                {/* 3. AI Solutions ▾ */}
+                {/* <div
                 className="relative"
                 onMouseEnter={() => handleMouseEnter("ai")}
                 onMouseLeave={handleMouseLeave}
@@ -387,8 +413,8 @@ export function Header() {
                 </div>
               </div> */}
 
-              {/* 4. Solutions ▾ */}
-              {/* <div
+                {/* 4. Solutions ▾ */}
+                {/* <div
                 className="relative"
                 onMouseEnter={() => handleMouseEnter("solutions")}
                 onMouseLeave={handleMouseLeave}
@@ -447,123 +473,124 @@ export function Header() {
                 </div>
               </div> */}
 
-              {/* 5. Work / Case Studies */}
-              <Link
-                href="/case-studies"
-                className={cn(
-                  "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                  isActive("/case-studies") || isActive("/portfolio")
-                    ? "text-brand-cyan font-semibold"
-                    : "text-muted hover:text-brand-cyan"
-                )}
-              >
-                <span className="relative py-0.5">
-                  Case Studies
-                  <span
-                    className={cn(
-                      "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                      isActive("/case-studies") || isActive("/portfolio") ? "w-full" : "w-0 group-hover:w-full"
-                    )}
-                  />
-                </span>
-              </Link>
+                {/* 5. Work / Case Studies */}
+                <Link
+                  href="/case-studies"
+                  className={cn(
+                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
+                    isActive("/case-studies") || isActive("/portfolio")
+                      ? "text-brand-cyan font-semibold"
+                      : "text-muted hover:text-brand-cyan"
+                  )}
+                >
+                  <span className="relative py-0.5">
+                    Case Studies
+                    <span
+                      className={cn(
+                        "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                        isActive("/case-studies") || isActive("/portfolio") ? "w-full" : "w-0 group-hover:w-full"
+                      )}
+                    />
+                  </span>
+                </Link>
 
-              {/* 7. About */}
-              <Link
-                href="/about"
-                className={cn(
-                  "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                  isActive("/about") ? "text-brand-cyan font-semibold" : "text-muted hover:text-brand-cyan"
-                )}
-              >
-                <span className="relative py-0.5">
-                  About
-                  <span
-                    className={cn(
-                      "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                      isActive("/about") ? "w-full" : "w-0 group-hover:w-full"
-                    )}
-                  />
-                </span>
-              </Link>
+                {/* 7. About */}
+                <Link
+                  href="/about"
+                  className={cn(
+                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
+                    isActive("/about") ? "text-brand-cyan font-semibold" : "text-muted hover:text-brand-cyan"
+                  )}
+                >
+                  <span className="relative py-0.5">
+                    About
+                    <span
+                      className={cn(
+                        "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                        isActive("/about") ? "w-full" : "w-0 group-hover:w-full"
+                      )}
+                    />
+                  </span>
+                </Link>
 
-              {/* 8. Blog */}
-              <Link
-                href="/blog"
-                className={cn(
-                  "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                  isActive("/blog") ? "text-brand-cyan font-semibold" : "text-muted hover:text-brand-cyan"
-                )}
-              >
-                <span className="relative py-0.5">
-                  Blog
-                  <span
-                    className={cn(
-                      "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                      isActive("/blog") ? "w-full" : "w-0 group-hover:w-full"
-                    )}
-                  />
-                </span>
-              </Link>
+                {/* 8. Blog */}
+                <Link
+                  href="/blog"
+                  className={cn(
+                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
+                    isActive("/blog") ? "text-brand-cyan font-semibold" : "text-muted hover:text-brand-cyan"
+                  )}
+                >
+                  <span className="relative py-0.5">
+                    Blog
+                    <span
+                      className={cn(
+                        "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                        isActive("/blog") ? "w-full" : "w-0 group-hover:w-full"
+                      )}
+                    />
+                  </span>
+                </Link>
 
-              {/* 9. Contact */}
-              <Link
-                href="/contact"
-                className={cn(
-                  "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                  isActive("/contact") ? "text-brand-cyan font-semibold" : "text-muted hover:text-brand-cyan"
-                )}
-              >
-                <span className="relative py-0.5">
-                  Contact
-                  <span
-                    className={cn(
-                      "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                      isActive("/contact") ? "w-full" : "w-0 group-hover:w-full"
-                    )}
-                  />
-                </span>
-              </Link>
-            </nav>
+                {/* 9. Contact */}
+                <Link
+                  href="/contact"
+                  className={cn(
+                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
+                    isActive("/contact") ? "text-brand-cyan font-semibold" : "text-muted hover:text-brand-cyan"
+                  )}
+                >
+                  <span className="relative py-0.5">
+                    Contact
+                    <span
+                      className={cn(
+                        "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
+                        isActive("/contact") ? "w-full" : "w-0 group-hover:w-full"
+                      )}
+                    />
+                  </span>
+                </Link>
+              </nav>
 
-            {/* Desktop Action Buttons (Theme Toggle + CTA) */}
-            <div className="hidden lg:flex items-center gap-2.5 shrink-0">
-              <ThemeToggle />
-              <Button
-                href="https://calendly.com/nexoviodigitalsolutions-info"
-                variant="primary"
-                size="sm"
-                trackingName="header_schedule_call"
-                trackingLocation="header"
-                icon={<ArrowRight className="w-3.5 h-3.5" />}
-                className="text-xs px-3.5 py-2 whitespace-nowrap"
-              >
-                Schedule a Call
-              </Button>
-            </div>
+              {/* Desktop Action Buttons (Theme Toggle + CTA) */}
+              <div className="hidden lg:flex items-center gap-2.5 shrink-0">
+                <ThemeToggle />
+                <Button
+                  href="https://calendly.com/nexoviodigitalsolutions-info"
+                  variant="primary"
+                  size="sm"
+                  trackingName="header_schedule_call"
+                  trackingLocation="header"
+                  icon={<ArrowRight className="w-3.5 h-3.5" />}
+                  className="text-xs px-3.5 py-2 whitespace-nowrap"
+                >
+                  Schedule a Call
+                </Button>
+              </div>
 
-            {/* Mobile Header Buttons (Tablet / Mobile) */}
-            <div className="flex lg:hidden items-center gap-2">
-              <ThemeToggle />
-              <Button
-                href="https://calendly.com/nexoviodigitalsolutions-info"
-                variant="primary"
-                size="sm"
-                trackingName="mobile_header_cta"
-                trackingLocation="header_mobile"
-                className="text-xs px-3 py-1.5 whitespace-nowrap"
-              >
-                Schedule
-              </Button>
-              <button
-                type="button"
-                className="p-2 text-muted-light hover:text-white hover:bg-white/10 rounded-lg outline-none focus:outline-none"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-                aria-expanded={mobileMenuOpen}
-              >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
+              {/* Mobile Header Buttons (Tablet / Mobile) */}
+              <div className="flex lg:hidden items-center gap-2">
+                <ThemeToggle />
+                <Button
+                  href="https://calendly.com/nexoviodigitalsolutions-info"
+                  variant="primary"
+                  size="sm"
+                  trackingName="mobile_header_cta"
+                  trackingLocation="header_mobile"
+                  className="text-xs px-3 py-1.5 whitespace-nowrap"
+                >
+                  Schedule
+                </Button>
+                <button
+                  type="button"
+                  className="p-2 text-muted-light hover:text-white hover:bg-white/10 rounded-lg outline-none focus:outline-none"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                  aria-expanded={mobileMenuOpen}
+                >
+                  {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
+              </div>
             </div>
           </div>
         </div>

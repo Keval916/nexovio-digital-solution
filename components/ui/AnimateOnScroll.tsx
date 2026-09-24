@@ -135,3 +135,35 @@ export function AnimateOnScroll({
     </Component>
   );
 }
+
+export function GSAPSection({
+  animation = "scale-up",
+  children,
+  className,
+  delay = 0,
+  duration = 0.8,
+}: {
+  animation?: "scale-up" | "fade-up" | "fade-down" | "fade-left" | "fade-right";
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+  duration?: number;
+}) {
+  const variantMap: Record<string, AnimationVariant> = {
+    "scale-up": "scaleUp",
+    "fade-up": "fadeUp",
+    "fade-down": "fadeDown",
+    "fade-left": "fadeLeft",
+    "fade-right": "fadeRight",
+  };
+  return (
+    <AnimateOnScroll
+      variant={variantMap[animation] || "scaleUp"}
+      duration={duration}
+      delay={delay}
+      className={className}
+    >
+      {children}
+    </AnimateOnScroll>
+  );
+}

@@ -33,21 +33,24 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Web Development Company | Web Design, SEO & AI Solutions | Nexovio",
+  title: "Web Development Company | AI, Web Design & SEO | Nexovio",
+
   description:
-    "Nexovio Digital Solutions is a global digital agency offering custom web development, web design, UI/UX, eCommerce, SEO, digital marketing and AI solutions for modern businesses.",
+    "Nexovio Digital Solutions is a global web development and AI solutions company offering custom web development, web design, UI/UX, eCommerce, SEO and digital marketing services for modern businesses.",
+
   keywords: [
     "web development company",
     "web development services",
-    "web design company",
     "custom web development",
-    "website development",
-    "UI/UX design",
+    "website development company",
+    "web design company",
+    "web design services",
+    "AI solutions",
+    "AI web development",
+    "UI/UX design services",
     "eCommerce development",
     "SEO services",
-    "digital marketing",
-    "AI web development",
-    "AI solutions",
+    "digital marketing services",
   ],
   alternates: {
     canonical: SITE_URL,

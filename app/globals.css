@@ -106,19 +106,22 @@ body {
    ========================================================================== */
 
 /* H1: Plus Jakarta Sans (Weight: 700-800) */
-h1, .h1 {
+h1,
+.h1 {
   font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif !important;
   font-weight: 800;
 }
 
 /* H2: Plus Jakarta Sans (Weight: 700) */
-h2, .h2 {
+h2,
+.h2 {
   font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif !important;
   font-weight: 700;
 }
 
 /* H3: Plus Jakarta Sans (Weight: 600-700) */
-h3, .h3 {
+h3,
+.h3 {
   font-family: var(--font-plus-jakarta), system-ui, -apple-system, sans-serif !important;
   font-weight: 600;
 }
@@ -138,40 +141,58 @@ h3, .h3 {
 }
 
 /* Body: Inter (Weight: 400) */
-p, li, span:not(.font-mono):not(.font-heading):not(.font-jakarta), body {
+p,
+li,
+span:not(.font-mono):not(.font-heading):not(.font-jakarta),
+body {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 /* Body Emphasis: Inter (Weight: 500-600) */
-b, strong, .font-semibold, .font-bold:not(h1):not(h2):not(h3):not(h4) {
+b,
+strong,
+.font-semibold,
+.font-bold:not(h1):not(h2):not(h3):not(h4) {
   font-weight: 600;
 }
 
 /* Navigation: Inter (Weight: 500) */
-nav a, .nav-link, header a:not(.btn) {
+nav a,
+.nav-link,
+header a:not(.btn) {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
   font-weight: 500;
 }
 
 /* Buttons: Inter (Weight: 600) */
-button, .btn, [role="button"], a.btn {
+button,
+.btn,
+[role="button"],
+a.btn {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif !important;
   font-weight: 600;
 }
 
 /* Breadcrumb: Inter (Weight: 400-500) */
-nav[aria-label="Breadcrumb"], nav[aria-label="Breadcrumb"] a, nav[aria-label="Breadcrumb"] span {
+nav[aria-label="Breadcrumb"],
+nav[aria-label="Breadcrumb"] a,
+nav[aria-label="Breadcrumb"] span {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 /* Small Labels: IBM Plex Mono (Weight: 500-600) */
-.badge, .pill-badge, .label-mono, code {
+.badge,
+.pill-badge,
+.label-mono,
+code {
   font-family: var(--font-ibm-plex-mono), monospace !important;
   font-weight: 500;
 }
 
 /* Numbers / Steps: IBM Plex Mono (Weight: 500-600) */
-.font-mono, .step-number, .number-step {
+.font-mono,
+.step-number,
+.number-step {
   font-family: var(--font-ibm-plex-mono), monospace !important;
   font-weight: 500;
 }
@@ -181,6 +202,25 @@ nav[aria-label="Breadcrumb"], nav[aria-label="Breadcrumb"] a, nav[aria-label="Br
    ========================================================================== */
 
 /* Text colors in Light Mode - Uses #001025 as primary dark text color */
+/* Explicit rule for dark topbar #0f2f56 so text is always white in both light and dark mode without affecting global text-white */
+.topbar-container,
+.topbar-container *,
+html:not(.dark) .topbar-container,
+html:not(.dark) .topbar-container *,
+[class*="bg-[#0f2f56]"],
+[class*="bg-[#0f2f56]"] *,
+html:not(.dark) [class*="bg-[#0f2f56]"],
+html:not(.dark) [class*="bg-[#0f2f56]"] * {
+  color: #ffffff !important;
+}
+
+.topbar-container a:hover,
+html:not(.dark) .topbar-container a:hover,
+[class*="bg-[#0f2f56]"] a:hover,
+html:not(.dark) [class*="bg-[#0f2f56]"] a:hover {
+  color: #38bdf8 !important;
+}
+
 html:not(.dark) .text-white:not(.keep-white),
 html:not(.dark) [class*="text-white/"]:not(.keep-white) {
   color: #001025 !important;
@@ -365,6 +405,52 @@ html:not(.dark) .text-red-400 {
   color: #dc2626 !important;
 }
 
+/* ==========================================================================
+   CONTINUITY BANNER DARK SHOWCASE - PREVENTS LIGHT MODE TEXT DARKENING
+   ========================================================================== */
+.continuity-banner-section,
+html:not(.dark) .continuity-banner-section {
+  color-scheme: dark;
+}
+
+.continuity-banner-section h3,
+.continuity-banner-section .banner-heading,
+html:not(.dark) .continuity-banner-section h3,
+html:not(.dark) .continuity-banner-section .banner-heading {
+  color: #ffffff !important;
+}
+
+.continuity-banner-section p,
+.continuity-banner-section .banner-desc,
+html:not(.dark) .continuity-banner-section p,
+html:not(.dark) .continuity-banner-section .banner-desc {
+  color: #e2e8f0 !important;
+}
+
+.continuity-banner-section .banner-pill,
+html:not(.dark) .continuity-banner-section .banner-pill {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
+}
+
+.continuity-banner-section .banner-pill:hover,
+html:not(.dark) .continuity-banner-section .banner-pill:hover {
+  background-color: rgba(0, 198, 255, 0.15) !important;
+  border-color: rgba(0, 198, 255, 0.45) !important;
+  color: #ffffff !important;
+}
+
+.continuity-banner-section .banner-meta-title,
+html:not(.dark) .continuity-banner-section .banner-meta-title {
+  color: #00c6ff !important;
+}
+
+.continuity-banner-section .banner-meta-sub,
+html:not(.dark) .continuity-banner-section .banner-meta-sub {
+  color: #cbd5e1 !important;
+}
+
 
 
 /* Eliminate unwanted click/tap outlines while preserving keyboard accessibility */
@@ -457,4 +543,473 @@ a {
       rgba(0, 198, 255, 0.08) 50%,
       rgba(255, 255, 255, 0) 100%);
   background-size: 200% 100%;
+}
+
+/* Continuous News Marquee Animation */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* CTA Orbit Animation */
+.cta-orbit {
+  border: 1.5px solid rgba(20, 116, 232, 0.43);
+  border-radius: 50%;
+  height: 650px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(20deg) scaleY(0.45);
+  width: 900px;
+  animation: orbit-rotate 30s linear infinite;
+  pointer-events: none;
+}
+
+.cta-orbit-two {
+  border-color: rgba(8, 199, 232, 0.43);
+  transform: translate(-50%, -50%) rotate(-20deg) scaleY(0.45);
+  animation: orbit-rotate-reverse 30s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes orbit-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(20deg) scaleY(0.45);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(380deg) scaleY(0.45);
+  }
+}
+
+@keyframes orbit-rotate-reverse {
+  from {
+    transform: translate(-50%, -50%) rotate(-20deg) scaleY(0.45);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(-380deg) scaleY(0.45);
+  }
+}
+
+/* ===== TECH SECTION ===== */
+.tech-section {
+  background: #f8fafc;
+  overflow: hidden;
+  position: relative;
+}
+
+html.dark .tech-section {
+  background: #03050a;
+}
+
+.tech-heading {
+  text-align: center;
+}
+
+.tech-heading .section-label {
+  justify-content: center;
+}
+
+.tech-heading h2 {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+html.dark .tech-heading h2 {
+  color: #ffffff !important;
+}
+
+.tech-ecosystem {
+  height: 640px;
+  margin-top: 45px;
+  overflow: visible;
+  position: relative;
+  max-width: 100%;
+}
+
+/* Rotating Circular Orbit Track (Slow-motion continuous orbit) */
+@keyframes tech-orbit-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes tech-counter-spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+.tech-orbit-track {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 620px;
+  height: 620px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 1.5px dashed #b8dbf7;
+  animation: tech-orbit-spin 60s linear infinite;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 3;
+  transition: border-color 0.3s;
+}
+
+html.dark .tech-orbit-track {
+  border-color: rgba(8, 199, 232, 0.4);
+}
+
+/* Pause ONLY when directly hovering over a badge */
+.tech-orbit-track:has(.tech-node:hover),
+.tech-orbit-track:has(.tech-node:hover) .tech-node,
+.tech-node:hover {
+  animation-play-state: paused !important;
+}
+
+/* Ambient Orbit Rings (same animated orbit style as CTA section) */
+.tech-orbit-ambient {
+  border: 1.5px solid rgba(20, 116, 232, 0.22);
+  border-radius: 50%;
+  height: 620px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(18deg) scaleY(0.5);
+  width: 940px;
+  animation: orbit-rotate 35s linear infinite;
+  pointer-events: none;
+}
+
+.tech-orbit-ambient-two {
+  border: 1.5px solid rgba(8, 199, 232, 0.25);
+  border-radius: 50%;
+  height: 620px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-18deg) scaleY(0.5);
+  width: 940px;
+  animation: orbit-rotate-reverse 35s linear infinite;
+  pointer-events: none;
+}
+
+/* Center Hub */
+.tech-center {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #c4dff3;
+  border-radius: 50%;
+  box-shadow: 0 20px 42px rgba(20, 116, 232, 0.12);
+  display: flex;
+  flex-direction: column;
+  height: 145px;
+  justify-content: center;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 145px;
+  z-index: 5;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tech-center:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+  box-shadow: 0 25px 50px rgba(8, 199, 232, 0.25);
+}
+
+html.dark .tech-center {
+  background: #070d18;
+  border-color: rgba(20, 116, 232, 0.45);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.6);
+}
+
+.tech-center-ring {
+  border: 1.5px solid #08c7e8;
+  border-radius: 50%;
+  height: 168px;
+  opacity: 0.5;
+  position: absolute;
+  width: 168px;
+  animation: pulseGlow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.tech-center svg {
+  color: #1474e8;
+  margin-bottom: 6px;
+}
+
+html.dark .tech-center svg {
+  color: #00c6ff;
+}
+
+.tech-center strong {
+  color: #0a2540;
+  font-size: 16px;
+  letter-spacing: -0.05em;
+  font-weight: 800;
+}
+
+html.dark .tech-center strong {
+  color: #ffffff;
+}
+
+.tech-center small {
+  color: #64748b;
+  font-size: 7.5px;
+  letter-spacing: 0.22em;
+  margin-top: 2px;
+  font-weight: 700;
+}
+
+html.dark .tech-center small {
+  color: #94a3b8;
+}
+
+@keyframes tech-dot-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(8, 199, 232, 0.7);
+  }
+
+  50% {
+    box-shadow: 0 0 0 5px rgba(8, 199, 232, 0);
+  }
+}
+
+.tech-node {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  box-shadow: 0 10px 24px rgba(20, 116, 232, 0.08);
+  color: #0a2540;
+  display: flex;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 8px;
+  padding: 8px 15px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  animation: tech-counter-spin 60s linear infinite;
+  transition: border-color 0.25s, box-shadow 0.25s, color 0.25s, background-color 0.25s;
+  z-index: 4;
+  white-space: nowrap;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+.tech-node:hover {
+  border-color: #00c6ff !important;
+  color: #00c6ff !important;
+  z-index: 10;
+}
+
+html.dark .tech-node {
+  background: #0b1329;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+}
+
+html.dark .tech-node:hover {
+  background: #0e1a38;
+  border-color: #08c7e8;
+  color: #38bdf8;
+  box-shadow: 0 12px 25px rgba(8, 199, 232, 0.35);
+}
+
+.tech-node i {
+  background: #08c7e8;
+  border-radius: 50%;
+  display: block;
+  height: 6px;
+  width: 6px;
+  animation: tech-dot-pulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* 12 Mathematically Aligned Nodes along the 620px Circular Orbit (Radius 310px) */
+/* 1. React - Top Center (12 o'clock / -90 deg) */
+.tech-node-1 {
+  left: 50%;
+  top: 0px;
+}
+
+/* 2. Next.js - 1 o'clock (-60 deg) */
+.tech-node-2 {
+  left: calc(50% + 155px);
+  top: calc(50% - 268px);
+}
+
+/* 3. Node.js - 2 o'clock (-30 deg) */
+.tech-node-3 {
+  left: calc(50% + 268px);
+  top: calc(50% - 155px);
+}
+
+/* 4. PHP - Right Center (3 o'clock / 0 deg) */
+.tech-node-4 {
+  left: 100%;
+  top: 50%;
+}
+
+/* 5. WordPress - 4 o'clock (30 deg) */
+.tech-node-5 {
+  left: calc(50% + 268px);
+  top: calc(50% + 155px);
+}
+
+/* 6. Shopify - 5 o'clock (60 deg) */
+.tech-node-6 {
+  left: calc(50% + 155px);
+  top: calc(50% + 268px);
+}
+
+/* 7. Flutter - Bottom Center (6 o'clock / 90 deg) */
+.tech-node-7 {
+  left: 50%;
+  top: 100%;
+}
+
+/* 8. Figma - 7 o'clock (120 deg) */
+.tech-node-8 {
+  left: calc(50% - 155px);
+  top: calc(50% + 268px);
+}
+
+/* 9. Tailwind CSS - 8 o'clock (150 deg) */
+.tech-node-9 {
+  left: calc(50% - 268px);
+  top: calc(50% + 155px);
+}
+
+/* 10. APIs - Left Center (9 o'clock / 180 deg) */
+.tech-node-10 {
+  left: 0px;
+  top: 50%;
+}
+
+/* 11. Analytics - 10 o'clock (210 deg) */
+.tech-node-11 {
+  left: calc(50% - 268px);
+  top: calc(50% - 155px);
+}
+
+/* 12. SEO - 11 o'clock (240 deg) */
+.tech-node-12 {
+  left: calc(50% - 155px);
+  top: calc(50% - 268px);
+}
+
+/* Connection Beams Radiating From Center */
+@keyframes tech-beam-flow {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0.35;
+  }
+
+  50% {
+    opacity: 0.95;
+  }
+
+  100% {
+    background-position: 200% 50%;
+    opacity: 0.35;
+  }
+}
+
+.tech-connection {
+  background: linear-gradient(90deg, rgba(20, 116, 232, 0.15) 0%, rgba(8, 199, 232, 0.85) 50%, rgba(20, 116, 232, 0.15) 100%);
+  background-size: 200% 100%;
+  height: 1.5px;
+  position: absolute;
+  transform-origin: left center;
+  animation: tech-beam-flow 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.connection-one {
+  left: 50%;
+  top: 50%;
+  width: 270px;
+  transform: rotate(-145deg);
+  animation-delay: 0s;
+}
+
+.connection-two {
+  left: 50%;
+  top: 50%;
+  width: 270px;
+  transform: rotate(-35deg);
+  animation-delay: 0.75s;
+}
+
+.connection-three {
+  left: 50%;
+  top: 50%;
+  width: 270px;
+  transform: rotate(145deg);
+  animation-delay: 1.5s;
+}
+
+.connection-four {
+  left: 50%;
+  top: 50%;
+  width: 270px;
+  transform: rotate(35deg);
+  animation-delay: 2.25s;
+}
+
+/* Responsive Ecosystem Scaling */
+@media (max-width: 900px) {
+  .tech-ecosystem {
+    transform: scale(0.82);
+    transform-origin: center center;
+    height: 540px;
+  }
+}
+
+@media (max-width: 680px) {
+  .tech-ecosystem {
+    transform: scale(0.66);
+    transform-origin: center center;
+    height: 460px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-ecosystem {
+    transform: scale(0.52);
+    transform-origin: center center;
+    height: 390px;
+  }
 }

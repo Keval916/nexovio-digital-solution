@@ -6,52 +6,63 @@ export interface GlobalFaq {
 
 export const GLOBAL_FAQS: GlobalFaq[] = [
   {
-    question: "What services does Nexovio Digital Solutions provide?",
+    question: "What services does Nexovio Digital Solutions offer?",
     answer:
-      "Nexovio web development, web design, UI/UX design, mobile app development, SEO and digital marketing services. We can take on individual projects or combine several services into a full digital solution.",
+      "Nexovio delivers web development, web design, UI/UX design, mobile app development, SEO and digital marketing. The home page can also feature AI Solutions as a supported features set within these services.",
     category: "Services",
   },
   {
-    question: "How do you approach a new website project?",
+    question: "Is it possible to build a complete website with Nexovio rather than just using templates?",
     answer:
-      "First, we learn about your business, your target audience, your goals and your needs. Then we plan the website structure, design the user experience, build the website, test it and get it ready for launch.",
+      "Yes. Nexovio is able to create bespoke website experiences that reflect a brand or business process, content hierarchy, integrations, and customer journey - and that doesn’t only mean pre-built templates.",
+    category: "Custom Websites",
+  },
+  {
+    question: "Can you build web applications and SaaS products?",
+    answer:
+      "Yes. These include modern web applications, client portals, dashboards, business tooling and SaaS-centric experiences.",
+    category: "SaaS & Web Apps",
+  },
+  {
+    question: "Do you provide mobile app development?",
+    answer:
+      "Yes. Nexovio delivers mobile application development for iOS and Android including cross platform development, mobile UX, APIs user authentication, notifications and support for deployment.",
+    category: "Mobile Apps",
+  },
+  {
+    question: "Do you provide SEO or digital marketing?",
+    answer:
+      "Yes. Technical seo plug-ins Nexovio provides technical SEO, search-intent content strategy, on-page optimization, analytics/tracking and digital marketing services.",
+    category: "SEO & Growth",
+  },
+  {
+    question: "What AI solutions do you offer?",
+    answer:
+      "The home can feature AI development, generative AI development, AI agents, AI chatbots, AI automation, AI web and app development, AI search & RAG, AI API and model integration, AI recommendation solutions, and tailor-made AI solutions.",
+    category: "AI Solutions",
+  },
+  {
+    question: "Will there be separate AI service pages?",
+    answer:
+      "No this way. Recommended homepage approach: a robust AI Solutions First. Specific AI pages could be added at some point when the individual capabilities are mature enough with original content, use cases, proof, and other supporting resources.",
+    category: "Strategy",
+  },
+  {
+    question: "Can you redesign an existing website or product?",
+    answer:
+      "Yes. Nexovio offers support for website redesign, UI/UX enhancement, performance optimization, technical modernization, SEO-friendly migrations and even wider digital product advancement.",
+    category: "Modernization",
+  },
+  {
+    question: "How does Nexovio approach a new project?",
+    answer:
+      "The homepage sells a straightforward path: learn the business and its users, scope the work, design the experience, build the solution, test it, ship it, and use real-world feedback and data to improve it.",
     category: "Process",
   },
   {
-    question: "Do you make custom websites or just use templates?",
+    question: "How do you handle AI responsibly?",
     answer:
-      "Yes. Instead of just relying on pre-built templates, we can build custom website experiences that truly reflect your brand, business needs, functionality and customer journey.",
-    category: "Development",
-  },
-  {
-    question: "Do you offer SEO with website development?",
-    answer:
-      "SEO can be incorporated into the website planning and development phase, including website structure, responsive design, technical foundations, performance and search-friendly content architecture. Separately, ongoing SEO can be managed as a service.",
-    category: "SEO",
-  },
-  {
-    question: "Can you redesign an existing website?",
-    answer:
-      "Yes. We can assess an existing website and its underlying structure, UI/UX, content presentation and technical experience and redesign it to better align with your business goals.",
-    category: "Redesign",
-  },
-  {
-    question: "Do you work with startups and small businesses?",
-    answer:
-      "Yes. Whether you’re introducing a fresh concept or enhancing an existing digital presence, projects can be tailored to the stage, objectives, and resources of your business.",
-    category: "Clients",
-  },
-  {
-    question: "Can you integrate third-party tools and APIs?",
-    answer:
-      "Yes. Based on the specific requirements of your project, your website or app can be connected with CRMs, payment processors, analytics services, marketing tools, business solutions or other third-party APIs.",
-    category: "Integrations",
-  },
-  {
-    question: "How long does website development take?",
-    answer:
-      "The timeline for the project is based on pages, features, integrations, content, and revisions. Once we know what you are looking for, we will give you a timeline for your specific project.",
-    category: "Timelines",
+      "AI initiatives need to be associated with a well-defined business use, vetted data sources, appropriate model selections, access controls, and suitable validation. The right approach varies by use case and risk profile.",
+    category: "Responsible AI",
   },
 ];
-
