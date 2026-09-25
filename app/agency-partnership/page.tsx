@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     siteName: 'Nexovio Digital Solutions',
     images: [
       {
-        url: `${SITE_URL}/images/agency-partnership/white-label-development-partner-agencies.webp`,
+        url: `${SITE_URL}/images/agency-partnership/agency-hero-team.jpg`,
         width: 1200,
         height: 630,
         alt: 'White-label digital services for agencies',
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     title: 'White-Label Digital Services for Agencies | Nexovio',
     description:
       'White-label web development, software, mobile, UI/UX, AI and technical SEO support for agencies.',
-    images: [`${SITE_URL}/images/agency-partnership/white-label-development-partner-agencies.webp`],
+    images: [`${SITE_URL}/images/agency-partnership/agency-hero-team.jpg`],
   },
   robots: {
     index: true,

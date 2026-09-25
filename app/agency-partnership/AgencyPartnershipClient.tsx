@@ -29,6 +29,7 @@ import {
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Button } from '@/components/ui/Button';
 import { FaqSection } from '@/components/sections/FaqSection';
+import { trackFormSubmit } from '@/lib/analytics';
 
 const servicesData = [
   {
@@ -340,22 +341,44 @@ export default function AgencyPartnershipClient() {
     setIsSubmitting(true);
     setFormError('');
 
+    // Client-side validation matching contact form
+    if (!formData.name.trim() || !formData.email.trim() || !formData.projectDetails.trim()) {
+      setIsSubmitting(false);
+      setFormError('Please complete all required fields (Name, Work Email, and Project Details).');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.trim())) {
+      setIsSubmitting(false);
+      setFormError('Please provide a valid work email address.');
+      return;
+    }
+
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          company: `${formData.agency} [${formData.agencyType}]`,
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          company: formData.agency.trim() || `${formData.name.trim()} (Agency Partner)`,
+          agencyName: formData.agency.trim(),
+          agencyType: formData.agencyType,
+          primaryNeed: formData.primaryNeed,
+          engagement: formData.engagement,
           service: 'agency-partnership',
           budget: formData.engagement,
-          message: `[AGENCY PARTNERSHIP INQUIRY]\nPrimary Need: ${formData.primaryNeed}\nEngagement Model: ${formData.engagement}\nAgency Type: ${formData.agencyType}\nAgency / Site: ${formData.agency}\n\nProject Scope & Details:\n${formData.projectDetails}`,
+          message: formData.projectDetails.trim(),
+          sourcePage: 'agency-partnership',
         }),
       });
 
       const data = await res.json();
       if (res.ok && data.success !== false) {
+        // Analytics conversion tracking
+        trackFormSubmit('agency_partnership_form', formData.primaryNeed);
+
         // Send lead event to GTM
         if (typeof window !== 'undefined') {
           (window as unknown as { dataLayer: unknown[] }).dataLayer =
@@ -363,6 +386,8 @@ export default function AgencyPartnershipClient() {
           (window as unknown as { dataLayer: unknown[] }).dataLayer.push({
             event: 'generate_lead',
             lead_type: 'agency_partnership',
+            agency_type: formData.agencyType,
+            engagement_model: formData.engagement,
           });
         }
         setFormSubmitted(true);
@@ -399,7 +424,7 @@ export default function AgencyPartnershipClient() {
                 <span>White-Label Digital Partner for Modern Agencies</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.12]">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-[#fff] leading-[1.12]">
                 White-Label Digital Services for{' '}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">Agencies</span>
               </h1>
@@ -423,7 +448,7 @@ export default function AgencyPartnershipClient() {
 
               <div className="p-4 sm:p-5 rounded-2xl border border-brand-cyan/30 bg-surface-elevated/70 backdrop-blur-md text-sm text-foreground shadow-sm">
                 <p className="leading-relaxed">
-                  <strong className="text-slate-900 dark:text-white font-semibold">
+                  <strong className="text-slate-900 dark:text-[#fff] font-semibold">
                     Keep the client relationship, strategy and brand in your hands.
                   </strong>{' '}
                   <span className="text-muted">
@@ -481,8 +506,8 @@ export default function AgencyPartnershipClient() {
               <div className="relative w-full rounded-2xl border border-border-subtle bg-surface-elevated/80 backdrop-blur-xl p-2.5 sm:p-3 shadow-card overflow-hidden group">
                 <div className="relative h-[360px] sm:h-[420px] lg:h-[480px] w-full overflow-hidden rounded-xl">
                   <Image
-                    src="/images/agency-partnership/white-label-development-partner-agencies.webp"
-                    alt="White-label development partner working with agencies"
+                    src="/images/agency-partnership/agency-hero-team.jpg"
+                    alt="Realistic modern digital agency team and software engineers collaborating on client delivery"
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 40vw"
@@ -507,7 +532,7 @@ export default function AgencyPartnershipClient() {
               ['Confidential', 'NDA-friendly collaboration'],
             ].map(([title, text]) => (
               <div key={title} className="p-3">
-                <div className="text-base sm:text-xl font-extrabold text-slate-900 dark:text-white">
+                <div className="text-base sm:text-xl font-extrabold text-slate-900 dark:text-[#fff]">
                   {title}
                 </div>
                 <div className="mt-1 text-xs text-muted leading-relaxed">{text}</div>
@@ -535,7 +560,7 @@ export default function AgencyPartnershipClient() {
             <a
               key={id}
               href={`#${id}`}
-              className="whitespace-nowrap rounded-full px-3.5 py-1.5 font-medium text-muted hover:text-slate-900 dark:hover:text-white hover:bg-surface-subtle transition-colors"
+              className="whitespace-nowrap rounded-full px-3.5 py-1.5 font-medium text-muted hover:text-slate-900 dark:hover:text-[#fff] hover:bg-surface-subtle transition-colors"
             >
               {label}
             </a>
@@ -550,7 +575,7 @@ export default function AgencyPartnershipClient() {
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan mb-2">
               Agency Technology Support
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-[#fff]">
               One Technical Partner for the Work{' '}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Behind Your Client Projects
@@ -565,7 +590,7 @@ export default function AgencyPartnershipClient() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
             <Link
               href="/agency-partnership"
-              className="rounded-2xl border border-brand-bright bg-gradient-brand p-4 text-center text-white shadow-glow transition hover:brightness-110"
+              className="rounded-2xl border border-brand-bright bg-gradient-brand p-4 text-center text-[#fff] shadow-glow transition hover:brightness-110"
             >
               <Briefcase className="mx-auto h-5 w-5 mb-2" aria-hidden="true" />
               <div className="text-xs font-bold">Agency Partner</div>
@@ -579,7 +604,7 @@ export default function AgencyPartnershipClient() {
                   className="rounded-2xl border border-border-subtle bg-surface-elevated/70 p-4 text-center transition hover:border-brand-cyan/40 hover:bg-surface-elevated"
                 >
                   <Icon className="mx-auto h-5 w-5 text-brand-cyan mb-2" aria-hidden="true" />
-                  <div className="text-xs font-bold text-slate-900 dark:text-white truncate">
+                  <div className="text-xs font-bold text-slate-900 dark:text-[#fff] truncate">
                     {service.shortTitle}
                   </div>
                 </Link>
@@ -601,7 +626,7 @@ export default function AgencyPartnershipClient() {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan">
                 Why Agencies Partner
               </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#fff] leading-tight">
                 Take on More Client Work{' '}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Without Rebuilding Your Team
@@ -625,7 +650,7 @@ export default function AgencyPartnershipClient() {
                 <div className="text-xs font-mono font-bold uppercase tracking-widest text-brand-cyan mb-3">
                   A Practical Way to Collaborate
                 </div>
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center text-xs font-bold text-slate-900 dark:text-white">
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-center text-xs font-bold text-slate-900 dark:text-[#fff]">
                   <div className="p-2.5 rounded-xl border border-border-subtle bg-surface-subtle w-full sm:w-auto">
                     Client Need
                   </div>
@@ -676,7 +701,7 @@ export default function AgencyPartnershipClient() {
                         <Icon className="h-6 w-6" aria-hidden="true" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-slate-900 dark:text-white">{item.title}</h3>
+                        <h3 className="text-lg font-bold text-slate-900 dark:text-[#fff]">{item.title}</h3>
                         <p className="mt-2 text-sm text-muted leading-relaxed">{item.body}</p>
                       </div>
                     </div>
@@ -703,7 +728,7 @@ export default function AgencyPartnershipClient() {
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan mb-2">
               Clear Roles
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#fff] leading-tight">
               Your Client Relationship. Your Brand.{' '}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Shared Delivery Responsibility.
@@ -723,7 +748,7 @@ export default function AgencyPartnershipClient() {
                   <Briefcase className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Your Agency Handles</h3>
+                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-[#fff]">Your Agency Handles</h3>
                   <p className="text-xs text-muted">Client-facing relationships</p>
                 </div>
               </div>
@@ -748,15 +773,15 @@ export default function AgencyPartnershipClient() {
 
             {/* Nexovio Card */}
             <div className="rounded-3xl border-2 border-brand-bright bg-surface-elevated p-7 sm:p-9 shadow-glow relative overflow-hidden">
-              <div className="absolute top-0 right-0 px-3 py-1 bg-gradient-brand text-white text-[10px] font-bold uppercase tracking-widest rounded-bl-xl">
+              <div className="absolute top-0 right-0 px-3 py-1 bg-gradient-brand text-[#fff] text-[10px] font-bold uppercase tracking-widest rounded-bl-xl">
                 Engineering Engine
               </div>
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-brand text-white">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-brand text-[#fff]">
                   <Code2 className="h-6 w-6" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">Nexovio Handles</h3>
+                  <h3 className="text-xl font-extrabold text-slate-900 dark:text-[#fff]">Nexovio Handles</h3>
                   <p className="text-xs text-brand-cyan">Technical delivery and execution</p>
                 </div>
               </div>
@@ -790,7 +815,7 @@ export default function AgencyPartnershipClient() {
                 key={title}
                 className="rounded-2xl border border-border-subtle bg-surface-elevated/70 p-5 shadow-sm"
               >
-                <div className="text-sm font-bold text-slate-900 dark:text-white">{title}</div>
+                <div className="text-sm font-bold text-slate-900 dark:text-[#fff]">{title}</div>
                 <div className="mt-1 text-xs text-muted leading-relaxed">{text}</div>
               </div>
             ))}
@@ -808,7 +833,7 @@ export default function AgencyPartnershipClient() {
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan mb-2">
               Agency Capabilities
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#fff] leading-tight">
               White-Label Digital Services{' '}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Your Agency Can Offer
@@ -825,8 +850,8 @@ export default function AgencyPartnershipClient() {
         <div className="w-full my-8 sm:my-12 border-y border-border-subtle bg-[#050A18] relative overflow-hidden group">
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
             <Image
-              src="/images/agency-partnership/white-label-development-services.webp"
-              alt="White-label digital development services for agencies"
+              src="/images/agency-partnership/agency-capabilities-workstation.jpg"
+              alt="Realistic wide-angle software development agency workstation with code and UI wireframes"
               fill
               sizes="100vw"
               className="object-cover object-center opacity-35 md:opacity-45 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 ease-out"
@@ -882,13 +907,13 @@ export default function AgencyPartnershipClient() {
                     aria-pressed={selected}
                   >
                     <span
-                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors ${selected ? 'bg-gradient-brand text-white' : 'bg-surface-subtle text-brand-cyan'
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors ${selected ? 'bg-gradient-brand text-[#fff]' : 'bg-surface-subtle text-brand-cyan'
                         }`}
                     >
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block text-sm font-bold text-slate-900 dark:text-white">
+                      <span className="block text-sm font-bold text-slate-900 dark:text-[#fff]">
                         {service.shortTitle}
                       </span>
                       <span className="mt-0.5 block truncate text-[11px] text-muted">{service.tag}</span>
@@ -915,7 +940,7 @@ export default function AgencyPartnershipClient() {
                       <span className="text-[11px] font-bold uppercase tracking-widest text-brand-cyan">
                         Agency Capability
                       </span>
-                      <h3 className="mt-0.5 text-2xl font-extrabold text-slate-900 dark:text-white">
+                      <h3 className="mt-0.5 text-2xl font-extrabold text-slate-900 dark:text-[#fff]">
                         {currentService.title}
                       </h3>
                     </div>
@@ -934,7 +959,7 @@ export default function AgencyPartnershipClient() {
                 </p>
 
                 <div className="mt-7">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-[#fff]">
                     Capabilities included in the delivery
                   </h4>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -991,7 +1016,7 @@ export default function AgencyPartnershipClient() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-cyan/10 text-brand-cyan">
                       <Icon className="h-5 w-5" aria-hidden="true" />
                     </div>
-                    <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">
+                    <h3 className="text-sm font-extrabold text-slate-900 dark:text-[#fff]">
                       {service.title}
                     </h3>
                   </div>
@@ -1022,7 +1047,7 @@ export default function AgencyPartnershipClient() {
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan mb-2">
               Clear Workflow
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#fff] leading-tight">
               How Our White-Label Agency{' '}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Partnership Works
@@ -1040,8 +1065,8 @@ export default function AgencyPartnershipClient() {
               <div className="overflow-hidden rounded-3xl border border-border-subtle bg-surface-elevated p-2.5 shadow-card">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
                   <Image
-                    src="/images/agency-partnership/white-label-agency-development-process.webp"
-                    alt="White-label agency development process"
+                    src="/images/agency-partnership/agency-process-sprint.jpg"
+                    alt="Realistic software development agile sprint planning and project delivery review"
                     fill
                     sizes="(max-width: 1024px) 100vw, 40vw"
                     className="object-cover"
@@ -1059,15 +1084,15 @@ export default function AgencyPartnershipClient() {
                 </div>
                 <div className="grid grid-cols-3 gap-2 text-center text-[11px]">
                   <div className="rounded-xl border border-border-subtle bg-surface-subtle p-3">
-                    <div className="font-bold text-slate-900 dark:text-white">Brief</div>
+                    <div className="font-bold text-slate-900 dark:text-[#fff]">Brief</div>
                     <div className="mt-1 text-muted">Understand</div>
                   </div>
                   <div className="rounded-xl border border-border-subtle bg-surface-subtle p-3">
-                    <div className="font-bold text-slate-900 dark:text-white">Build</div>
+                    <div className="font-bold text-slate-900 dark:text-[#fff]">Build</div>
                     <div className="mt-1 text-muted">Deliver</div>
                   </div>
                   <div className="rounded-xl border border-border-subtle bg-surface-subtle p-3">
-                    <div className="font-bold text-slate-900 dark:text-white">Launch</div>
+                    <div className="font-bold text-slate-900 dark:text-[#fff]">Launch</div>
                     <div className="mt-1 text-muted">Handover</div>
                   </div>
                 </div>
@@ -1089,7 +1114,7 @@ export default function AgencyPartnershipClient() {
                       {step.tag}
                     </span>
                   </div>
-                  <h3 className="mt-3 text-lg font-bold text-slate-900 dark:text-white">{step.title}</h3>
+                  <h3 className="mt-3 text-lg font-bold text-slate-900 dark:text-[#fff]">{step.title}</h3>
                   <p className="mt-2 text-sm text-muted leading-relaxed">{step.description}</p>
                   <div className="mt-4 flex items-start gap-2 border-t border-border-subtle pt-3.5 text-xs font-semibold leading-relaxed text-emerald-400">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" aria-hidden="true" />
@@ -1112,7 +1137,7 @@ export default function AgencyPartnershipClient() {
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan mb-2">
               Agency-Friendly Collaboration
             </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#fff] leading-tight">
               Choose the Engagement Model That{' '}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Fits the Project
@@ -1136,8 +1161,8 @@ export default function AgencyPartnershipClient() {
                   type="button"
                   onClick={() => setActiveEngagement(index)}
                   className={`rounded-xl px-5 py-2.5 text-xs font-bold transition-all ${activeEngagement === index
-                    ? 'bg-gradient-brand text-white shadow-sm'
-                    : 'text-muted hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-gradient-brand text-[#fff] shadow-sm'
+                    : 'text-muted hover:text-slate-900 dark:hover:text-[#fff]'
                     }`}
                   role="tab"
                   aria-selected={activeEngagement === index}
@@ -1162,13 +1187,13 @@ export default function AgencyPartnershipClient() {
                 >
                   <div className="flex items-center gap-3.5">
                     <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-colors ${selected ? 'bg-gradient-brand text-white' : 'bg-surface-subtle text-brand-cyan'
+                      className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-colors ${selected ? 'bg-gradient-brand text-[#fff]' : 'bg-surface-subtle text-brand-cyan'
                         }`}
                     >
                       <Icon className="h-6 w-6" aria-hidden="true" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-slate-900 dark:text-white">{model.title}</h3>
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-[#fff]">{model.title}</h3>
                       <p className="text-xs text-muted">{model.subtitle}</p>
                     </div>
                   </div>
@@ -1212,7 +1237,7 @@ export default function AgencyPartnershipClient() {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan">
                 Project Examples
               </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#fff] leading-tight">
                 Examples of the Work We Support{' '}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Behind Your Agency
@@ -1276,7 +1301,7 @@ export default function AgencyPartnershipClient() {
                     </span>
                     <span className="text-xs font-mono text-muted">Example workflow</span>
                   </div>
-                  <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">
+                  <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-[#fff]">
                     {caseStudy.title}
                   </h3>
                   <div className="mt-5 grid gap-5 md:grid-cols-3">
@@ -1323,7 +1348,7 @@ export default function AgencyPartnershipClient() {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan">
                 Global Agency Partnerships
               </span>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#fff] leading-tight">
                 Work With a Technical Partner{' '}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Across Time Zones
@@ -1341,7 +1366,7 @@ export default function AgencyPartnershipClient() {
                     key={region.title}
                     className="rounded-2xl border border-border-subtle bg-surface-elevated p-4 sm:p-5 shadow-sm"
                   >
-                    <div className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white">
+                    <div className="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-[#fff]">
                       <Globe2 className="h-4 w-4 text-brand-cyan shrink-0" aria-hidden="true" />
                       {region.title}
                     </div>
@@ -1369,8 +1394,8 @@ export default function AgencyPartnershipClient() {
               <div className="overflow-hidden rounded-3xl border border-border-subtle bg-surface-elevated p-2.5 shadow-card">
                 <div className="relative aspect-[16/11] overflow-hidden rounded-2xl">
                   <Image
-                    src="/images/agency-partnership/global-agency-technology-partnership.webp"
-                    alt="Global agency technology partnership"
+                    src="/images/agency-partnership/agency-global-delivery-workflow.jpg"
+                    alt="Realistic global agency client handoff with remote video call and code review"
                     fill
                     sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
@@ -1397,7 +1422,7 @@ export default function AgencyPartnershipClient() {
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan">
                   Agency Collaboration
                 </span>
-                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-[#fff] leading-tight">
                   Have a Client Project You{' '}
                   <span className="bg-gradient-brand bg-clip-text text-transparent">
                     Need Help Delivering?
@@ -1415,8 +1440,8 @@ export default function AgencyPartnershipClient() {
                 <div className="overflow-hidden rounded-2xl border border-border-subtle bg-surface-elevated">
                   <div className="relative aspect-[16/10]">
                     <Image
-                      src="/images/agency-partnership/agency-development-partner.webp"
-                      alt="Agency development partnership"
+                      src="/images/agency-partnership/agency-partner-consultation.jpg"
+                      alt="Realistic collaborative technical consultation between agency directors and technology lead"
                       fill
                       sizes="(max-width: 1024px) 100vw, 40vw"
                       className="object-cover"
@@ -1440,7 +1465,7 @@ export default function AgencyPartnershipClient() {
                 </div>
 
                 <div className="rounded-2xl border border-border-subtle bg-surface-elevated p-4 text-sm">
-                  <div className="font-bold text-slate-900 dark:text-white">Agency Partner Desk</div>
+                  <div className="font-bold text-slate-900 dark:text-[#fff]">Agency Partner Desk</div>
                   <a
                     href="mailto:info@nexoviodigitalsolutions.com"
                     className="mt-1 block font-semibold text-brand-bright hover:underline text-xs sm:text-sm"
@@ -1456,7 +1481,7 @@ export default function AgencyPartnershipClient() {
                   {formSubmitted ? (
                     <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center animate-in fade-in zoom-in-95">
                       <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400" aria-hidden="true" />
-                      <h3 className="mt-4 text-2xl font-extrabold text-slate-900 dark:text-white">
+                      <h3 className="mt-4 text-2xl font-extrabold text-slate-900 dark:text-[#fff]">
                         Thanks for Reaching Out
                       </h3>
                       <p className="mx-auto mt-2 max-w-md text-sm text-muted leading-relaxed">
@@ -1466,7 +1491,7 @@ export default function AgencyPartnershipClient() {
                       <button
                         type="button"
                         onClick={() => setFormSubmitted(false)}
-                        className="mt-6 px-5 py-2.5 rounded-xl border border-border-subtle text-xs font-bold text-slate-900 dark:text-white hover:bg-surface-subtle transition-colors"
+                        className="mt-6 px-5 py-2.5 rounded-xl border border-border-subtle text-xs font-bold text-slate-900 dark:text-[#fff] hover:bg-surface-subtle transition-colors"
                       >
                         Submit another enquiry
                       </button>
@@ -1474,7 +1499,7 @@ export default function AgencyPartnershipClient() {
                   ) : (
                     <form onSubmit={handleFormSubmit} className="space-y-5" noValidate>
                       <div>
-                        <h3 className="text-xl font-extrabold text-slate-900 dark:text-white">
+                        <h3 className="text-xl font-extrabold text-slate-900 dark:text-[#fff]">
                           Tell Us About Your Project
                         </h3>
                         <p className="mt-1 text-sm text-muted">A few details are enough to start the conversation.</p>
@@ -1611,16 +1636,16 @@ export default function AgencyPartnershipClient() {
                         <button
                           type="submit"
                           disabled={isSubmitting}
-                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-brand px-7 py-3 text-sm font-extrabold text-white shadow-glow transition hover:brightness-110 disabled:opacity-50"
+                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-brand px-7 py-3 text-sm font-extrabold text-[#fff] shadow-glow transition hover:brightness-110 disabled:opacity-50"
                         >
                           {isSubmitting ? (
                             <>
                               <Loader2 className="h-4 w-4 animate-spin" />
-                              <span>Sending...</span>
+                              <span className='text-[#fff]'>Sending...</span>
                             </>
                           ) : (
                             <>
-                              <span>Send Project Details</span>
+                              <span className='text-[#fff]'>Send Project Details</span>
                               <Send className="h-4 w-4" aria-hidden="true" />
                             </>
                           )}

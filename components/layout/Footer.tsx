@@ -245,7 +245,7 @@ export function Footer() {
                     href="/blog"
                     className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                   >
-                    Business Growth
+                    Blogs
                   </Link>
                 </li>
               </ul>
