@@ -68,6 +68,9 @@ export async function POST(request: Request) {
       tls: {
         rejectUnauthorized: false,
       },
+      connectionTimeout: 10000,
+      greetingTimeout: 10000,
+      socketTimeout: 15000,
     });
 
     // Plain text notification for team
@@ -283,57 +286,83 @@ https://www.nexoviodigitalsolutions.com
       </html>
     `;
 
+    // Always log the lead to the server console first so inquiries are never lost
+    console.log("=== NEW LEAD INQUIRY LOGGED ===");
+    console.log("Client Name:", name);
+    console.log("Client Email:", email);
+    console.log("Company:", company || "Not Specified");
+    console.log("Phone:", phone || "Not Provided");
+    console.log("Service:", formattedService);
+    console.log("Budget:", formattedBudget);
+    console.log("Message:", message);
+    console.log("================================");
+
     if (smtpPass) {
-      // 1. Send Lead Notification to Nexovio Internal Team
-      await transporter.sendMail({
-        from: `"Nexovio Website" <${smtpUser}>`,
-        replyTo: `"${name}" <${email}>`,
-        to: recipientEmail,
-        subject: `New Project Inquiry: ${name} (${formattedService})`,
-        text: textContent,
-        html: htmlTemplate,
-      });
-
-      // 2. Send Automated Confirmation & Thank You Email to Customer
       try {
+        // 1. Send Lead Notification to Nexovio Internal Team
         await transporter.sendMail({
-          from: `"Nexovio Digital Solutions" <${smtpUser}>`,
-          to: `"${name}" <${email}>`,
-          subject: `Thank You for Contacting Nexovio – We Received Your Inquiry!`,
-          text: customerTextContent,
-          html: customerHtmlTemplate,
+          from: `"Nexovio Website" <${smtpUser}>`,
+          replyTo: `"${name}" <${email}>`,
+          to: recipientEmail,
+          subject: `New Project Inquiry: ${name} (${formattedService})`,
+          text: textContent,
+          html: htmlTemplate,
         });
-      } catch (customerEmailError) {
-        console.error("Warning: Failed to dispatch customer auto-responder email:", customerEmailError);
+
+        // 2. Send Automated Confirmation & Thank You Email to Customer
+        try {
+          await transporter.sendMail({
+            from: `"Nexovio Digital Solutions" <${smtpUser}>`,
+            to: `"${name}" <${email}>`,
+            subject: `Thank You for Contacting Nexovio – We Received Your Inquiry!`,
+            text: customerTextContent,
+            html: customerHtmlTemplate,
+          });
+        } catch (customerEmailError) {
+          console.error("Warning: Failed to dispatch customer auto-responder email:", customerEmailError);
+        }
+
+        return NextResponse.json({
+          success: true,
+          message: "Your inquiry has been sent directly to our team!",
+        });
+      } catch (smtpError: any) {
+        console.error("SMTP dispatch error details:", {
+          message: smtpError?.message,
+          code: smtpError?.code,
+          response: smtpError?.response,
+          responseCode: smtpError?.responseCode,
+        });
+
+        let userMsg = "Failed to dispatch email. Please ensure your domain's SMTP_PASS is configured in Vercel.";
+        if (smtpError?.responseCode === 535 || smtpError?.message?.includes("Invalid login") || smtpError?.message?.includes("authentication")) {
+          userMsg = `SMTP authentication failed (535). Please verify that the SMTP_PASS environment variable in Vercel matches your Hostinger email password for ${smtpUser}.`;
+        } else if (smtpError?.code === "ETIMEDOUT" || smtpError?.code === "ECONNREFUSED") {
+          userMsg = `SMTP connection timed out connecting to ${smtpHost}:${smtpPort}. Try changing SMTP_PORT to 587 in Vercel.`;
+        } else if (smtpError?.message) {
+          userMsg = `Failed to dispatch email: ${smtpError.message}`;
+        }
+
+        return NextResponse.json(
+          {
+            success: false,
+            message: userMsg,
+          },
+          { status: 500 }
+        );
       }
-
-      return NextResponse.json({
-        success: true,
-        message: "Your inquiry has been sent directly to our team!",
-      });
     } else {
-      console.log("=== NEW BACKEND LEAD SUBMISSION ===");
-      console.log("Recipient:", recipientEmail);
-      console.log("Customer Email:", email);
-      console.log("Name:", name);
-      console.log("Company:", company);
-      console.log("Phone:", phone);
-      console.log("Service:", formattedService);
-      console.log("Budget:", formattedBudget);
-      console.log("Message:", message);
-      console.log("===================================");
-
       return NextResponse.json({
         success: true,
         message: "Your inquiry has been logged on our backend server!",
       });
     }
   } catch (error: any) {
-    console.error("Direct backend email error:", error);
+    console.error("Direct backend handler error:", error);
     return NextResponse.json(
       {
         success: false,
-        message: "Failed to dispatch email. Please ensure your domain's SMTP_PASS is configured in Vercel.",
+        message: error?.message || "Failed to process form submission. Please try again or email info@nexoviodigitalsolutions.com.",
       },
       { status: 500 }
     );

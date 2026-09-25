@@ -145,6 +145,14 @@ export function Footer() {
                 </li>
                 <li>
                   <Link
+                    href="/agency-partnership"
+                    className="text-brand-cyan font-medium hover:text-white transition-colors"
+                  >
+                    Agency Partnership
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href="/#process"
                     className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                   >
