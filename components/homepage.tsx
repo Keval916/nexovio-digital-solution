@@ -583,11 +583,11 @@ function TypewriterHeading() {
   }, [text, isDeleting, phraseIndex, typingSpeed]);
 
   return (
-    <span className="inline-block relative whitespace-nowrap min-h-[1.2em]">
-      <span className="bg-gradient-brand bg-clip-text text-transparent">
+    <span className="block sm:inline-block relative min-h-[2.45em] sm:min-h-[1.25em] text-left align-top max-w-full">
+      <span className="bg-gradient-brand bg-clip-text text-transparent break-words [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
         {text}
       </span>
-      <span className="inline-block w-[3px] h-[0.85em] bg-brand-cyan ml-1 align-middle animate-pulse rounded-full shadow-[0_0_10px_#00c6ff]" />
+      <span className="inline-block w-[3px] h-[0.85em] bg-brand-cyan ml-1.5 align-middle animate-pulse rounded-full shadow-[0_0_10px_#00c6ff] flex-shrink-0" />
     </span>
   );
 }
@@ -644,8 +644,8 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
 
             {/* H1 Headline with Typewriter */}
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.15} start="top 95%">
-              <h1 className="text-3xl sm:text-4xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
-                Web Development & AI Solutions for{" "}
+              <h1 className="text-[1.75rem] sm:text-4xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.2]">
+                <span className="block sm:inline">Web Development & AI Solutions for</span>{" "}
                 <TypewriterHeading />
               </h1>
             </AnimateOnScroll>

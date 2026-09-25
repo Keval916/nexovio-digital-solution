@@ -74,6 +74,13 @@ export function ContactForm() {
       if (res.ok && (result.success !== false)) {
         // Fire analytics conversion event
         trackFormSubmit("contact_page_form", formData.service);
+
+        // Send successful lead event to Google Tag Manager
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "generate_lead",
+        });
+
         setSubmitStatus("success");
         setFormData(INITIAL_FORM);
       } else {
