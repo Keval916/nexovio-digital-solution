@@ -41,9 +41,6 @@ import {
   RefreshCw,
   BarChart,
   ExternalLink,
-  Plus,
-  Minus,
-  HelpCircle,
   Send,
   Database,
   Network,
@@ -51,13 +48,12 @@ import {
   X,
 } from "lucide-react";
 
-import { GLOBAL_FAQS } from "@/data/faqs";
-import { getFaqSchema } from "@/lib/schema";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { AnimateOnScroll, GSAPSection } from "@/components/ui/AnimateOnScroll";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { FaqSection } from "@/components/sections/FaqSection";
 
 // ==========================================
 // DATA CONSTANTS & COLLECTIONS
@@ -1607,100 +1603,6 @@ export function ContentStrategySection() {
   );
 }
 
-// ----------------------------------------------------------------------
-// 13. FAQ Section
-// ----------------------------------------------------------------------
-export function FaqSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const [faqSearch, setFaqSearch] = useState("");
-  const schema = getFaqSchema(GLOBAL_FAQS);
-
-  const filteredFaqs = GLOBAL_FAQS.filter(
-    (f) =>
-      f.question.toLowerCase().includes(faqSearch.toLowerCase()) ||
-      f.answer.toLowerCase().includes(faqSearch.toLowerCase())
-  );
-
-  return (
-    <section className="section-white py-14 sm:py-20 relative overflow-hidden" id="faq">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
-
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <AnimateOnScroll variant="fadeUp" duration={0.7}>
-          <SectionHeading
-            badge="FAQ"
-            title="Frequently Asked"
-            highlightText="Questions"
-            description="Precise information about our services, custom builds, AI capabilities, project methodologies and engineering processes."
-            align="center"
-          />
-        </AnimateOnScroll>
-
-        {/* FAQ Accordion List */}
-        <AnimateOnScroll variant="staggerChildren" stagger={0.06} duration={0.4}>
-          <div className="space-y-3.5">
-            {filteredFaqs.map((faq, index) => {
-              const isOpen = openIndex === index;
-
-              return (
-                <div
-                  key={faq.question}
-                  className={cn(
-                    "relative rounded-2xl transition-all duration-300 overflow-hidden backdrop-blur-md",
-                    isOpen
-                      ? "bg-surface-elevated border border-brand-cyan/40 shadow-[0_8px_30px_rgba(0,198,255,0.12)]"
-                      : "bg-surface-elevated/70 border border-border-subtle hover:border-brand-cyan/30"
-                  )}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenIndex(isOpen ? null : index)}
-                    className="w-full flex items-center justify-between px-4 sm:px-6 py-4 text-left outline-none cursor-pointer group"
-                  >
-                    <div className="flex items-center gap-3 pr-3">
-                      <HelpCircle className="w-4 h-4 text-brand-cyan shrink-0" />
-                      <span
-                        className={cn(
-                          "text-sm sm:text-base font-bold transition-colors leading-snug",
-                          isOpen ? "text-brand-cyan" : "text-foreground group-hover:text-brand-cyan"
-                        )}
-                      >
-                        {faq.question}
-                      </span>
-                    </div>
-
-                    <div
-                      className={cn(
-                        "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all",
-                        isOpen
-                          ? "bg-brand-cyan text-white"
-                          : "bg-surface text-muted border border-border-subtle group-hover:text-brand-cyan"
-                      )}
-                    >
-                      {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
-                    </div>
-                  </button>
-
-                  <div className={cn("faq-accordion-grid", isOpen && "open")}>
-                    <div className="faq-accordion-inner">
-                      <div className="px-4 sm:px-6 pb-5 pt-1 text-xs sm:text-sm text-muted leading-relaxed border-t border-border-subtle">
-                        <p className="pt-3">{faq.answer}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </AnimateOnScroll>
-      </div>
-    </section>
-  );
-}
-
 // ==========================================
 // MAIN HOMEPAGE COMPONENT
 // ==========================================
@@ -1746,7 +1648,12 @@ export default function Homepage() {
       <ContentStrategySection />
 
       {/* 13. FAQ Section */}
-      <FaqSection />
+      <FaqSection
+        badge="FAQ"
+        title="Frequently Asked"
+        highlightText="Questions"
+        description="Precise information about our services, custom builds, AI capabilities, project methodologies and engineering processes."
+      />
     </>
   );
 }

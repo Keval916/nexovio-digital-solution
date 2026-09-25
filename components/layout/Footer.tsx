@@ -146,7 +146,7 @@ export function Footer() {
                 <li>
                   <Link
                     href="/agency-partnership"
-                    className="text-brand-cyan font-medium hover:text-white transition-colors"
+                    className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
                   >
                     Agency Partnership
                   </Link>

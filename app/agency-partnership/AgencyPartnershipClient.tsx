@@ -8,7 +8,6 @@ import {
   Briefcase,
   Check,
   CheckCircle2,
-  ChevronDown,
   ChevronRight,
   Clock3,
   Code2,
@@ -29,6 +28,7 @@ import {
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs';
 import { Button } from '@/components/ui/Button';
+import { FaqSection } from '@/components/sections/FaqSection';
 
 const servicesData = [
   {
@@ -206,60 +206,60 @@ const workflowSteps = [
 
 const faqs = [
   {
-    q: 'What is a white-label digital services partner?',
-    a: 'A white-label partner provides digital services behind your agency brand. Your agency manages the client relationship while the delivery partner handles the agreed technical work behind the scenes.',
+    question: 'What is a white-label digital services partner?',
+    answer: 'A white-label partner provides digital services behind your agency brand. Your agency manages the client relationship while the delivery partner handles the agreed technical work behind the scenes.',
   },
   {
-    q: 'Can Nexovio work behind our agency brand?',
-    a: 'Yes. We can work behind your agency as agreed, following your preferred communication process, project workflow and delivery structure.',
+    question: 'Can Nexovio work behind our agency brand?',
+    answer: 'Yes. We can work behind your agency as agreed, following your preferred communication process, project workflow and delivery structure.',
   },
   {
-    q: 'Can we outsource web development to Nexovio?',
-    a: 'Yes. Agencies can work with Nexovio for custom websites, e-commerce, web applications, redesigns, integrations and ongoing development support.',
+    question: 'Can we outsource web development to Nexovio?',
+    answer: 'Yes. Agencies can work with Nexovio for custom websites, e-commerce, web applications, redesigns, integrations and ongoing development support.',
   },
   {
-    q: 'Do you provide services beyond web development?',
-    a: 'Yes. The agency partnership model can cover web development, software development, mobile apps, UI/UX, AI solutions and technical SEO and performance work.',
+    question: 'Do you provide services beyond web development?',
+    answer: 'Yes. The agency partnership model can cover web development, software development, mobile apps, UI/UX, AI solutions and technical SEO and performance work.',
   },
   {
-    q: 'Can we send our existing Figma designs?',
-    a: 'Yes. We can work from Figma files, wireframes, design systems and existing frontend specifications and turn them into responsive production interfaces.',
+    question: 'Can we send our existing Figma designs?',
+    answer: 'Yes. We can work from Figma files, wireframes, design systems and existing frontend specifications and turn them into responsive production interfaces.',
   },
   {
-    q: 'Do you offer white-label mobile app development?',
-    a: 'Yes. Mobile projects can include React Native or Flutter development, API integrations, authentication, payments, notifications and deployment support.',
+    question: 'Do you offer white-label mobile app development?',
+    answer: 'Yes. Mobile projects can include React Native or Flutter development, API integrations, authentication, payments, notifications and deployment support.',
   },
   {
-    q: 'Can Nexovio help with AI projects?',
-    a: 'Yes. We can support practical AI use cases such as chatbots, knowledge assistants, document search, workflow automation and AI-powered applications.',
+    question: 'Can Nexovio help with AI projects?',
+    answer: 'Yes. We can support practical AI use cases such as chatbots, knowledge assistants, document search, workflow automation and AI-powered applications.',
   },
   {
-    q: 'Can we work on a project basis instead of hourly?',
-    a: 'Yes. Projects with a defined scope can be handled through a project-based engagement with agreed deliverables and milestones.',
+    question: 'Can we work on a project basis instead of hourly?',
+    answer: 'Yes. Projects with a defined scope can be handled through a project-based engagement with agreed deliverables and milestones.',
   },
   {
-    q: 'Can we use hourly support for overflow work?',
-    a: 'Yes. Hourly support can be useful for development tasks, maintenance, integrations, bug fixes, feature work and additional project capacity.',
+    question: 'Can we use hourly support for overflow work?',
+    answer: 'Yes. Hourly support can be useful for development tasks, maintenance, integrations, bug fixes, feature work and additional project capacity.',
   },
   {
-    q: 'Who manages communication with the client?',
-    a: 'Normally, your agency remains the primary client-facing team. Technical participation can be arranged when it makes sense for the project and is agreed in advance.',
+    question: 'Who manages communication with the client?',
+    answer: 'Normally, your agency remains the primary client-facing team. Technical participation can be arranged when it makes sense for the project and is agreed in advance.',
   },
   {
-    q: 'Can we sign an NDA before sharing sensitive project details?',
-    a: 'Yes. You can discuss NDA requirements before sharing confidential project or client information.',
+    question: 'Can we sign an NDA before sharing sensitive project details?',
+    answer: 'Yes. You can discuss NDA requirements before sharing confidential project or client information.',
   },
   {
-    q: 'Do you work with international agencies?',
-    a: 'Yes. The partnership model is designed to support agencies working across different regions and time zones with practical communication and delivery arrangements.',
+    question: 'Do you work with international agencies?',
+    answer: 'Yes. The partnership model is designed to support agencies working across different regions and time zones with practical communication and delivery arrangements.',
   },
   {
-    q: 'Can we start with one small project?',
-    a: 'Yes. A single project is a practical way for both teams to understand the workflow, communication style and technical requirements before discussing broader support.',
+    question: 'Can we start with one small project?',
+    answer: 'Yes. A single project is a practical way for both teams to understand the workflow, communication style and technical requirements before discussing broader support.',
   },
   {
-    q: 'How do we get started?',
-    a: 'Send your agency and project details through the partnership form. We can then review the requirements and discuss the most suitable way to work together.',
+    question: 'How do we get started?',
+    answer: 'Send your agency and project details through the partnership form. We can then review the requirements and discuss the most suitable way to work together.',
   },
 ];
 
@@ -310,7 +310,6 @@ const globalRegions = [
 export default function AgencyPartnershipClient() {
   const [activeService, setActiveService] = useState(0);
   const [activeEngagement, setActiveEngagement] = useState(0);
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   // Form state
   const [formData, setFormData] = useState({
@@ -519,8 +518,8 @@ export default function AgencyPartnershipClient() {
       </section>
 
       {/* 3. STICKY IN-PAGE SUB-NAVIGATION */}
-      <div className="sticky top-[64px] sm:top-[72px] z-30 border-b border-border-subtle bg-background/85 backdrop-blur-md py-2.5 px-4">
-        <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto text-xs scrollbar-none">
+      <div className="sticky top-[64px] sm:top-[106px] z-30 border-b border-border-subtle bg-[#fff] py-2.5 px-4">
+        <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto text-sm  scrollbar-none">
           {[
             ['overview', 'Overview'],
             ['why-agencies', 'Why Agencies Partner'],
@@ -552,7 +551,10 @@ export default function AgencyPartnershipClient() {
               Agency Technology Support
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-              One Technical Partner for the Work Behind Your Client Projects
+              One Technical Partner for the Work{' '}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                Behind Your Client Projects
+              </span>
             </h2>
             <p className="mt-2 text-sm text-muted">
               Add technical capability where your agency needs it, while keeping your existing client
@@ -600,7 +602,10 @@ export default function AgencyPartnershipClient() {
                 Why Agencies Partner
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                Take on More Client Work Without Rebuilding Your Team
+                Take on More Client Work{' '}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">
+                  Without Rebuilding Your Team
+                </span>
               </h2>
               <div className="space-y-4 text-sm sm:text-base text-muted leading-relaxed">
                 <p>
@@ -699,7 +704,10 @@ export default function AgencyPartnershipClient() {
               Clear Roles
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-              Your Client Relationship. Your Brand. Shared Delivery Responsibility.
+              Your Client Relationship. Your Brand.{' '}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                Shared Delivery Responsibility.
+              </span>
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted leading-relaxed">
               White-label work is easier when everyone knows who owns what. Your agency remains in control
@@ -801,42 +809,61 @@ export default function AgencyPartnershipClient() {
               Agency Capabilities
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-              White-Label Digital Services Your Agency Can Offer
+              White-Label Digital Services{' '}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                Your Agency Can Offer
+              </span>
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted leading-relaxed">
               Bring Nexovio into the projects where your agency needs additional technical expertise. The
               service areas below cover the most common types of delivery support.
             </p>
           </div>
+        </div>
 
-          {/* Feature Banner with Generated Image */}
-          <div className="mb-10 overflow-hidden rounded-3xl border border-border-subtle bg-surface-elevated shadow-card relative">
-            <div className="relative aspect-[16/7] min-h-[260px] sm:min-h-[300px] overflow-hidden">
-              <Image
-                src="/images/agency-partnership/white-label-development-services.webp"
-                alt="White-label digital development services for agencies"
-                fill
-                sizes="(max-width: 1200px) 100vw, 1200px"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/70 to-transparent" />
-              <div className="absolute inset-y-0 left-0 flex max-w-xl items-center p-6 sm:p-10">
-                <div className="space-y-3">
-                  <span className="rounded-md bg-brand-cyan/20 px-2.5 py-1 text-[11px] font-bold uppercase tracking-widest text-brand-cyan">
-                    Technical Delivery Support
-                  </span>
-                  <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-                    Add New Digital Capabilities Without Building Everything In-House
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    Have a client asking for something outside your current team? Bring us into the project
-                    and keep the relationship, strategy, and creative direction with your agency.
-                  </p>
-                </div>
-              </div>
-            </div>
+        {/* Feature Banner with Generated Image - Full Width (100% Edge-to-Edge) */}
+        <div className="w-full my-8 sm:my-12 border-y border-border-subtle bg-[#050A18] relative overflow-hidden group">
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <Image
+              src="/images/agency-partnership/white-label-development-services.webp"
+              alt="White-label digital development services for agencies"
+              fill
+              sizes="100vw"
+              className="object-cover object-center opacity-35 md:opacity-45 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 ease-out"
+            />
+            {/* Directional gradients for maximum text readability across full width */}
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/40" />
+            <div className="absolute top-0 right-10 w-96 h-96 bg-brand-cyan/15 rounded-full blur-3xl pointer-events-none" />
+            {/* Modern tech dot grid pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(#00c6ff_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.06]" />
           </div>
 
+          {/* Glowing Top Accent Line */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-cyan to-transparent opacity-80" />
+
+          {/* Centered Content Container */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-18 lg:py-22 relative z-10">
+            <div className="max-w-4xl space-y-4">
+              <span className="inline-flex items-center gap-2 rounded-full border border-brand-cyan/30 bg-brand-cyan/15 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-cyan backdrop-blur-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
+                Technical Delivery Support
+              </span>
+              <h3 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#fff] leading-tight tracking-tight">
+                Add New Digital Capabilities{' '}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">
+                  Without Building Everything In-House
+                </span>
+              </h3>
+              <p className="text-sm sm:text-base lg:text-lg text-[#fff] leading-relaxed max-w-3xl">
+                Have a client asking for something outside your current team? Bring us into the project
+                and keep the relationship, strategy, and creative direction with your agency.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Interactive Service Selector */}
           <div className="grid gap-6 lg:grid-cols-12 items-start">
             <div className="space-y-2 lg:sticky lg:top-36 lg:col-span-4">
@@ -996,7 +1023,10 @@ export default function AgencyPartnershipClient() {
               Clear Workflow
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-              How Our White-Label Agency Partnership Works
+              How Our White-Label Agency{' '}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                Partnership Works
+              </span>
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted leading-relaxed">
               A simple delivery process helps both teams know what happens next, from the first project
@@ -1083,7 +1113,10 @@ export default function AgencyPartnershipClient() {
               Agency-Friendly Collaboration
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-              Choose the Engagement Model That Fits the Project
+              Choose the Engagement Model That{' '}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                Fits the Project
+              </span>
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted leading-relaxed">
               Some client projects have a clear scope from the start. Others need ongoing technical support
@@ -1180,7 +1213,10 @@ export default function AgencyPartnershipClient() {
                 Project Examples
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                Examples of the Work We Can Support Behind Your Agency
+                Examples of the Work We Support{' '}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">
+                  Behind Your Agency
+                </span>
               </h2>
               <p className="text-sm sm:text-base text-muted leading-relaxed">
                 Every agency project is different. The common thread is having the right technical support
@@ -1288,7 +1324,10 @@ export default function AgencyPartnershipClient() {
                 Global Agency Partnerships
               </span>
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                Work With a Technical Partner Across Time Zones
+                Work With a Technical Partner{' '}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">
+                  Across Time Zones
+                </span>
               </h2>
               <p className="text-sm sm:text-base text-muted leading-relaxed">
                 Nexovio works with agencies and digital teams across different markets. The goal is not
@@ -1337,9 +1376,7 @@ export default function AgencyPartnershipClient() {
                     className="object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-4 left-4 rounded-full bg-gradient-brand px-3.5 py-1.5 text-xs font-bold text-white shadow-sm">
-                    Global collaboration, practical delivery
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -1361,7 +1398,10 @@ export default function AgencyPartnershipClient() {
                   Agency Collaboration
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                  Have a Client Project You Need Help Delivering?
+                  Have a Client Project You{' '}
+                  <span className="bg-gradient-brand bg-clip-text text-transparent">
+                    Need Help Delivering?
+                  </span>
                 </h2>
                 <p className="text-base font-bold text-brand-cyan">
                   Tell us what your agency needs. We will look at the scope, timeline, and best way to
@@ -1596,59 +1636,13 @@ export default function AgencyPartnershipClient() {
       </section>
 
       {/* 13. FREQUENTLY ASKED QUESTIONS */}
-      <section
-        id="faq"
-        className="scroll-mt-28 section-blue py-16 sm:py-20 lg:py-24 border-b border-border-subtle"
-      >
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/20 bg-brand-cyan/5 text-brand-cyan mb-2">
-              Clear Answers
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
-              Frequently Asked Questions
-            </h2>
-            <p className="mt-3 text-sm sm:text-base text-muted leading-relaxed">
-              Common questions agencies ask before working with a technical delivery partner.
-            </p>
-          </div>
-
-          <div className="space-y-3">
-            {faqs.map((faq, index) => {
-              const isOpen = openFaq === index;
-              return (
-                <div
-                  key={faq.q}
-                  className="overflow-hidden rounded-2xl border border-border-subtle bg-surface-elevated shadow-sm transition hover:border-brand-cyan/40"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left text-sm sm:text-base font-bold text-slate-900 dark:text-white transition-colors"
-                    aria-expanded={isOpen}
-                    aria-controls={`faq-answer-${index}`}
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`h-5 w-5 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-brand-cyan' : 'text-muted'
-                        }`}
-                      aria-hidden="true"
-                    />
-                  </button>
-                  {isOpen && (
-                    <div
-                      id={`faq-answer-${index}`}
-                      className="border-t border-border-subtle px-6 pb-6 pt-3 text-sm text-muted leading-relaxed"
-                    >
-                      {faq.a}
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <FaqSection
+        faqs={faqs}
+        badge="CLEAR ANSWERS"
+        title="Frequently Asked Questions About"
+        highlightText="Agency Partnerships"
+        description="Common questions agencies ask before working with a technical delivery partner."
+      />
     </div>
   );
 }
