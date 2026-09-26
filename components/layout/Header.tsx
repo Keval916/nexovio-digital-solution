@@ -212,7 +212,6 @@ export function Header() {
             <div className="flex items-center gap-3">
               <a
                 href="/agency-partnership"
-                target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
               >
@@ -577,7 +576,7 @@ export function Header() {
               <div className="hidden lg:flex items-center gap-2.5 shrink-0">
                 <ThemeToggle />
                 <Button
-                  href="https://calendly.com/nexoviodigitalsolutions-info"
+                  href="/schedule-a-call"
                   variant="primary"
                   size="sm"
                   trackingName="header_schedule_call"
@@ -593,7 +592,7 @@ export function Header() {
               <div className="flex lg:hidden items-center gap-2">
                 <ThemeToggle />
                 <Button
-                  href="https://calendly.com/nexoviodigitalsolutions-info"
+                  href="/schedule-a-call"
                   variant="primary"
                   size="sm"
                   trackingName="mobile_header_cta"
@@ -786,7 +785,7 @@ export function Header() {
               <div className="pt-4 mt-2 border-t border-white/10 space-y-3">
                 <ThemeToggle showText className="w-full justify-center py-2.5" />
                 <Button
-                  href="https://calendly.com/nexoviodigitalsolutions-info"
+                  href="/schedule-a-call"
                   variant="primary"
                   size="lg"
                   trackingName="mobile_menu_schedule_call"

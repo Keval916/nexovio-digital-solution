@@ -25,7 +25,7 @@ export function FinalCtaSection() {
             {/* CTAs */}
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
               <Button
-                href="https://calendly.com/nexoviodigitalsolutions-info"
+                href="/schedule-a-call"
                 variant="primary"
                 size="lg"
                 trackingName="final_cta_schedule_call"

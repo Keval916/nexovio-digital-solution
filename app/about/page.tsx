@@ -559,7 +559,7 @@ export default function AboutPage() {
       />
 
       {/* 1. HERO BANNER (Left Content, Right Image - webp) */}
-      <section className="section-white pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-12 sm:pb-16 border-b border-border-subtle/50">
+      <section className="section-white pt-24 sm:28 md:pt-32 lg:pt-40 pb-12 sm:pb-16 border-b border-border-subtle/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumbs */}
           <Breadcrumbs items={[{ name: "About", url: "/about" }]} />
@@ -612,14 +612,14 @@ export default function AboutPage() {
                   Schedule a Call
                 </Button>
                 <Button
-                  href="/services"
+                  href="/agency-partnership"
                   variant="secondary"
                   size="lg"
                   trackingName="about_hero_services"
                   trackingLocation="about_hero"
                   className="group relative inline-flex items-center justify-center overflow-hidden outline-none focus:outline-none disabled:opacity-50 disabled:pointer-events-none select-none bg-surface-elevated text-foreground border border-border-subtle backdrop-blur-sm hover:border-brand-bright hover:text-brand-bright transition-all duration-200 shadow-sm text-base px-8 py-3.5 gap-3 rounded-xl font-medium"
                 >
-                  Explore Capabilities
+                  Partner with Us
                 </Button>
               </div>
             </div>
@@ -870,7 +870,7 @@ export default function AboutPage() {
             {BETTER_QUESTIONS.map((item, idx) => (
               <div
                 key={idx}
-                className="group rounded-2xl border border-brand-cyan/20 bg-surface-elevated/70 p-6 space-y-2 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
+                className="group rounded-2xl border border-brand-cyan/20 bg-white p-6 space-y-2 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
               >
                 <div className="text-sm font-bold text-brand-cyan flex items-center gap-2 group-hover:text-brand-bright transition-colors">
                   <HelpCircle className="w-4 h-4 flex-shrink-0 text-brand-cyan" />
@@ -900,7 +900,7 @@ export default function AboutPage() {
               {TECH_METRICS.map((tech, i) => (
                 <div
                   key={i}
-                  className="group rounded-2xl border border-border-subtle bg-surface-elevated/60 p-6 text-center hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
+                  className="group rounded-2xl border border-brand-cyan/20 bg-white p-6 space-y-2 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
                 >
                   <div className="text-lg font-bold text-white mb-1 group-hover:text-brand-cyan transition-colors">{tech.title}</div>
                   <div className="text-xs text-muted leading-relaxed">{tech.desc}</div>

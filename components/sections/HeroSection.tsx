@@ -8,7 +8,7 @@ import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 
 export function HeroSection() {
   return (
-    <section className="section-white relative min-h-[85vh] flex items-center justify-center pt-24 sm:pt-28 pb-6 sm:pb-8 overflow-hidden">
+    <section className="section-white relative min-h-[85vh] flex items-center justify-center pt-24 sm:28 md:pt-32 lg:pt-40 pb-6 sm:pb-8 overflow-hidden">
       {/* Background Radial Glow & Futuristic Grid Lines */}
       <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
       <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
@@ -61,7 +61,7 @@ export function HeroSection() {
             <AnimateOnScroll variant="fadeUp" duration={0.7} delay={0.45} start="top 95%">
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Button
-                  href="https://calendly.com/nexoviodigitalsolutions-info"
+                  href="/schedule-a-call"
                   variant="primary"
                   size="lg"
                   trackingName="hero_schedule_call"

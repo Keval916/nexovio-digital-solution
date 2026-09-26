@@ -18,6 +18,30 @@ interface FaqSectionProps {
   className?: string;
 }
 
+const EMAIL_MATCH_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const EMAIL_SPLIT_REGEX = /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/;
+
+function formatFaqAnswer(text: string) {
+  if (!text) return null;
+  const parts = text.split(EMAIL_SPLIT_REGEX);
+
+  return parts.map((part, i) => {
+    if (EMAIL_MATCH_REGEX.test(part)) {
+      return (
+        <a
+          key={i}
+          href={`mailto:${part}`}
+          className="text-brand-cyan hover:underline font-semibold transition-colors"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
+
 export function FaqSection({
   faqs = GLOBAL_FAQS,
   badge = "COMMON QUESTIONS",
@@ -134,7 +158,7 @@ export function FaqSection({
                       <div className="px-4 sm:px-6 pb-4 sm:pb-5 pt-1.5 border-t border-slate-100 dark:border-blue-900/40">
                         <div className="pl-3.5 sm:pl-4 border-l-2 border-brand-cyan py-0.5">
                           <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
-                            {faq.answer}
+                            {formatFaqAnswer(faq.answer)}
                           </p>
                         </div>
                       </div>

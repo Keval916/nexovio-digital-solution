@@ -406,7 +406,7 @@ export default function AgencyPartnershipClient() {
       {/* 1. HERO SECTION */}
       <section
         id="overview"
-        className="relative pt-24 pb-16 lg:pt-40 lg:pb-24 overflow-hidden border-b border-border-subtle"
+        className="relative pt-24 sm:28 md:pt-32 lg:pt-40 pb-16 lg:pb-24 overflow-hidden border-b border-border-subtle"
       >
         {/* Ambient background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-radial-glow pointer-events-none opacity-60" />
@@ -424,12 +424,12 @@ export default function AgencyPartnershipClient() {
                 <span>White-Label Digital Partner for Modern Agencies</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-[#fff] leading-[1.12]">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-[#fff] leading-[1.12]">
                 White-Label Digital Services for{' '}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">Agencies</span>
               </h1>
 
-              <p className="text-xl sm:text-2xl font-bold tracking-tight text-brand-cyan">
+              <p className="text-lg sm:text-xl font-bold tracking-tight text-brand-cyan">
                 Your Clients. Your Brand. Our Technology Team.
               </p>
 
@@ -840,51 +840,8 @@ export default function AgencyPartnershipClient() {
               </span>
             </h2>
             <p className="mt-3 text-sm sm:text-base text-muted leading-relaxed">
-              Bring Nexovio into the projects where your agency needs additional technical expertise. The
-              service areas below cover the most common types of delivery support.
+              Bring Nexovio into the projects where your agency needs additional technical expertise. The service areas below cover the most common types of delivery support.
             </p>
-          </div>
-        </div>
-
-        {/* Feature Banner with Generated Image - Full Width (100% Edge-to-Edge) */}
-        <div className="w-full my-8 sm:my-12 border-y border-border-subtle bg-[#050A18] relative overflow-hidden group">
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <Image
-              src="/images/agency-partnership/agency-capabilities-workstation.jpg"
-              alt="Realistic wide-angle software development agency workstation with code and UI wireframes"
-              fill
-              sizes="100vw"
-              className="object-cover object-center opacity-35 md:opacity-45 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 ease-out"
-            />
-            {/* Directional gradients for maximum text readability across full width */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/40" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/40" />
-            <div className="absolute top-0 right-10 w-96 h-96 bg-brand-cyan/15 rounded-full blur-3xl pointer-events-none" />
-            {/* Modern tech dot grid pattern */}
-            <div className="absolute inset-0 bg-[radial-gradient(#00c6ff_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.06]" />
-          </div>
-
-          {/* Glowing Top Accent Line */}
-          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-cyan to-transparent opacity-80" />
-
-          {/* Centered Content Container */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-18 lg:py-22 relative z-10">
-            <div className="max-w-4xl space-y-4">
-              <span className="inline-flex items-center gap-2 rounded-full border border-brand-cyan/30 bg-brand-cyan/15 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-cyan backdrop-blur-md">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
-                Technical Delivery Support
-              </span>
-              <h3 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#fff] leading-tight tracking-tight">
-                Add New Digital Capabilities{' '}
-                <span className="bg-gradient-brand bg-clip-text text-transparent">
-                  Without Building Everything In-House
-                </span>
-              </h3>
-              <p className="text-sm sm:text-base lg:text-lg text-[#fff] leading-relaxed max-w-3xl">
-                Have a client asking for something outside your current team? Bring us into the project
-                and keep the relationship, strategy, and creative direction with your agency.
-              </p>
-            </div>
           </div>
         </div>
 
@@ -1002,37 +959,74 @@ export default function AgencyPartnershipClient() {
               </article>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Crawlable Full Grid */}
-          <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {servicesData.map((service) => {
-              const Icon = service.icon;
-              return (
-                <article
-                  key={`crawl-${service.id}`}
-                  className="rounded-2xl border border-border-subtle bg-surface-elevated/70 p-5 shadow-sm transition hover:border-brand-cyan/40"
+      <section>
+        {/* Feature Banner with Generated Image - Full Width (100% Edge-to-Edge) */}
+        <div className="w-full bg-[#050A18] relative overflow-hidden group">
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <Image
+              src="/images/agency-partnership/agency-capabilities-workstation.jpg"
+              alt="Realistic wide-angle software development agency workstation with code and UI wireframes"
+              fill
+              sizes="100vw"
+              className="object-cover object-center opacity-35 md:opacity-45 group-hover:scale-105 group-hover:opacity-50 transition-all duration-700 ease-out"
+            />
+            {/* Directional gradients for maximum text readability across full width */}
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-slate-950/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-slate-950/40" />
+            <div className="absolute top-0 right-10 w-96 h-96 bg-brand-cyan/15 rounded-full blur-3xl pointer-events-none" />
+            {/* Modern tech dot grid pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(#00c6ff_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.06]" />
+          </div>
+
+          {/* Glowing Top Accent Line */}
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-brand-cyan to-transparent opacity-80" />
+
+          {/* Centered Content Container */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-18 lg:py-22 relative z-10">
+            <div className="max-w-4xl space-y-4">
+              <span className="inline-flex items-center gap-2 rounded-full border border-brand-cyan/30 bg-brand-cyan/15 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-brand-cyan backdrop-blur-md">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-pulse" />
+                Technical Delivery Support
+              </span>
+              <h3 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-[#fff] leading-tight tracking-tight">
+                Add New Digital Capabilities{' '}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">
+                  Without Building Everything In-House
+                </span>
+              </h3>
+              <p className="text-sm sm:text-base lg:text-lg text-[#fff] leading-relaxed max-w-3xl">
+                Have a client asking for something outside your current team? Bring us into the project
+                and keep the relationship, strategy, and creative direction with your agency.
+              </p>
+
+              {/* Action Buttons */}
+              <div className="pt-3 flex flex-wrap items-center gap-3.5">
+                <Button
+                  href="#partner-form"
+                  variant="primary"
+                  size="md"
+                  trackingName="capabilities_banner_discuss_project"
+                  trackingLocation="agency_capabilities_banner"
+                  icon={<ArrowRight className="h-4 w-4" />}
+                  className="shadow-glow font-bold"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-cyan/10 text-brand-cyan">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </div>
-                    <h3 className="text-sm font-extrabold text-slate-900 dark:text-[#fff]">
-                      {service.title}
-                    </h3>
-                  </div>
-                  <p className="mt-3 text-xs text-muted leading-relaxed line-clamp-3">
-                    {service.description}
-                  </p>
-                  <Link
-                    href={service.href}
-                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold text-brand-bright hover:text-brand-cyan transition-colors"
-                  >
-                    Explore {service.shortTitle}
-                    <ArrowRight className="h-3 w-3" aria-hidden="true" />
-                  </Link>
-                </article>
-              );
-            })}
+                  Discuss a Client Project
+                </Button>
+                <Button
+                  href="#workflow"
+                  variant="secondary"
+                  size="md"
+                  trackingName="capabilities_banner_see_workflow"
+                  trackingLocation="agency_capabilities_banner"
+                  className="font-medium bg-white/10 text-white border-white/20 hover:bg-white/20"
+                >
+                  See How It Works
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

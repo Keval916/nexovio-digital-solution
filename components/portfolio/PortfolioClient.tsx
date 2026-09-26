@@ -47,9 +47,9 @@ export function PortfolioClient() {
       : PORTFOLIO_PROJECTS.filter((p) => p.category === activeCategory);
 
   return (
-    <div className="pt-20">
+    <div>
       {/* 1. Hero & Category Filter Section (White) */}
-      <section className="section-white pt-12 sm:pt-16 pb-8">
+      <section className="section-white pt-24 sm:28 md:pt-32 lg:pt-40 pb-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ name: "Portfolio", url: "/portfolio" }]} />
 

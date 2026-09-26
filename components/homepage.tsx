@@ -663,7 +663,7 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Button
                   onClick={onOpenModal ? onOpenModal : undefined}
-                  href={!onOpenModal ? "https://calendly.com/nexoviodigitalsolutions-info" : undefined}
+                  href={!onOpenModal ? "/schedule-a-call" : undefined}
                   variant="primary"
                   size="lg"
                   trackingName="hero_schedule_call"

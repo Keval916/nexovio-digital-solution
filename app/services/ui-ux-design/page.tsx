@@ -623,7 +623,7 @@ export default function UiUxDesignPage() {
       {/* ================================================================== */}
       {/* 1. HERO SECTION                                                    */}
       {/* ================================================================== */}
-      <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden border-b border-border-subtle/80">
+      <section className="relative pt-24 sm:28 md:pt-32 lg:pt-40 pb-16 overflow-hidden border-b border-border-subtle/80">
         {/* Background Radial Glow & Futuristic Grid Lines */}
         <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
         <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
@@ -679,11 +679,7 @@ export default function UiUxDesignPage() {
               </div>
 
               {/* Trust Badges */}
-              <div className="pt-6 border-t border-border-subtle grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-700 dark:text-[#fff]">
-                <span className="inline-flex items-center gap-1.5 font-medium">
-                  <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0" />
-                  <span>WCAG 2.1 AA Compliant</span>
-                </span>
+              <div className="pt-6 border-t border-border-subtle grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-slate-700 dark:text-[#fff]">
                 <span className="inline-flex items-center gap-1.5 font-medium">
                   <Component className="h-4 w-4 text-brand-cyan shrink-0" />
                   <span>Tokenized Figma Libraries</span>
@@ -745,19 +741,7 @@ export default function UiUxDesignPage() {
                   {/* Subtle Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/75 via-transparent to-transparent pointer-events-none rounded-xl" />
 
-                  {/* Sticky Banner Floating Bottom Specs */}
-                  <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-950/85 border border-brand-cyan/30 backdrop-blur-md">
-                    <div className="flex items-center justify-between text-xs font-mono font-bold text-white mb-1.5">
-                      <span className="text-brand-cyan flex items-center gap-1.5">
-                        <Workflow className="w-3.5 h-3.5" />
-                        Human-Centered Architecture
-                      </span>
-                      <span className="text-emerald-400">WCAG 2.1 AA</span>
-                    </div>
-                    <p className="text-[11px] text-slate-300 leading-snug">
-                      Figma variables, component tokens, and zero-guesswork developer handoff specifications.
-                    </p>
-                  </div>
+
                 </div>
               </div>
             </div>
@@ -789,11 +773,14 @@ export default function UiUxDesignPage() {
                 {VALUE_PROPOSITION_PILLARS.map((vp) => (
                   <div
                     key={vp.title}
-                    className="flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#070F22] hover:border-brand-cyan/40 transition-all shadow-xs"
+                    className="relative overflow-hidden group flex items-start gap-3.5 p-3.5 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#070F22] hover:border-brand-cyan/60 hover:bg-brand-cyan/[0.04] hover:translate-x-2 transition-all duration-300 shadow-xs"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
+                    {/* Hover: Left Accent Border Slide Down */}
+                    <div className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-brand-cyan via-brand-bright to-brand-electric scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-top" />
+
+                    <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5 group-hover:scale-125 group-hover:text-brand-bright transition-transform duration-300" />
                     <div>
-                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
+                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
                         {vp.title}
                       </h3>
                       <p className="text-xs text-muted leading-relaxed mt-0.5">
@@ -820,6 +807,7 @@ export default function UiUxDesignPage() {
 
       {/* ================================================================== */}
       {/* 3. OUR UI/UX DESIGN SERVICES (CARDS MATCHING OTHER PAGES)           */}
+      {/* Hover Effect: TOP BORDER ANIMATE LEFT TO RIGHT + ELEVATION LIFT   */}
       {/* ================================================================== */}
       <section className="bg-white dark:bg-background py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -837,8 +825,10 @@ export default function UiUxDesignPage() {
               return (
                 <Card
                   key={srv.title}
-                  className="flex flex-col justify-between h-full bg-white dark:bg-[#071328] p-6 sm:p-7 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/60 dark:hover:border-brand-cyan/60 shadow-sm hover:shadow-xl transition-all duration-300 group rounded-2xl"
+                  className="relative overflow-hidden group flex flex-col justify-between h-full bg-white dark:bg-[#071328] p-6 sm:p-7 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/60 dark:hover:border-brand-cyan/60 shadow-sm hover:shadow-[0_20px_45px_rgba(0,198,255,0.16)] hover:-translate-y-2 transition-all duration-400 rounded-2xl"
                 >
+                  {/* USER REQUESTED: Top Border Animate Left to Right on Hover */}
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-brand-cyan via-brand-bright to-brand-electric scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-out z-20" />
                   <div className="space-y-4">
                     {/* Visual Graphic Mockup */}
                     <RealisticUiUxCardImage
@@ -924,11 +914,14 @@ export default function UiUxDesignPage() {
               return (
                 <div
                   key={prod.title}
-                  className="rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-brand-cyan/60 transition-all flex flex-col justify-between group"
+                  className="relative overflow-hidden rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 sm:p-7 shadow-sm hover:shadow-[0_20px_45px_rgba(0,198,255,0.14)] hover:border-brand-cyan/60 hover:-translate-y-2 transition-all duration-400 flex flex-col justify-between group"
                 >
-                  <div className="space-y-4">
+                  {/* Hover: Top-Right Radial Glow Spotlight */}
+                  <div className="absolute -top-12 -right-12 w-32 h-32 bg-brand-cyan/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                  <div className="space-y-4 relative z-10">
                     <div className="flex items-center justify-between">
-                      <div className="w-11 h-11 rounded-xl bg-brand-cyan/10 border border-brand-cyan/25 flex items-center justify-center text-brand-cyan">
+                      <div className="w-11 h-11 rounded-xl bg-brand-cyan/10 border border-brand-cyan/25 flex items-center justify-center text-brand-cyan group-hover:scale-115 group-hover:rotate-6 group-hover:bg-brand-cyan/20 transition-all duration-300">
                         <Icon className="w-5 h-5" />
                       </div>
                       <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-brand-cyan/10 border border-brand-cyan/20 text-brand-cyan">
@@ -991,14 +984,17 @@ export default function UiUxDesignPage() {
             {PROCESS_STEPS.map((step) => (
               <div
                 key={step.step}
-                className="rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-brand-cyan/60 transition-all flex flex-col justify-between group"
+                className="relative overflow-hidden rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 sm:p-7 shadow-sm hover:shadow-[0_20px_45px_rgba(0,198,255,0.14)] hover:border-brand-cyan/60 hover:-translate-y-2 transition-all duration-400 flex flex-col justify-between group"
               >
-                <div className="space-y-4">
+                {/* Hover: Light Sheen Sweep Across Card */}
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/[0.08] to-transparent pointer-events-none" />
+
+                <div className="space-y-4 relative z-10">
                   <div className="flex items-center justify-between">
-                    <span className="text-2xl sm:text-3xl font-extrabold bg-gradient-brand bg-clip-text text-transparent font-mono">
+                    <span className="text-2xl sm:text-3xl font-extrabold bg-gradient-brand bg-clip-text text-transparent font-mono group-hover:scale-110 transition-transform duration-300">
                       {step.step}
                     </span>
-                    <span className="text-[11px] font-mono text-muted uppercase tracking-wider">
+                    <span className="text-[11px] font-mono text-muted uppercase tracking-wider group-hover:text-brand-cyan transition-colors">
                       {step.phase}
                     </span>
                   </div>
@@ -1012,7 +1008,7 @@ export default function UiUxDesignPage() {
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
+                <div className="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 space-y-1.5 text-xs text-slate-700 dark:text-slate-300 relative z-10">
                   <div className="text-[10px] font-mono uppercase text-brand-cyan font-semibold mb-1">
                     Key Outcomes:
                   </div>
@@ -1063,13 +1059,13 @@ export default function UiUxDesignPage() {
             {ACCESSIBILITY_CHECKLIST.map((item) => (
               <div
                 key={item.title}
-                className="rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 shadow-sm hover:shadow-xl hover:border-brand-cyan/60 transition-all flex flex-col justify-between"
+                className="group rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 shadow-sm hover:border-l-4 hover:border-l-emerald-400 hover:pl-5 hover:border-emerald-500/50 hover:shadow-lg transition-all duration-300 flex flex-col justify-between cursor-default"
               >
                 <div className="space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-500">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-500 group-hover:scale-115 group-hover:rotate-12 transition-all duration-300">
                     <CheckSquare className="w-4 h-4" />
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white leading-snug">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white leading-snug group-hover:text-emerald-400 transition-colors">
                     {item.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-muted leading-relaxed">
@@ -1112,13 +1108,16 @@ export default function UiUxDesignPage() {
             {DEVELOPER_HANDOFF_STANDARDS.map((std) => (
               <div
                 key={std.title}
-                className="rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 shadow-sm hover:shadow-xl hover:border-brand-cyan/60 transition-all flex flex-col justify-between"
+                className="relative overflow-hidden group rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 shadow-sm hover:shadow-[0_15px_30px_rgba(0,198,255,0.12)] hover:border-brand-cyan/60 hover:-translate-y-2 transition-all duration-400 flex flex-col justify-between"
               >
+                {/* Hover: Bottom Center-Expanding Animated Border */}
+                <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-brand-cyan via-brand-bright to-brand-electric scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-center ease-out" />
+
                 <div className="space-y-3">
-                  <div className="w-9 h-9 rounded-xl bg-brand-cyan/10 border border-brand-cyan/25 flex items-center justify-center text-brand-cyan">
+                  <div className="w-9 h-9 rounded-xl bg-brand-cyan/10 border border-brand-cyan/25 flex items-center justify-center text-brand-cyan group-hover:scale-115 group-hover:bg-brand-cyan/20 transition-all duration-300">
                     <FileCode2 className="w-4 h-4" />
                   </div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white leading-snug">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white leading-snug group-hover:text-brand-cyan transition-colors">
                     {std.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-muted leading-relaxed">
@@ -1178,10 +1177,16 @@ export default function UiUxDesignPage() {
               return (
                 <div
                   key={brand.title}
-                  className="rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 sm:p-7 shadow-sm hover:shadow-xl hover:border-brand-cyan/60 transition-all flex flex-col justify-between group"
+                  className="relative overflow-hidden group rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] p-6 sm:p-7 shadow-sm hover:shadow-[0_20px_45px_rgba(0,198,255,0.18)] hover:border-brand-cyan/60 hover:-translate-y-2 transition-all duration-400 flex flex-col justify-between"
                 >
-                  <div className="space-y-4">
-                    <div className="w-11 h-11 rounded-xl bg-brand-cyan/10 border border-brand-cyan/25 flex items-center justify-center text-brand-cyan group-hover:scale-110 transition-transform">
+                  {/* Hover: Bottom Border Slide Right-to-Left */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-gradient-to-l from-brand-cyan via-brand-bright to-brand-electric scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-right ease-out pointer-events-none" />
+
+                  {/* Hover: Ambient Halo Glow in Background */}
+                  <div className="absolute inset-0 bg-radial-glow opacity-0 group-hover:opacity-40 transition-opacity duration-500 pointer-events-none" />
+
+                  <div className="space-y-4 relative z-10">
+                    <div className="w-11 h-11 rounded-xl bg-brand-cyan/10 border border-brand-cyan/25 flex items-center justify-center text-brand-cyan group-hover:-translate-y-1.5 group-hover:scale-110 group-hover:bg-brand-cyan/20 transition-all duration-300">
                       <Icon className="w-5 h-5" />
                     </div>
                     <h3 className="text-xl font-bold text-slate-900 dark:text-white leading-snug group-hover:text-brand-cyan transition-colors">
@@ -1192,7 +1197,7 @@ export default function UiUxDesignPage() {
                     </p>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center gap-1.5 text-xs font-mono font-semibold text-brand-cyan">
+                  <div className="mt-6 pt-4 border-t border-slate-100 dark:border-white/10 flex items-center gap-1.5 text-xs font-mono font-semibold text-brand-cyan relative z-10">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Nexovio Standard</span>
                   </div>

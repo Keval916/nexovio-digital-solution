@@ -936,7 +936,7 @@ export default function WebDevelopmentPage() {
       />
 
       {/* 1. HERO BANNER SECTION (Dark/Gradient Hero Background) */}
-      <section className="pt-24 sm:pt-40 pb-20 bg-background relative overflow-hidden">
+      <section className="pt-24 sm:28 md:pt-32 lg:pt-40 pb-20 bg-background relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumbs */}
           <Breadcrumbs
@@ -1111,8 +1111,10 @@ export default function WebDevelopmentPage() {
               return (
                 <Card
                   key={srv.title}
-                  className="flex flex-col justify-between h-full bg-white dark:bg-[#071328] p-6 sm:p-7 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/60 dark:hover:border-brand-cyan/60 shadow-sm hover:shadow-xl transition-all duration-300 group"
+                  className="relative overflow-hidden flex flex-col justify-between h-full bg-white dark:bg-[#071328] p-6 sm:p-7 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/60 dark:hover:border-brand-cyan/60 shadow-sm hover:shadow-[0_20px_45px_rgba(0,198,255,0.16)] hover:-translate-y-2 transition-all duration-400 group rounded-2xl"
                 >
+                  {/* Top Border Animate Left to Right on Hover */}
+                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-brand-cyan via-brand-bright to-brand-electric scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-out z-20" />
                   <div className="space-y-4">
                     {/* Visual Realistic Preview Graphic */}
                     <RealisticServiceMockup previewType={srv.previewType} />
