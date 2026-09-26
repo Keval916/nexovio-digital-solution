@@ -242,8 +242,8 @@ export default function CaseStudiesPage() {
                 <div className="relative h-[360px] sm:h-[420px] lg:h-[480px] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-[#040813]">
                   {/* High-Resolution Realistic Human Team Photo */}
                   <Image
-                    src="/images/case-studies/case-studies-hero-team.jpg"
-                    alt="Realistic modern digital engineering and architecture team collaborating on live client case studies in a contemporary studio office"
+                    src="/images/case-studies/nexovio-case-studies-engineering-impact-web-ai-ecommerce.webp"
+                    alt="Nexovio Digital Solutions case studies showcasing web development, AI workflows, eCommerce and digital growth solutions"
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 50vw"

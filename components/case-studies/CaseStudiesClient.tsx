@@ -185,70 +185,11 @@ export function CaseStudiesClient({ caseStudies }: CaseStudiesClientProps) {
       : caseStudies.filter((study) => study.category === activeCategory);
 
   return (
-    <div className="space-y-20">
+    <div className="space-y-16">
       {/* ================================================================== */}
-      {/* 1. EXECUTIVE PROOF STATS BAR (GLASSMORPHIC BENCHMARK STRIP)        */}
+      {/* 1. INTERACTIVE CATEGORY FILTER TABS                                */}
       {/* ================================================================== */}
-      <AnimateOnScroll variant="fadeUp" duration={0.6}>
-        <div className="rounded-3xl border border-border-subtle bg-surface-elevated/80 p-6 sm:p-10 backdrop-blur-xl shadow-card relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-brand-cyan/5 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-border-subtle relative z-10">
-            <div className="pt-3 md:pt-0">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold bg-gradient-brand bg-clip-text text-transparent">
-                +92%
-              </div>
-              <div className="mt-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-[#fff]">
-                Max Conversion Lift
-              </div>
-              <div className="text-xs text-slate-600 dark:text-[#fff] mt-0.5 font-mono">
-                Post-launch checkout completion
-              </div>
-            </div>
-
-            <div className="pt-3 md:pt-0 md:pl-6">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold bg-gradient-brand bg-clip-text text-transparent">
-                0 min
-              </div>
-              <div className="mt-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-[#fff]">
-                Zero Downtime
-              </div>
-              <div className="text-xs text-slate-600 dark:text-[#fff] mt-0.5 font-mono">
-                Seamless live database migrations
-              </div>
-            </div>
-
-            <div className="pt-3 md:pt-0 md:pl-6">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold bg-gradient-brand bg-clip-text text-transparent">
-                &lt; 0.8s
-              </div>
-              <div className="mt-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-[#fff]">
-                Sub-Second Speed
-              </div>
-              <div className="text-xs text-slate-600 dark:text-[#fff] mt-0.5 font-mono">
-                Edge-cached Core Web Vitals
-              </div>
-            </div>
-
-            <div className="pt-3 md:pt-0 md:pl-6">
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-extrabold bg-gradient-brand bg-clip-text text-transparent">
-                100%
-              </div>
-              <div className="mt-1.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-[#fff]">
-                Verified Outcomes
-              </div>
-              <div className="text-xs text-slate-600 dark:text-[#fff] mt-0.5 font-mono">
-                GA4 &amp; Lighthouse audited
-              </div>
-            </div>
-          </div>
-        </div>
-      </AnimateOnScroll>
-
-      {/* ================================================================== */}
-      {/* 2. INTERACTIVE CATEGORY FILTER TABS                                */}
-      {/* ================================================================== */}
-      <AnimateOnScroll variant="fadeUp" duration={0.5} delay={0.1}>
+      <AnimateOnScroll variant="fadeUp" duration={0.5}>
         <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-4xl mx-auto px-2">
           {CATEGORIES.map((category) => {
             const isSelected = category === activeCategory;
