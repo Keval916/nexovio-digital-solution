@@ -606,14 +606,12 @@ export default function WebDesignPage() {
       />
 
       {/* 1. HERO BANNER SECTION (Dark/Gradient Hero Background) */}
-      <section className="pt-24 sm:pt-28 pb-20 bg-background relative overflow-hidden">
+      <section className="pt-24 sm:28 md:pt-32 lg:pt-40 pb-20 bg-background relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs
-            items={[
-              { name: "Services", url: "/services" },
-              { name: "Web Design", url: `/services/${service.slug}` },
-            ]}
-          />
+          {/* Background Radial Glow & Futuristic Grid Lines */}
+          <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
+          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-brand-electric/20 rounded-full blur-[100px] pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-4">
             <div className="lg:col-span-6 space-y-6 text-left">

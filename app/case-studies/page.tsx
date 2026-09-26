@@ -127,7 +127,7 @@ export default function CaseStudiesPage() {
       {/* ================================================================== */}
       <section
         id="overview"
-        className="relative pt-24 pb-16 lg:pt-36 lg:pb-24 overflow-hidden border-b border-border-subtle"
+        className="relative pt-24 sm:28 md:pt-32 lg:pt-40 pb-16 lg:pt-36 lg:pb-24 overflow-hidden border-b border-border-subtle"
       >
         {/* Ambient lighting glows matching Agency Partnership */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-radial-glow pointer-events-none opacity-60" />
@@ -145,7 +145,7 @@ export default function CaseStudiesPage() {
         />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumbs Navigation */}
+          {/* Breadcrumb Navigation */}
           <Breadcrumbs items={[{ name: "Case Studies", url: "/case-studies" }]} />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
@@ -156,14 +156,14 @@ export default function CaseStudiesPage() {
                 <span>Verified Technical Case Studies &amp; Outcomes</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-[#fff] leading-[1.12]">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-[#fff] leading-[1.12]">
                 Engineering Impact.{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Documented Results.
                 </span>
               </h1>
 
-              <p className="text-xl sm:text-2xl font-bold tracking-tight text-brand-cyan">
+              <p className="text-lg sm:text-xl font-bold tracking-tight text-brand-cyan">
                 Real Architecture. Zero Vanity Metrics. Proven Scale.
               </p>
 

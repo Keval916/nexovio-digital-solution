@@ -559,9 +559,14 @@ export default function AboutPage() {
       />
 
       {/* 1. HERO BANNER (Left Content, Right Image - webp) */}
-      <section className="section-white pt-12 sm:pt-16 pb-12 sm:pb-16 border-b border-border-subtle/50">
+      <section className="section-white pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-12 sm:pb-16 border-b border-border-subtle/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumbs */}
           <Breadcrumbs items={[{ name: "About", url: "/about" }]} />
+          {/* Background Radial Glow & Futuristic Grid Lines */}
+          <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
+          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
+          <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-brand-electric/20 rounded-full blur-[100px] pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* LEFT CONTENT */}
@@ -612,7 +617,7 @@ export default function AboutPage() {
                   size="lg"
                   trackingName="about_hero_services"
                   trackingLocation="about_hero"
-                  className="w-full sm:w-auto hover:border-brand-cyan/40 text-brand-cyan hover:text-brand-bright transition-all duration-300"
+                  className="group relative inline-flex items-center justify-center overflow-hidden outline-none focus:outline-none disabled:opacity-50 disabled:pointer-events-none select-none bg-surface-elevated text-foreground border border-border-subtle backdrop-blur-sm hover:border-brand-bright hover:text-brand-bright transition-all duration-200 shadow-sm text-base px-8 py-3.5 gap-3 rounded-xl font-medium"
                 >
                   Explore Capabilities
                 </Button>

@@ -43,7 +43,7 @@ export function FinalCtaSection() {
                 trackingName="final_cta_talk_team"
                 trackingLocation="final_cta"
                 icon={<MessageSquare className="w-4 h-4" />}
-                className="w-full sm:w-auto hover:border-brand-cyan/50 hover:text-brand-cyan shadow-sm"
+                className="group relative inline-flex items-center justify-center overflow-hidden outline-none focus:outline-none disabled:opacity-50 disabled:pointer-events-none select-none bg-surface-elevated text-foreground border border-border-subtle backdrop-blur-sm hover:border-brand-bright hover:text-brand-bright transition-all duration-200 shadow-sm text-base px-8 py-3.5 gap-3 rounded-xl font-medium"
               >
                 Get in Touch
               </Button>
