@@ -14,6 +14,8 @@ interface FaqSectionProps {
   title?: string;
   highlightText?: string;
   description?: string;
+  variant?: "blue" | "white";
+  className?: string;
 }
 
 export function FaqSection({
@@ -22,6 +24,8 @@ export function FaqSection({
   title = "Frequently",
   highlightText = "Asked Questions",
   description,
+  variant = "blue",
+  className,
 }: FaqSectionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const schema = getFaqSchema(faqs);
@@ -31,7 +35,16 @@ export function FaqSection({
   };
 
   return (
-    <section className="section-blue py-12 sm:py-20 relative overflow-hidden" id="faq">
+    <section
+      className={cn(
+        variant === "white"
+          ? "bg-white dark:bg-[#030712] border-t border-slate-200/80 dark:border-blue-900/30"
+          : "section-blue",
+        "py-12 sm:py-20 relative overflow-hidden",
+        className
+      )}
+      id="faq"
+    >
       {/* Background ambient radial glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-80 bg-radial-glow pointer-events-none opacity-40 blur-3xl" />
 

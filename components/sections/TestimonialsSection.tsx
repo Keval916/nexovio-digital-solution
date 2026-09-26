@@ -39,7 +39,7 @@ export function TestimonialsSection() {
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                  &ldquo;Nexovio handled our BigCommerce migration seamlessly without missing a beat. Their custom integration team synchronized our inventory and boosted overall conversion.&rdquo;
+                  &ldquo;Nexovio handled our headless e-commerce migration seamlessly without missing a beat. Their custom integration team synchronized our inventory and boosted overall conversion.&rdquo;
                 </p>
               </div>
               <div className="pt-6 border-t border-border-subtle flex items-center gap-3">
@@ -48,7 +48,7 @@ export function TestimonialsSection() {
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-slate-900 dark:text-white">Parts Connexion Team</div>
-                  <div className="text-[10px] text-muted">BigCommerce Migration Project</div>
+                  <div className="text-[10px] text-muted">Headless E-Commerce Migration</div>
                 </div>
               </div>
             </div>

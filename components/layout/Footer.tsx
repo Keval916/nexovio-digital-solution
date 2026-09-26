@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Mail, Phone, MessageSquare } from "lucide-react";
+import { ArrowRight, Mail, Phone, MessageSquare, Instagram, Linkedin } from "lucide-react";
 import { Button } from "@/lib/../components/ui/Button";
 import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
 
@@ -10,6 +10,8 @@ export function Footer() {
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
   const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "+91-6351312234";
+  const linkedinUrl = process.env.NEXT_PUBLIC_LINKEDIN_URL || "https://www.linkedin.com/company/nexovio-digital-solutions";
+  const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://www.instagram.com/nexovio.web/";
 
   return (
     <>
@@ -68,6 +70,28 @@ export function Footer() {
                 >
                   <MessageSquare className="w-3.5 h-3.5 text-brand-cyan" />
                   <span>WhatsApp Consultation</span>
+                </a>
+              </div>
+
+              {/* Social Links */}
+              <div className="pt-3 flex items-center gap-3">
+                <a
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nexovio on LinkedIn"
+                  className="w-8 h-8 rounded-lg bg-blue-950/70 border border-blue-900/60 flex items-center justify-center text-[#fff] hover:text-[#00D9FF] hover:border-brand-cyan/60 hover:bg-brand-cyan/15 transition-all duration-200"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nexovio on Instagram"
+                  className="w-8 h-8 rounded-lg bg-blue-950/70 border border-blue-900/60 flex items-center justify-center text-[#fff] hover:text-[#00D9FF] hover:border-brand-cyan/60 hover:bg-brand-cyan/15 transition-all duration-200"
+                >
+                  <Instagram className="w-4 h-4" />
                 </a>
               </div>
             </div>
@@ -183,14 +207,6 @@ export function Footer() {
                     Contact
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/blog"
-                    className="text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
-                  >
-                    Blog
-                  </Link>
-                </li>
               </ul>
             </div>
 
@@ -264,6 +280,26 @@ export function Footer() {
               <Link href="/terms-and-conditions" className="hover:text-brand-cyan transition-colors">
                 Terms &amp; Conditions
               </Link>
+              <div className="flex items-center gap-3 pl-2 border-l border-blue-900/60">
+                <a
+                  href={linkedinUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nexovio on LinkedIn"
+                  className="text-slate-400 hover:text-brand-cyan transition-colors"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a
+                  href={instagramUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Nexovio on Instagram"
+                  className="text-slate-400 hover:text-brand-cyan transition-colors"
+                >
+                  <Instagram className="w-4 h-4" />
+                </a>
+              </div>
             </div>
           </div>
         </div>

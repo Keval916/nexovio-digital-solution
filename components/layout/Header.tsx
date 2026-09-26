@@ -25,6 +25,7 @@ import {
   Sparkles,
   PhoneCall,
   MessageSquare,
+  Handshake,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
@@ -207,15 +208,28 @@ export function Header() {
               <Sparkles className="w-3.5 h-3.5 text-white keep-white" style={{ color: "#ffffff" }} />
               Your Digital Growth Partner for Web Development, Web Design, SEO & AI Solutions
             </span>
-            <a
-              href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
-            >
-              <MessageSquare className="w-3.5 h-3.5 text-brand-cyan" />
-              <span>WhatsApp Consultation</span>
-            </a>
+
+            <div className="flex items-center gap-3">
+              <a
+                href="/agency-partnership"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
+              >
+                <Handshake className="w-3.5 h-3.5 text-brand-cyan" />
+                <span>Agency Partnership</span>
+              </a>
+              <span>|</span>
+              <a
+                href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
+              >
+                <MessageSquare className="w-3.5 h-3.5 text-brand-cyan" />
+                <span>WhatsApp Consultation</span>
+              </a>
+            </div>
           </div>
         </div>
 

@@ -23,7 +23,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <nav
+      {/* <nav
         aria-label="Breadcrumb"
         className={`flex flex-wrap items-center gap-1.5 text-xs text-muted mb-6 font-sans font-normal ${className || ""}`}
       >
@@ -47,7 +47,7 @@ export function Breadcrumbs({ items, className }: BreadcrumbsProps) {
             </React.Fragment>
           );
         })}
-      </nav>
+      </nav> */}
     </>
   );
 }

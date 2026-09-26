@@ -406,7 +406,7 @@ export default function AgencyPartnershipClient() {
       {/* 1. HERO SECTION */}
       <section
         id="overview"
-        className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden border-b border-border-subtle"
+        className="relative pt-24 pb-16 lg:pt-40 lg:pb-24 overflow-hidden border-b border-border-subtle"
       >
         {/* Ambient background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-radial-glow pointer-events-none opacity-60" />
@@ -543,7 +543,7 @@ export default function AgencyPartnershipClient() {
       </section>
 
       {/* 3. STICKY IN-PAGE SUB-NAVIGATION */}
-      <div className="sticky top-[64px] sm:top-[106px] z-30 border-b border-border-subtle bg-[#fff] py-2.5 px-4">
+      <div className="sticky none sm:block top-[56px] sm:top-[63px] md:top-[104px] z-30 border-b border-border-subtle bg-[#fff] py-2.5 px-4">
         <div className="max-w-7xl mx-auto flex items-center gap-2 overflow-x-auto text-sm  scrollbar-none">
           {[
             ['overview', 'Overview'],
@@ -1664,8 +1664,8 @@ export default function AgencyPartnershipClient() {
       <FaqSection
         faqs={faqs}
         badge="CLEAR ANSWERS"
-        title="Frequently Asked Questions About"
-        highlightText="Agency Partnerships"
+        title="Frequently Asked"
+        highlightText="Questions"
         description="Common questions agencies ask before working with a technical delivery partner."
       />
     </div>

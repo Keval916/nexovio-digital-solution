@@ -129,13 +129,18 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
   };
 
   return (
-    <div className="pt-24 pb-20 bg-background min-h-screen">
+    <div className="relative pt-24 pb-20 bg-background text-foreground min-h-screen overflow-hidden">
+      {/* Ambient background glow matching Agency Partnership and Case Studies hub */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[500px] bg-radial-glow pointer-events-none opacity-50" />
+      <div className="absolute -top-32 right-10 w-96 h-96 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-40 -left-20 w-80 h-80 bg-brand-electric/10 rounded-full blur-3xl pointer-events-none" />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}
         <Breadcrumbs
           items={[
@@ -164,7 +169,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.14]">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-[#fff] tracking-tight leading-[1.14]">
             {study.title}
           </h1>
 
@@ -238,10 +243,10 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
                 <div className="text-2xl sm:text-3xl font-extrabold bg-gradient-brand bg-clip-text text-transparent">
                   {stat.value}
                 </div>
-                <div className="text-xs font-bold text-slate-900 dark:text-white mt-1">
+                <div className="text-xs font-bold text-slate-900 dark:text-[#fff] mt-1">
                   {stat.label}
                 </div>
-                <div className="text-[11px] text-muted mt-1 leading-snug">
+                <div className="text-[11px] text-slate-600 dark:text-slate-300 mt-1 leading-snug">
                   {stat.detail}
                 </div>
               </div>
@@ -254,7 +259,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
           <section className="rounded-3xl border border-border-subtle bg-surface-elevated/70 p-6 sm:p-8 mb-14 shadow-card">
             <div className="flex items-center gap-2 mb-4">
               <Zap className="w-4 h-4 text-brand-cyan" />
-              <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-white">
+              <h2 className="text-lg sm:text-xl font-extrabold text-slate-900 dark:text-[#fff]">
                 Before &amp; After Performance Comparison
               </h2>
             </div>
@@ -265,7 +270,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
                   key={item.metric}
                   className="rounded-2xl border border-border-subtle bg-surface/80 p-4 space-y-2"
                 >
-                  <div className="text-xs font-bold text-slate-900 dark:text-white">
+                  <div className="text-xs font-bold text-slate-900 dark:text-[#fff]">
                     {item.metric}
                   </div>
                   <div className="space-y-1.5 text-xs">
@@ -296,10 +301,10 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
                 The Operational Bottleneck
               </span>
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#fff]">
               The Operational &amp; Technical Challenge
             </h2>
-            <p className="text-sm sm:text-base text-muted-light leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-200 leading-relaxed font-normal">
               {study.challenge}
             </p>
           </section>
@@ -309,7 +314,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand-cyan">
               Project Deliverables
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#fff]">
               Primary Engineering &amp;{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Design Objectives
@@ -337,13 +342,13 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand-cyan">
               Methodology
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#fff]">
               Architectural Strategy &amp;{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 System Planning
               </span>
             </h2>
-            <p className="text-sm sm:text-base text-muted-light leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-200 leading-relaxed font-normal">
               {study.strategy}
             </p>
           </section>
@@ -353,11 +358,11 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             <div className="rounded-3xl border border-border-subtle bg-surface-elevated/70 p-6 sm:p-8 space-y-3 shadow-card">
               <div className="flex items-center gap-2.5 text-brand-cyan">
                 <Sparkles className="w-5 h-5" />
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-[#fff]">
                   UI/UX &amp; Design Approach
                 </h3>
               </div>
-              <p className="text-xs sm:text-sm text-muted-light leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 leading-relaxed">
                 {study.designApproach}
               </p>
             </div>
@@ -365,11 +370,11 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             <div className="rounded-3xl border border-border-subtle bg-surface-elevated/70 p-6 sm:p-8 space-y-3 shadow-card">
               <div className="flex items-center gap-2.5 text-brand-bright">
                 <Cpu className="w-5 h-5" />
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-[#fff]">
                   Development &amp; Architecture
                 </h3>
               </div>
-              <p className="text-xs sm:text-sm text-muted-light leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-200 leading-relaxed">
                 {study.development}
               </p>
             </div>
@@ -399,13 +404,13 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand-cyan">
               Production Release
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#fff]">
               The Delivered{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Solution
               </span>
             </h2>
-            <p className="text-sm sm:text-base text-muted-light leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-200 leading-relaxed font-normal">
               {study.solution}
             </p>
           </section>
@@ -419,14 +424,14 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
                   &ldquo;{study.clientQuote.quote}&rdquo;
                 </p>
                 <div className="flex items-center gap-3 pt-2">
-                  <div className="w-10 h-10 rounded-full bg-gradient-brand flex items-center justify-center font-bold text-white text-sm">
+                  <div className="w-10 h-10 rounded-full bg-gradient-brand flex items-center justify-center font-bold text-[#fff] text-sm">
                     {study.clientQuote.author.charAt(0)}
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-slate-900 dark:text-white">
+                    <div className="text-sm font-bold text-slate-900 dark:text-[#fff]">
                       {study.clientQuote.author}
                     </div>
-                    <div className="text-xs text-muted">
+                    <div className="text-xs text-slate-600 dark:text-slate-300">
                       {study.clientQuote.role} • {study.clientQuote.company}
                     </div>
                   </div>
@@ -440,7 +445,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
             <div className="text-xs font-mono font-bold uppercase tracking-wider text-brand-cyan">
               Operational Learnings
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#fff]">
               Key Engineering{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Takeaways
@@ -450,7 +455,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
               {study.keyLearnings.map((learning) => (
                 <div
                   key={learning}
-                  className="flex items-start gap-3.5 p-4 sm:p-5 rounded-2xl bg-surface-elevated/70 border border-border-subtle text-xs sm:text-sm text-muted-light"
+                  className="flex items-start gap-3.5 p-4 sm:p-5 rounded-2xl bg-surface-elevated/70 border border-border-subtle text-xs sm:text-sm text-slate-700 dark:text-slate-200"
                 >
                   <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
                   <span className="leading-relaxed">{learning}</span>
@@ -468,7 +473,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
                 <span className="text-xs font-mono uppercase tracking-wider text-brand-cyan block">
                   More Architectural Teardowns
                 </span>
-                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">
+                <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-[#fff] mt-1">
                   Explore Other Case Studies
                 </h3>
               </div>
