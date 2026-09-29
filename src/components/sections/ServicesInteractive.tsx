@@ -140,7 +140,7 @@ export function ServicesInteractive() {
                 </div>
 
                 {/* CTAs */}
-                <div className="pt-4 flex flex-wrap items-center gap-4">
+                <div className="pt-4 flex flex-wrap items-center gap-4 w-full">
                   <Button
                     href={`/services/${activeService.slug}`}
                     variant="primary"
@@ -148,6 +148,7 @@ export function ServicesInteractive() {
                     trackingName={`service_view_${activeService.slug}`}
                     trackingLocation="services_interactive"
                     icon={<ArrowRight className="w-4 h-4" />}
+                    className="w-full sm:w-auto"
                   >
                     Explore {activeService.name}
                   </Button>

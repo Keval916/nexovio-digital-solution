@@ -459,7 +459,7 @@ export default function AgencyPartnershipClient() {
               </div>
 
               {/* Action Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row gap-3 sm:items-center">
+              <div className="pt-2 flex flex-col sm:flex-row gap-3 sm:items-center w-full">
                 <Button
                   href="#partner-form"
                   variant="primary"
@@ -467,7 +467,7 @@ export default function AgencyPartnershipClient() {
                   trackingName="agency_hero_discuss"
                   trackingLocation="agency_partnership_hero"
                   icon={<ArrowRight className="w-4 h-4" />}
-                  className="shadow-glow font-bold"
+                  className="w-full sm:w-auto shadow-glow font-bold"
                 >
                   Discuss a Partnership
                 </Button>
@@ -477,7 +477,7 @@ export default function AgencyPartnershipClient() {
                   size="lg"
                   trackingName="agency_hero_explore"
                   trackingLocation="agency_partnership_hero"
-                  className="font-medium"
+                  className="w-full sm:w-auto font-medium"
                 >
                   Explore Capabilities
                 </Button>
@@ -1003,7 +1003,7 @@ export default function AgencyPartnershipClient() {
               </p>
 
               {/* Action Buttons */}
-              <div className="pt-3 flex flex-wrap items-center gap-3.5">
+              <div className="pt-3 flex flex-wrap items-center gap-3.5 w-full">
                 <Button
                   href="#partner-form"
                   variant="primary"
@@ -1011,7 +1011,7 @@ export default function AgencyPartnershipClient() {
                   trackingName="capabilities_banner_discuss_project"
                   trackingLocation="agency_capabilities_banner"
                   icon={<ArrowRight className="h-4 w-4" />}
-                  className="shadow-glow font-bold"
+                  className="w-full sm:w-auto shadow-glow font-bold"
                 >
                   Discuss a Client Project
                 </Button>
@@ -1021,7 +1021,7 @@ export default function AgencyPartnershipClient() {
                   size="md"
                   trackingName="capabilities_banner_see_workflow"
                   trackingLocation="agency_capabilities_banner"
-                  className="font-medium bg-white/10 text-white border-white/20 hover:bg-white/20"
+                  className="w-full sm:w-auto font-medium bg-white/10 text-white border-white/20 hover:bg-white/20"
                 >
                   See How It Works
                 </Button>

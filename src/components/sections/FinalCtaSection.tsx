@@ -23,7 +23,7 @@ export function FinalCtaSection() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             {/* CTAs */}
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3 sm:gap-4 w-full">
               <Button
                 href="/schedule-a-call"
                 variant="primary"
@@ -43,7 +43,7 @@ export function FinalCtaSection() {
                 trackingName="final_cta_talk_team"
                 trackingLocation="final_cta"
                 icon={<MessageSquare className="w-4 h-4" />}
-                className="group relative inline-flex items-center justify-center overflow-hidden outline-none focus:outline-none disabled:opacity-50 disabled:pointer-events-none select-none bg-surface-elevated text-foreground border border-border-subtle backdrop-blur-sm hover:border-brand-bright hover:text-brand-bright transition-all duration-200 shadow-sm text-base px-8 py-3.5 gap-3 rounded-xl font-medium"
+                className="w-full sm:w-auto hover:border-brand-bright hover:text-brand-bright"
               >
                 Get in Touch
               </Button>

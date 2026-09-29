@@ -3,7 +3,7 @@
 import { useEffect, Suspense } from "react";
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
-import { GA_TRACKING_ID, trackPageView } from "@/lib/analytics";
+import { GA_TRACKING_ID, trackPageView } from "@/src/lib/analytics";
 
 function RouteTracker() {
   const pathname = usePathname();

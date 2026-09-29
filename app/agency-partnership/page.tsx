@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import AgencyPartnershipClient from './AgencyPartnershipClient';
-import { SITE_URL } from '@/lib/seo';
+import AgencyPartnership from '@/src/views/AgencyPartnership';
+import { SITE_URL } from '@/src/lib/seo';
 
 export const metadata: Metadata = {
   title: 'White-Label Digital Services for Agencies | Nexovio',
@@ -211,7 +211,7 @@ export default function AgencyPartnershipPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <AgencyPartnershipClient />
+      <AgencyPartnership />
     </>
   );
 }

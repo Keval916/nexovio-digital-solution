@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
 import Script from "next/script";
-import "./globals.css";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { GoogleTagManager } from "@/components/analytics/GoogleTagManager";
-import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
-import { CookieConsent } from "@/components/analytics/CookieConsent";
-import { getOrganizationSchema, getWebSiteSchema } from "@/lib/schema";
-import { SITE_NAME, SITE_TAGLINE, SITE_URL, DEFAULT_OG_IMAGE } from "@/lib/seo";
+import "@/src/index.css";
+import SiteChrome from "@/src/components/common/SiteChrome";
+import { GoogleTagManager } from "@/src/components/analytics/GoogleTagManager";
+import { GoogleAnalytics } from "@/src/components/analytics/GoogleAnalytics";
+import { getOrganizationSchema, getWebSiteSchema } from "@/src/lib/schema";
+import { SITE_NAME, SITE_TAGLINE, SITE_URL, DEFAULT_OG_IMAGE } from "@/src/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,63 +31,8 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Web Development Company | AI, Web Design & SEO | Nexovio",
-
-  description:
-    "Nexovio Digital Solutions is a global web development and AI solutions company offering custom web development, web design, UI/UX, eCommerce, SEO and digital marketing services for modern businesses.",
-
-  keywords: [
-    "web development company",
-    "web development services",
-    "custom web development",
-    "website development company",
-    "web design company",
-    "web design services",
-    "AI solutions",
-    "AI web development",
-    "UI/UX design services",
-    "eCommerce development",
-    "SEO services",
-    "digital marketing services",
-  ],
-  alternates: {
-    canonical: SITE_URL,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    title: `${SITE_NAME} | ${SITE_TAGLINE}`,
-    description:
-      "Digital experiences built to move your business forward. We engineer high-performance web applications, modern UI/UX design, and compounding search visibility.",
-    url: SITE_URL,
-    siteName: SITE_NAME,
-    locale: "en_US",
-    type: "website",
-    images: [
-      {
-        url: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
-        width: 1200,
-        height: 630,
-        alt: `${SITE_NAME} - ${SITE_TAGLINE}`,
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: `${SITE_NAME} | ${SITE_TAGLINE}`,
-    description:
-      "Digital experiences built to move your business forward through custom web development, UI/UX design, and digital marketing.",
-    images: [`${SITE_URL}${DEFAULT_OG_IMAGE}`],
-  },
+  title: { default: "Web Development Company | AI, Web Design & SEO | Nexovio", template: "%s" },
+  authors: [{ name: SITE_NAME }],
   verification: {
     google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || undefined,
   },
@@ -123,6 +66,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${plusJakartaSans.variable} ${ibmPlexMono.variable}`}>
       <head>
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -159,10 +106,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-background text-foreground selection:bg-brand-bright selection:text-white flex flex-col font-sans transition-colors duration-300">
         <GoogleTagManager />
         <GoogleAnalytics />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <CookieConsent />
+        <SiteChrome>{children}</SiteChrome>
         {/* Tawk.to Live Chat Script */}
         <Script
           id="tawk-to-script"

@@ -1,6 +1,6 @@
 import React from "react";
-import Homepage from "@/components/homepage";
-import { generatePageMetadata } from "@/lib/seo";
+import Home from "@/src/views/Home";
+import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata = generatePageMetadata({
   title: "Web Development Company | AI, Web Design & SEO | Nexovio",
@@ -24,5 +24,5 @@ export const metadata = generatePageMetadata({
 });
 
 export default function Page() {
-  return <Homepage />;
+  return <Home />;
 }

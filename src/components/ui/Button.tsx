@@ -14,6 +14,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   children: React.ReactNode;
   icon?: React.ReactNode;
   className?: string;
+  fullWidthMobile?: boolean;
 }
 
 export function Button({
@@ -25,11 +26,14 @@ export function Button({
   children,
   icon,
   className,
+  fullWidthMobile = true,
   onClick,
   ...props
 }: ButtonProps) {
   const baseStyles =
     "group relative inline-flex items-center justify-center font-medium rounded-lg overflow-hidden outline-none focus:outline-none disabled:opacity-50 disabled:pointer-events-none select-none transition-all duration-300";
+
+  const mobileWidthStyles = fullWidthMobile ? "w-full sm:w-auto" : "";
 
   const variantStyles = {
     primary:
@@ -51,6 +55,7 @@ export function Button({
 
   const combinedClasses = cn(
     baseStyles,
+    mobileWidthStyles,
     variantStyles[variant],
     sizeStyles[size],
     className

@@ -43,7 +43,7 @@ export function SelectedWork() {
                 trackingName="selected_work_view_all"
                 trackingLocation="selected_work"
                 icon={<ArrowRight className="w-4 h-4" />}
-                className="hover:border-brand-cyan/40"
+                className="w-full sm:w-auto hover:border-brand-cyan/40"
               >
                 View All Case Studies
               </Button>

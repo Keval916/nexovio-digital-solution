@@ -350,7 +350,7 @@ export function CaseStudiesClient({ caseStudies }: CaseStudiesClientProps) {
                   )}
 
                   {/* CTAs */}
-                  <div className="pt-2 flex flex-wrap items-center gap-4">
+                  <div className="pt-2 flex flex-wrap items-center gap-4 w-full">
                     <Button
                       href={`/case-studies/${study.slug}`}
                       variant="primary"
@@ -358,7 +358,7 @@ export function CaseStudiesClient({ caseStudies }: CaseStudiesClientProps) {
                       trackingName={`case_studies_read_${study.slug}`}
                       trackingLocation="case_studies_hub"
                       icon={<ArrowRight className="w-4 h-4" />}
-                      className="shadow-glow font-bold"
+                      className="w-full sm:w-auto shadow-glow font-bold"
                     >
                       Read Complete Case Study
                     </Button>

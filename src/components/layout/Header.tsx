@@ -579,6 +579,7 @@ export function Header() {
                   href="/schedule-a-call"
                   variant="primary"
                   size="sm"
+                  fullWidthMobile={false}
                   trackingName="header_schedule_call"
                   trackingLocation="header"
                   icon={<ArrowRight className="w-3.5 h-3.5" />}
@@ -595,9 +596,10 @@ export function Header() {
                   href="/schedule-a-call"
                   variant="primary"
                   size="sm"
+                  fullWidthMobile={false}
                   trackingName="mobile_header_cta"
                   trackingLocation="header_mobile"
-                  className="text-xs px-3 py-1.5 whitespace-nowrap"
+                  className="w-auto text-xs px-3 py-1.5 whitespace-nowrap"
                 >
                   Schedule
                 </Button>

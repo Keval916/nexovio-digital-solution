@@ -1,7 +1,7 @@
 import React from "react";
-import { PortfolioClient } from "@/components/portfolio/PortfolioClient";
-import { generatePageMetadata } from "@/lib/seo";
-import { getCollectionPageSchema } from "@/lib/schema";
+import Portfolio from "@/src/views/Portfolio";
+import { generatePageMetadata } from "@/src/lib/seo";
+import { getCollectionPageSchema } from "@/src/lib/schema";
 
 export const metadata = generatePageMetadata({
   title: "Portfolio & Selected Projects | Nexovio Digital Solutions",
@@ -30,7 +30,7 @@ export default function PortfolioPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
-      <PortfolioClient />
+      <Portfolio />
     </>
   );
 }

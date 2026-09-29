@@ -2,8 +2,8 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, Mail, Phone, MessageSquare, Instagram, Linkedin } from "lucide-react";
-import { Button } from "@/lib/../components/ui/Button";
-import { FinalCtaSection } from "@/components/sections/FinalCtaSection";
+import { Button } from "@/src/components/ui/Button";
+import { FinalCtaSection } from "@/src/components/sections/FinalCtaSection";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();

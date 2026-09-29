@@ -211,7 +211,7 @@ export function PortfolioClient() {
                 trackingName="portfolio_bottom_cta"
                 trackingLocation="portfolio_page"
                 icon={<ArrowRight className="w-4 h-4" />}
-                className="shadow-glow"
+                className="w-full sm:w-auto shadow-glow"
               >
                 Start Your Project Inquiry
               </Button>
