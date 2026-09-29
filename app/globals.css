@@ -253,6 +253,49 @@ html:not(.dark) .group:hover [class*="group-hover:text-white"]:not(.keep-white) 
   color: #001025 !important;
 }
 
+/* Footer text preservation in Light Mode */
+html:not(.dark) footer h3,
+html:not(.dark) footer .text-white,
+html:not(.dark) footer [class*="text-white"] {
+  color: #ffffff !important;
+}
+html:not(.dark) footer .text-slate-200 {
+  color: #e2e8f0 !important;
+}
+html:not(.dark) footer .text-slate-300,
+html:not(.dark) footer p,
+html:not(.dark) footer li a,
+html:not(.dark) footer .footer-link {
+  color: #cbd5e1 !important;
+}
+html:not(.dark) footer .text-slate-400 {
+  color: #94a3b8 !important;
+}
+html:not(.dark) footer a:hover,
+html:not(.dark) footer li a:hover,
+html:not(.dark) footer .footer-link:hover {
+  color: #22d3ee !important;
+}
+html:not(.dark) footer .text-cyan-300 {
+  color: #67e8f9 !important;
+}
+html:not(.dark) footer .text-cyan-400 {
+  color: #22d3ee !important;
+}
+html:not(.dark) footer .text-emerald-300 {
+  color: #6ee7b7 !important;
+}
+html:not(.dark) footer .text-emerald-400 {
+  color: #34d399 !important;
+}
+
+footer a.whatsapp-btn:hover,
+html:not(.dark) footer a.whatsapp-btn:hover,
+footer a.whatsapp-btn:hover span,
+html:not(.dark) footer a.whatsapp-btn:hover span {
+  color: #34d399 !important;
+}
+
 /* Background colors in Light Mode */
 html:not(.dark) .bg-slate-950:not(.keep-dark) {
   background-color: #fafcff !important;
