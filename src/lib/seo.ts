@@ -10,12 +10,14 @@ export interface PageMetadataProps {
   description: string;
   keywords?: string[] | string;
   path?: string;
+  canonicalOverride?: string;
   ogImage?: string;
   type?: "website" | "article";
   publishedTime?: string;
   modifiedTime?: string;
   authors?: string[];
   noIndex?: boolean;
+  noFollow?: boolean;
 }
 
 export function getCanonicalUrl(path: string = ""): string {
@@ -29,14 +31,16 @@ export function generatePageMetadata({
   description,
   keywords,
   path = "",
+  canonicalOverride,
   ogImage = DEFAULT_OG_IMAGE,
   type = "website",
   publishedTime,
   modifiedTime,
   authors,
   noIndex = false,
+  noFollow = false,
 }: PageMetadataProps): Metadata {
-  const canonical = getCanonicalUrl(path);
+  const canonical = (canonicalOverride && canonicalOverride.trim()) ? canonicalOverride.trim() : getCanonicalUrl(path);
   const fullTitle = title.includes(SITE_NAME) || title.includes("Nexovio") ? title : `${title} | ${SITE_NAME}`;
   const fullImageUrl = ogImage.startsWith("http") ? ogImage : `${SITE_URL}${ogImage.startsWith("/") ? ogImage : `/${ogImage}`}`;
 
@@ -51,10 +55,10 @@ export function generatePageMetadata({
         "en": canonical,
       },
     },
-    robots: noIndex
+    robots: (noIndex || noFollow)
       ? {
-        index: false,
-        follow: false,
+        index: !noIndex,
+        follow: !noFollow,
       }
       : {
         index: true,

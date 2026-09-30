@@ -265,6 +265,8 @@ export interface ArticleSchemaProps {
   publishedAt: string;
   updatedAt?: string;
   authorName?: string;
+  schemaType?: "BlogPosting" | "TechArticle" | "Article" | "NewsArticle" | string;
+  keywords?: string[];
 }
 
 export function getArticleSchema({
@@ -275,6 +277,8 @@ export function getArticleSchema({
   publishedAt,
   updatedAt,
   authorName = "Nexovio Editorial Team",
+  schemaType = "BlogPosting",
+  keywords,
 }: ArticleSchemaProps) {
   const fullUrl = url.startsWith("http") ? url : `${SITE_URL}${url}`;
   const fullImageUrl = image
@@ -283,11 +287,12 @@ export function getArticleSchema({
 
   return {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    "@type": schemaType,
     headline: title,
     description,
     url: fullUrl,
     image: fullImageUrl,
+    ...(keywords && keywords.length > 0 ? { keywords: keywords.join(", ") } : {}),
     datePublished: publishedAt,
     dateModified: updatedAt || publishedAt,
     author: {

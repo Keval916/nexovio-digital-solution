@@ -1,7 +1,10 @@
 import { notFound } from "next/navigation";
-import { getBlogArticleBySlug, BLOG_ARTICLES } from "@/src/data/blog";
+import { getStoredBlogArticles } from "@/src/lib/blog-storage";
 import { generatePageMetadata } from "@/src/lib/seo";
 import BlogDetail from "@/src/views/blog/BlogDetail";
+
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
 
 interface BlogArticlePageProps {
   params: {
@@ -10,36 +13,55 @@ interface BlogArticlePageProps {
 }
 
 export function generateStaticParams() {
-  return BLOG_ARTICLES.map((article) => ({
+  const articles = getStoredBlogArticles();
+  return articles.map((article) => ({
     slug: article.slug,
   }));
 }
 
 export function generateMetadata({ params }: BlogArticlePageProps) {
-  const article = getBlogArticleBySlug(params.slug);
+  const articles = getStoredBlogArticles();
+  const article = articles.find((a) => a.slug === params.slug);
   if (!article) {
     return {
       title: "Article Not Found",
     };
   }
 
+  const keywordsList =
+    article.keywords && article.keywords.length > 0
+      ? article.keywords
+      : [
+          article.category,
+          article.focusKeyword || "",
+          "Web Development",
+          "Digital Strategy",
+          "Technical Engineering",
+          "Nexovio Blog",
+        ].filter(Boolean);
+
   return generatePageMetadata({
-    title: article.seoTitle,
-    description: article.seoDescription,
-    keywords: [article.category, "Web Development", "Digital Strategy", "Technical Engineering", "Nexovio Blog"],
+    title: article.seoTitle || article.title,
+    description: article.seoDescription || article.excerpt,
+    keywords: keywordsList,
     path: `/blog/${article.slug}`,
+    canonicalOverride: article.canonicalUrl,
+    ogImage: article.ogImage || article.featuredImage,
     type: "article",
     publishedTime: article.publishedAt,
     modifiedTime: article.updatedAt || article.publishedAt,
     authors: [article.author.name],
+    noIndex: article.noIndex ?? false,
+    noFollow: article.noFollow ?? false,
   });
 }
 
 export default function Page({ params }: BlogArticlePageProps) {
-  const article = getBlogArticleBySlug(params.slug);
+  const articles = getStoredBlogArticles();
+  const article = articles.find((a) => a.slug === params.slug);
   if (!article) {
     notFound();
   }
 
-  return <BlogDetail params={params} />;
+  return <BlogDetail params={params} article={article} />;
 }

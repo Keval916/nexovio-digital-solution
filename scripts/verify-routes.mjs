@@ -19,7 +19,7 @@ async function routesOnDisk(dir = APP_DIR, found = []) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
     const full = join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (entry.name.startsWith("(") || entry.name.startsWith("_") || entry.name === "api") continue;
+      if (entry.name.startsWith("(") || entry.name.startsWith("_") || entry.name === "api" || entry.name === "admin") continue;
       await routesOnDisk(full, found);
     } else if (entry.name === "page.tsx") {
       const rel = relative(APP_DIR, dir).split(sep).join("/");

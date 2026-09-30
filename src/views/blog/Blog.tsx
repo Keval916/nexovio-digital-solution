@@ -151,19 +151,17 @@ export default function BlogHubPage() {
                     key={cat}
                     type="button"
                     onClick={() => setSelectedCategory(cat)}
-                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 ${
-                      isActive
-                        ? "bg-brand-electric text-white shadow-glow"
-                        : "bg-surface-elevated border border-border-subtle text-muted hover:text-slate-900 dark:hover:text-white hover:border-brand-cyan/40"
-                    }`}
+                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-200 ${isActive
+                      ? "bg-brand-electric text-white shadow-glow"
+                      : "bg-surface-elevated border border-border-subtle text-muted hover:text-slate-900 dark:hover:text-white hover:border-brand-cyan/40"
+                      }`}
                   >
                     <span>{cat}</span>
                     <span
-                      className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                        isActive
-                          ? "bg-white/20 text-white"
-                          : "bg-slate-200 dark:bg-white/10 text-muted"
-                      }`}
+                      className={`text-[10px] px-1.5 py-0.5 rounded-full ${isActive
+                        ? "bg-white/20 text-white"
+                        : "bg-slate-200 dark:bg-white/10 text-muted"
+                        }`}
                     >
                       {count}
                     </span>
@@ -357,7 +355,7 @@ export default function BlogHubPage() {
                       </div>
 
                       {/* Reading Time Pill */}
-                      <div className="absolute bottom-3 right-3 z-10 flex items-center gap-1 text-[11px] font-mono text-slate-200 px-2 py-0.5 rounded bg-black/60 backdrop-blur-sm border border-white/10">
+                      <div className="absolute bottom-3 right-3 z-10 flex items-center gap-1 text-[11px] font-mono text-brand-cyan px-2 py-0.5 rounded bg-black/60 backdrop-blur-sm border border-white/10">
                         <Clock className="w-3 h-3 text-brand-cyan" />
                         <span>{article.readingTime}</span>
                       </div>

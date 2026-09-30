@@ -14,7 +14,7 @@ import {
   Share2,
   Tag,
 } from "lucide-react";
-import { getBlogArticleBySlug, BLOG_ARTICLES } from "@/src/data/blog";
+import { getBlogArticleBySlug, BLOG_ARTICLES, BlogArticle } from "@/src/data/blog";
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { Button } from "@/src/components/ui/Button";
 import { formatDate } from "@/src/lib/utils";
@@ -25,42 +25,11 @@ interface BlogArticlePageProps {
   params: {
     slug: string;
   };
+  article?: BlogArticle;
 }
 
-export function generateStaticParams() {
-  return BLOG_ARTICLES.map((article) => ({
-    slug: article.slug,
-  }));
-}
-
-export function generateMetadata({ params }: BlogArticlePageProps) {
-  const article = getBlogArticleBySlug(params.slug);
-  if (!article) {
-    return {
-      title: "Article Not Found",
-    };
-  }
-
-  return generatePageMetadata({
-    title: article.seoTitle,
-    description: article.seoDescription,
-    keywords: [
-      article.category,
-      "Web Development",
-      "Digital Strategy",
-      "Technical Engineering",
-      "Nexovio Blog",
-    ],
-    path: `/blog/${article.slug}`,
-    type: "article",
-    publishedTime: article.publishedAt,
-    modifiedTime: article.updatedAt || article.publishedAt,
-    authors: [article.author.name],
-  });
-}
-
-export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) {
-  const article = getBlogArticleBySlug(params.slug);
+export default function SingleBlogArticlePage({ params, article: propArticle }: BlogArticlePageProps) {
+  const article = propArticle || getBlogArticleBySlug(params.slug);
   if (!article) {
     notFound();
   }
@@ -68,11 +37,13 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
   const articleSchema = getArticleSchema({
     title: article.title,
     description: article.excerpt,
-    url: `/blog/${article.slug}`,
-    image: article.featuredImage,
+    url: article.canonicalUrl || `/blog/${article.slug}`,
+    image: article.ogImage || article.featuredImage,
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt,
     authorName: article.author.name,
+    schemaType: article.schemaType || "BlogPosting",
+    keywords: article.keywords,
   });
 
   const relatedArticles = BLOG_ARTICLES.filter((a) =>
@@ -174,7 +145,7 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
               <span>Table of Contents</span>
             </div>
             <ul className="space-y-2 text-xs sm:text-sm text-muted">
-              {article.tableOfContents.map((item) => (
+              {article.tableOfContents.map((item: { id: string; title: string }) => (
                 <li key={item.id}>
                   <a
                     href={`#${item.id}`}
@@ -190,11 +161,23 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
 
         {/* Editorial Body Content */}
         <div className="space-y-6 text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed mb-16">
-          {article.content.map((paragraph, idx) => (
-            <p key={idx} className="leading-relaxed">
-              {paragraph}
-            </p>
-          ))}
+          {article.content.map((paragraph: string, idx: number) => {
+            const isHtml = /<[a-z][\s\S]*>/i.test(paragraph);
+            if (isHtml) {
+              return (
+                <div
+                  key={idx}
+                  className="leading-relaxed [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 dark:[&_h2]:text-white [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-slate-900 dark:[&_h3]:text-white [&_h3]:mt-6 [&_h3]:mb-3 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-2 [&_blockquote]:border-l-4 [&_blockquote]:border-brand-cyan [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-muted [&_a]:text-brand-cyan [&_a]:underline [&_img]:rounded-2xl [&_img]:my-6 [&_img]:border [&_img]:border-border-subtle [&_img]:max-w-full"
+                  dangerouslySetInnerHTML={{ __html: paragraph }}
+                />
+              );
+            }
+            return (
+              <p key={idx} className="leading-relaxed">
+                {paragraph}
+              </p>
+            );
+          })}
         </div>
 
         {/* Author Box */}
