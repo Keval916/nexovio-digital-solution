@@ -33,8 +33,23 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: "Web Development Company | AI, Web Design & SEO | Nexovio", template: "%s" },
   authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  category: "technology",
+  classification: "Business & IT Services",
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   verification: {
-    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || undefined,
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || undefined,
+    other: {
+      ...(process.env.NEXT_PUBLIC_BING_VERIFICATION ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION } : {}),
+      ...(process.env.NEXT_PUBLIC_BAIDU_VERIFICATION ? { "baidu-site-verification": process.env.NEXT_PUBLIC_BAIDU_VERIFICATION } : {}),
+    },
   },
   icons: {
     icon: [
@@ -102,6 +117,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="theme-color" content="#00C6FF" />
+        <meta name="distribution" content="global" />
+        <meta name="coverage" content="Worldwide" />
+        <meta name="rating" content="General" />
+        <meta name="revisit-after" content="2 days" />
       </head>
       <body className="min-h-screen bg-background text-foreground selection:bg-brand-bright selection:text-white flex flex-col font-sans transition-colors duration-300">
         <GoogleTagManager />

@@ -93,6 +93,7 @@ export function generatePageMetadata({
         "en_NZ",
         "en_ZA",
       ],
+      countryName: "Worldwide",
       type,
       images: [
         {
@@ -115,6 +116,14 @@ export function generatePageMetadata({
       title: fullTitle,
       description,
       images: [fullImageUrl],
+    },
+    category: "technology",
+    classification: "Business & IT Services",
+    other: {
+      distribution: "global",
+      coverage: "Worldwide",
+      rating: "General",
+      "revisit-after": "2 days",
     },
   };
 }

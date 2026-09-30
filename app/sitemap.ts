@@ -18,10 +18,28 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return (ROUTES as readonly string[])
     .filter((route) => !EXCLUDED_FROM_SITEMAP.has(route))
-    .map((route) => ({
-      url: `${cleanSiteUrl}${route === "/" ? "" : route}`,
-      lastModified,
-      changeFrequency: route === "/" ? ("daily" as const) : ("weekly" as const),
-      priority: priorityFor(route),
-    }));
+    .map((route) => {
+      const pageUrl = `${cleanSiteUrl}${route === "/" ? "" : route}`;
+      return {
+        url: pageUrl,
+        lastModified,
+        changeFrequency: route === "/" ? ("daily" as const) : ("weekly" as const),
+        priority: priorityFor(route),
+        alternates: {
+          languages: {
+            "x-default": pageUrl,
+            "en-US": pageUrl,
+            "en-GB": pageUrl,
+            "en-CA": pageUrl,
+            "en-AU": pageUrl,
+            "en-IN": pageUrl,
+            "en-AE": pageUrl,
+            "en-SG": pageUrl,
+            "en-IE": pageUrl,
+            "en-NZ": pageUrl,
+            "en-ZA": pageUrl,
+          },
+        },
+      };
+    });
 }

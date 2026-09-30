@@ -16,7 +16,30 @@ export function getOrganizationSchema() {
     email: contactEmail,
     telephone: contactPhone,
     priceRange: "$$$",
-    areaServed: ["Worldwide", "North America", "Europe", "Asia"],
+    currenciesAccepted: "USD, EUR, GBP, CAD, AUD, AED, INR",
+    paymentAccepted: "Credit Card, Wire Transfer, Bank Transfer, PayPal",
+    sameAs: [
+      "https://www.linkedin.com/company/nexovio-digital-solutions",
+      "https://twitter.com/nexovio",
+      "https://github.com/nexovio",
+      "https://www.facebook.com/nexoviodigitalsolutions",
+      "https://www.instagram.com/nexoviodigitalsolutions",
+    ],
+    areaServed: [
+      { "@type": "Place", name: "Worldwide" },
+      { "@type": "Country", name: "United States" },
+      { "@type": "Country", name: "United Kingdom" },
+      { "@type": "Country", name: "Canada" },
+      { "@type": "Country", name: "Australia" },
+      { "@type": "Country", name: "United Arab Emirates" },
+      { "@type": "Country", name: "India" },
+      { "@type": "Country", name: "Singapore" },
+      { "@type": "Country", name: "Germany" },
+      { "@type": "Country", name: "France" },
+      { "@type": "Country", name: "Netherlands" },
+      { "@type": "Place", name: "Europe" },
+      { "@type": "Place", name: "North America" },
+    ],
     knowsAbout: [
       "Custom Web Development",
       "Web Design",
@@ -25,6 +48,8 @@ export function getOrganizationSchema() {
       "E-Commerce Migration",
       "Technical SEO Audits",
       "Digital Marketing Campaigns",
+      "Artificial Intelligence & AI Agents",
+      "Generative AI & LLM Solutions",
     ],
     contactPoint: {
       "@type": "ContactPoint",
@@ -85,6 +110,14 @@ export function getOrganizationSchema() {
             url: `${SITE_URL}/services/seo-digital-marketing`,
           },
         },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "AI Solutions & Agent Development",
+            url: `${SITE_URL}/services/ai-development`,
+          },
+        },
       ],
     },
   };
@@ -99,6 +132,15 @@ export function getWebSiteSchema() {
     image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     description:
       "Modern digital experiences built to move your business forward through custom web development, UI/UX design, and digital marketing.",
+    inLanguage: "en-US",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/blog?search={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
   };
 }
 
