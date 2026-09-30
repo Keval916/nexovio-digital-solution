@@ -1006,38 +1006,6 @@ export default function AiDevelopment() {
                   />
                   {/* Subtle Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/85 via-transparent to-transparent pointer-events-none rounded-xl" />
-
-                  {/* Floating Top Telemetry Badge */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono font-bold bg-[#070D1A]/85 backdrop-blur-md border border-brand-cyan/40 text-emerald-400 shadow-md">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                      <span>NEXOVIO AI ENGINE: ACTIVE</span>
-                    </div>
-                    <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono bg-[#070D1A]/85 backdrop-blur-md border border-white/10 text-slate-300">
-                      <Terminal className="w-3 h-3 text-brand-cyan" />
-                      <span>v4.2-enterprise</span>
-                    </div>
-                  </div>
-
-                  {/* Floating Bottom Live Glass Card */}
-                  <div className="absolute bottom-4 left-4 right-4 p-3.5 rounded-xl bg-[#070D1A]/90 backdrop-blur-xl border border-brand-cyan/40 shadow-xl flex items-center justify-between gap-3 pointer-events-auto">
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 text-xs font-bold text-white">
-                        <Sparkles className="w-3.5 h-3.5 text-brand-cyan" />
-                        <span className="truncate">Production RAG &amp; Agentic System</span>
-                      </div>
-                      <div className="text-[11px] text-slate-300 truncate mt-0.5 font-mono">
-                        99.8% Grounded Accuracy &bull; Zero Foundation Model Retention
-                      </div>
-                    </div>
-                    <Link
-                      href="/contact"
-                      className="shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold text-slate-950 bg-brand-cyan hover:bg-brand-bright transition-colors inline-flex items-center gap-1"
-                    >
-                      <span>Deploy</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </Link>
-                  </div>
                 </div>
               </div>
             </div>
