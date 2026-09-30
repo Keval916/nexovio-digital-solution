@@ -68,8 +68,20 @@ for (const diskRoute of actualDiskPatterns) {
   }
 }
 
+// Section 30 Production SEO Protection Checks
+const seoLib = await readFile(join(ROOT, "src/lib/seo.ts"), "utf8");
+if (/localhost|127\.0\.0\.1|staging\./i.test(seoLib)) {
+  failures.push("Production SEO protection failed: src/lib/seo.ts contains localhost/staging URL!");
+}
+
+const robotsCode = await readFile(join(ROOT, "app/robots.ts"), "utf8");
+if (/disallow:\s*\[?['"]\/['"]\]?/i.test(robotsCode)) {
+  failures.push("Production SEO protection failed: robots.ts accidentally blocks the entire site ('/')!");
+}
+
 if (failures.length === 0) {
   console.log(`✓ ${expectedRoutes.length}/${expectedRoutes.length} routes verified`);
+  console.log("✓ Production SEO protection checks passed (no localhost, staging, or blocked robots)");
   process.exit(0);
 }
 
@@ -77,7 +89,7 @@ for (const err of failures) {
   console.error(`✗ ${err}`);
 }
 console.error(
-  `\nRoute parity failed: ${failures.length} issue(s) detected.\n` +
+  `\nRoute parity or SEO verification failed: ${failures.length} issue(s) detected.\n` +
     "Every route is an indexed URL. Update src/lib/routes.ts when deliberately adding or changing one."
 );
 process.exit(1);

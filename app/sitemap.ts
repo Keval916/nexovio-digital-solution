@@ -28,16 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
         alternates: {
           languages: {
             "x-default": pageUrl,
-            "en-US": pageUrl,
-            "en-GB": pageUrl,
-            "en-CA": pageUrl,
-            "en-AU": pageUrl,
-            "en-IN": pageUrl,
-            "en-AE": pageUrl,
-            "en-SG": pageUrl,
-            "en-IE": pageUrl,
-            "en-NZ": pageUrl,
-            "en-ZA": pageUrl,
+            "en": pageUrl,
           },
         },
       };

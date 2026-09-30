@@ -48,16 +48,7 @@ export function generatePageMetadata({
       canonical,
       languages: {
         "x-default": canonical,
-        "en-US": canonical,
-        "en-GB": canonical,
-        "en-CA": canonical,
-        "en-AU": canonical,
-        "en-IN": canonical,
-        "en-AE": canonical,
-        "en-SG": canonical,
-        "en-IE": canonical,
-        "en-NZ": canonical,
-        "en-ZA": canonical,
+        "en": canonical,
       },
     },
     robots: noIndex
