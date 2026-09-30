@@ -1,42 +1,26 @@
 import type { Metadata } from 'next';
 import AgencyPartnership from '@/src/views/AgencyPartnership';
-import { SITE_URL } from '@/src/lib/seo';
+import { SITE_URL, generatePageMetadata } from '@/src/lib/seo';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = generatePageMetadata({
   title: 'White-Label Digital Services for Agencies | Nexovio',
   description:
     'Nexovio Digital Solutions provides white-label web development, software, mobile app, UI/UX, AI and technical SEO support for agencies that need a reliable technical delivery partner behind the scenes.',
-  alternates: {
-    canonical: `${SITE_URL}/agency-partnership`,
-  },
-  openGraph: {
-    type: 'website',
-    url: `${SITE_URL}/agency-partnership`,
-    title: 'White-Label Digital Services for Agencies | Nexovio',
-    description:
-      'White-label web development, software, mobile, UI/UX, AI and technical SEO support for agencies.',
-    siteName: 'Nexovio Digital Solutions',
-    images: [
-      {
-        url: `${SITE_URL}/images/agency-partnership/agency-hero-team.jpg`,
-        width: 1200,
-        height: 630,
-        alt: 'White-label digital services for agencies',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'White-Label Digital Services for Agencies | Nexovio',
-    description:
-      'White-label web development, software, mobile, UI/UX, AI and technical SEO support for agencies.',
-    images: [`${SITE_URL}/images/agency-partnership/agency-hero-team.jpg`],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+  keywords: [
+    'white label web development',
+    'white label software development',
+    'white label agency partner',
+    'white label mobile app development',
+    'white label UI/UX design',
+    'white label AI development',
+    'white label technical SEO',
+    'agency delivery partner',
+    'offshore development for agencies',
+    'Nexovio agency partnership',
+  ],
+  path: '/agency-partnership',
+  ogImage: '/images/agency-partnership/agency-hero-team.jpg',
+});
 
 const schema = {
   '@context': 'https://schema.org',
