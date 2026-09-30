@@ -16,7 +16,7 @@ export default function PrivacyPolicyPage() {
             Legal & Compliance
           </span>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-[1.15]">
-            <span className="text-white">Privacy</span>{" "}
+            <span className="text-slate-900 dark:text-white">Privacy</span>{" "}
             <span className="bg-gradient-brand bg-clip-text text-transparent">Policy</span>
           </h1>
           <p className="text-sm text-muted">
@@ -26,7 +26,7 @@ export default function PrivacyPolicyPage() {
 
         <div className="prose prose-invert max-w-none space-y-8 text-sm sm:text-base text-muted leading-relaxed">
           <section className="space-y-3">
-            <h2 className="text-xl font-bold text-white">1. Introduction & Overview</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">1. Introduction & Overview</h2>
             <p>
               Nexovio Digital Solutions (“Nexovio,” “we,” “us,” or “our”) respects your privacy and is committed to protecting the personal information you share with us through our website. This Privacy Policy details the types of information we may collect, how we utilize and safeguard that data, and your rights concerning your personal information.
             </p>
@@ -36,7 +36,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-xl font-bold text-white">2. Information We Collect</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">2. Information We Collect</h2>
             <p>
               We collect information only when you knowingly provide it to us or when you interact with our website:
             </p>
@@ -51,7 +51,7 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-xl font-bold text-white">3. How We Use Your Information</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">3. How We Use Your Information</h2>
             <p>
               The information we collect is used strictly for legitimate business purposes:
             </p>
@@ -64,21 +64,21 @@ export default function PrivacyPolicyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-xl font-bold text-white">4. Analytics, Cookies & Tracking Technologies</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">4. Analytics, Cookies & Tracking Technologies</h2>
             <p>
               We may utilize Google Analytics 4 (GA4) and Google Tag Manager (GTM) to observe aggregate visitor traffic patterns. Where required by applicable privacy laws, non-essential analytical cookies are conditioned on user consent via our accessible cookie banner. We do not transmit sensitive personal credentials, project specifications, or passwords to third-party analytics services.
             </p>
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-xl font-bold text-white">5. Information Sharing & Third Parties</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">5. Information Sharing & Third Parties</h2>
             <p>
               We never sell, rent, or trade your personal information to third-party marketing brokers. We may share information only with trusted cloud infrastructure providers (such as hosting providers and secure email gateways) who assist in delivering our services under strict confidentiality agreements.
             </p>
           </section>
 
           <section className="space-y-3">
-            <h2 className="text-xl font-bold text-white">6. Your Rights & Contact Details</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">6. Your Rights & Contact Details</h2>
             <p>
               You have the right to request access to, correction of, or deletion of any personal information we hold regarding your inquiry. To exercise these rights or ask any questions regarding our data protection standards, please contact us at:
             </p>

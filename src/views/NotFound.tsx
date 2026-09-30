@@ -14,7 +14,7 @@ export default function NotFound() {
         </div>
 
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-[1.15]">
-          <span className="text-white">Page</span>{" "}
+          <span className="text-slate-900 dark:text-white">Page</span>{" "}
           <span className="bg-gradient-brand bg-clip-text text-transparent">Not Found</span>
         </h1>
 

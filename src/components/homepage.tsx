@@ -17,6 +17,7 @@ import {
   Layout,
   Smartphone,
   TrendingUp,
+  PenTool,
   Check,
   Search,
   Layers,
@@ -171,6 +172,15 @@ const SERVICES_DATA = [
     mockup: "/images/services/ui-ux-mockup.svg",
   },
   {
+    title: "Graphic Design",
+    slug: "graphic-design",
+    copy: "Create impactful visual identities, bespoke logo systems, product packaging, restaurant menus, marketing brochures, and high-converting ad creatives.",
+    href: "/services/graphic-design",
+    icon: PenTool,
+    tags: ["Brand Identity", "Packaging & Labels", "Social & Ad Creatives", "Print Collateral"],
+    mockup: "/images/services/graphic-design-mockup.svg",
+  },
+  {
     title: "SEO & Digital Marketing",
     slug: "seo-digital-marketing",
     copy: "Enhance search visibility, bring in the right traffic and make the most of digital channels with technical SEO, content and digital marketing that can be measured.",
@@ -180,10 +190,10 @@ const SERVICES_DATA = [
     mockup: "/images/services/digital-marketing-mockup.svg",
   },
   {
-    title: "AI Solutions",
-    slug: "ai-solutions",
-    copy: "Build practical AI products and automation using generative AI and AI agents, chatbots, RAG, integrations and recommendation systems.",
-    href: "#ai-solutions",
+    title: "AI Development",
+    slug: "ai-development",
+    copy: "Build custom AI products, generative AI workflows, autonomous AI agents, RAG search engines, chatbots, and intelligent enterprise automation.",
+    href: "/services/ai-development",
     icon: Cpu,
     tags: ["Generative AI", "Task Agents", "RAG & Knowledge Search", "Workflow Automation"],
     mockup: "/images/services/web-development-mockup.svg",
@@ -1055,38 +1065,58 @@ export function AiSolutionsSection() {
             {AI_CAPABILITIES.map((cap) => {
               const Icon = cap.icon;
               return (
-                <Card
+                <Link
                   key={cap.name}
-                  accentBar={true}
-                  className="group relative flex flex-col justify-between h-full bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle hover:border-brand-cyan/50 hover:shadow-[0_10px_30px_rgba(0,198,255,0.18)] hover:-translate-y-1.5 transition-all duration-300 rounded-2xl overflow-hidden"
+                  href="/services/ai-development"
+                  className="block h-full group outline-none"
                 >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/50 transition-all duration-300">
-                        <Icon className="w-6 h-6" />
+                  <Card
+                    accentBar={true}
+                    className="flex flex-col justify-between h-full bg-surface-elevated/70 p-6 sm:p-7 border-border-subtle hover:border-brand-cyan/50 hover:shadow-[0_10px_30px_rgba(0,198,255,0.18)] hover:-translate-y-1.5 transition-all duration-300 rounded-2xl overflow-hidden"
+                  >
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan group-hover:scale-110 group-hover:bg-brand-cyan/20 group-hover:border-brand-cyan/50 transition-all duration-300">
+                          <Icon className="w-6 h-6" />
+                        </div>
+                        <span className="text-[11px] font-mono font-bold text-brand-cyan bg-surface px-2.5 py-1 rounded-md border border-border-subtle">
+                          {cap.category}
+                        </span>
                       </div>
-                      <span className="text-[11px] font-mono font-bold text-brand-cyan bg-surface px-2.5 py-1 rounded-md border border-border-subtle">
-                        {cap.category}
-                      </span>
+
+                      <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors leading-snug">
+                        {cap.name}
+                      </h3>
+                      <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                        {cap.desc}
+                      </p>
                     </div>
 
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors leading-snug">
-                      {cap.name}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                      {cap.desc}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 mt-6 border-t border-border-subtle flex items-center justify-between text-xs font-semibold text-brand-cyan">
-                    <span>Practical Use Case</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Card>
+                    <div className="pt-4 mt-6 border-t border-border-subtle flex items-center justify-between text-xs font-semibold text-brand-cyan">
+                      <span>Explore Practical Architecture</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Card>
+                </Link>
               );
             })}
           </div>
         </AnimateOnScroll>
+
+        {/* Explore Full AI Services Button */}
+        <div className="mt-10 sm:mt-14 text-center">
+          <Button
+            href="/services/ai-development"
+            variant="primary"
+            size="lg"
+            trackingName="home_ai_section_explore_btn"
+            trackingLocation="ai_solutions_section"
+            icon={<ArrowRight className="w-4 h-4" />}
+            className="shadow-glow font-bold text-white inline-flex"
+          >
+            Explore AI Development Services
+          </Button>
+        </div>
 
         {/* Practical AI Positioning Callout - Structured as the concluding philosophy after exploring capabilities */}
         {/* <AnimateOnScroll variant="fadeUp" duration={0.7} delay={0.2}>
