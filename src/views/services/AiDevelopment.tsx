@@ -960,16 +960,6 @@ export default function AiDevelopment() {
                 >
                   Tell Us What You Want to Solve
                 </Button>
-                <Button
-                  href="/schedule-a-call"
-                  variant="secondary"
-                  size="lg"
-                  trackingName="hero_ai_schedule"
-                  trackingLocation="hero"
-                  className="w-full sm:w-auto font-semibold justify-center"
-                >
-                  Schedule a Technical Discovery Call
-                </Button>
               </div>
 
               {/* Trust Metric Counters */}
