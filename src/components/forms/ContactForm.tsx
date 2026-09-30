@@ -106,7 +106,7 @@ export function ContactForm() {
   return (
     <div className="relative rounded-2xl border border-border-subtle bg-surface-elevated/80 backdrop-blur-md p-6 sm:p-10 shadow-2xl">
       <div className="mb-8">
-        <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
           Tell Us About Your Project
         </h3>
         <p className="mt-2 text-sm text-muted">
@@ -119,7 +119,7 @@ export function ContactForm() {
           <div className="inline-flex p-3 rounded-full bg-green-500/10 text-green-400 mb-4">
             <CheckCircle2 className="w-8 h-8" />
           </div>
-          <h4 className="text-lg font-bold text-white mb-2">
+          <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
             Inquiry Received Successfully
           </h4>
           <p className="text-sm text-muted max-w-md mx-auto mb-6">
@@ -128,7 +128,7 @@ export function ContactForm() {
           <button
             type="button"
             onClick={() => setSubmitStatus("idle")}
-            className="px-5 py-2.5 rounded-lg text-xs font-semibold text-white bg-surface border border-border-subtle hover:border-brand-cyan/50 transition-colors"
+            className="px-5 py-2.5 rounded-lg text-xs font-semibold text-slate-900 dark:text-white bg-surface border border-border-subtle hover:border-brand-cyan/50 transition-colors"
           >
             Submit Another Request
           </button>
@@ -173,7 +173,7 @@ export function ContactForm() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="e.g. Johnathan Davis"
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
+                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               />
             </div>
 
@@ -192,7 +192,7 @@ export function ContactForm() {
                 value={formData.company}
                 onChange={handleChange}
                 placeholder="e.g. Acme Corporation"
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
+                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               />
             </div>
           </div>
@@ -214,7 +214,7 @@ export function ContactForm() {
                 value={formData.email}
                 onChange={handleChange}
                 placeholder="john@company.com"
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
+                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               />
             </div>
 
@@ -233,7 +233,7 @@ export function ContactForm() {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="0123456789"
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
+                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               />
             </div>
           </div>
@@ -252,7 +252,7 @@ export function ContactForm() {
                 name="service"
                 value={formData.service}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
+                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               >
                 <option value="web-development">Web Development</option>
                 <option value="web-design">Web Design</option>
@@ -278,7 +278,7 @@ export function ContactForm() {
                 name="budget"
                 value={formData.budget}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
+                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               >
                 <option value="unspecified">Select approximate budget</option>
                 <option value="tier-1">$3,000 – $7,500</option>
@@ -305,7 +305,7 @@ export function ContactForm() {
               value={formData.message}
               onChange={handleChange}
               placeholder="Briefly describe what you are looking to build or solve, key features needed, and your target timeline..."
-              className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors resize-y"
+              className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors resize-y"
             />
           </div>
 

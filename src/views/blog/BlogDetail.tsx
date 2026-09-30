@@ -2,6 +2,7 @@
 
 import React from "react";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -11,11 +12,11 @@ import {
   Calendar,
   BookOpen,
   Share2,
+  Tag,
 } from "lucide-react";
 import { getBlogArticleBySlug, BLOG_ARTICLES } from "@/src/data/blog";
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { Button } from "@/src/components/ui/Button";
-import { Card } from "@/src/components/ui/Card";
 import { formatDate } from "@/src/lib/utils";
 import { generatePageMetadata } from "@/src/lib/seo";
 import { getArticleSchema } from "@/src/lib/schema";
@@ -43,7 +44,13 @@ export function generateMetadata({ params }: BlogArticlePageProps) {
   return generatePageMetadata({
     title: article.seoTitle,
     description: article.seoDescription,
-    keywords: [article.category, "Web Development", "Digital Strategy", "Technical Engineering", "Nexovio Blog"],
+    keywords: [
+      article.category,
+      "Web Development",
+      "Digital Strategy",
+      "Technical Engineering",
+      "Nexovio Blog",
+    ],
     path: `/blog/${article.slug}`,
     type: "article",
     publishedTime: article.publishedAt,
@@ -73,7 +80,7 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
   );
 
   return (
-    <article className="pt-28 pb-20 bg-background">
+    <article className="pt-28 pb-20 bg-background text-foreground min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
@@ -89,49 +96,81 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
         />
 
         {/* Article Header */}
-        <header className="space-y-4 mb-12">
+        <header className="space-y-6 mb-10">
           <div className="flex flex-wrap items-center gap-3 text-xs">
-            <span className="font-mono uppercase tracking-wider px-2.5 py-1 rounded bg-brand-bright/10 text-brand-cyan border border-brand-bright/20">
+            <span className="font-mono uppercase tracking-wider px-3 py-1 rounded-full bg-brand-cyan text-slate-950 font-bold shadow-sm inline-flex items-center gap-1.5">
+              <Tag className="w-3 h-3" />
               {article.category}
             </span>
             <div className="flex items-center gap-1.5 text-muted">
-              <Clock className="w-3.5 h-3.5" />
+              <Clock className="w-3.5 h-3.5 text-brand-cyan" />
               <span>{article.readingTime}</span>
             </div>
             <div className="flex items-center gap-1.5 text-muted">
-              <Calendar className="w-3.5 h-3.5" />
+              <Calendar className="w-3.5 h-3.5 text-brand-cyan" />
               <span>Published {formatDate(article.publishedAt)}</span>
             </div>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-[1.15]">
-            <span className="bg-gradient-brand bg-clip-text text-transparent">{article.title}</span>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-[1.2] text-slate-900 dark:text-white">
+            <span className="bg-gradient-brand bg-clip-text text-transparent">
+              {article.title}
+            </span>
           </h1>
 
           <p className="text-base sm:text-lg text-muted leading-relaxed">
             {article.excerpt}
           </p>
 
-          <div className="pt-2 flex items-center gap-3 border-t border-white/5">
-            <div className="w-9 h-9 rounded-full bg-brand-cyan/20 border border-brand-cyan/30 flex items-center justify-center text-xs font-bold text-brand-cyan">
-              NX
+          <div className="pt-4 flex items-center justify-between border-t border-border-subtle">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-brand-cyan/20 border border-brand-cyan/30 flex items-center justify-center text-xs font-bold text-brand-cyan">
+                NX
+              </div>
+              <div>
+                <span className="text-xs font-semibold text-slate-900 dark:text-white block">
+                  {article.author.name}
+                </span>
+                <span className="text-[11px] text-muted">
+                  {article.author.role}
+                </span>
+              </div>
             </div>
-            <div>
-              <span className="text-xs font-semibold text-white block">
-                {article.author.name}
-              </span>
-              <span className="text-[11px] text-muted">
-                {article.author.role}
-              </span>
-            </div>
+
+            <Link
+              href="/blog"
+              className="text-xs font-semibold text-brand-bright hover:text-brand-cyan inline-flex items-center gap-1.5"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>All Articles</span>
+            </Link>
           </div>
         </header>
 
+        {/* Featured Realistic Image Showcase */}
+        {article.featuredImage && (
+          <div className="mb-12 rounded-2xl overflow-hidden border border-brand-cyan/30 shadow-2xl bg-slate-900 relative">
+            <div className="relative w-full aspect-[16/9] sm:aspect-[16/8.5]">
+              <Image
+                src={article.featuredImage}
+                alt={article.featuredImageAlt}
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 896px"
+                className="object-cover"
+              />
+            </div>
+            <div className="p-3 bg-surface-elevated/95 border-t border-border-subtle text-center text-xs text-muted font-mono">
+              {article.featuredImageAlt}
+            </div>
+          </div>
+        )}
+
         {/* Table of Contents Box */}
         {article.tableOfContents && article.tableOfContents.length > 0 && (
-          <div className="mb-12 rounded-xl border border-border-subtle bg-surface-elevated/70 p-6">
+          <div className="mb-12 rounded-2xl border border-border-subtle bg-surface-elevated/80 p-6 shadow-md backdrop-blur-sm">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-brand-cyan mb-3">
-              <BookOpen className="w-4 h-4" />
+              <BookOpen className="w-4 h-4 text-brand-cyan" />
               <span>Table of Contents</span>
             </div>
             <ul className="space-y-2 text-xs sm:text-sm text-muted">
@@ -150,7 +189,7 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
         )}
 
         {/* Editorial Body Content */}
-        <div className="space-y-6 text-sm sm:text-base text-muted-light leading-relaxed mb-16">
+        <div className="space-y-6 text-sm sm:text-base text-slate-800 dark:text-slate-200 leading-relaxed mb-16">
           {article.content.map((paragraph, idx) => (
             <p key={idx} className="leading-relaxed">
               {paragraph}
@@ -159,12 +198,12 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
         </div>
 
         {/* Author Box */}
-        <div className="rounded-xl border border-border-subtle bg-surface-elevated/50 p-6 mb-16 flex items-start gap-4">
+        <div className="rounded-2xl border border-border-subtle bg-surface-elevated/70 p-6 mb-16 flex items-start gap-4 shadow-lg">
           <div className="w-12 h-12 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan shrink-0">
             <User className="w-6 h-6" />
           </div>
-          <div>
-            <h3 className="text-sm font-bold text-white mb-1">
+          <div className="space-y-1">
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">
               Written by {article.author.name}
             </h3>
             <p className="text-xs text-muted leading-relaxed">
@@ -175,24 +214,39 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
 
         {/* Related Articles */}
         {relatedArticles.length > 0 && (
-          <div className="mb-16 space-y-4">
-            <h2 className="text-lg font-bold">
+          <div className="mb-16 space-y-6">
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">
               Related Articles &amp;{" "}
-              <span className="bg-gradient-brand bg-clip-text text-transparent">Architecture Guides</span>
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                Architecture Guides
+              </span>
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {relatedArticles.map((rel) => (
                 <Link
                   key={rel.slug}
                   href={`/blog/${rel.slug}`}
-                  className="p-5 rounded-xl border border-border-subtle bg-surface/60 hover:bg-surface-elevated hover:border-brand-cyan/40 transition-all block group"
+                  className="group rounded-2xl border border-border-subtle bg-surface-elevated/70 hover:border-brand-cyan/40 hover:-translate-y-1 transition-all duration-300 block overflow-hidden shadow-md"
                 >
-                  <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest block mb-1">
-                    {rel.category}
-                  </span>
-                  <h3 className="text-sm font-bold text-white group-hover:text-brand-cyan transition-colors line-clamp-2">
-                    {rel.title}
-                  </h3>
+                  {rel.featuredImage && (
+                    <div className="relative w-full aspect-[16/9] overflow-hidden bg-slate-900">
+                      <Image
+                        src={rel.featuredImage}
+                        alt={rel.featuredImageAlt}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 400px"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      />
+                    </div>
+                  )}
+                  <div className="p-5 space-y-2">
+                    <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-widest block font-semibold">
+                      {rel.category}
+                    </span>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors line-clamp-2">
+                      {rel.title}
+                    </h3>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -200,10 +254,10 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
         )}
 
         {/* Bottom CTA / Back Navigation */}
-        <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="pt-8 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-6">
           <Link
             href="/blog"
-            className="text-xs font-medium text-muted hover:text-white inline-flex items-center gap-2"
+            className="text-xs font-medium text-muted hover:text-slate-900 dark:hover:text-white inline-flex items-center gap-2 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to All Articles</span>
@@ -216,7 +270,7 @@ export default function SingleBlogArticlePage({ params }: BlogArticlePageProps) 
             trackingName={`blog_cta_${article.slug}`}
             trackingLocation="blog_footer"
             icon={<ArrowRight className="w-4 h-4" />}
-            className="w-full sm:w-auto"
+            className="w-full sm:w-auto shadow-glow"
           >
             Discuss Your Web Project
           </Button>

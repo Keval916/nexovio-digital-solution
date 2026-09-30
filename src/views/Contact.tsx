@@ -76,7 +76,7 @@ export default function ContactPage() {
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
               Direct Technical Inquiry
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.12]">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.12]">
               Let’s Build a Digital Experience That{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Moves Your Business Forward.
@@ -110,14 +110,14 @@ export default function ContactPage() {
               </div>
 
               <div className="rounded-2xl border border-border-subtle bg-surface-elevated/70 p-6 sm:p-8 space-y-6">
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                   Direct Communication Channels
                 </h3>
 
                 <div className="space-y-4">
                   <a
                     href={`mailto:${contactEmail}`}
-                    className="flex items-start gap-4 p-4 rounded-xl border border-white/5 bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
+                    className="flex items-start gap-4 p-4 rounded-xl border border-border-subtle bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
                   >
                     <div className="p-3 rounded-lg bg-brand-bright/10 text-brand-bright group-hover:text-brand-cyan transition-colors">
                       <Mail className="w-5 h-5" />
@@ -126,7 +126,7 @@ export default function ContactPage() {
                       <span className="text-xs font-mono uppercase tracking-wider text-muted block">
                         Email Inquiries
                       </span>
-                      <span className="text-sm font-semibold text-white group-hover:text-brand-cyan transition-colors">
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
                         {contactEmail}
                       </span>
                     </div>
@@ -134,7 +134,7 @@ export default function ContactPage() {
 
                   <a
                     href={`tel:${contactPhone.replace(/\s+/g, "")}`}
-                    className="flex items-start gap-4 p-4 rounded-xl border border-white/5 bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
+                    className="flex items-start gap-4 p-4 rounded-xl border border-border-subtle bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
                   >
                     <div className="p-3 rounded-lg bg-brand-bright/10 text-brand-bright group-hover:text-brand-cyan transition-colors">
                       <Phone className="w-5 h-5" />
@@ -143,7 +143,7 @@ export default function ContactPage() {
                       <span className="text-xs font-mono uppercase tracking-wider text-muted block">
                         Direct Telephone
                       </span>
-                      <span className="text-sm font-semibold text-white group-hover:text-brand-cyan transition-colors">
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
                         {contactPhone}
                       </span>
                     </div>
@@ -153,7 +153,7 @@ export default function ContactPage() {
                     href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-start gap-4 p-4 rounded-xl border border-white/5 bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
+                    className="flex items-start gap-4 p-4 rounded-xl border border-border-subtle bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
                   >
                     <div className="p-3 rounded-lg bg-brand-cyan/10 text-brand-cyan group-hover:brightness-125 transition-all">
                       <MessageSquare className="w-5 h-5" />
@@ -162,7 +162,7 @@ export default function ContactPage() {
                       <span className="text-xs font-mono uppercase tracking-wider text-muted block">
                         WhatsApp Messaging
                       </span>
-                      <span className="text-sm font-semibold text-white group-hover:text-brand-cyan transition-colors">
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
                         Direct WhatsApp Consultation
                       </span>
                     </div>
@@ -171,7 +171,7 @@ export default function ContactPage() {
               </div>
 
               <div className="rounded-xl border border-border-subtle bg-surface/50 p-6 space-y-3">
-                <div className="flex items-center gap-2 text-xs font-semibold text-white">
+                <div className="flex items-center gap-2 text-xs font-semibold text-slate-900 dark:text-white">
                   <ShieldCheck className="w-4 h-4 text-brand-cyan" />
                   <span>Our Privacy & Confidentiality Guarantee</span>
                 </div>
@@ -191,7 +191,7 @@ export default function ContactPage() {
             <span className="text-xs font-mono text-brand-cyan uppercase tracking-widest block mb-2">
               Transparent Onboarding
             </span>
-            <h2 className="text-xl sm:text-2xl font-bold">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
               What Happens{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">After You Inquire</span>
             </h2>
@@ -206,7 +206,7 @@ export default function ContactPage() {
                 <span className="text-2xl font-mono font-bold text-brand-bright/40">
                   {s.step}
                 </span>
-                <h3 className="text-base font-bold text-white">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">
                   {s.title}
                 </h3>
                 <p className="text-xs sm:text-sm text-muted leading-relaxed">

@@ -556,7 +556,7 @@ export default function AboutPage() {
                 Humanized, SEO-Focused Digital Solutions
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.15]">
                 About Nexovio{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Digital Solutions
@@ -653,7 +653,7 @@ export default function AboutPage() {
                     <span className="text-[11px] font-mono text-brand-cyan uppercase tracking-wider block mb-1 font-semibold">
                       {item.subtitle}
                     </span>
-                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-brand-cyan transition-colors">
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 group-hover:text-brand-cyan transition-colors">
                       {item.title}
                     </h3>
                     <p className="text-xs text-muted leading-relaxed">{item.desc}</p>
@@ -663,7 +663,7 @@ export default function AboutPage() {
             })}
           </div>
 
-          <div className="text-center bg-surface-elevated/80 border border-brand-cyan/25 rounded-2xl p-5 max-w-3xl mx-auto text-sm text-slate-200 font-medium shadow-xl backdrop-blur-sm">
+          <div className="text-center bg-surface-elevated/80 border border-brand-cyan/25 rounded-2xl p-5 max-w-3xl mx-auto text-sm text-slate-700 dark:text-slate-200 font-medium shadow-xl backdrop-blur-sm">
             When these pieces support each other, a digital presence feels much more coherent.
           </div>
         </div>
@@ -676,7 +676,7 @@ export default function AboutPage() {
             <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block mb-2">
               OUR CULTURE &amp; MINDSET
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold leading-snug text-white mb-4">
+            <h2 className="text-2xl sm:text-3xl font-bold leading-snug text-slate-900 dark:text-white mb-4">
               What Nexovio{" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">Means to Us</span>
             </h2>
@@ -695,7 +695,7 @@ export default function AboutPage() {
                   <div className="w-8 h-8 rounded-full bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan font-mono text-xs font-bold flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-brand-cyan group-hover:text-black transition-all duration-300">
                     0{i + 1}
                   </div>
-                  <h3 className="text-base font-bold text-white mb-2 group-hover:text-brand-cyan transition-colors">{principle.title}</h3>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 group-hover:text-brand-cyan transition-colors">{principle.title}</h3>
                   <p className="text-xs text-muted leading-relaxed">{principle.desc}</p>
                 </div>
               </div>
@@ -726,7 +726,7 @@ export default function AboutPage() {
                   <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4 group-hover:scale-110 group-hover:bg-brand-cyan/20 transition-all duration-300">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <h3 className="text-base font-bold text-white mb-2 group-hover:text-brand-cyan transition-colors">{item.title}</h3>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 group-hover:text-brand-cyan transition-colors">{item.title}</h3>
                   <p className="text-xs text-muted leading-relaxed">{item.desc}</p>
                 </div>
               );
@@ -763,7 +763,7 @@ export default function AboutPage() {
                 <span className="text-3xl font-extrabold font-mono text-brand-cyan/40 group-hover:text-brand-cyan transition-colors block">
                   {val.number}
                 </span>
-                <h3 className="text-xl font-bold text-white group-hover:text-brand-cyan transition-colors">{val.title}</h3>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">{val.title}</h3>
                 <p className="text-sm text-muted leading-relaxed">{val.desc}</p>
               </div>
             ))}
@@ -785,16 +785,16 @@ export default function AboutPage() {
           <div className="overflow-x-auto rounded-2xl border border-brand-cyan/20 bg-surface-elevated/80 shadow-xl backdrop-blur-sm">
             <table className="w-full text-left border-collapse min-w-[500px]">
               <thead>
-                <tr className="border-b border-white/10 bg-black/40 text-xs font-mono uppercase tracking-wider text-muted">
+                <tr className="border-b border-border-subtle bg-slate-100 dark:bg-black/40 text-xs font-mono uppercase tracking-wider text-muted">
                   <th className="p-4 sm:p-5 w-1/3">What We Look At</th>
                   <th className="p-4 sm:p-5 text-brand-cyan font-bold bg-brand-cyan/5">Why It Matters</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 text-xs sm:text-sm">
+              <tbody className="divide-y divide-border-subtle text-xs sm:text-sm">
                 {BUSINESS_MATTERS_TABLE.map((row, idx) => (
                   <tr key={idx} className="hover:bg-brand-cyan/5 transition-colors group">
-                    <td className="p-4 sm:p-5 font-semibold text-white group-hover:text-brand-cyan transition-colors">{row.lookAt}</td>
-                    <td className="p-4 sm:p-5 font-medium text-slate-300 bg-brand-cyan/5 border-l border-brand-cyan/10">
+                    <td className="p-4 sm:p-5 font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">{row.lookAt}</td>
+                    <td className="p-4 sm:p-5 font-medium text-slate-700 dark:text-slate-300 bg-brand-cyan/5 border-l border-brand-cyan/10">
                       {row.whyItMatters}
                     </td>
                   </tr>
@@ -826,7 +826,7 @@ export default function AboutPage() {
                   <span className="text-[10px] font-mono text-brand-cyan uppercase tracking-wider block mb-3 bg-brand-cyan/10 border border-brand-cyan/20 px-2.5 py-1 rounded-md w-fit font-semibold">
                     {stage.badge}
                   </span>
-                  <h3 className="text-base font-bold text-white mb-2 group-hover:text-brand-cyan transition-colors">{stage.title}</h3>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 group-hover:text-brand-cyan transition-colors">{stage.title}</h3>
                   <p className="text-xs text-muted leading-relaxed">{stage.desc}</p>
                 </div>
               </div>
@@ -850,7 +850,7 @@ export default function AboutPage() {
             {BETTER_QUESTIONS.map((item, idx) => (
               <div
                 key={idx}
-                className="group rounded-2xl border border-brand-cyan/20 bg-white p-6 space-y-2 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
+                className="group rounded-2xl border border-border-subtle bg-surface-elevated/70 p-6 space-y-2 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
               >
                 <div className="text-sm font-bold text-brand-cyan flex items-center gap-2 group-hover:text-brand-bright transition-colors">
                   <HelpCircle className="w-4 h-4 flex-shrink-0 text-brand-cyan" />
@@ -880,9 +880,9 @@ export default function AboutPage() {
               {TECH_METRICS.map((tech, i) => (
                 <div
                   key={i}
-                  className="group rounded-2xl border border-brand-cyan/20 bg-white p-6 space-y-2 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
+                  className="group rounded-2xl border border-border-subtle bg-surface-elevated/70 p-6 space-y-2 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
                 >
-                  <div className="text-lg font-bold text-white mb-1 group-hover:text-brand-cyan transition-colors">{tech.title}</div>
+                  <div className="text-lg font-bold text-slate-900 dark:text-white mb-1 group-hover:text-brand-cyan transition-colors">{tech.title}</div>
                   <div className="text-xs text-muted leading-relaxed">{tech.desc}</div>
                 </div>
               ))}
@@ -935,7 +935,7 @@ export default function AboutPage() {
                   <span className="text-2xl font-mono font-extrabold text-brand-cyan/40 group-hover:text-brand-cyan transition-colors block mb-2">
                     {step.num}
                   </span>
-                  <h3 className="text-base font-bold text-white mb-2 group-hover:text-brand-cyan transition-colors">{step.title}</h3>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 group-hover:text-brand-cyan transition-colors">{step.title}</h3>
                   <p className="text-xs text-muted leading-relaxed">{step.desc}</p>
                 </div>
               </div>
@@ -968,7 +968,7 @@ export default function AboutPage() {
                 key={i}
                 className="group rounded-2xl border border-border-subtle bg-surface-elevated/60 p-6 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
               >
-                <h3 className="text-base font-bold text-white mb-2 group-hover:text-brand-cyan transition-colors">{rel.title}</h3>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 group-hover:text-brand-cyan transition-colors">{rel.title}</h3>
                 <p className="text-xs text-muted leading-relaxed">{rel.desc}</p>
               </div>
             ))}
@@ -996,7 +996,7 @@ export default function AboutPage() {
                 <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan block font-bold">
                   Phase {i + 1} — {stage.phase}
                 </span>
-                <h3 className="text-xl font-bold text-white group-hover:text-brand-cyan transition-colors">{stage.title}</h3>
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">{stage.title}</h3>
                 <p className="text-sm text-muted leading-relaxed">{stage.desc}</p>
               </div>
             ))}
@@ -1021,7 +1021,7 @@ export default function AboutPage() {
                 key={idx}
                 className="group rounded-2xl border border-red-500/20 bg-surface-elevated/60 p-6 space-y-2 hover:border-red-500/40 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
               >
-                <div className="text-sm font-bold text-white flex items-start gap-2">
+                <div className="text-sm font-bold text-slate-900 dark:text-white flex items-start gap-2">
                   <XCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
                   <span className="group-hover:text-red-300 transition-colors">{item.rule}</span>
                 </div>
@@ -1052,7 +1052,7 @@ export default function AboutPage() {
                 <span className="text-xs font-mono font-bold tracking-widest block uppercase">
                   {cap.category}
                 </span>
-                <p className="text-sm font-semibold text-white leading-relaxed">{cap.items}</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-white leading-relaxed">{cap.items}</p>
               </div>
             ))}
           </div>
@@ -1079,7 +1079,7 @@ export default function AboutPage() {
                   className="group rounded-2xl border border-border-subtle bg-surface-elevated/70 p-5 flex items-start gap-3 hover:border-brand-cyan/45 hover:-translate-y-1.5 transition-all duration-300 ease-out shadow-xl"
                 >
                   <CheckCircle2 className="w-5 h-5 text-brand-cyan flex-shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
-                  <span className="text-sm font-medium text-white leading-snug group-hover:text-brand-cyan transition-colors">{problem}</span>
+                  <span className="text-sm font-medium text-slate-900 dark:text-white leading-snug group-hover:text-brand-cyan transition-colors">{problem}</span>
                 </div>
               ))}
             </div>
@@ -1126,12 +1126,12 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* BUSINESS */}
               <div className="rounded-2xl border border-brand-cyan/30 bg-surface-elevated/70 p-8 space-y-4 shadow-xl hover:border-brand-cyan/50 transition-colors">
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Building2 className="w-5 h-5 text-brand-cyan" /> Better For Your Business
                 </h3>
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   {SUCCESS_METRICS.business.map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-slate-300 font-medium">
+                    <div key={i} className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 font-medium">
                       <Check className="w-4 h-4 text-brand-cyan flex-shrink-0" />
                       {item}
                     </div>
@@ -1141,12 +1141,12 @@ export default function AboutPage() {
 
               {/* CUSTOMERS */}
               <div className="rounded-2xl border border-brand-cyan/30 bg-surface-elevated/70 p-8 space-y-4 shadow-xl hover:border-brand-cyan/50 transition-colors">
-                <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <Users className="w-5 h-5 text-brand-cyan" /> Better For Your Customers
                 </h3>
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   {SUCCESS_METRICS.customers.map((item, i) => (
-                    <div key={i} className="flex items-center gap-2 text-xs text-slate-300 font-medium">
+                    <div key={i} className="flex items-center gap-2 text-xs text-slate-700 dark:text-slate-300 font-medium">
                       <Check className="w-4 h-4 text-brand-cyan flex-shrink-0" />
                       {item}
                     </div>
@@ -1162,7 +1162,7 @@ export default function AboutPage() {
               <span className="text-xs font-mono uppercase text-brand-cyan tracking-wider font-semibold">
                 LOOKING AHEAD
               </span>
-              <h3 className="text-xl font-bold text-white">We're Building Nexovio for the Long Term</h3>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">We're Building Nexovio for the Long Term</h3>
               <p className="text-xs text-muted leading-relaxed">
                 We want Nexovio Digital Solutions to grow by continuing to do thoughtful digital work—not by simply increasing the number of services on a menu. That means staying close to changing customer expectations, learning new technologies, exploring practical AI opportunities, improving our craft, and building stronger relationships with the businesses we work with.
               </p>
@@ -1172,7 +1172,7 @@ export default function AboutPage() {
               <span className="text-xs font-mono uppercase text-brand-cyan tracking-wider font-semibold">
                 OUR VISION
               </span>
-              <h3 className="text-xl font-bold text-white">Make Digital Work More Useful</h3>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Make Digital Work More Useful</h3>
               <p className="text-xs text-muted leading-relaxed">
                 We want Nexovio Digital Solutions to be known for thoughtful digital work that helps businesses move forward. Not because every project is the biggest. Not because every solution uses the newest technology. But because the work makes sense—because customers can use it, businesses can build on it, and the result creates something genuinely useful.
               </p>
@@ -1195,16 +1195,16 @@ export default function AboutPage() {
           <div className="overflow-x-auto rounded-2xl border border-brand-cyan/20 bg-surface-elevated/80 shadow-xl max-w-4xl mx-auto backdrop-blur-sm">
             <table className="w-full text-left border-collapse min-w-[450px]">
               <thead>
-                <tr className="border-b border-white/10 bg-black/40 text-xs font-mono uppercase tracking-wider text-muted">
+                <tr className="border-b border-border-subtle bg-slate-100 dark:bg-black/40 text-xs font-mono uppercase tracking-wider text-muted">
                   <th className="p-4 sm:p-5 w-1/3">Capability</th>
                   <th className="p-4 sm:p-5 text-brand-cyan font-bold bg-brand-cyan/5">Focus</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 text-xs sm:text-sm">
+              <tbody className="divide-y divide-border-subtle text-xs sm:text-sm">
                 {NEXOVIO_AT_A_GLANCE.map((row, idx) => (
                   <tr key={idx} className="hover:bg-brand-cyan/5 transition-colors group">
-                    <td className="p-4 sm:p-5 font-semibold text-white group-hover:text-brand-cyan transition-colors">{row.capability}</td>
-                    <td className="p-4 sm:p-5 font-medium text-slate-300 bg-brand-cyan/5 border-l border-brand-cyan/10">
+                    <td className="p-4 sm:p-5 font-semibold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">{row.capability}</td>
+                    <td className="p-4 sm:p-5 font-medium text-slate-700 dark:text-slate-300 bg-brand-cyan/5 border-l border-brand-cyan/10">
                       {row.focus}
                     </td>
                   </tr>
