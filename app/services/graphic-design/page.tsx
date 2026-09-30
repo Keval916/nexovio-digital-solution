@@ -3,21 +3,53 @@ import GraphicDesign from "@/src/views/services/GraphicDesign";
 import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata = generatePageMetadata({
-  title: "Graphic Design Services | Branding & Marketing Collateral",
+  title: "Graphic Design Services for Businesses | Nexovio",
   description:
-    "Creative graphic design and brand identity services. We design cohesive logos, social media graphics, presentation decks and marketing materials that strengthen your brand.",
+    "Custom graphic design services for branding, social media, packaging, menus, brochures, advertising, print and marketing materials. Work with Nexovio.",
   keywords: [
-    "graphic design services",
-    "brand identity",
-    "marketing graphics",
-    "logo design",
-    "visual design services",
-    "Brand Graphic Design",
-    "Visual Identity Systems",
+    "Graphic Design Services",
+    "Graphic Design Company",
+    "Graphic Design Agency",
+    "Custom Graphic Design Services",
+    "Professional Graphic Design Services",
+    "Graphic Design Services for Businesses",
+    "Creative Design Services",
+    "Business Graphic Design Services",
+    "Social Media Design Services",
+    "Social Media Graphic Design",
+    "Social Media Post Design",
+    "Instagram Post Design",
+    "Branding Design Services",
+    "Brand Identity Design",
+    "Logo Design Services",
+    "Packaging Design Services",
+    "Product Packaging Design",
+    "Product Label Design",
+    "Food Packaging Design",
+    "Brochure Design Services",
+    "Flyer Design Services",
+    "Print Design Services",
+    "Restaurant Graphic Design",
+    "Restaurant Menu Design",
+    "Menu Design Services",
+    "Pizza Menu Design",
+    "Food Promotion Design",
+    "Restaurant Social Media Design",
+    "Pizza Shop Promotion Design",
+    "E-commerce Graphic Design",
+    "Product Graphic Design",
+    "Advertising Graphic Design",
+    "Ad Creative Design",
+    "Presentation Design Services",
+    "Pitch Deck Design",
+    "PowerPoint Design Services",
+    "Infographic Design Services",
   ],
   path: "/services/graphic-design",
 });
 
+
 export default function Page() {
   return <GraphicDesign />;
 }
+
