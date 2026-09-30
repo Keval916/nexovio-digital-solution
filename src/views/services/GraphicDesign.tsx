@@ -1390,11 +1390,11 @@ export default function GraphicDesignPage() {
                   <Sparkles className="w-3.5 h-3.5" />
                   SEASONAL &amp; FESTIVAL CAMPAIGNS
                 </span>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#fff] tracking-tight">
                   Festival, Seasonal &amp; Promotional Design
                 </h2>
 
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-300 leading-relaxed">
                   Businesses experience significant revenue surges around festive dates and seasonal milestones. We design coordinated creative campaign sets across social media, print flyers, email newsletters, website banners, and in-store displays.
                 </p>
 
@@ -1412,7 +1412,7 @@ export default function GraphicDesignPage() {
                   ].map((holiday) => (
                     <span
                       key={holiday}
-                      className="px-3 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-amber-200/90"
+                      className="px-3 py-1 rounded-lg text-xs font-medium bg-white/5 border border-white/10 text-amber-600"
                     >
                       &bull; {holiday}
                     </span>
@@ -1631,59 +1631,13 @@ export default function GraphicDesignPage() {
       {/* 11. COMPREHENSIVE FAQS                                             */}
       {/* ================================================================== */}
       <FaqSection
+        variant="white"
         faqs={GRAPHIC_DESIGN_FAQS}
         badge="GRAPHIC DESIGN FAQ"
-        title="Frequently Asked Questions About"
-        highlightText="Graphic Design Services"
+        title="Frequently Asked"
+        highlightText="Questions"
         description="Clear answers regarding turnaround times, restaurant promos, packaging dielines, file formats, and ongoing monthly design support."
       />
-
-
-      {/* ================================================================== */}
-      {/* 12. READY TO CREATE BETTER VISUALS CTA BANNER                      */}
-      {/* ================================================================== */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative overflow-hidden rounded-3xl border border-brand-cyan/40 bg-gradient-to-r from-brand-cyan/15 via-[#071328] to-brand-electric/15 p-8 sm:p-12 lg:p-16 text-center space-y-6 shadow-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-              <Sparkles className="w-3.5 h-3.5 text-brand-cyan" />
-              LET&apos;S ELEVATE YOUR BRAND
-            </div>
-
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight max-w-3xl mx-auto">
-              Ready to Create Better Visuals for Your Business?
-            </h2>
-
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              From a single social media post or weekend pizza promotion to a complete visual identity and packaging system, Nexovio helps businesses turn ideas, products, and offers into professional visual communication.
-            </p>
-
-            <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
-              <Button
-                href="/contact"
-                variant="primary"
-                size="lg"
-                trackingName="graphic_design_bottom_cta"
-                trackingLocation="bottom_cta"
-                icon={<ArrowRight className="w-4 h-4" />}
-                className="shadow-glow font-bold"
-              >
-                Tell Us What You Need Designed
-              </Button>
-              <Button
-                href="/schedule-a-call"
-                variant="secondary"
-                size="lg"
-                trackingName="graphic_design_bottom_schedule"
-                trackingLocation="bottom_cta"
-                className="font-semibold"
-              >
-                Schedule a Creative Discovery Call
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }
