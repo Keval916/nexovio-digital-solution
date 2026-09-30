@@ -46,6 +46,19 @@ export function generatePageMetadata({
     ...(keywords ? { keywords } : {}),
     alternates: {
       canonical,
+      languages: {
+        "x-default": canonical,
+        "en-US": canonical,
+        "en-GB": canonical,
+        "en-CA": canonical,
+        "en-AU": canonical,
+        "en-IN": canonical,
+        "en-AE": canonical,
+        "en-SG": canonical,
+        "en-IE": canonical,
+        "en-NZ": canonical,
+        "en-ZA": canonical,
+      },
     },
     robots: noIndex
       ? {
@@ -69,6 +82,17 @@ export function generatePageMetadata({
       url: canonical,
       siteName: SITE_NAME,
       locale: "en_US",
+      alternateLocale: [
+        "en_GB",
+        "en_CA",
+        "en_AU",
+        "en_IN",
+        "en_AE",
+        "en_SG",
+        "en_IE",
+        "en_NZ",
+        "en_ZA",
+      ],
       type,
       images: [
         {
