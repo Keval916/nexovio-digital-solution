@@ -22,6 +22,56 @@ function formatServiceLabel(serviceVal?: string): string {
   return serviceVal;
 }
 
+// In-memory IP rate limiter: max 5 requests per 10 minutes per IP
+const ipSubmissions = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = ipSubmissions.get(ip);
+  if (!record || now > record.resetTime) {
+    ipSubmissions.set(ip, { count: 1, resetTime: now + 10 * 60 * 1000 });
+    return true;
+  }
+  if (record.count >= 5) {
+    return false;
+  }
+  record.count += 1;
+  return true;
+}
+
+const DISPOSABLE_EMAIL_DOMAINS = new Set([
+  "mailinator.com",
+  "tempmail.com",
+  "guerrillamail.com",
+  "yopmail.com",
+  "10minutemail.com",
+  "sharklasers.com",
+  "trashmail.com",
+  "dispostable.com",
+  "getairmail.com",
+  "fakeinbox.com",
+  "temp-mail.org",
+  "throwawaymail.com",
+  "crazymailing.com",
+  "generator.email",
+]);
+
+const SPAM_CONTENT_PATTERNS = [
+  /casino/i,
+  /slot\s*gacor/i,
+  /viagra/i,
+  /cialis/i,
+  /porn/i,
+  /poker/i,
+  /escort/i,
+  /crypto\s*investment/i,
+  /passive\s*income\s*guaranteed/i,
+  /seo\s*backlinks\s*cheap/i,
+  /guest\s*post\s*outreach\s*service/i,
+  /whatsapp\s*database/i,
+  /telegram\s*leads/i,
+];
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -38,7 +88,74 @@ export async function POST(request: Request) {
       primaryNeed,
       engagement,
       sourcePage,
+      website_url,
+      honeypot,
+      hp_check,
+      form_started_at,
     } = body;
+
+    // 0. Anti-Spam: IP Rate Limiting
+    const forwarded = request.headers.get("x-forwarded-for");
+    const clientIp = forwarded ? forwarded.split(",")[0].trim() : "unknown";
+    if (clientIp !== "unknown" && !checkRateLimit(clientIp)) {
+      return NextResponse.json(
+        { success: false, message: "Too many inquiries sent from this IP. Please wait a few minutes before trying again." },
+        { status: 429 }
+      );
+    }
+
+    // 0. Anti-Spam: Invisible Honeypot Trap
+    // Automated bots fill in all fields; real users never see this field.
+    if (website_url || honeypot || hp_check) {
+      console.warn(`[Anti-Spam] Bot detected via honeypot trap from IP: ${clientIp}`);
+      return NextResponse.json({
+        success: true,
+        message: "Thank you! Your inquiry has been received.",
+      });
+    }
+
+    // 0. Anti-Spam: Submission Speed Trap (Time-based check)
+    // Humans take at least 1.8 seconds to fill out Name, Email, and Message.
+    if (form_started_at && typeof form_started_at === "number") {
+      const elapsed = Date.now() - form_started_at;
+      if (elapsed < 1800) {
+        console.warn(`[Anti-Spam] Bot submission detected via speed (${elapsed}ms) from IP: ${clientIp}`);
+        return NextResponse.json({
+          success: true,
+          message: "Thank you! Your inquiry has been received.",
+        });
+      }
+    }
+
+    // 0. Anti-Spam: Excessive Link Spam Detection (> 3 links in message)
+    const linkMatches = (message || "").match(/https?:\/\//gi);
+    if (linkMatches && linkMatches.length > 3) {
+      console.warn(`[Anti-Spam] Dropped message with excessive link count (${linkMatches.length}) from IP: ${clientIp}`);
+      return NextResponse.json({
+        success: true,
+        message: "Thank you! Your inquiry has been received.",
+      });
+    }
+
+    // 0. Anti-Spam: Known Spam Keyword Detection
+    const textToCheck = `${name || ""} ${company || ""} ${message || ""}`;
+    const isSpamKeyword = SPAM_CONTENT_PATTERNS.some((pattern) => pattern.test(textToCheck));
+    if (isSpamKeyword) {
+      console.warn(`[Anti-Spam] Dropped message matching blacklisted spam pattern from IP: ${clientIp}`);
+      return NextResponse.json({
+        success: true,
+        message: "Thank you! Your inquiry has been received.",
+      });
+    }
+
+    // 0. Anti-Spam: Disposable Email Domain Filter
+    const emailDomain = (email || "").split("@")[1]?.toLowerCase();
+    if (emailDomain && DISPOSABLE_EMAIL_DOMAINS.has(emailDomain)) {
+      return NextResponse.json(
+        { success: false, message: "Please provide a valid business or personal email address." },
+        { status: 400 }
+      );
+    }
 
     // 1. Server-side Input Validation
     if (!name || !email || !message) {

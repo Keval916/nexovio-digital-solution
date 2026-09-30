@@ -27,6 +27,8 @@ const INITIAL_FORM: FormData = {
 
 export function ContactForm() {
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM);
+  const [honeypot, setHoneypot] = useState("");
+  const [formStartedAt] = useState(() => Date.now());
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -66,7 +68,11 @@ export function ContactForm() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          website_url: honeypot,
+          form_started_at: formStartedAt,
+        }),
       });
 
       const result = await res.json();
@@ -135,6 +141,20 @@ export function ContactForm() {
               <span>{errorMessage}</span>
             </div>
           )}
+
+          {/* Invisible honeypot trap for automated spam bots */}
+          <div style={{ display: "none", position: "absolute", left: "-9999px", opacity: 0 }} aria-hidden="true">
+            <label htmlFor="website_url">Leave this field blank</label>
+            <input
+              type="text"
+              id="website_url"
+              name="website_url"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Name */}

@@ -325,6 +325,8 @@ export default function AgencyPartnershipClient() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [formError, setFormError] = useState('');
+  const [honeypot, setHoneypot] = useState('');
+  const [formStartedAt] = useState(() => Date.now());
 
   const currentService = servicesData[activeService];
   const CurrentServiceIcon = currentService.icon;
@@ -371,6 +373,8 @@ export default function AgencyPartnershipClient() {
           budget: formData.engagement,
           message: formData.projectDetails.trim(),
           sourcePage: 'agency-partnership',
+          website_url: honeypot,
+          form_started_at: formStartedAt,
         }),
       });
 
@@ -1505,6 +1509,20 @@ export default function AgencyPartnershipClient() {
                           <span>{formError}</span>
                         </div>
                       )}
+
+                      {/* Invisible honeypot trap for automated spam bots */}
+                      <div style={{ display: 'none', position: 'absolute', left: '-9999px', opacity: 0 }} aria-hidden="true">
+                        <label htmlFor="agency_website_url">Leave this field blank</label>
+                        <input
+                          type="text"
+                          id="agency_website_url"
+                          name="website_url"
+                          value={honeypot}
+                          onChange={(e) => setHoneypot(e.target.value)}
+                          tabIndex={-1}
+                          autoComplete="off"
+                        />
+                      </div>
 
                       <div className="grid gap-4 sm:grid-cols-2">
                         <label className="block">
