@@ -853,13 +853,6 @@ export default function GraphicDesignPage() {
                 >
                   Start Your Graphic Design Project
                 </Button>
-                <a
-                  href="#gallery"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071328] hover:border-brand-cyan/60 hover:text-brand-cyan text-sm font-semibold text-slate-800 dark:text-slate-200 transition-all duration-300 shadow-xs"
-                >
-                  <Eye className="w-4 h-4 text-brand-cyan" />
-                  Explore Demo Gallery (12 Designs)
-                </a>
               </div>
             </div>
 
@@ -879,19 +872,6 @@ export default function GraphicDesignPage() {
                   {/* Subtle Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/80 via-transparent to-transparent pointer-events-none rounded-xl" />
 
-                  {/* Floating Specs Badge */}
-                  <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-950/85 border border-brand-cyan/30 backdrop-blur-md">
-                    <div className="flex items-center justify-between text-xs font-mono font-bold text-white mb-1.5">
-                      <span className="text-brand-cyan flex items-center gap-1.5">
-                        <PenTool className="w-3.5 h-3.5" />
-                        Nexovio Creative Studio
-                      </span>
-                      <span className="text-emerald-400">Digital &bull; Print &bull; Packaging</span>
-                    </div>
-                    <p className="text-[11px] text-slate-300 leading-snug">
-                      Tailored visual branding, high-converting social campaigns, and print-ready production files.
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -921,20 +901,6 @@ export default function GraphicDesignPage() {
                   />
                   {/* Subtle Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/80 via-transparent to-transparent pointer-events-none rounded-xl" />
-
-                  {/* Sticky Banner Floating Bottom Specs */}
-                  <div className="absolute bottom-4 left-4 right-4 p-4 rounded-xl bg-slate-950/85 border border-brand-cyan/30 backdrop-blur-md">
-                    <div className="flex items-center justify-between text-xs font-mono font-bold text-white mb-1.5">
-                      <span className="text-brand-cyan flex items-center gap-1.5">
-                        <Workflow className="w-3.5 h-3.5" />
-                        Unified Brand Systems
-                      </span>
-                      <span className="text-emerald-400">Zero Fragmentation</span>
-                    </div>
-                    <p className="text-[11px] text-slate-300 leading-snug">
-                      Connecting social posts, brochures, restaurant menus, packaging, and presentations into one recognizable identity.
-                    </p>
-                  </div>
                 </div>
               </div>
             </div>
