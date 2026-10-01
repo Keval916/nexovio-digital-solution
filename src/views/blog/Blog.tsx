@@ -28,21 +28,39 @@ import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { formatDate } from "@/src/lib/utils";
 import { getCollectionPageSchema } from "@/src/lib/schema";
 
-const CATEGORIES = [
+const DEFAULT_CATEGORIES = [
   "All",
   "Web Development",
+  "Technology",
   "UI/UX",
   "SEO",
-  "Technology",
-] as const;
+  "Web Design",
+  "Digital Marketing",
+];
 
 const ITEMS_PER_PAGE = 12;
 
 export default function BlogHubPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [categoriesList, setCategoriesList] = useState<string[]>(DEFAULT_CATEGORIES);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // Dynamically sync categories from admin/storage
+  useEffect(() => {
+    fetch("/api/admin/categories")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.categories)) {
+          const names = data.categories.map((c: any) => c.name);
+          const articleCats = Array.from(new Set(BLOG_ARTICLES.map((a) => a.category)));
+          const merged = ["All", ...Array.from(new Set([...names, ...articleCats]))];
+          setCategoriesList(merged);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Newsletter Subscription state
   const [emailInput, setEmailInput] = useState<string>("");
@@ -67,7 +85,8 @@ export default function BlogHubPage() {
   const filteredArticles = useMemo(() => {
     return BLOG_ARTICLES.filter((article) => {
       const matchesCategory =
-        selectedCategory === "All" || article.category === selectedCategory;
+        selectedCategory === "All" ||
+        article.category.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
       const q = searchQuery.toLowerCase().trim();
       const matchesSearch =
         q === "" ||
@@ -203,9 +222,30 @@ export default function BlogHubPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* CONTROLS TOOLBAR: Categories, Search, Grid/List Switcher */}
-        <div className="mt-8 flex flex-col lg:flex-row items-stretch lg:items-center justify-end gap-4">
+        <div className="mt-8 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+          {/* Left: Dynamic Category Filter Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 scrollbar-none">
+            {categoriesList.map((category) => {
+              const isSelected = selectedCategory.toLowerCase().trim() === category.toLowerCase().trim();
+              return (
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                    isSelected
+                      ? "bg-brand-electric text-white shadow-sm font-bold shadow-blue-500/20"
+                      : "bg-surface-elevated text-muted hover:text-slate-900 dark:hover:text-white border border-border-subtle hover:border-slate-300 dark:hover:border-slate-700"
+                  }`}
+                >
+                  {category}
+                </button>
+              );
+            })}
+          </div>
+
           {/* Right: Search Input + Grid/List Toggle */}
-          <div className="flex items-center justify-end gap-3">
+          <div className="flex items-center justify-end gap-3 shrink-0">
             {/* Search Bar */}
             <div className="relative flex-1 sm:w-72">
               <Search className="w-4 h-4 text-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />

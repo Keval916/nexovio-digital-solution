@@ -22,6 +22,7 @@ import {
   ExternalLink,
   ChevronRight,
   MessageSquare,
+  Eye,
 } from "lucide-react";
 import { getBlogArticleBySlug, BLOG_ARTICLES, BlogArticle } from "@/src/data/blog";
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
@@ -89,6 +90,57 @@ export default function SingleBlogArticlePage({
   const [scrollProgress, setScrollProgress] = useState<number>(0);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
   const [activeHeadingId, setActiveHeadingId] = useState<string>("");
+
+  // Live Visitor / Readers view counting
+  const [viewsCount, setViewsCount] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Detect isUnique using localStorage
+    let isUnique = true;
+    try {
+      const storageKey = `nexovio_read_${article.slug}_${new Date().toISOString().split("T")[0]}`;
+      if (localStorage.getItem(storageKey)) {
+        isUnique = false;
+      } else {
+        localStorage.setItem(storageKey, "1");
+      }
+    } catch {
+      // ignore
+    }
+
+    // Detect Device
+    let device: "desktop" | "mobile" | "tablet" = "desktop";
+    if (typeof window !== "undefined") {
+      const w = window.innerWidth;
+      if (w < 640) device = "mobile";
+      else if (w < 1024) device = "tablet";
+      else device = "desktop";
+    }
+
+    // Detect Referrer
+    let referrer: "google" | "linkedin" | "twitter" | "direct" | "other" = "direct";
+    if (typeof document !== "undefined" && document.referrer) {
+      const ref = document.referrer.toLowerCase();
+      if (ref.includes("google")) referrer = "google";
+      else if (ref.includes("linkedin")) referrer = "linkedin";
+      else if (ref.includes("twitter") || ref.includes("t.co") || ref.includes("x.com")) referrer = "twitter";
+      else if (!ref.includes(window.location.hostname)) referrer = "other";
+    }
+
+    // Record article view and fetch updated count
+    fetch("/api/blog/views", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug: article.slug, isUnique, device, referrer }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.views) {
+          setViewsCount(data.views);
+        }
+      })
+      .catch((err) => console.error("Error recording view:", err));
+  }, [article.slug]);
 
   // Newsletter state
   const [newsletterEmail, setNewsletterEmail] = useState<string>("");
@@ -317,6 +369,12 @@ export default function SingleBlogArticlePage({
                 <Calendar className="w-3.5 h-3.5 text-brand-bright" />
                 <span>Published {formatDate(article.publishedAt)}</span>
               </div>
+              {viewsCount !== null && (
+                <div className="flex items-center gap-1.5 text-brand-cyan font-mono bg-brand-cyan/10 px-3 py-1 rounded-full border border-brand-cyan/30">
+                  <Eye className="w-3.5 h-3.5 text-brand-cyan" />
+                  <span className="font-bold">{viewsCount.toLocaleString()} readers</span>
+                </div>
+              )}
               {article.updatedAt && (
                 <span className="text-[11px] text-muted-dark font-mono bg-surface-subtle px-2.5 py-1 rounded-full border border-border-subtle">
                   Updated {formatDate(article.updatedAt)}

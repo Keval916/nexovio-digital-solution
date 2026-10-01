@@ -1362,8 +1362,9 @@ html.dark .blog-warning strong {
   color: #fcd34d !important;
 }
 
-/* Stylized Blockquote */
+/* Stylized Blockquote - Base & Color Variations */
 .blog-quote,
+.blog-quote-blue,
 .blog-content blockquote {
   position: relative;
   background-color: #f8fafc;
@@ -1373,16 +1374,121 @@ html.dark .blog-warning strong {
   margin: 2.75rem 0;
   font-style: italic;
   color: #1e293b;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
   line-height: 1.75;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 15px rgba(23, 105, 255, 0.05);
 }
 
 html.dark .blog-quote,
+html.dark .blog-quote-blue,
 html.dark .blog-content blockquote {
   background-color: #0a1122;
-  border-left: 5px solid #00C6FF;
+  border-left: 5px solid #1769FF;
   color: #f1f5f9;
+}
+
+/* Cyan Quote Variant */
+.blog-quote-cyan {
+  border-left-color: #00C6FF !important;
+  background-color: #f0fdfa !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 15px rgba(0, 198, 255, 0.08) !important;
+}
+
+html.dark .blog-quote-cyan {
+  background-color: rgba(0, 198, 255, 0.08) !important;
+  border-left-color: #00C6FF !important;
+  color: #e2e8f0 !important;
+}
+
+/* Purple Quote Variant */
+.blog-quote-purple {
+  border-left-color: #8b5cf6 !important;
+  background-color: #faf5ff !important;
+  color: #1e1b4b !important;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.08) !important;
+}
+
+html.dark .blog-quote-purple {
+  background-color: rgba(139, 92, 246, 0.08) !important;
+  border-left-color: #a78bfa !important;
+  color: #f3e8ff !important;
+}
+
+/* Emerald Green Quote Variant */
+.blog-quote-emerald {
+  border-left-color: #10b981 !important;
+  background-color: #f0fdf4 !important;
+  color: #064e3b !important;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.08) !important;
+}
+
+html.dark .blog-quote-emerald {
+  background-color: rgba(16, 185, 129, 0.08) !important;
+  border-left-color: #10b981 !important;
+  color: #d1fae5 !important;
+}
+
+/* Amber / Warning Quote Variant */
+.blog-quote-amber {
+  border-left-color: #f59e0b !important;
+  background-color: #fffbeb !important;
+  color: #78350f !important;
+  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.08) !important;
+}
+
+html.dark .blog-quote-amber {
+  background-color: rgba(245, 158, 11, 0.08) !important;
+  border-left-color: #f59e0b !important;
+  color: #fef3c7 !important;
+}
+
+/* Typographic & Accent Utility Classes */
+.blog-lead {
+  font-size: 1.25rem !important;
+  line-height: 1.8 !important;
+  color: #334155 !important;
+  font-weight: 500 !important;
+  margin: 1.5rem 0 !important;
+}
+
+html.dark .blog-lead {
+  color: #cbd5e1 !important;
+}
+
+.blog-highlight {
+  background: linear-gradient(120deg, rgba(23, 105, 255, 0.15) 0%, rgba(0, 198, 255, 0.2) 100%);
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.35rem;
+  font-weight: 600;
+}
+
+.blog-gradient-text {
+  background: linear-gradient(135deg, #1769FF 0%, #00C6FF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.blog-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background-color: #eff6ff;
+  color: #1769FF;
+  border: 1px solid #bfdbfe;
+}
+
+html.dark .blog-badge {
+  background-color: rgba(23, 105, 255, 0.15);
+  color: #60a5fa;
+  border-color: rgba(23, 105, 255, 0.3);
 }
 
 /* ==========================================================================

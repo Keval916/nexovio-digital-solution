@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cat-web-dev",
+    "name": "Web Development",
+    "slug": "web-development",
+    "description": "Architecture, Next.js, modern frameworks, APIs, and scalable web engineering.",
+    "color": "blue",
+    "createdAt": "2026-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "cat-technology",
+    "name": "Technology",
+    "slug": "technology",
+    "description": "Emerging tech, autonomous AI agents, cloud architectures, and software paradigms.",
+    "color": "cyan",
+    "createdAt": "2026-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "cat-ui-ux",
+    "name": "UI/UX",
+    "slug": "ui-ux",
+    "description": "Design systems, usability heuristics, component libraries, and interactive user experiences.",
+    "color": "purple",
+    "createdAt": "2026-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "cat-seo",
+    "name": "SEO",
+    "slug": "seo",
+    "description": "Core Web Vitals, programmatic SEO, search ranking signals, and technical audits.",
+    "color": "emerald",
+    "createdAt": "2026-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "cat-web-design",
+    "name": "Web Design",
+    "slug": "web-design",
+    "description": "Visual aesthetics, typography, responsive layouts, and creative brand identity.",
+    "color": "amber",
+    "createdAt": "2026-01-15T00:00:00.000Z"
+  },
+  {
+    "id": "cat-digital-marketing",
+    "name": "Digital Marketing",
+    "slug": "digital-marketing",
+    "description": "Conversion rate optimization (CRO), B2B lead generation, and omnichannel growth strategy.",
+    "color": "rose",
+    "createdAt": "2026-01-15T00:00:00.000Z"
+  }
+]
