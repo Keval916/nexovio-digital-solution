@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
-import { getStoredBlogArticles } from "@/src/lib/blog-storage";
+import { getStoredBlogArticles, getBlogArticleBySlugAsync } from "@/src/lib/blog-storage";
 import { generatePageMetadata } from "@/src/lib/seo";
 import BlogDetail from "@/src/views/blog/BlogDetail";
 
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export const dynamicParams = true;
 
 interface BlogArticlePageProps {
@@ -19,9 +20,8 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: BlogArticlePageProps) {
-  const articles = getStoredBlogArticles();
-  const article = articles.find((a) => a.slug === params.slug);
+export async function generateMetadata({ params }: BlogArticlePageProps) {
+  const article = await getBlogArticleBySlugAsync(params.slug);
   if (!article) {
     return {
       title: "Article Not Found",
@@ -56,12 +56,12 @@ export function generateMetadata({ params }: BlogArticlePageProps) {
   });
 }
 
-export default function Page({ params }: BlogArticlePageProps) {
-  const articles = getStoredBlogArticles();
-  const article = articles.find((a) => a.slug === params.slug);
+export default async function Page({ params }: BlogArticlePageProps) {
+  const article = await getBlogArticleBySlugAsync(params.slug);
   if (!article) {
     notFound();
   }
 
   return <BlogDetail params={params} article={article} />;
 }
+

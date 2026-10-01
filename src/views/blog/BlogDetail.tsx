@@ -81,10 +81,37 @@ export default function SingleBlogArticlePage({
   params,
   article: propArticle,
 }: BlogArticlePageProps) {
-  const article = propArticle || getBlogArticleBySlug(params.slug);
-  if (!article) {
-    notFound();
-  }
+  const initialArticle = propArticle || getBlogArticleBySlug(params?.slug);
+  const [article, setArticle] = useState<BlogArticle | undefined>(initialArticle);
+  const [isLoading, setIsLoading] = useState<boolean>(!initialArticle);
+
+  // Client-side fallback recovery: if SSR did not find the article due to serverless isolation,
+  // query /api/admin/blog to fetch directly from live data
+  useEffect(() => {
+    if (!article && params?.slug) {
+      fetch("/api/admin/blog")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success && Array.isArray(data.articles)) {
+            const normalized = decodeURIComponent(params.slug).toLowerCase().trim();
+            const found = data.articles.find(
+              (a: BlogArticle) =>
+                a.slug.toLowerCase().trim() === normalized ||
+                (a.id && a.id.toLowerCase().trim() === normalized)
+            );
+            if (found) {
+              setArticle(found);
+              setIsLoading(false);
+              return;
+            }
+          }
+          setIsLoading(false);
+        })
+        .catch(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [article, params?.slug]);
 
   // Interactive scroll progress bar
   const [scrollProgress, setScrollProgress] = useState<number>(0);
@@ -95,6 +122,8 @@ export default function SingleBlogArticlePage({
   const [viewsCount, setViewsCount] = useState<number | null>(null);
 
   useEffect(() => {
+    if (!article) return;
+
     // Detect isUnique using localStorage
     let isUnique = true;
     try {
@@ -140,7 +169,7 @@ export default function SingleBlogArticlePage({
         }
       })
       .catch((err) => console.error("Error recording view:", err));
-  }, [article.slug]);
+  }, [article?.slug]);
 
   // Newsletter state
   const [newsletterEmail, setNewsletterEmail] = useState<string>("");
@@ -151,7 +180,7 @@ export default function SingleBlogArticlePage({
   }>({ type: null, message: "" });
 
   // 4-Card Carousel state for Related Articles
-  const otherArticles = BLOG_ARTICLES.filter((a) => a.slug !== article.slug);
+  const otherArticles = BLOG_ARTICLES.filter((a) => !article || a.slug !== article.slug);
   // Ensure we have at least 4 items to display in carousel
   const carouselItems = otherArticles.length >= 4
     ? [...otherArticles, ...otherArticles]
@@ -180,20 +209,24 @@ export default function SingleBlogArticlePage({
     setCarouselIndex((prev) => (prev + 1) % maxSlides);
   };
 
-  const articleSchema = getArticleSchema({
-    title: article.title,
-    description: article.excerpt,
-    url: article.canonicalUrl || `/blog/${article.slug}`,
-    image: article.ogImage || article.featuredImage,
-    publishedAt: article.publishedAt,
-    updatedAt: article.updatedAt,
-    authorName: article.author.name,
-    schemaType: article.schemaType || "BlogPosting",
-    keywords: article.keywords,
-  });
+  const articleSchema = article
+    ? getArticleSchema({
+        title: article.title,
+        description: article.excerpt,
+        url: article.canonicalUrl || `/blog/${article.slug}`,
+        image: article.ogImage || article.featuredImage,
+        publishedAt: article.publishedAt,
+        updatedAt: article.updatedAt,
+        authorName: article.author.name,
+        schemaType: article.schemaType || "BlogPosting",
+        keywords: article.keywords,
+      })
+    : null;
 
   // Scroll listener for reading progress bar and active TOC heading
   useEffect(() => {
+    if (!article) return;
+
     const handleScroll = () => {
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
@@ -219,7 +252,7 @@ export default function SingleBlogArticlePage({
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [article.tableOfContents]);
+  }, [article?.tableOfContents]);
 
   // Handle Share / Copy Link
   const handleCopyLink = () => {
@@ -230,7 +263,7 @@ export default function SingleBlogArticlePage({
     }
   };
 
-  const currentUrl = typeof window !== "undefined" ? window.location.href : `https://www.nexoviodigitalsolutions.com/blog/${article.slug}`;
+  const currentUrl = typeof window !== "undefined" ? window.location.href : (article ? `https://www.nexoviodigitalsolutions.com/blog/${article.slug}` : "");
 
   // Handle Newsletter Subscribe
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
@@ -252,7 +285,7 @@ export default function SingleBlogArticlePage({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: newsletterEmail.trim(),
-          source: `Blog Post: ${article.slug}`,
+          source: `Blog Post: ${article?.slug || params?.slug}`,
         }),
       });
 
@@ -279,6 +312,22 @@ export default function SingleBlogArticlePage({
       setIsSubscribing(false);
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-[80vh] flex flex-col items-center justify-center bg-background text-foreground pt-24">
+        <div className="flex flex-col items-center gap-4 text-center px-4">
+          <Loader2 className="w-10 h-10 animate-spin text-brand-cyan" />
+          <h2 className="text-xl font-bold text-slate-900 dark:text-white">Loading Article...</h2>
+          <p className="text-xs text-muted font-mono">Fetching latest engineering publication</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!article) {
+    notFound();
+  }
 
   return (
     <article className="pt-24 pb-20 bg-background text-foreground min-h-screen selection:bg-brand-cyan/20 selection:text-brand-cyan relative">

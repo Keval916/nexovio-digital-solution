@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import {
   getStoredBlogArticles,
+  getStoredBlogArticlesAsync,
   saveStoredBlogArticles,
+  saveStoredBlogArticlesAsync,
   calculateReadingTime,
   generateSlug,
 } from "@/src/lib/blog-storage";
@@ -15,7 +17,7 @@ export const dynamic = "force-dynamic";
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const articles = getStoredBlogArticles();
+    const articles = await getStoredBlogArticlesAsync();
 
     if (searchParams.get("export") === "true") {
       const jsonString = JSON.stringify(articles, null, 2);
@@ -83,7 +85,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const articles = getStoredBlogArticles();
+    const articles = await getStoredBlogArticlesAsync();
     const slug = (customSlug && customSlug.trim()) || generateSlug(title);
 
     // Check slug collision
@@ -151,7 +153,7 @@ export async function POST(req: NextRequest) {
     };
 
     articles.unshift(newArticle);
-    const saved = saveStoredBlogArticles(articles);
+    const saved = await saveStoredBlogArticlesAsync(articles);
 
     if (!saved) {
       return NextResponse.json(
@@ -195,7 +197,7 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    const articles = getStoredBlogArticles();
+    const articles = await getStoredBlogArticlesAsync();
     const index = articles.findIndex((a) => a.id === id || a.slug === slug);
 
     if (index === -1) {
@@ -269,7 +271,7 @@ export async function PUT(req: NextRequest) {
     };
 
     articles[index] = updatedArticle;
-    const saved = saveStoredBlogArticles(articles);
+    const saved = await saveStoredBlogArticlesAsync(articles);
 
     if (!saved) {
       return NextResponse.json(
@@ -314,7 +316,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    const articles = getStoredBlogArticles();
+    const articles = await getStoredBlogArticlesAsync();
     const filtered = articles.filter((a) => a.id !== id && a.slug !== slug);
 
     if (filtered.length === articles.length) {
@@ -324,7 +326,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    const saved = saveStoredBlogArticles(filtered);
+    const saved = await saveStoredBlogArticlesAsync(filtered);
     if (!saved) {
       return NextResponse.json(
         { success: false, message: "Failed to delete article from disk" },

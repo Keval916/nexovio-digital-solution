@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { ROUTES, EXCLUDED_FROM_SITEMAP } from "@/src/lib/routes";
 import { SITE_URL } from "@/src/lib/seo";
-import { getStoredBlogArticles } from "@/src/lib/blog-storage";
+import { getStoredBlogArticlesAsync } from "@/src/lib/blog-storage";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -16,7 +16,7 @@ function priorityFor(route: string): number {
   return depth === 1 ? 0.8 : 0.64;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
   const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
 
@@ -35,7 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
 
   // 2. Dynamic Blog Articles from admin storage (with custom publish dates, priority & canonicals)
-  const blogArticles = getStoredBlogArticles();
+  const blogArticles = await getStoredBlogArticlesAsync();
   const blogEntries: MetadataRoute.Sitemap = blogArticles
     .filter((article) => !article.noIndex)
     .map((article) => {
