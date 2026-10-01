@@ -46,9 +46,19 @@ export default function BlogHubPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [articles, setArticles] = useState<BlogArticle[]>(BLOG_ARTICLES);
 
-  // Dynamically sync categories from admin/storage
+  // Dynamically sync categories and latest articles from admin/storage
   useEffect(() => {
+    fetch("/api/admin/blog")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.articles) && data.articles.length > 0) {
+          setArticles(data.articles);
+        }
+      })
+      .catch(() => {});
+
     fetch("/api/admin/categories")
       .then((r) => r.json())
       .then((data) => {
@@ -83,7 +93,7 @@ export default function BlogHubPage() {
 
   // Filtered Articles based on category and search query (sorted newest first)
   const filteredArticles = useMemo(() => {
-    return [...BLOG_ARTICLES]
+    return [...articles]
       .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
       .filter((article) => {
         const matchesCategory =
@@ -98,7 +108,7 @@ export default function BlogHubPage() {
           (article.keywords && article.keywords.some((k) => k.toLowerCase().includes(q)));
         return matchesCategory && matchesSearch;
       });
-  }, [selectedCategory, searchQuery]);
+  }, [articles, selectedCategory, searchQuery]);
 
   // Pagination calculations
   const totalArticles = filteredArticles.length;

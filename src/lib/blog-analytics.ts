@@ -33,7 +33,12 @@ export interface BlogAnalyticsData {
   };
 }
 
+import os from "os";
+
 const ANALYTICS_FILE_PATH = path.join(process.cwd(), "src", "data", "blog-analytics.json");
+const TMP_ANALYTICS_FILE_PATH = path.join(os.tmpdir(), "nexovio-blog-analytics.json");
+
+let memoryAnalyticsCache: BlogAnalyticsData | null = null;
 
 function generateDefaultAnalytics(): BlogAnalyticsData {
   const articles = getStoredBlogArticles();
@@ -68,18 +73,35 @@ function generateDefaultAnalytics(): BlogAnalyticsData {
 }
 
 export function getBlogAnalytics(): BlogAnalyticsData {
-  try {
-    if (!fs.existsSync(ANALYTICS_FILE_PATH)) {
-      const initial = generateDefaultAnalytics();
-      fs.writeFileSync(ANALYTICS_FILE_PATH, JSON.stringify(initial, null, 2), "utf-8");
-      return initial;
-    }
-    const raw = fs.readFileSync(ANALYTICS_FILE_PATH, "utf-8");
-    return JSON.parse(raw) as BlogAnalyticsData;
-  } catch (error) {
-    console.error("Error reading blog-analytics.json:", error);
-    return generateDefaultAnalytics();
+  if (memoryAnalyticsCache) {
+    return memoryAnalyticsCache;
   }
+
+  try {
+    if (fs.existsSync(TMP_ANALYTICS_FILE_PATH)) {
+      const raw = fs.readFileSync(TMP_ANALYTICS_FILE_PATH, "utf-8");
+      const parsed = JSON.parse(raw) as BlogAnalyticsData;
+      memoryAnalyticsCache = parsed;
+      return parsed;
+    }
+  } catch (err) {
+    console.warn("Could not read TMP analytics:", err);
+  }
+
+  try {
+    if (fs.existsSync(ANALYTICS_FILE_PATH)) {
+      const raw = fs.readFileSync(ANALYTICS_FILE_PATH, "utf-8");
+      const parsed = JSON.parse(raw) as BlogAnalyticsData;
+      memoryAnalyticsCache = parsed;
+      return parsed;
+    }
+  } catch (error) {
+    console.warn("Could not read DATA analytics:", error);
+  }
+
+  const initial = generateDefaultAnalytics();
+  memoryAnalyticsCache = initial;
+  return initial;
 }
 
 export function recordArticleView(
@@ -146,7 +168,24 @@ export function recordArticleView(
       }
     }
 
-    fs.writeFileSync(ANALYTICS_FILE_PATH, JSON.stringify(data, null, 2), "utf-8");
+    memoryAnalyticsCache = data;
+    const jsonContent = JSON.stringify(data, null, 2);
+
+    try {
+      const dir = path.dirname(ANALYTICS_FILE_PATH);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(ANALYTICS_FILE_PATH, jsonContent, "utf-8");
+    } catch (writeErr: any) {
+      // Expected in serverless environments like Vercel (read-only filesystem)
+      try {
+        fs.writeFileSync(TMP_ANALYTICS_FILE_PATH, jsonContent, "utf-8");
+      } catch (tmpErr) {
+        // Ignore tmp write warnings for view tracking
+      }
+    }
+
     return {
       totalViews: data.totalViews,
       postViews: data.postViews[slug].views,

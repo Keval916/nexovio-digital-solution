@@ -240,6 +240,9 @@ export default function BlogAdmin() {
   // Step-by-Step Editor Navigation Sub-Tab
   const [editorStep, setEditorStep] = useState<"content" | "design" | "seo" | "social" | "publish">("content");
 
+  // Storage Mode reported from backend (local, serverless, or github)
+  const [storageMode, setStorageMode] = useState<"local" | "serverless" | "github">("local");
+
   // Subscribers State
   const [subscribers, setSubscribers] = useState<SubscriberItem[]>([]);
   const [loadingSubscribers, setLoadingSubscribers] = useState<boolean>(false);
@@ -290,6 +293,17 @@ export default function BlogAdmin() {
   // Rich Text Editor Ref
   const editorRef = useRef<HTMLDivElement>(null);
 
+  // Switch editor step safely without losing content
+  const switchEditorStep = (step: "content" | "design" | "seo" | "social" | "publish") => {
+    syncEditorContent();
+    setEditorStep(step);
+  };
+
+  // Download raw JSON database
+  const handleDownloadArticlesJson = () => {
+    window.open("/api/admin/blog?export=true", "_blank");
+  };
+
   // Toast Notifications
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
 
@@ -315,6 +329,9 @@ export default function BlogAdmin() {
       const data = await res.json();
       if (data.articles) {
         setArticles(data.articles);
+      }
+      if (data.storageMode) {
+        setStorageMode(data.storageMode);
       }
     } catch (err) {
       console.error("Failed to fetch articles:", err);
@@ -587,12 +604,14 @@ export default function BlogAdmin() {
   const handleAddNewPost = () => {
     setIsEditing(false);
     setEditorStep("content");
+    const initialContent = "<p>Start writing your article content here...</p>";
     setForm({
       ...EMPTY_FORM,
+      content: initialContent,
       publishedAt: getTodayDateString(),
     });
-    if (editorRef.current) {
-      editorRef.current.innerHTML = "<p>Start writing your article content here...</p>";
+    if (editorRef.current && !isHtmlSourceMode) {
+      editorRef.current.innerHTML = initialContent;
     }
     setActiveTab("editor");
   };
@@ -641,12 +660,21 @@ export default function BlogAdmin() {
       changeFreq: (article.changeFreq as any) || "weekly",
     });
 
-    if (editorRef.current) {
+    if (editorRef.current && !isHtmlSourceMode) {
       editorRef.current.innerHTML = formattedContent;
     }
 
     setActiveTab("editor");
   };
+
+  // Keep editor content synchronized when entering editor mode
+  useEffect(() => {
+    if (activeTab === "editor" && editorRef.current && !isHtmlSourceMode) {
+      if (editorRef.current.innerHTML !== form.content) {
+        editorRef.current.innerHTML = form.content || "";
+      }
+    }
+  }, [activeTab, isHtmlSourceMode, form.id]);
 
   // Title change with auto-slugification
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1495,7 +1523,35 @@ export default function BlogAdmin() {
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            {/* Storage Mode Badge */}
+            {storageMode === "github" ? (
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200" title="Connected to GitHub repository. Changes auto-deploy on publish.">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                GitHub Auto-Deploy Active
+              </span>
+            ) : storageMode === "serverless" ? (
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200" title="Serverless storage active. Articles saved to runtime cache. Add GITHUB_TOKEN to Vercel for Git auto-commit.">
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                Serverless Storage
+              </span>
+            ) : (
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200" title="Local disk storage">
+                <span className="w-2 h-2 rounded-full bg-blue-500" />
+                Local Disk Mode
+              </span>
+            )}
+
+            <button
+              type="button"
+              onClick={handleDownloadArticlesJson}
+              title="Download backup copy of blog-posts.json"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs"
+            >
+              <Download className="w-3.5 h-3.5 text-slate-500" />
+              <span className="hidden sm:inline">Export JSON</span>
+            </button>
+
             {activeTab !== "editor" && (
               <button
                 type="button"
@@ -2245,7 +2301,7 @@ export default function BlogAdmin() {
           {/* VIEW 3: STEP-BY-STEP ARTICLE EDITOR */}
           {/* ================================================================= */}
           {activeTab === "editor" && (
-            <div className="p-6 sm:p-8 space-y-6 max-w-6xl mx-auto">
+            <div className="p-6 sm:p-8 space-y-6 max-w-7xl mx-auto">
               {/* Top Editor Header with Actions */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
                 <div>
@@ -2311,7 +2367,7 @@ export default function BlogAdmin() {
               <div className="flex items-center gap-1 p-1.5 rounded-2xl bg-slate-200/70 overflow-x-auto text-xs font-bold shadow-inner">
                 <button
                   type="button"
-                  onClick={() => setEditorStep("content")}
+                  onClick={() => switchEditorStep("content")}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all whitespace-nowrap ${editorStep === "content"
                     ? "bg-white text-[#1769FF] shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -2323,7 +2379,7 @@ export default function BlogAdmin() {
 
                 <button
                   type="button"
-                  onClick={() => setEditorStep("design")}
+                  onClick={() => switchEditorStep("design")}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all whitespace-nowrap ${editorStep === "design"
                     ? "bg-white text-[#1769FF] shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -2335,7 +2391,7 @@ export default function BlogAdmin() {
 
                 <button
                   type="button"
-                  onClick={() => setEditorStep("seo")}
+                  onClick={() => switchEditorStep("seo")}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all whitespace-nowrap ${editorStep === "seo"
                     ? "bg-white text-[#1769FF] shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -2350,7 +2406,7 @@ export default function BlogAdmin() {
 
                 <button
                   type="button"
-                  onClick={() => setEditorStep("social")}
+                  onClick={() => switchEditorStep("social")}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all whitespace-nowrap ${editorStep === "social"
                     ? "bg-white text-[#1769FF] shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -2362,7 +2418,7 @@ export default function BlogAdmin() {
 
                 <button
                   type="button"
-                  onClick={() => setEditorStep("publish")}
+                  onClick={() => switchEditorStep("publish")}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl transition-all whitespace-nowrap ${editorStep === "publish"
                     ? "bg-white text-[#1769FF] shadow-xs"
                     : "text-slate-600 hover:text-slate-900"
@@ -2376,8 +2432,7 @@ export default function BlogAdmin() {
               {/* ============================================================= */}
               {/* STEP 1: CONTENT & WYSIWYG EDITOR */}
               {/* ============================================================= */}
-              {editorStep === "content" && (
-                <div className="space-y-6">
+              <div className={editorStep === "content" ? "space-y-6" : "hidden"}>
                   {/* Title, Category & Slug Card */}
                   <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
                     {/* Category Selection Row right in Step 1 */}
@@ -2453,21 +2508,14 @@ export default function BlogAdmin() {
                             setForm((prev) => ({ ...prev, publishedAt: today }));
                             showToast(`Date set to today (${formatDate(today)})`);
                           }}
-                          className={`text-xs font-bold px-2.5 py-1 rounded-lg border transition-colors cursor-pointer ${
-                            form.publishedAt === getTodayDateString()
-                              ? "bg-blue-50 border-blue-200 text-[#1769FF]"
-                              : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
-                          }`}
+                          className={`text-xs font-bold px-2.5 py-1 rounded-lg border transition-colors cursor-pointer ${form.publishedAt === getTodayDateString()
+                            ? "bg-blue-50 border-blue-200 text-[#1769FF]"
+                            : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
+                            }`}
                           title="Click to set date to today"
                         >
                           {form.publishedAt === getTodayDateString() ? "✓ Today" : "Set to Today"}
                         </button>
-
-                        {/* Live reader-facing preview */}
-                        <span className="text-xs text-slate-500 font-medium inline-flex items-center gap-1.5 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/60">
-                          <span className="text-slate-400">Readers will see:</span>
-                          <span className="font-bold text-slate-800">{formatDate(form.publishedAt) || "Select a date"}</span>
-                        </span>
                       </div>
 
                       <span className="text-[11px] text-slate-400">
@@ -2794,7 +2842,7 @@ export default function BlogAdmin() {
 
                       <button
                         type="button"
-                        onClick={() => setEditorStep("design")}
+                        onClick={() => switchEditorStep("design")}
                         className="ml-auto text-[11px] font-bold text-purple-700 hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         <span>Explore All Design Styles →</span>
@@ -2813,7 +2861,12 @@ export default function BlogAdmin() {
                         />
                       ) : (
                         <div
-                          ref={editorRef}
+                          ref={(node) => {
+                            (editorRef as any).current = node;
+                            if (node && !isHtmlSourceMode && node.innerHTML !== form.content) {
+                              node.innerHTML = form.content || "";
+                            }
+                          }}
                           contentEditable
                           suppressContentEditableWarning
                           onInput={syncEditorContent}
@@ -2840,7 +2893,7 @@ export default function BlogAdmin() {
                     </div>
                     <button
                       type="button"
-                      onClick={() => setEditorStep("design")}
+                      onClick={() => switchEditorStep("design")}
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
                     >
                       <span>Next: 2. Design Elements &amp; Quotes</span>
@@ -2848,14 +2901,12 @@ export default function BlogAdmin() {
                     </button>
                   </div>
                 </div>
-              )}
 
               {/* ============================================================= */}
               {/* STEP 2: DESIGN PALETTE, TABLES & MULTI-COLOR QUOTES */}
               {/* ============================================================= */}
-              {editorStep === "design" && (
-                <div className="space-y-6">
-                  <div className="p-5 rounded-2xl border border-blue-200 bg-blue-50/50 space-y-1">
+              <div className={editorStep === "design" ? "space-y-6" : "hidden"}>
+                <div className="p-5 rounded-2xl border border-blue-200 bg-blue-50/50 space-y-1">
                     <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                       <Palette className="w-4 h-4 text-[#1769FF]" />
                       <span>Design Elements &amp; Quote Palette</span>
@@ -3121,7 +3172,7 @@ export default function BlogAdmin() {
                   <div className="flex items-center justify-between pt-2">
                     <button
                       type="button"
-                      onClick={() => setEditorStep("content")}
+                      onClick={() => switchEditorStep("content")}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
                     >
                       <ChevronLeft className="w-3.5 h-3.5" />
@@ -3130,7 +3181,7 @@ export default function BlogAdmin() {
 
                     <button
                       type="button"
-                      onClick={() => setEditorStep("seo")}
+                      onClick={() => switchEditorStep("seo")}
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
                     >
                       <span>Next: 3. Google SEO Suite</span>
@@ -3138,13 +3189,11 @@ export default function BlogAdmin() {
                     </button>
                   </div>
                 </div>
-              )}
 
               {/* ============================================================= */}
               {/* STEP 3: SEARCH ENGINE OPTIMIZATION (SEO) SUITE */}
               {/* ============================================================= */}
-              {editorStep === "seo" && (
-                <div className="space-y-6">
+              <div className={editorStep === "seo" ? "space-y-6" : "hidden"}>
                   {/* SEO Score Banner */}
                   <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
@@ -3395,7 +3444,7 @@ export default function BlogAdmin() {
                   <div className="flex items-center justify-between pt-2">
                     <button
                       type="button"
-                      onClick={() => setEditorStep("design")}
+                      onClick={() => switchEditorStep("design")}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
                     >
                       <ChevronLeft className="w-3.5 h-3.5" />
@@ -3404,7 +3453,7 @@ export default function BlogAdmin() {
 
                     <button
                       type="button"
-                      onClick={() => setEditorStep("social")}
+                      onClick={() => switchEditorStep("social")}
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
                     >
                       <span>Next: 4. Social Media Cards</span>
@@ -3412,13 +3461,11 @@ export default function BlogAdmin() {
                     </button>
                   </div>
                 </div>
-              )}
 
               {/* ============================================================= */}
               {/* STEP 4: SOCIAL MEDIA CARDS (OPEN GRAPH & TWITTER) */}
               {/* ============================================================= */}
-              {editorStep === "social" && (
-                <div className="space-y-6">
+              <div className={editorStep === "social" ? "space-y-6" : "hidden"}>
                   <div className="p-5 rounded-2xl border border-cyan-200 bg-cyan-50/50 space-y-1">
                     <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                       <Share2 className="w-4 h-4 text-cyan-600" />
@@ -3592,7 +3639,7 @@ export default function BlogAdmin() {
                   <div className="flex items-center justify-between pt-2">
                     <button
                       type="button"
-                      onClick={() => setEditorStep("seo")}
+                      onClick={() => switchEditorStep("seo")}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
                     >
                       <ChevronLeft className="w-3.5 h-3.5" />
@@ -3601,7 +3648,7 @@ export default function BlogAdmin() {
 
                     <button
                       type="button"
-                      onClick={() => setEditorStep("publish")}
+                      onClick={() => switchEditorStep("publish")}
                       className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
                     >
                       <span>Next: 5. Publishing &amp; Cover</span>
@@ -3609,13 +3656,11 @@ export default function BlogAdmin() {
                     </button>
                   </div>
                 </div>
-              )}
 
               {/* ============================================================= */}
               {/* STEP 5: PUBLISHING & COVER IMAGE & SCHEMA */}
               {/* ============================================================= */}
-              {editorStep === "publish" && (
-                <div className="space-y-6">
+              <div className={editorStep === "publish" ? "space-y-6" : "hidden"}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Featured Cover Image */}
                     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
@@ -3868,7 +3913,7 @@ export default function BlogAdmin() {
                   <div className="flex items-center justify-between pt-2">
                     <button
                       type="button"
-                      onClick={() => setEditorStep("social")}
+                      onClick={() => switchEditorStep("social")}
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
                     >
                       <ChevronLeft className="w-3.5 h-3.5" />
@@ -3886,7 +3931,6 @@ export default function BlogAdmin() {
                     </button>
                   </div>
                 </div>
-              )}
             </div>
           )}
 

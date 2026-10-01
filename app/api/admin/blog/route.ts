@@ -11,11 +11,31 @@ import { getTodayDateString } from "@/src/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-// GET: Fetch all blog articles
-export async function GET() {
+// GET: Fetch all blog articles (or export raw JSON)
+export async function GET(req: NextRequest) {
   try {
+    const { searchParams } = new URL(req.url);
     const articles = getStoredBlogArticles();
-    return NextResponse.json({ success: true, articles });
+
+    if (searchParams.get("export") === "true") {
+      const jsonString = JSON.stringify(articles, null, 2);
+      return new NextResponse(jsonString, {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          "Content-Disposition": `attachment; filename="blog-posts.json"`,
+        },
+      });
+    }
+
+    const storageMode =
+      process.env.GITHUB_TOKEN || process.env.GH_TOKEN
+        ? "github"
+        : process.env.VERCEL
+        ? "serverless"
+        : "local";
+
+    return NextResponse.json({ success: true, articles, storageMode });
   } catch (error) {
     console.error("API GET /api/admin/blog error:", error);
     return NextResponse.json(

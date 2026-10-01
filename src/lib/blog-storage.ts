@@ -1,30 +1,97 @@
 import fs from "fs";
 import path from "path";
+import os from "os";
 import { BlogArticle } from "@/src/data/blog";
+import bundledBlogPosts from "@/src/data/blog-posts.json";
+import { syncFileToGitHub } from "./github-sync";
 
 const DATA_FILE_PATH = path.join(process.cwd(), "src", "data", "blog-posts.json");
+const TMP_FILE_PATH = path.join(os.tmpdir(), "nexovio-blog-posts.json");
+
+// In-memory cache for ultra-fast response and serverless continuity
+let memoryArticlesCache: BlogArticle[] | null = null;
 
 export function getStoredBlogArticles(): BlogArticle[] {
-  try {
-    if (!fs.existsSync(DATA_FILE_PATH)) {
-      return [];
-    }
-    const data = fs.readFileSync(DATA_FILE_PATH, "utf-8");
-    return JSON.parse(data) as BlogArticle[];
-  } catch (error) {
-    console.error("Error reading blog-posts.json:", error);
-    return [];
+  if (memoryArticlesCache && Array.isArray(memoryArticlesCache) && memoryArticlesCache.length > 0) {
+    return memoryArticlesCache;
   }
+
+  // 1. Try reading from temporary writable filesystem (updated in serverless)
+  try {
+    if (fs.existsSync(TMP_FILE_PATH)) {
+      const data = fs.readFileSync(TMP_FILE_PATH, "utf-8");
+      const parsed = JSON.parse(data) as BlogArticle[];
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        memoryArticlesCache = parsed;
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.warn("Could not read from TMP_FILE_PATH:", err);
+  }
+
+  // 2. Try reading from project workspace src/data/blog-posts.json
+  try {
+    if (fs.existsSync(DATA_FILE_PATH)) {
+      const data = fs.readFileSync(DATA_FILE_PATH, "utf-8");
+      const parsed = JSON.parse(data) as BlogArticle[];
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        memoryArticlesCache = parsed;
+        return parsed;
+      }
+    }
+  } catch (error) {
+    console.warn("Could not read from DATA_FILE_PATH:", error);
+  }
+
+  // 3. Fallback to statically bundled JSON articles
+  if (Array.isArray(bundledBlogPosts) && bundledBlogPosts.length > 0) {
+    memoryArticlesCache = bundledBlogPosts as BlogArticle[];
+    return memoryArticlesCache;
+  }
+
+  return [];
 }
 
 export function saveStoredBlogArticles(articles: BlogArticle[]): boolean {
+  // Always update in-memory cache immediately
+  memoryArticlesCache = articles;
+  const jsonContent = JSON.stringify(articles, null, 2);
+  let savedLocallyOrTmp = false;
+
+  // 1. Try persisting to local repository disk (standard Node server / local dev)
   try {
-    fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(articles, null, 2), "utf-8");
-    return true;
-  } catch (error) {
-    console.error("Error writing to blog-posts.json:", error);
-    return false;
+    const dir = path.dirname(DATA_FILE_PATH);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(DATA_FILE_PATH, jsonContent, "utf-8");
+    savedLocallyOrTmp = true;
+  } catch (error: any) {
+    // Expected in serverless environments like Vercel (read-only filesystem)
+    console.warn("[blog-storage] Read-only disk detected (EROFS). Falling back to /tmp and Git sync:", error?.message);
   }
+
+  // 2. Write to os.tmpdir() so serverless function instances retain state
+  try {
+    fs.writeFileSync(TMP_FILE_PATH, jsonContent, "utf-8");
+    savedLocallyOrTmp = true;
+  } catch (tmpErr) {
+    console.warn("[blog-storage] Warning writing to TMP_FILE_PATH:", tmpErr);
+  }
+
+  // 3. If GITHUB_TOKEN is configured in Vercel/Production, commit directly to GitHub repository
+  if (process.env.GITHUB_TOKEN || process.env.GH_TOKEN) {
+    syncFileToGitHub(
+      "src/data/blog-posts.json",
+      jsonContent,
+      `chore(blog): update articles via Admin Studio [${new Date().toISOString()}]`
+    ).catch((ghErr) => {
+      console.error("[blog-storage] GitHub Auto-Sync background error:", ghErr);
+    });
+  }
+
+  return savedLocallyOrTmp || Boolean(memoryArticlesCache);
 }
 
 export function calculateReadingTime(content: string[] | string): string {

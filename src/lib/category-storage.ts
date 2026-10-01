@@ -12,7 +12,13 @@ export interface BlogCategory {
   createdAt?: string;
 }
 
+import os from "os";
+import { syncFileToGitHub } from "./github-sync";
+
 const CATEGORIES_FILE_PATH = path.join(process.cwd(), "src", "data", "blog-categories.json");
+const TMP_CATEGORIES_FILE_PATH = path.join(os.tmpdir(), "nexovio-blog-categories.json");
+
+let memoryCategoriesCache: BlogCategory[] | null = null;
 
 const DEFAULT_CATEGORIES: BlogCategory[] = [
   {
@@ -66,41 +72,74 @@ const DEFAULT_CATEGORIES: BlogCategory[] = [
 ];
 
 export function getStoredCategories(): BlogCategory[] {
-  try {
-    if (!fs.existsSync(CATEGORIES_FILE_PATH)) {
-      saveStoredCategories(DEFAULT_CATEGORIES);
-      return DEFAULT_CATEGORIES;
-    }
-    const data = fs.readFileSync(CATEGORIES_FILE_PATH, "utf-8");
-    const categories = JSON.parse(data) as BlogCategory[];
+  let categories: BlogCategory[] = DEFAULT_CATEGORIES;
 
-    // Calculate dynamic article count for each category
-    const articles = getStoredBlogArticles();
-    return categories.map((cat) => {
-      const count = articles.filter(
-        (a) => a.category.toLowerCase().trim() === cat.name.toLowerCase().trim()
-      ).length;
-      return {
-        ...cat,
-        articleCount: count,
-      };
-    });
-  } catch (error) {
-    console.error("Error reading blog-categories.json:", error);
-    return DEFAULT_CATEGORIES;
+  if (memoryCategoriesCache && memoryCategoriesCache.length > 0) {
+    categories = memoryCategoriesCache;
+  } else {
+    try {
+      if (fs.existsSync(TMP_CATEGORIES_FILE_PATH)) {
+        const data = fs.readFileSync(TMP_CATEGORIES_FILE_PATH, "utf-8");
+        categories = JSON.parse(data) as BlogCategory[];
+        memoryCategoriesCache = categories;
+      } else if (fs.existsSync(CATEGORIES_FILE_PATH)) {
+        const data = fs.readFileSync(CATEGORIES_FILE_PATH, "utf-8");
+        categories = JSON.parse(data) as BlogCategory[];
+        memoryCategoriesCache = categories;
+      }
+    } catch (error) {
+      console.warn("[category-storage] Error reading categories file, using defaults:", error);
+      categories = DEFAULT_CATEGORIES;
+    }
   }
+
+  // Calculate dynamic article count for each category
+  const articles = getStoredBlogArticles();
+  return categories.map((cat) => {
+    const count = articles.filter(
+      (a) => a.category.toLowerCase().trim() === cat.name.toLowerCase().trim()
+    ).length;
+    return {
+      ...cat,
+      articleCount: count,
+    };
+  });
 }
 
 export function saveStoredCategories(categories: BlogCategory[]): boolean {
+  // Strip temporary articleCount before persisting
+  const cleaned = categories.map(({ articleCount, ...rest }) => rest);
+  memoryCategoriesCache = cleaned;
+  const jsonContent = JSON.stringify(cleaned, null, 2);
+  let saved = false;
+
   try {
-    // Strip temporary articleCount before persisting
-    const cleaned = categories.map(({ articleCount, ...rest }) => rest);
-    fs.writeFileSync(CATEGORIES_FILE_PATH, JSON.stringify(cleaned, null, 2), "utf-8");
-    return true;
-  } catch (error) {
-    console.error("Error writing to blog-categories.json:", error);
-    return false;
+    const dir = path.dirname(CATEGORIES_FILE_PATH);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(CATEGORIES_FILE_PATH, jsonContent, "utf-8");
+    saved = true;
+  } catch (error: any) {
+    console.warn("[category-storage] Read-only disk detected (EROFS). Falling back to /tmp and Git sync:", error?.message);
   }
+
+  try {
+    fs.writeFileSync(TMP_CATEGORIES_FILE_PATH, jsonContent, "utf-8");
+    saved = true;
+  } catch (tmpErr) {
+    console.warn("[category-storage] Warning writing to TMP_CATEGORIES_FILE_PATH:", tmpErr);
+  }
+
+  if (process.env.GITHUB_TOKEN || process.env.GH_TOKEN) {
+    syncFileToGitHub(
+      "src/data/blog-categories.json",
+      jsonContent,
+      `chore(blog): update categories via Admin Studio [${new Date().toISOString()}]`
+    ).catch((err) => console.error("[category-storage] GitHub sync error:", err));
+  }
+
+  return saved || Boolean(memoryCategoriesCache);
 }
 
 export function generateCategorySlug(name: string): string {
