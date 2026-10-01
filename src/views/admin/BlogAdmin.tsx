@@ -20,6 +20,10 @@ import {
   Sparkles,
   Layers,
   FileText,
+  Users,
+  Download,
+  Mail,
+  Table,
   Eye,
   EyeOff,
   RefreshCw,
@@ -143,7 +147,19 @@ export default function BlogAdmin() {
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
 
   // Active Admin View (sidebar navigation)
-  const [activeTab, setActiveTab] = useState<"dashboard" | "posts" | "editor" | "media">("posts");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "posts" | "editor" | "media" | "subscribers">("posts");
+
+  // Subscribers State
+  interface SubscriberItem {
+    id: string;
+    email: string;
+    subscribedAt: string;
+    source: string;
+    status: "active" | "unsubscribed";
+  }
+  const [subscribers, setSubscribers] = useState<SubscriberItem[]>([]);
+  const [loadingSubscribers, setLoadingSubscribers] = useState<boolean>(false);
+  const [subscriberSearch, setSubscriberSearch] = useState<string>("");
 
   // Articles & Data
   const [articles, setArticles] = useState<BlogArticle[]>([]);
@@ -217,10 +233,74 @@ export default function BlogAdmin() {
     }
   };
 
+  // Fetch newsletter subscribers
+  const fetchSubscribers = async () => {
+    setLoadingSubscribers(true);
+    try {
+      const res = await fetch("/api/newsletter", { cache: "no-store" });
+      const data = await res.json();
+      if (data.subscribers) {
+        setSubscribers(data.subscribers);
+      }
+    } catch (err) {
+      console.error("Failed to fetch subscribers:", err);
+      showToast("Failed to fetch subscribers", "error");
+    } finally {
+      setLoadingSubscribers(false);
+    }
+  };
+
+  // Delete subscriber
+  const handleDeleteSubscriber = async (id: string, email: string) => {
+    if (!confirm(`Are you sure you want to remove subscriber ${email}?`)) return;
+    try {
+      const res = await fetch(`/api/newsletter?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast("Subscriber removed successfully");
+        await fetchSubscribers();
+      } else {
+        showToast(data.message || "Failed to remove subscriber", "error");
+      }
+    } catch (err) {
+      console.error("Delete subscriber error:", err);
+      showToast("Error deleting subscriber", "error");
+    }
+  };
+
+  // Export subscribers to CSV
+  const handleExportSubscribersCsv = () => {
+    if (subscribers.length === 0) {
+      showToast("No subscribers to export", "error");
+      return;
+    }
+    const headers = ["ID", "Email", "Subscribed At", "Source", "Status"];
+    const rows = subscribers.map((s) => [
+      `"${s.id}"`,
+      `"${s.email}"`,
+      `"${s.subscribedAt}"`,
+      `"${s.source}"`,
+      `"${s.status}"`,
+    ]);
+    const csvContent = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `nexovio-subscribers-${new Date().toISOString().split("T")[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast("Subscribers exported to CSV!");
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       fetchArticles();
       fetchImages();
+      fetchSubscribers();
     }
   }, [isAuthenticated]);
 
@@ -390,6 +470,22 @@ export default function BlogAdmin() {
       }
     }
     showToast("Image inserted into editor!");
+  };
+
+  // Insert custom common design block (Card, Table, Tip, Warning, Infographic, 2-Col)
+  const insertCustomHtml = (htmlSnippet: string) => {
+    if (isHtmlSourceMode) {
+      setForm((prev) => ({
+        ...prev,
+        content: prev.content + "\n" + htmlSnippet + "\n",
+      }));
+    } else {
+      executeCommand("insertHTML", htmlSnippet);
+      if (editorRef.current) {
+        setForm((prev) => ({ ...prev, content: editorRef.current?.innerHTML || "" }));
+      }
+    }
+    showToast("Design block inserted into editor!");
   };
 
   // Upload file handler
@@ -903,6 +999,27 @@ export default function BlogAdmin() {
                 {availableImages.length}
               </span>
             </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                fetchSubscribers();
+                setActiveTab("subscribers");
+              }}
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all ${
+                activeTab === "subscribers"
+                  ? "bg-blue-50 text-[#1769FF] font-bold shadow-xs border border-blue-100"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                <Users className="w-4 h-4 text-[#1769FF]" />
+                <span>Subscribers</span>
+              </div>
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-blue-100 text-[#1769FF] font-bold">
+                {subscribers.length}
+              </span>
+            </button>
           </nav>
         </div>
 
@@ -957,6 +1074,8 @@ export default function BlogAdmin() {
                 ? isEditing
                   ? "Edit Article"
                   : "Add New Article"
+                : activeTab === "subscribers"
+                ? "Newsletter Subscribers"
                 : activeTab}
             </span>
           </div>
@@ -1421,6 +1540,80 @@ export default function BlogAdmin() {
                     </button>
                   </div>
 
+                  {/* QUICK INSERT COMMON DESIGN ELEMENTS (Cards, Tables, Tips, Figures) */}
+                  <div className="flex items-center gap-1.5 flex-wrap py-2 px-3 bg-blue-50/70 border-b border-slate-200 text-xs">
+                    <span className="text-[11px] font-bold text-[#1769FF] font-mono mr-1 uppercase flex items-center gap-1">
+                      <Sparkles className="w-3 h-3" />
+                      + Add Design Element:
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        insertCustomHtml(
+                          `<div class="blog-card"><div class="blog-card-title">Key Architectural Highlight</div><p>Explain key technical concept or strategic takeaway here...</p></div><p><br></p>`
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 hover:border-[#1769FF] hover:text-[#1769FF] transition-all font-medium text-[11px] shadow-xs cursor-pointer"
+                    >
+                      + Callout Card
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        insertCustomHtml(
+                          `<div class="blog-tip"><p><strong>Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial JavaScript bundle size.</p></div><p><br></p>`
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 transition-all font-medium text-[11px] cursor-pointer"
+                    >
+                      + Pro Tip
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        insertCustomHtml(
+                          `<div class="blog-warning"><p><strong>Important Note:</strong> Avoid chaining multiple client-side redirects as this degrades crawl equity and LCP latency.</p></div><p><br></p>`
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 transition-all font-medium text-[11px] cursor-pointer"
+                    >
+                      + Warning Box
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        insertCustomHtml(
+                          `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Evaluation Pillar</th><th>Custom Next.js Stack</th><th>Visual Site Builders</th></tr></thead><tbody><tr><td>Core Web Vitals</td><td>100/100 LCP &amp; Zero Shift</td><td>Degraded Script Bloat</td></tr><tr><td>SEO Control</td><td>Granular JSON-LD &amp; Edge Headers</td><td>Restricted Canonical Settings</td></tr><tr><td>Custom API Scalability</td><td>Full Node.js/Edge Microservices</td><td>Walled Garden Plugins</td></tr></tbody></table></div><p><br></p>`
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 hover:border-[#1769FF] hover:text-[#1769FF] transition-all font-medium text-[11px] shadow-xs cursor-pointer"
+                    >
+                      + Comparison Table
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        insertCustomHtml(
+                          `<div class="blog-figure"><img src="/images/blog/custom-web-development-vs-website-builders.webp" alt="Architecture Diagram" /><div class="blog-caption">Figure 1: Architectural Latency &amp; Rendering Pipeline</div></div><p><br></p>`
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 hover:border-[#1769FF] hover:text-[#1769FF] transition-all font-medium text-[11px] shadow-xs cursor-pointer"
+                    >
+                      + Infographic Figure
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        insertCustomHtml(
+                          `<div class="blog-grid-2"><div class="blog-card"><div class="blog-card-title">Approach A</div><p>Description of approach A...</p></div><div class="blog-card"><div class="blog-card-title">Approach B</div><p>Description of approach B...</p></div></div><p><br></p>`
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 hover:border-[#1769FF] hover:text-[#1769FF] transition-all font-medium text-[11px] shadow-xs cursor-pointer"
+                    >
+                      + 2-Column Cards
+                    </button>
+                  </div>
+
                   {/* Content Editing Canvas */}
                   <div className="p-6 min-h-[440px] bg-white">
                     {isHtmlSourceMode ? (
@@ -1438,7 +1631,7 @@ export default function BlogAdmin() {
                         suppressContentEditableWarning
                         onInput={syncEditorContent}
                         onBlur={syncEditorContent}
-                        className="w-full min-h-[400px] focus:outline-none text-slate-800 text-sm leading-relaxed space-y-4 font-sans [&_h1]:text-3xl [&_h1]:font-extrabold [&_h1]:text-slate-900 [&_h1]:mt-6 [&_h1]:mb-3 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-slate-900 [&_h3]:mt-4 [&_h3]:mb-2 [&_p]:text-slate-700 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-1 [&_blockquote]:border-l-4 [&_blockquote]:border-[#1769FF] [&_blockquote]:bg-blue-50/50 [&_blockquote]:pl-4 [&_blockquote]:py-2 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote]:rounded-r-lg [&_a]:text-[#1769FF] [&_a]:underline [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full [&_img]:border [&_img]:border-slate-200 [&_hr]:my-6 [&_hr]:border-slate-200"
+                        className="w-full min-h-[400px] focus:outline-none blog-content text-slate-800 text-sm leading-relaxed space-y-4 font-sans [&_h1]:text-3xl [&_h1]:font-extrabold [&_h1]:text-slate-900 [&_h1]:mt-6 [&_h1]:mb-3 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-slate-900 [&_h3]:mt-4 [&_h3]:mb-2 [&_p]:text-slate-700 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-1 [&_blockquote]:border-l-4 [&_blockquote]:border-[#1769FF] [&_blockquote]:bg-blue-50/50 [&_blockquote]:pl-4 [&_blockquote]:py-2 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote]:rounded-r-lg [&_a]:text-[#1769FF] [&_a]:underline [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full [&_img]:border [&_img]:border-slate-200 [&_hr]:my-6 [&_hr]:border-slate-200"
                       />
                     )}
                   </div>
@@ -1450,6 +1643,43 @@ export default function BlogAdmin() {
                       <span>Est. Read Time: <strong className="text-slate-700">{readingTimeEstimate} min</strong></span>
                     </div>
                     <span>Rich Text WYSIWYG Active</span>
+                  </div>
+                </div>
+
+                {/* Common CSS Design Classes Reference Guide Card */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-3">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2 font-mono">
+                      <Sparkles className="w-3.5 h-3.5 text-[#1769FF]" />
+                      Common Design System Classes (Reusable in Content &amp; HTML)
+                    </h4>
+                    <span className="text-[10px] text-slate-500 font-mono">Global Theme Styled</span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs">
+                    <div className="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 space-y-1">
+                      <code className="text-[#1769FF] font-mono font-bold text-[11px] block">.blog-card / .blog-callout</code>
+                      <p className="text-[11px] text-slate-500">Glassmorphic takeaway box with cyan accent border.</p>
+                    </div>
+                    <div className="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 space-y-1">
+                      <code className="text-emerald-600 font-mono font-bold text-[11px] block">.blog-tip</code>
+                      <p className="text-[11px] text-slate-500">Green highlight box for engineering pro-tips.</p>
+                    </div>
+                    <div className="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 space-y-1">
+                      <code className="text-amber-600 font-mono font-bold text-[11px] block">.blog-warning</code>
+                      <p className="text-[11px] text-slate-500">Amber warning box for key architectural pitfalls.</p>
+                    </div>
+                    <div className="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 space-y-1">
+                      <code className="text-[#1769FF] font-mono font-bold text-[11px] block">.blog-table-container &amp; .blog-table</code>
+                      <p className="text-[11px] text-slate-500">Responsive comparison table with styled headers.</p>
+                    </div>
+                    <div className="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 space-y-1">
+                      <code className="text-[#1769FF] font-mono font-bold text-[11px] block">.blog-figure &amp; .blog-caption</code>
+                      <p className="text-[11px] text-slate-500">Infographic image card with centered caption bar.</p>
+                    </div>
+                    <div className="p-2.5 rounded-xl border border-slate-100 bg-slate-50/70 space-y-1">
+                      <code className="text-[#1769FF] font-mono font-bold text-[11px] block">.blog-grid-2 / .blog-grid-3</code>
+                      <p className="text-[11px] text-slate-500">2 or 3 column card grid for side-by-side comparison.</p>
+                    </div>
                   </div>
                 </div>
 
@@ -2288,6 +2518,181 @@ export default function BlogAdmin() {
               >
                 Write New Article
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* VIEW 5: SUBSCRIBERS MANAGEMENT */}
+        {activeTab === "subscribers" && (
+          <div className="p-6 sm:p-8 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+                  Newsletter Subscribers
+                </h2>
+                <p className="text-xs text-slate-500 mt-0.5">
+                  View and manage users who subscribed via the Blog Hub and digital briefing forms.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={fetchSubscribers}
+                  className="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 border border-slate-200 bg-white hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${loadingSubscribers ? "animate-spin" : ""}`} />
+                  <span>Refresh</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleExportSubscribersCsv}
+                  className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1769FF] to-[#00A3FF] hover:brightness-110 transition-all inline-flex items-center gap-1.5 shadow-xs"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Export CSV</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Subscriber Metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">
+                  Total Subscribers
+                </span>
+                <span className="text-2xl font-extrabold text-slate-900">{subscribers.length}</span>
+                <p className="text-[11px] text-slate-400">Total email leads registered</p>
+              </div>
+
+              <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">
+                  Active Delivery Status
+                </span>
+                <span className="text-2xl font-extrabold text-emerald-600">
+                  {subscribers.filter((s) => s.status === "active").length}
+                </span>
+                <p className="text-[11px] text-slate-400">100% active subscribers</p>
+              </div>
+
+              <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-sm space-y-1">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-500 block">
+                  Primary Lead Source
+                </span>
+                <span className="text-lg font-bold text-[#1769FF] block truncate">
+                  Blog Hub Briefing
+                </span>
+                <p className="text-[11px] text-slate-400 font-mono">src/data/subscribers.json</p>
+              </div>
+            </div>
+
+            {/* Search Filter */}
+            <div className="flex items-center justify-between gap-4">
+              <div className="relative flex-1 sm:max-w-sm">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <input
+                  type="text"
+                  value={subscriberSearch}
+                  onChange={(e) => setSubscriberSearch(e.target.value)}
+                  placeholder="Search subscriber emails..."
+                  className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:border-[#1769FF] focus:outline-none focus:ring-1 focus:ring-[#1769FF]/20 shadow-xs"
+                />
+              </div>
+
+              <span className="text-xs text-slate-500">
+                Showing {subscribers.filter((s) => s.email.toLowerCase().includes(subscriberSearch.toLowerCase().trim())).length} of {subscribers.length} subscribers
+              </span>
+            </div>
+
+            {/* Subscribers Table */}
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+              {loadingSubscribers ? (
+                <div className="p-16 text-center text-slate-500 text-xs">
+                  <RefreshCw className="w-6 h-6 text-[#1769FF] animate-spin mx-auto mb-2" />
+                  Loading subscribers...
+                </div>
+              ) : subscribers.length === 0 ? (
+                <div className="p-16 text-center text-slate-500 text-xs space-y-2">
+                  <Mail className="w-8 h-8 text-slate-300 mx-auto" />
+                  <p className="font-semibold text-slate-700">No subscribers yet</p>
+                  <p className="text-slate-400">
+                    When visitors submit their email in the blog newsletter form, they will appear here.
+                  </p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse min-w-[650px]">
+                    <thead>
+                      <tr className="border-b border-slate-200/80 bg-slate-50/60 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                        <th className="py-3 px-5">Subscriber Email</th>
+                        <th className="py-3 px-4">Subscribed At</th>
+                        <th className="py-3 px-4">Source</th>
+                        <th className="py-3 px-4">Status</th>
+                        <th className="py-3 px-5 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 text-xs">
+                      {subscribers
+                        .filter((s) =>
+                          s.email.toLowerCase().includes(subscriberSearch.toLowerCase().trim())
+                        )
+                        .map((sub) => (
+                          <tr key={sub.id} className="hover:bg-slate-50/70 transition-colors">
+                            <td className="py-3.5 px-5">
+                              <div className="flex items-center gap-2.5">
+                                <div className="w-7 h-7 rounded-full bg-blue-50 border border-blue-200 text-[#1769FF] flex items-center justify-center font-bold text-[11px]">
+                                  {sub.email.charAt(0).toUpperCase()}
+                                </div>
+                                <span className="font-semibold text-slate-900">{sub.email}</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 text-slate-500 font-mono text-[11px]">
+                              {new Date(sub.subscribedAt).toLocaleString("en-US", {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </td>
+                            <td className="py-3.5 px-4">
+                              <span className="text-[11px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
+                                {sub.source}
+                              </span>
+                            </td>
+                            <td className="py-3.5 px-4">
+                              <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                {sub.status}
+                              </span>
+                            </td>
+                            <td className="py-3.5 px-5 text-right">
+                              <div className="inline-flex items-center gap-1.5">
+                                <button
+                                  type="button"
+                                  onClick={() => copyToClipboard(sub.email)}
+                                  title="Copy Email"
+                                  className="p-1.5 rounded-lg text-slate-400 hover:text-[#1769FF] hover:bg-blue-50 transition-colors"
+                                >
+                                  <Copy className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteSubscriber(sub.id, sub.email)}
+                                  title="Delete Subscriber"
+                                  className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors"
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
         )}

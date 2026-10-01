@@ -31,6 +31,8 @@ export const ROUTES = [
   "/blog/why-slow-websites-sabotage-lead-conversion",
   "/blog/technical-seo-checklist-for-modern-websites",
   "/blog/ai-agents-and-automation-web-applications",
+  "/blog/headless-cms-architecture-scalability",
+  "/blog/mastering-core-web-vitals-performance",
 ] as const;
 
 export const EXCLUDED_FROM_SITEMAP: ReadonlySet<string> = new Set([]);
