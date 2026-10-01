@@ -1,6 +1,6 @@
 {
-  "totalViews": 0,
-  "uniqueVisitors": 0,
+  "totalViews": 4,
+  "uniqueVisitors": 1,
   "postViews": {
     "custom-web-development-vs-website-builders": {
       "views": 0,
@@ -31,17 +31,28 @@
       "views": 0,
       "uniqueVisitors": 0,
       "lastVisited": "2026-10-01T07:00:00.000Z"
+    },
+    "nextjs-15-app-router-best-practices-performance-optimization": {
+      "views": 4,
+      "uniqueVisitors": 1,
+      "lastVisited": "2026-10-01T08:15:49.852Z"
     }
   },
-  "dailyTraffic": [],
+  "dailyTraffic": [
+    {
+      "date": "2026-10-01",
+      "views": 4,
+      "uniqueVisitors": 1
+    }
+  ],
   "deviceBreakdown": {
-    "desktop": 0,
+    "desktop": 4,
     "mobile": 0,
     "tablet": 0
   },
   "referrerBreakdown": {
     "google": 0,
-    "direct": 0,
+    "direct": 4,
     "linkedin": 0,
     "twitter": 0,
     "other": 0

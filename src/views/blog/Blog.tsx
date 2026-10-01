@@ -81,21 +81,23 @@ export default function BlogHubPage() {
     setCurrentPage(1);
   }, [selectedCategory, searchQuery]);
 
-  // Filtered Articles based on category and search query
+  // Filtered Articles based on category and search query (sorted newest first)
   const filteredArticles = useMemo(() => {
-    return BLOG_ARTICLES.filter((article) => {
-      const matchesCategory =
-        selectedCategory === "All" ||
-        article.category.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
-      const q = searchQuery.toLowerCase().trim();
-      const matchesSearch =
-        q === "" ||
-        article.title.toLowerCase().includes(q) ||
-        article.excerpt.toLowerCase().includes(q) ||
-        article.category.toLowerCase().includes(q) ||
-        (article.keywords && article.keywords.some((k) => k.toLowerCase().includes(q)));
-      return matchesCategory && matchesSearch;
-    });
+    return [...BLOG_ARTICLES]
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .filter((article) => {
+        const matchesCategory =
+          selectedCategory === "All" ||
+          article.category.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
+        const q = searchQuery.toLowerCase().trim();
+        const matchesSearch =
+          q === "" ||
+          article.title.toLowerCase().includes(q) ||
+          article.excerpt.toLowerCase().includes(q) ||
+          article.category.toLowerCase().includes(q) ||
+          (article.keywords && article.keywords.some((k) => k.toLowerCase().includes(q)));
+        return matchesCategory && matchesSearch;
+      });
   }, [selectedCategory, searchQuery]);
 
   // Pagination calculations

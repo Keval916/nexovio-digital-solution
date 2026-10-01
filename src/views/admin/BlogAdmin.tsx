@@ -72,7 +72,7 @@ import {
   Bookmark,
 } from "lucide-react";
 import { BlogArticle } from "@/src/data/blog";
-import { formatDate } from "@/src/lib/utils";
+import { formatDate, getTodayDateString } from "@/src/lib/utils";
 import { BlogAnalyticsData } from "@/src/lib/blog-analytics";
 import { BlogCategory } from "@/src/lib/category-storage";
 
@@ -172,7 +172,7 @@ const EMPTY_FORM: FormState = {
   content: "",
   authorName: "Nexovio Technical Engineering",
   authorRole: "Solutions Architecture",
-  publishedAt: new Date().toISOString().split("T")[0],
+  publishedAt: getTodayDateString(),
   featuredImage: "/images/blog/custom-web-development-vs-website-builders.webp",
   featuredImageAlt: "",
   tableOfContentsText: "",
@@ -589,7 +589,7 @@ export default function BlogAdmin() {
     setEditorStep("content");
     setForm({
       ...EMPTY_FORM,
-      publishedAt: new Date().toISOString().split("T")[0],
+      publishedAt: getTodayDateString(),
     });
     if (editorRef.current) {
       editorRef.current.innerHTML = "<p>Start writing your article content here...</p>";
@@ -617,7 +617,7 @@ export default function BlogAdmin() {
       content: formattedContent,
       authorName: article.author.name,
       authorRole: article.author.role,
-      publishedAt: article.publishedAt,
+      publishedAt: article.publishedAt || getTodayDateString(),
       featuredImage: article.featuredImage,
       featuredImageAlt: article.featuredImageAlt || article.title,
       tableOfContentsText: Array.isArray(article.tableOfContents)
@@ -991,17 +991,19 @@ export default function BlogAdmin() {
 
   // Filtered List for Table
   const filteredList = useMemo(() => {
-    return articles.filter((a) => {
-      const matchesCategory =
-        categoryFilter === "All" ||
-        a.category.toLowerCase().trim() === categoryFilter.toLowerCase().trim();
-      const matchesSearch =
-        searchQuery.trim() === "" ||
-        a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        a.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        a.category.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchesCategory && matchesSearch;
-    });
+    return [...articles]
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .filter((a) => {
+        const matchesCategory =
+          categoryFilter === "All" ||
+          a.category.toLowerCase().trim() === categoryFilter.toLowerCase().trim();
+        const matchesSearch =
+          searchQuery.trim() === "" ||
+          a.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          a.slug.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          a.category.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
   }, [articles, categoryFilter, searchQuery]);
 
   // Filtered categories for search
@@ -2192,8 +2194,11 @@ export default function BlogAdmin() {
                               </span>
                             </td>
 
-                            <td className="p-4 sm:p-5 text-slate-500 text-xs whitespace-nowrap">
-                              {formatDate(article.publishedAt)}
+                            <td className="p-4 sm:p-5 text-slate-600 text-xs whitespace-nowrap">
+                              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200/70">
+                                <Calendar className="w-3.5 h-3.5 text-[#1769FF]" />
+                                <span className="font-semibold text-slate-800">{formatDate(article.publishedAt)}</span>
+                              </div>
                             </td>
 
                             <td className="p-4 sm:p-5 text-right whitespace-nowrap">
@@ -2423,6 +2428,51 @@ export default function BlogAdmin() {
                         <Plus className="w-3.5 h-3.5" />
                         <span>+ New Category</span>
                       </button>
+                    </div>
+
+                    {/* Publication Date Row right in Step 1 */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                          <Calendar className="w-3.5 h-3.5 text-[#1769FF]" />
+                          <span>Publication Date:</span>
+                        </span>
+
+                        <input
+                          type="date"
+                          value={form.publishedAt}
+                          onChange={(e) => setForm((prev) => ({ ...prev, publishedAt: e.target.value }))}
+                          className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none cursor-pointer"
+                        />
+
+                        {/* Set to Today Quick Action Button */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const today = getTodayDateString();
+                            setForm((prev) => ({ ...prev, publishedAt: today }));
+                            showToast(`Date set to today (${formatDate(today)})`);
+                          }}
+                          className={`text-xs font-bold px-2.5 py-1 rounded-lg border transition-colors cursor-pointer ${
+                            form.publishedAt === getTodayDateString()
+                              ? "bg-blue-50 border-blue-200 text-[#1769FF]"
+                              : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
+                          }`}
+                          title="Click to set date to today"
+                        >
+                          {form.publishedAt === getTodayDateString() ? "✓ Today" : "Set to Today"}
+                        </button>
+
+                        {/* Live reader-facing preview */}
+                        <span className="text-xs text-slate-500 font-medium inline-flex items-center gap-1.5 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200/60">
+                          <span className="text-slate-400">Readers will see:</span>
+                          <span className="font-bold text-slate-800">{formatDate(form.publishedAt) || "Select a date"}</span>
+                        </span>
+                      </div>
+
+                      <span className="text-[11px] text-slate-400">
+                        Defaults to today&apos;s real date • Change anytime
+                      </span>
                     </div>
 
                     {/* Headline / Title */}
@@ -3684,15 +3734,31 @@ export default function BlogAdmin() {
                         </div>
 
                         <div>
-                          <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                            Publication Date
-                          </label>
+                          <div className="flex items-center justify-between mb-1">
+                            <label className="text-[11px] font-semibold text-slate-600">
+                              Publication Date
+                            </label>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const today = getTodayDateString();
+                                setForm((prev) => ({ ...prev, publishedAt: today }));
+                                showToast(`Date set to today (${formatDate(today)})`);
+                              }}
+                              className="text-[10px] text-[#1769FF] font-semibold hover:underline cursor-pointer"
+                            >
+                              Set to Today
+                            </button>
+                          </div>
                           <input
                             type="date"
                             value={form.publishedAt}
                             onChange={(e) => setForm((prev) => ({ ...prev, publishedAt: e.target.value }))}
                             className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
                           />
+                          <p className="text-[10px] text-slate-400 mt-1">
+                            Displays as: <span className="font-semibold text-slate-700">{formatDate(form.publishedAt) || "No date"}</span>
+                          </p>
                         </div>
 
                         <div>

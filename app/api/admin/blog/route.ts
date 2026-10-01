@@ -7,6 +7,7 @@ import {
   generateSlug,
 } from "@/src/lib/blog-storage";
 import { BlogArticle } from "@/src/data/blog";
+import { getTodayDateString } from "@/src/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -84,7 +85,7 @@ export async function POST(req: NextRequest) {
       : [];
 
     const readingTime = calculateReadingTime(contentArray);
-    const currentDate = new Date().toISOString().split("T")[0];
+    const currentDate = getTodayDateString();
 
     // Process keywords
     const keywordsArray = Array.isArray(keywords)
@@ -108,7 +109,7 @@ export async function POST(req: NextRequest) {
         name: (authorName && authorName.trim()) || "Nexovio Technical Team",
         role: (authorRole && authorRole.trim()) || "Engineering & Strategy",
       },
-      publishedAt: customDate || currentDate,
+      publishedAt: (customDate && customDate.trim()) ? customDate.trim() : currentDate,
       updatedAt: currentDate,
       readingTime,
       featuredImage: featuredImage || "/images/blog/custom-web-development-vs-website-builders.webp",
@@ -200,7 +201,7 @@ export async function PUT(req: NextRequest) {
     }
 
     const readingTime = calculateReadingTime(contentArray);
-    const currentDate = new Date().toISOString().split("T")[0];
+    const currentDate = getTodayDateString();
 
     // Process keywords
     let keywordsArray = current.keywords;
@@ -232,7 +233,7 @@ export async function PUT(req: NextRequest) {
       seoTitle: body.seoTitle !== undefined ? body.seoTitle : current.seoTitle,
       seoDescription: body.seoDescription !== undefined ? body.seoDescription : current.seoDescription,
       readingTime: body.readingTime || readingTime,
-      publishedAt: body.publishedAt || current.publishedAt,
+      publishedAt: (body.publishedAt && typeof body.publishedAt === "string" && body.publishedAt.trim()) ? body.publishedAt.trim() : current.publishedAt,
       updatedAt: currentDate,
       focusKeyword: body.focusKeyword !== undefined ? (body.focusKeyword?.trim() || undefined) : current.focusKeyword,
       keywords: keywordsArray,

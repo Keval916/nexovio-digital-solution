@@ -1,5 +1,41 @@
 [
   {
+    "id": "nextjs-15-app-router-best-practices-performance-optimization",
+    "title": "Next.js 15 App Router Best Practices & Performance Optimization",
+    "slug": "nextjs-15-app-router-best-practices-performance-optimization",
+    "excerpt": "Explore key architectural patterns, server components, and performance optimization strategies in Next.js 15 for enterprise web applications.",
+    "content": [
+      "<p>Start writing your article content here...Next.js 15 introduces powerful enhancements to the App Router architecture.<strong style=\"font-size: 1.025rem; background-color: rgb(240, 253, 244);\">Pro Tip:</strong><span style=\"font-family: __Inter_37ef13, __Inter_Fallback_37ef13, system-ui, -apple-system, sans-serif; font-size: 1.025rem; background-color: rgb(240, 253, 244);\"> Implement code-split dynamic imports for client-heavy modules to minimize initial JavaScript bundle size.</span></p><p><br></p>"
+    ],
+    "tableOfContents": [],
+    "category": "Web Development",
+    "author": {
+      "name": "Nexovio Technical Team",
+      "role": "Engineering & Strategy"
+    },
+    "publishedAt": "2026-10-01",
+    "updatedAt": "2026-10-01",
+    "readingTime": "1 min read",
+    "featuredImage": "/images/blog/custom-web-development-vs-website-builders.webp",
+    "featuredImageAlt": "N",
+    "seoTitle": "N",
+    "seoDescription": "Explore key architectural patterns, server components, and performance optimization strategies in Next.js 15 for enterprise web applications.",
+    "relatedSlugs": [],
+    "keywords": [
+      "Web Development",
+      "Nexovio",
+      "Digital Solutions",
+      "Enterprise Architecture"
+    ],
+    "ogImage": "/images/blog/custom-web-development-vs-website-builders.webp",
+    "noIndex": false,
+    "noFollow": false,
+    "schemaType": "BlogPosting",
+    "socialTitle": "N",
+    "sitemapPriority": 0.8,
+    "changeFreq": "weekly"
+  },
+  {
     "id": "custom-website-vs-website-builder",
     "title": "Custom Web Development vs. Website Builders: An Architectural & Commercial Evaluation",
     "slug": "custom-web-development-vs-website-builders",
