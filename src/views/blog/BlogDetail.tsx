@@ -511,18 +511,40 @@ export default function SingleBlogArticlePage({
             {/* Standard Article Content with Common Classes Support */}
             <div className="blog-content">
               {article.content.map((paragraph: string, idx: number) => {
-                const isHtml = /<[a-z][\s\S]*>/i.test(paragraph);
+                const trimmed = typeof paragraph === "string" ? paragraph.trim() : "";
+                if (
+                  !trimmed ||
+                  trimmed === "<p><br></p>" ||
+                  trimmed === "<p></p>" ||
+                  trimmed === "<p>&nbsp;</p>" ||
+                  trimmed === "<br>"
+                ) {
+                  return null;
+                }
+                // Check if entire block is only empty paragraphs/whitespace
+                const textOnly = trimmed.replace(/<[^>]*>/g, "").replace(/&nbsp;/gi, " ").trim();
+                if (!textOnly && !/<(?:img|figure|table|iframe)\s/i.test(trimmed)) {
+                  return null;
+                }
+                const isHtml = /<[a-z][\s\S]*>/i.test(trimmed);
                 if (isHtml) {
+                  // Sanitize: strip embedded empty paragraphs/divs and collapse excessive <br>
+                  const cleanHtml = trimmed
+                    .replace(/<p[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/p>/gi, "")
+                    .replace(/<div[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/div>/gi, "")
+                    .replace(/(<br\s*\/?\s*>[\s]*){3,}/gi, "<br><br>")
+                    .trim();
+                  if (!cleanHtml) return null;
                   return (
                     <div
                       key={idx}
-                      dangerouslySetInnerHTML={{ __html: paragraph }}
+                      dangerouslySetInnerHTML={{ __html: cleanHtml }}
                     />
                   );
                 }
                 return (
                   <p key={idx}>
-                    {paragraph}
+                    {trimmed}
                   </p>
                 );
               })}

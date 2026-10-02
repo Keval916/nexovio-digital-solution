@@ -155,6 +155,7 @@ export async function updateBlogArticleInDb(
     const merged: BlogArticle = {
       ...(existing as BlogArticle),
       ...updates,
+      id: updates.slug || existing.id,
       updatedAt: updates.updatedAt || new Date().toISOString().split("T")[0],
     };
 

@@ -100,14 +100,37 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Process content (array of paragraphs)
+    // Process content (array of paragraphs or raw HTML string)
+    // Helper: sanitize and split an HTML string into an array of block-level chunks
+    const sanitizeAndSplitHtml = (html: string): string[] => {
+      let cleaned = html
+        .replace(/<p[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/p>/gi, "")
+        .replace(/<div[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/div>/gi, "")
+        .replace(/(<br\s*\/?\s*>[\s]*){3,}/gi, "<br><br>")
+        .trim();
+      if (!cleaned) return [];
+      // Split on block-level boundaries for granular storage
+      const blocks = cleaned
+        .split(/(?=<(?:h[2-6]|div\s|table|figure|blockquote|ul|ol)[>\s])/gi)
+        .map((b: string) => b.trim())
+        .filter((b: string) => {
+          const stripped = b.replace(/<[^>]*>/g, "").replace(/&nbsp;/gi, " ").trim();
+          return stripped.length > 0 || /<(?:img|figure|table|iframe)\s/i.test(b);
+        });
+      return blocks.length > 0 ? blocks : [cleaned];
+    };
+
+    const isEmptyParagraph = (p: string): boolean => {
+      const stripped = p.replace(/<p[^>]*>\s*(<br\s*\/?>|&nbsp;|\s)*<\/p>/gi, "").trim();
+      return stripped.length === 0;
+    };
+
     const contentArray: string[] = Array.isArray(content)
       ? content
+          .map((p: string) => (typeof p === "string" ? p.trim() : ""))
+          .filter((p: string) => !isEmptyParagraph(p))
       : typeof content === "string"
-      ? content
-          .split("\n\n")
-          .map((p: string) => p.trim())
-          .filter(Boolean)
+      ? sanitizeAndSplitHtml(content)
       : [];
 
     const readingTime = calculateReadingTime(contentArray);
@@ -199,9 +222,9 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();
-    const { id, slug } = body;
+    const { id, slug, originalSlug } = body;
 
-    const targetKey = slug || id;
+    const targetKey = originalSlug || id || slug;
     if (!targetKey) {
       return NextResponse.json(
         { success: false, message: "Article ID or slug is required for updating" },
@@ -212,13 +235,34 @@ export async function PUT(req: NextRequest) {
     // Process content if provided
     let contentArray: string[] | undefined = undefined;
     if (body.content !== undefined) {
+      const sanitizeAndSplitHtmlPut = (html: string): string[] => {
+        let cleaned = html
+          .replace(/<p[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/p>/gi, "")
+          .replace(/<div[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/div>/gi, "")
+          .replace(/(<br\s*\/?\s*>[\s]*){3,}/gi, "<br><br>")
+          .trim();
+        if (!cleaned) return [];
+        const blocks = cleaned
+          .split(/(?=<(?:h[2-6]|div\s|table|figure|blockquote|ul|ol)[>\s])/gi)
+          .map((b: string) => b.trim())
+          .filter((b: string) => {
+            const stripped = b.replace(/<[^>]*>/g, "").replace(/&nbsp;/gi, " ").trim();
+            return stripped.length > 0 || /<(?:img|figure|table|iframe)\s/i.test(b);
+          });
+        return blocks.length > 0 ? blocks : [cleaned];
+      };
+
+      const isEmptyParagraphPut = (p: string): boolean => {
+        const stripped = p.replace(/<p[^>]*>\s*(<br\s*\/?>|&nbsp;|\s)*<\/p>/gi, "").trim();
+        return stripped.length === 0;
+      };
+
       contentArray = Array.isArray(body.content)
         ? body.content
+            .map((p: string) => (typeof p === "string" ? p.trim() : ""))
+            .filter((p: string) => !isEmptyParagraphPut(p))
         : typeof body.content === "string"
-        ? body.content
-            .split("\n\n")
-            .map((p: string) => p.trim())
-            .filter(Boolean)
+        ? sanitizeAndSplitHtmlPut(body.content)
         : [];
     }
 
@@ -297,6 +341,9 @@ export async function PUT(req: NextRequest) {
     try {
       revalidatePath("/sitemap.xml");
       revalidatePath("/blog");
+      if (originalSlug && originalSlug !== updatedArticle.slug) {
+        revalidatePath(`/blog/${originalSlug}`);
+      }
       revalidatePath(`/blog/${updatedArticle.slug}`);
     } catch (e) {
       console.warn("Revalidation warning:", e);

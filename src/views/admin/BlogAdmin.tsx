@@ -272,6 +272,7 @@ export default function BlogAdmin() {
 
   // Post Editor State
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [originalEditingSlug, setOriginalEditingSlug] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isHtmlSourceMode, setIsHtmlSourceMode] = useState<boolean>(false);
@@ -725,6 +726,7 @@ export default function BlogAdmin() {
   // Open Editor for New Post
   const handleAddNewPost = () => {
     setIsEditing(false);
+    setOriginalEditingSlug(null);
     setEditorStep("content");
     setAdminFaqOpenIndex(0);
     setFaqViewMode("edit");
@@ -744,6 +746,7 @@ export default function BlogAdmin() {
   const handleEditPost = (article: BlogArticle) => {
     setEditingSlugLoading(article.slug);
     setIsEditing(true);
+    setOriginalEditingSlug(article.slug);
     setEditorStep("content");
 
     const formattedContent = Array.isArray(article.content)
@@ -860,15 +863,14 @@ export default function BlogAdmin() {
     }
   };
 
-  // Insert image directly into editor content with proper responsive styling and cursor placement
-  const insertImageIntoEditor = (imageUrl: string, altText: string = "") => {
-    const cleanAlt = (altText || "").replace(/[<>"']/g, "").trim();
-    const figureHtml = `<figure class="my-8 text-center"><img src="${imageUrl}" alt="${cleanAlt || "Article Illustration"}" class="rounded-2xl max-w-full mx-auto border border-slate-200 shadow-md object-cover" />${cleanAlt ? `<figcaption class="text-xs text-slate-500 mt-2 font-medium italic">${cleanAlt}</figcaption>` : ""}</figure><p><br></p>`;
+  // Insert image directly into editor content with proper responsive styling and cursor placement (no filename caption)
+  const insertImageIntoEditor = (imageUrl: string, _altText: string = "") => {
+    const figureHtml = `<figure class="my-4 text-center"><img src="${imageUrl}" alt="" class="rounded-2xl max-w-full mx-auto border border-slate-200 shadow-md object-cover" /></figure><p></p>`;
 
     if (isHtmlSourceMode) {
       setForm((prev) => ({
         ...prev,
-        content: (prev.content ? prev.content + "\n\n" : "") + figureHtml + "\n",
+        content: (prev.content ? prev.content + "\n" : "") + figureHtml + "\n",
       }));
       showToast("Image inserted into HTML source!");
       return;
@@ -921,8 +923,7 @@ export default function BlogAdmin() {
     }
 
     if (!inserted) {
-      const spacer = editorRef.current.innerHTML.trim() ? "<p><br></p>" : "";
-      editorRef.current.innerHTML = editorRef.current.innerHTML + spacer + figureHtml;
+      editorRef.current.innerHTML = editorRef.current.innerHTML + figureHtml;
     }
 
     savedEditorRangeRef.current = null;
@@ -971,9 +972,7 @@ export default function BlogAdmin() {
 
     if (!inserted) {
       // Append smoothly to the bottom of the editor content
-      const spacer = editorRef.current.innerHTML.trim() ? "<p><br></p>" : "";
-      editorRef.current.innerHTML =
-        editorRef.current.innerHTML + spacer + htmlSnippet + "<p><br></p>";
+      editorRef.current.innerHTML = editorRef.current.innerHTML + htmlSnippet;
     }
 
     syncEditorContent();
@@ -1146,6 +1145,23 @@ export default function BlogAdmin() {
       return;
     }
 
+    // ── Sanitize HTML content: strip empty paragraphs, collapse consecutive <br>, normalize spacing ──
+    {
+      let html = finalHtml;
+      // 1. Remove empty paragraphs: <p><br></p>, <p></p>, <p>&nbsp;</p>, <p> </p>
+      html = html.replace(/<p[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/p>/gi, "");
+      // 2. Collapse 3+ consecutive <br> tags down to max 2
+      html = html.replace(/(<br\s*\/?\s*>[\s]*){3,}/gi, "<br><br>");
+      // 3. Remove leading/trailing whitespace wrappers
+      html = html.replace(/^(\s*<p[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/p>\s*)+/gi, "");
+      html = html.replace(/(\s*<p[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/p>\s*)+$/gi, "");
+      // 4. Remove consecutive duplicate empty divs
+      html = html.replace(/<div[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/div>/gi, "");
+      // 5. Trim overall
+      html = html.trim();
+      finalHtml = html;
+    }
+
     // Build Table of Contents objects from lines
     const tocList = form.tableOfContentsText
       .split("\n")
@@ -1180,6 +1196,7 @@ export default function BlogAdmin() {
 
     const payload = {
       id: form.id,
+      originalSlug: originalEditingSlug || form.slug.trim(),
       title: form.title.trim(),
       slug: form.slug.trim(),
       category: form.category,
@@ -1221,6 +1238,7 @@ export default function BlogAdmin() {
       const data = await res.json();
       if (res.ok && data.success) {
         showToast(isEditing ? "Article & SEO updated successfully!" : "New article published with SEO settings!");
+        setOriginalEditingSlug(form.slug.trim());
         await fetchArticles();
         setActiveTab("posts");
       } else {
@@ -2905,7 +2923,10 @@ export default function BlogAdmin() {
                       <input
                         type="text"
                         value={form.slug}
-                        onChange={(e) => setForm((prev) => ({ ...prev, slug: e.target.value }))}
+                        onChange={(e) => {
+                          const val = e.target.value.toLowerCase().replace(/\s+/g, "-");
+                          setForm((prev) => ({ ...prev, slug: val }));
+                        }}
                         placeholder="article-slug-url"
                         className="bg-slate-50 border border-slate-200 text-[#1769FF] font-mono px-3 py-1 rounded-lg text-xs focus:outline-none focus:border-[#1769FF] focus:bg-white"
                       />
@@ -2945,9 +2966,11 @@ export default function BlogAdmin() {
                   </div>
 
                   {/* RICH TEXTBOX WYSIWYG EDITOR */}
-                  <div className="rounded-2xl border border-slate-200 bg-white shadow-xs overflow-hidden">
-                    {/* Primary Toolbar */}
-                    <div className="p-2.5 border-b border-slate-200 bg-slate-50 flex flex-wrap items-center gap-1 select-none">
+                  <div className="rounded-2xl border border-slate-200 bg-white shadow-xs">
+                    {/* Sticky Toolbar Header Container (Sticky on Scroll) */}
+                    <div className="sticky top-0 z-30 bg-white shadow-md border-b border-slate-200 rounded-t-2xl">
+                      {/* Primary Toolbar */}
+                      <div className="p-2.5 border-b border-slate-200/80 bg-slate-50 rounded-t-2xl flex flex-wrap items-center gap-1 select-none">
                       {/* Headings */}
                       <button
                         type="button"
@@ -3131,7 +3154,7 @@ export default function BlogAdmin() {
                         type="button"
                         onClick={() =>
                           insertCustomHtml(
-                            `<div class="blog-callout"><div class="blog-callout-title">💡 Architecture Key Concept</div><p>Enterprise platforms require strict boundary separation between client components and edge microservices to maximize throughput and maintain sub-100ms response times globally.</p></div><p><br></p>`
+                            `<div class="blog-callout"><div class="blog-callout-title">💡 Architecture Key Concept</div><p>Enterprise platforms require strict boundary separation between client components and edge microservices to maximize throughput and maintain sub-100ms response times globally.</p></div>`
                           )
                         }
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-200 text-[#1769FF] hover:bg-blue-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
@@ -3146,7 +3169,7 @@ export default function BlogAdmin() {
                         type="button"
                         onClick={() =>
                           insertCustomHtml(
-                            `<div class="blog-tip"><p><strong>🚀 Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial JavaScript bundle size and eliminate Interaction to Next Paint (INP) bottlenecks.</p></div><p><br></p>`
+                            `<div class="blog-tip"><p><strong>🚀 Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial JavaScript bundle size and eliminate Interaction to Next Paint (INP) bottlenecks.</p></div>`
                           )
                         }
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
@@ -3161,7 +3184,7 @@ export default function BlogAdmin() {
                         type="button"
                         onClick={() =>
                           insertCustomHtml(
-                            `<div class="blog-grid-2"><div class="blog-card"><div class="blog-card-title">Approach A: Traditional</div><p>Higher initial coupling, synchronous monolithic data fetching, and heavier client-side JavaScript execution.</p></div><div class="blog-card"><div class="blog-card-title">Approach B: Composable</div><p>Decoupled edge execution, streaming SSR HTML, and localized partial hydration for instantaneous interactivity.</p></div></div><p><br></p>`
+                            `<div class="blog-grid-2"><div class="blog-card"><div class="blog-card-title">Approach A: Traditional</div><p>Higher initial coupling, synchronous monolithic data fetching, and heavier client-side JavaScript execution.</p></div><div class="blog-card"><div class="blog-card-title">Approach B: Composable</div><p>Decoupled edge execution, streaming SSR HTML, and localized partial hydration for instantaneous interactivity.</p></div></div>`
                           )
                         }
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
@@ -3176,7 +3199,7 @@ export default function BlogAdmin() {
                         type="button"
                         onClick={() =>
                           insertCustomHtml(
-                            `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Evaluation Metric</th><th>Custom Next.js Stack</th><th>Traditional CMS / Builders</th></tr></thead><tbody><tr><td>Core Web Vitals</td><td>100/100 LCP &amp; Zero CLS</td><td>Degraded Script Bloat</td></tr><tr><td>SEO &amp; JSON-LD</td><td>Granular Edge Head Injection</td><td>Plugin Dependent</td></tr><tr><td>Edge Scalability</td><td>Auto-burst Serverless Shards</td><td>Single Server Choke Points</td></tr></tbody></table></div><p><br></p>`
+                            `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Evaluation Metric</th><th>Custom Next.js Stack</th><th>Traditional CMS / Builders</th></tr></thead><tbody><tr><td>Core Web Vitals</td><td>100/100 LCP &amp; Zero CLS</td><td>Degraded Script Bloat</td></tr><tr><td>SEO &amp; JSON-LD</td><td>Granular Edge Head Injection</td><td>Plugin Dependent</td></tr><tr><td>Edge Scalability</td><td>Auto-burst Serverless Shards</td><td>Single Server Choke Points</td></tr></tbody></table></div>`
                           )
                         }
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 hover:border-[#1769FF] hover:text-[#1769FF] hover:bg-blue-50/40 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
@@ -3191,7 +3214,7 @@ export default function BlogAdmin() {
                         type="button"
                         onClick={() =>
                           insertCustomHtml(
-                            `<div class="blog-warning"><p><strong>⚠️ Warning / Common Pitfall:</strong> Avoid chaining multiple client-side redirects or uncompressed media assets, as this drastically degrades crawl equity and LCP latency.</p></div><p><br></p>`
+                            `<div class="blog-warning"><p><strong>⚠️ Warning / Common Pitfall:</strong> Avoid chaining multiple client-side redirects or uncompressed media assets, as this drastically degrades crawl equity and LCP latency.</p></div>`
                           )
                         }
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
@@ -3206,7 +3229,7 @@ export default function BlogAdmin() {
                         type="button"
                         onClick={() =>
                           insertCustomHtml(
-                            `<div class="blog-card" style="border-left-color: #8b5cf6;"><div class="blog-card-title" style="color: #7c3aed;">📌 Key Takeaways</div><ul style="margin: 0; padding-left: 1.25rem;"><li>Decouple frontends from monolithic CMS runtimes using Next.js.</li><li>Optimize Core Web Vitals to pass Google search ranking criteria.</li><li>Cache dynamic payloads close to end-users via CDN Edge networks.</li></ul></div><p><br></p>`
+                            `<div class="blog-card" style="border-left-color: #8b5cf6;"><div class="blog-card-title" style="color: #7c3aed;">📌 Key Takeaways</div><ul style="margin: 0; padding-left: 1.25rem;"><li>Decouple frontends from monolithic CMS runtimes using Next.js.</li><li>Optimize Core Web Vitals to pass Google search ranking criteria.</li><li>Cache dynamic payloads close to end-users via CDN Edge networks.</li></ul></div>`
                           )
                         }
                         className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
@@ -3221,7 +3244,7 @@ export default function BlogAdmin() {
                         type="button"
                         onClick={() =>
                           insertCustomHtml(
-                            `<blockquote class="blog-quote-blue"><p>"Architecture is not just what it looks like, but how the systems scale under high concurrent load."</p></blockquote><p><br></p>`
+                            `<blockquote class="blog-quote-blue"><p>"Architecture is not just what it looks like, but how the systems scale under high concurrent load."</p></blockquote>`
                           )
                         }
                         className="px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-[#1769FF] hover:bg-blue-50 font-medium text-[11px] transition-colors cursor-pointer"
@@ -3234,7 +3257,7 @@ export default function BlogAdmin() {
                         type="button"
                         onClick={() =>
                           insertCustomHtml(
-                            `<blockquote class="blog-quote-cyan"><p>"Next-generation edge runtimes eliminate cold-starts and serve content at wire speeds globally."</p></blockquote><p><br></p>`
+                            `<blockquote class="blog-quote-cyan"><p>"Next-generation edge runtimes eliminate cold-starts and serve content at wire speeds globally."</p></blockquote>`
                           )
                         }
                         className="px-2.5 py-1 rounded-lg bg-white border border-cyan-200 text-cyan-700 hover:bg-cyan-50 font-medium text-[11px] transition-colors cursor-pointer"
@@ -3251,8 +3274,9 @@ export default function BlogAdmin() {
                         <span>Explore All Design Styles →</span>
                       </button>
                     </div>
+                  </div>
 
-                    {/* Editing Canvas */}
+                  {/* Editing Canvas */}
                     <div className="p-6 min-h-[460px] bg-white">
                       {isHtmlSourceMode ? (
                         <textarea
@@ -3274,7 +3298,7 @@ export default function BlogAdmin() {
                           suppressContentEditableWarning
                           onInput={syncEditorContent}
                           onBlur={syncEditorContent}
-                          className="w-full min-h-[420px] focus:outline-none blog-content text-slate-800 text-sm leading-relaxed space-y-4 font-sans [&_h1]:text-3xl [&_h1]:font-extrabold [&_h1]:text-slate-900 [&_h1]:mt-6 [&_h1]:mb-3 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_h2]:mt-6 [&_h2]:mb-2 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-slate-900 [&_h3]:mt-4 [&_h3]:mb-2 [&_p]:text-slate-700 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:space-y-1 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:space-y-1 [&_blockquote]:border-l-4 [&_blockquote]:border-[#1769FF] [&_blockquote]:bg-blue-50/50 [&_blockquote]:pl-4 [&_blockquote]:py-2 [&_blockquote]:italic [&_blockquote]:text-slate-700 [&_blockquote]:rounded-r-lg [&_a]:text-[#1769FF] [&_a]:underline [&_img]:rounded-xl [&_img]:my-4 [&_img]:max-w-full [&_img]:border [&_img]:border-slate-200 [&_hr]:my-6 [&_hr]:border-slate-200"
+                          className="w-full min-h-[420px] focus:outline-none blog-content text-slate-800 font-sans selection:bg-[#1769FF] selection:text-white"
                         />
                       )}
                     </div>
