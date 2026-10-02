@@ -76,3 +76,19 @@ export async function getSubscriberCollection(): Promise<Collection<any>> {
   return collection;
 }
 
+export async function getCategoryCollection(): Promise<Collection<any>> {
+  const db = await getDb();
+  const collection = db.collection("blog_categories");
+
+  collection
+    .createIndex({ slug: 1 }, { unique: true, background: true })
+    .catch((err) => {
+      if (err?.code !== 85 && err?.code !== 86) {
+        console.warn("[MongoDB] Category index notice:", err?.message || err);
+      }
+    });
+
+  return collection;
+}
+
+

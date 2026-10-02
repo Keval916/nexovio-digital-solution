@@ -70,6 +70,7 @@ import {
   Tags,
   FolderKanban,
   Bookmark,
+  Loader2,
 } from "lucide-react";
 import { BlogArticle } from "@/src/data/blog";
 import { formatDate, getTodayDateString } from "@/src/lib/utils";
@@ -309,6 +310,15 @@ export default function BlogAdmin() {
 
   // Delete Confirmation
   const [deleteConfirmSlug, setDeleteConfirmSlug] = useState<string | null>(null);
+  const [isDeletingArticle, setIsDeletingArticle] = useState<boolean>(false);
+
+  // Multi-select & Batch Actions State
+  const [selectedArticles, setSelectedArticles] = useState<string[]>([]);
+  const [isBatchDeleting, setIsBatchDeleting] = useState<boolean>(false);
+  const [isBatchDeleteModalOpen, setIsBatchDeleteModalOpen] = useState<boolean>(false);
+
+  // Edit Article Loading indicator
+  const [editingSlugLoading, setEditingSlugLoading] = useState<string | null>(null);
 
   // Copied Image URL state
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
@@ -618,6 +628,7 @@ export default function BlogAdmin() {
 
   // Open Editor for Existing Post
   const handleEditPost = (article: BlogArticle) => {
+    setEditingSlugLoading(article.slug);
     setIsEditing(true);
     setEditorStep("content");
 
@@ -664,7 +675,11 @@ export default function BlogAdmin() {
       editorRef.current.innerHTML = formattedContent;
     }
 
-    setActiveTab("editor");
+    setTimeout(() => {
+      setEditingSlugLoading(null);
+      setActiveTab("editor");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 200);
   };
 
   // Keep editor content synchronized when entering editor mode
@@ -745,14 +760,48 @@ export default function BlogAdmin() {
     if (isHtmlSourceMode) {
       setForm((prev) => ({
         ...prev,
-        content: prev.content + "\n" + htmlSnippet + "\n",
+        content: (prev.content ? prev.content + "\n\n" : "") + htmlSnippet + "\n",
       }));
-    } else {
-      executeCommand("insertHTML", htmlSnippet);
-      if (editorRef.current) {
-        setForm((prev) => ({ ...prev, content: editorRef.current?.innerHTML || "" }));
+      showToast("Component inserted into HTML code!");
+      return;
+    }
+
+    if (!editorRef.current) return;
+    editorRef.current.focus();
+
+    let inserted = false;
+    const sel = window.getSelection();
+    if (sel && sel.rangeCount > 0) {
+      const range = sel.getRangeAt(0);
+      if (editorRef.current.contains(range.commonAncestorContainer)) {
+        range.deleteContents();
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = htmlSnippet;
+        const frag = document.createDocumentFragment();
+        let child: ChildNode | null;
+        let lastNode: ChildNode | null = null;
+        while ((child = tempDiv.firstChild)) {
+          lastNode = frag.appendChild(child);
+        }
+        range.insertNode(frag);
+        if (lastNode) {
+          range.setStartAfter(lastNode);
+          range.collapse(true);
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+        inserted = true;
       }
     }
+
+    if (!inserted) {
+      // Append smoothly to the bottom of the editor content
+      const spacer = editorRef.current.innerHTML.trim() ? "<p><br></p>" : "";
+      editorRef.current.innerHTML =
+        editorRef.current.innerHTML + spacer + htmlSnippet + "<p><br></p>";
+    }
+
+    syncEditorContent();
     showToast("Design component inserted into editor!");
   };
 
@@ -997,8 +1046,9 @@ export default function BlogAdmin() {
     }
   };
 
-  // Delete Article
+  // Delete Article (Single)
   const handleDeleteArticle = async (slug: string) => {
+    setIsDeletingArticle(true);
     try {
       const res = await fetch(`/api/admin/blog?slug=${encodeURIComponent(slug)}`, {
         method: "DELETE",
@@ -1007,14 +1057,59 @@ export default function BlogAdmin() {
       if (res.ok && data.success) {
         showToast("Article deleted successfully");
         setDeleteConfirmSlug(null);
+        setSelectedArticles((prev) => prev.filter((s) => s !== slug));
         await fetchArticles();
       } else {
-        showToast(data.error || "Failed to delete article", "error");
+        showToast(data.message || data.error || "Failed to delete article", "error");
       }
     } catch (err) {
       console.error("Delete error:", err);
       showToast("Error deleting article", "error");
+    } finally {
+      setIsDeletingArticle(false);
     }
+  };
+
+  // Batch Delete Selected Articles
+  const handleBatchDelete = async () => {
+    if (selectedArticles.length === 0) return;
+    setIsBatchDeleting(true);
+    try {
+      const res = await fetch("/api/admin/blog", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ slugs: selectedArticles }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(`${selectedArticles.length} article(s) deleted successfully from database`);
+        setSelectedArticles([]);
+        setIsBatchDeleteModalOpen(false);
+        await fetchArticles();
+      } else {
+        showToast(data.message || "Failed to delete selected articles", "error");
+      }
+    } catch (err) {
+      console.error("Batch delete error:", err);
+      showToast("Error deleting selected articles", "error");
+    } finally {
+      setIsBatchDeleting(false);
+    }
+  };
+
+  const handleToggleSelectAll = () => {
+    if (filteredList.length === 0) return;
+    if (selectedArticles.length === filteredList.length) {
+      setSelectedArticles([]);
+    } else {
+      setSelectedArticles(filteredList.map((a) => a.slug));
+    }
+  };
+
+  const handleToggleSelectArticle = (slug: string) => {
+    setSelectedArticles((prev) =>
+      prev.includes(slug) ? prev.filter((s) => s !== slug) : [...prev, slug]
+    );
   };
 
   // Filtered List for Table
@@ -2150,12 +2245,53 @@ export default function BlogAdmin() {
                 </div>
               </div>
 
+              {/* Batch Actions Toolbar */}
+              {selectedArticles.length > 0 && (
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200/80 rounded-2xl px-5 py-3.5 flex flex-wrap items-center justify-between gap-3 shadow-xs animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#1769FF] text-white text-xs font-bold font-mono shadow-xs">
+                      {selectedArticles.length}
+                    </span>
+                    <span className="text-xs font-bold text-slate-800">
+                      {selectedArticles.length} publication{selectedArticles.length > 1 ? "s" : ""} selected
+                    </span>
+                    <span className="text-slate-300">|</span>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedArticles([])}
+                      className="text-xs font-semibold text-slate-600 hover:text-slate-900 underline cursor-pointer"
+                    >
+                      Deselect All
+                    </button>
+                    {filteredList.length > selectedArticles.length && (
+                      <button
+                        type="button"
+                        onClick={handleToggleSelectAll}
+                        className="text-xs font-semibold text-[#1769FF] hover:underline cursor-pointer"
+                      >
+                        Select All {filteredList.length} Articles
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsBatchDeleteModalOpen(true)}
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-xs transition-all cursor-pointer"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                      <span>Delete Selected ({selectedArticles.length})</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Articles Table */}
               <div className="rounded-2xl border border-slate-200 bg-white shadow-xs overflow-hidden">
                 {loading ? (
                   <div className="p-16 text-center text-slate-500 text-xs">
                     <RefreshCw className="w-6 h-6 text-[#1769FF] animate-spin mx-auto mb-2" />
-                    Loading publications from disk...
+                    Loading publications from database...
                   </div>
                 ) : filteredList.length === 0 ? (
                   <div className="p-16 text-center text-slate-500 text-xs space-y-3">
@@ -2172,9 +2308,18 @@ export default function BlogAdmin() {
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse min-w-[700px]">
+                    <table className="w-full text-left border-collapse min-w-[750px]">
                       <thead>
                         <tr className="border-b border-slate-200 bg-slate-50/75 text-xs font-semibold uppercase tracking-wider text-slate-600">
+                          <th className="p-4 sm:p-5 w-12 text-center">
+                            <input
+                              type="checkbox"
+                              checked={filteredList.length > 0 && selectedArticles.length === filteredList.length}
+                              onChange={handleToggleSelectAll}
+                              className="w-4 h-4 rounded border-slate-300 text-[#1769FF] focus:ring-[#1769FF] cursor-pointer"
+                              title="Select / Deselect all visible articles"
+                            />
+                          </th>
                           <th className="p-4 sm:p-5 w-20">Cover</th>
                           <th className="p-4 sm:p-5">Title &amp; Permalink</th>
                           <th className="p-4 sm:p-5">Visitors &amp; Views</th>
@@ -2185,115 +2330,138 @@ export default function BlogAdmin() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 text-xs sm:text-sm">
-                        {filteredList.map((article) => (
-                          <tr
-                            key={article.slug}
-                            className="hover:bg-slate-50/80 transition-colors group"
-                          >
-                            <td className="p-4 sm:p-5">
-                              <div className="relative w-14 h-10 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shrink-0">
-                                {article.featuredImage ? (
-                                  <Image
-                                    src={article.featuredImage}
-                                    alt={article.title}
-                                    fill
-                                    sizes="60px"
-                                    className="object-cover"
-                                  />
-                                ) : (
-                                  <div className="w-full h-full flex items-center justify-center text-slate-400">
-                                    <ImageIcon className="w-4 h-4" />
-                                  </div>
-                                )}
-                              </div>
-                            </td>
+                        {filteredList.map((article) => {
+                          const isSelected = selectedArticles.includes(article.slug);
+                          const isEditingThis = editingSlugLoading === article.slug;
+                          return (
+                            <tr
+                              key={article.slug}
+                              className={`transition-colors group ${
+                                isSelected
+                                  ? "bg-blue-50/70 border-l-4 border-l-[#1769FF]"
+                                  : "hover:bg-slate-50/80"
+                              }`}
+                            >
+                              <td className="p-4 sm:p-5 w-12 text-center">
+                                <input
+                                  type="checkbox"
+                                  checked={isSelected}
+                                  onChange={() => handleToggleSelectArticle(article.slug)}
+                                  className="w-4 h-4 rounded border-slate-300 text-[#1769FF] focus:ring-[#1769FF] cursor-pointer"
+                                  title={`Select "${article.title}"`}
+                                />
+                              </td>
 
-                            <td className="p-4 sm:p-5">
-                              <span className="font-bold text-slate-900 group-hover:text-[#1769FF] transition-colors block line-clamp-1">
-                                {article.title}
-                              </span>
-                              <span className="text-[11px] font-mono text-slate-400 block mt-0.5">
-                                /blog/{article.slug}
-                              </span>
-                            </td>
+                              <td className="p-4 sm:p-5">
+                                <div className="relative w-14 h-10 rounded-lg overflow-hidden border border-slate-200 bg-slate-100 shrink-0">
+                                  {article.featuredImage ? (
+                                    <Image
+                                      src={article.featuredImage}
+                                      alt={article.title}
+                                      fill
+                                      sizes="60px"
+                                      className="object-cover"
+                                    />
+                                  ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-slate-400">
+                                      <ImageIcon className="w-4 h-4" />
+                                    </div>
+                                  )}
+                                </div>
+                              </td>
 
-                            {/* Particular Blog Visitors & Views Cell */}
-                            <td className="p-4 sm:p-5 whitespace-nowrap">
-                              <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-slate-900">
-                                <Eye className="w-3.5 h-3.5 text-[#1769FF]" />
-                                <span>{(analytics?.postViews[article.slug]?.views || 0).toLocaleString()} views</span>
-                              </div>
-                              <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
-                                {(analytics?.postViews[article.slug]?.uniqueVisitors || 0).toLocaleString()} unique readers
-                              </span>
-                            </td>
-
-                            <td className="p-4 sm:p-5">
-                              <div className="flex flex-wrap items-center gap-1.5">
-                                <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-[#1769FF] border border-blue-200/60">
-                                  {article.category}
+                              <td className="p-4 sm:p-5">
+                                <span className="font-bold text-slate-900 group-hover:text-[#1769FF] transition-colors block line-clamp-1">
+                                  {article.title}
                                 </span>
-                                {article.focusKeyword && (
-                                  <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-200">
-                                    {article.focusKeyword}
+                                <span className="text-[11px] font-mono text-slate-400 block mt-0.5">
+                                  /blog/{article.slug}
+                                </span>
+                              </td>
+
+                              {/* Particular Blog Visitors & Views Cell */}
+                              <td className="p-4 sm:p-5 whitespace-nowrap">
+                                <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-slate-900">
+                                  <Eye className="w-3.5 h-3.5 text-[#1769FF]" />
+                                  <span>{(analytics?.postViews[article.slug]?.views || 0).toLocaleString()} views</span>
+                                </div>
+                                <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
+                                  {(analytics?.postViews[article.slug]?.uniqueVisitors || 0).toLocaleString()} unique readers
+                                </span>
+                              </td>
+
+                              <td className="p-4 sm:p-5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <span className="inline-block px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-[#1769FF] border border-blue-200/60">
+                                    {article.category}
                                   </span>
-                                )}
-                                {article.noIndex && (
-                                  <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-mono bg-amber-50 text-amber-700 border border-amber-200">
-                                    noindex
-                                  </span>
-                                )}
-                              </div>
-                            </td>
+                                  {article.focusKeyword && (
+                                    <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-mono bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                      {article.focusKeyword}
+                                    </span>
+                                  )}
+                                  {article.noIndex && (
+                                    <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-mono bg-amber-50 text-amber-700 border border-amber-200">
+                                      noindex
+                                    </span>
+                                  )}
+                                </div>
+                              </td>
 
-                            <td className="p-4 sm:p-5">
-                              <span className="text-slate-800 font-semibold block">
-                                {article.author.name}
-                              </span>
-                              <span className="text-[10px] text-slate-400 block">
-                                {article.author.role}
-                              </span>
-                            </td>
+                              <td className="p-4 sm:p-5">
+                                <span className="text-slate-800 font-semibold block">
+                                  {article.author.name}
+                                </span>
+                                <span className="text-[10px] text-slate-400 block">
+                                  {article.author.role}
+                                </span>
+                              </td>
 
-                            <td className="p-4 sm:p-5 text-slate-600 text-xs whitespace-nowrap">
-                              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200/70">
-                                <Calendar className="w-3.5 h-3.5 text-[#1769FF]" />
-                                <span className="font-semibold text-slate-800">{formatDate(article.publishedAt)}</span>
-                              </div>
-                            </td>
+                              <td className="p-4 sm:p-5 text-slate-600 text-xs whitespace-nowrap">
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-50 border border-slate-200/70">
+                                  <Calendar className="w-3.5 h-3.5 text-[#1769FF]" />
+                                  <span className="font-semibold text-slate-800">{formatDate(article.publishedAt)}</span>
+                                </div>
+                              </td>
 
-                            <td className="p-4 sm:p-5 text-right whitespace-nowrap">
-                              <div className="inline-flex items-center gap-1.5">
-                                <Link
-                                  href={`/blog/${article.slug}`}
-                                  target="_blank"
-                                  title="View Live Article"
-                                  className="p-2 rounded-lg border border-slate-200 text-slate-500 hover:text-[#1769FF] hover:border-[#1769FF]/40 hover:bg-blue-50/50 transition-colors"
-                                >
-                                  <Eye className="w-3.5 h-3.5" />
-                                </Link>
+                              <td className="p-4 sm:p-5 text-right whitespace-nowrap">
+                                <div className="inline-flex items-center gap-1.5">
+                                  <Link
+                                    href={`/blog/${article.slug}`}
+                                    target="_blank"
+                                    title="View Live Article"
+                                    className="p-2 rounded-lg border border-slate-200 text-slate-500 hover:text-[#1769FF] hover:border-[#1769FF]/40 hover:bg-blue-50/50 transition-colors"
+                                  >
+                                    <Eye className="w-3.5 h-3.5" />
+                                  </Link>
 
-                                <button
-                                  type="button"
-                                  onClick={() => handleEditPost(article)}
-                                  title="Edit Post & SEO"
-                                  className="p-2 rounded-lg border border-slate-200 text-slate-500 hover:text-[#1769FF] hover:border-[#1769FF]/40 hover:bg-blue-50/50 transition-colors"
-                                >
-                                  <Edit3 className="w-3.5 h-3.5" />
-                                </button>
+                                  <button
+                                    type="button"
+                                    disabled={isEditingThis}
+                                    onClick={() => handleEditPost(article)}
+                                    title="Edit Post & SEO"
+                                    className="p-2 rounded-lg border border-slate-200 text-slate-500 hover:text-[#1769FF] hover:border-[#1769FF]/40 hover:bg-blue-50/50 transition-colors cursor-pointer disabled:opacity-60"
+                                  >
+                                    {isEditingThis ? (
+                                      <Loader2 className="w-3.5 h-3.5 animate-spin text-[#1769FF]" />
+                                    ) : (
+                                      <Edit3 className="w-3.5 h-3.5" />
+                                    )}
+                                  </button>
 
-                                <button
-                                  type="button"
-                                  onClick={() => setDeleteConfirmSlug(article.slug)}
-                                  title="Delete Post"
-                                  className="p-2 rounded-lg border border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors"
-                                >
-                                  <Trash2 className="w-3.5 h-3.5" />
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                                  <button
+                                    type="button"
+                                    onClick={() => setDeleteConfirmSlug(article.slug)}
+                                    title="Delete Post"
+                                    className="p-2 rounded-lg border border-slate-200 text-slate-500 hover:text-red-600 hover:border-red-300 hover:bg-red-50 transition-colors cursor-pointer"
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
                       </tbody>
                     </table>
                   </div>
@@ -2767,12 +2935,103 @@ export default function BlogAdmin() {
                     </div>
 
                     {/* QUICK INSERT COMMONLY USED DESIGN COMPONENTS */}
-                    <div className="flex items-center gap-1.5 flex-wrap py-2 px-3 bg-blue-50/70 border-b border-slate-200 text-xs">
+                    <div className="flex items-center gap-1.5 flex-wrap py-2.5 px-3 bg-gradient-to-r from-blue-50/90 via-slate-50 to-blue-50/50 border-b border-slate-200 text-xs">
                       <span className="text-[11px] font-bold text-[#1769FF] font-mono mr-1 uppercase flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
+                        <Sparkles className="w-3.5 h-3.5 text-[#1769FF]" />
                         + Quick Insert:
                       </span>
 
+                      {/* Callout Card */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          insertCustomHtml(
+                            `<div class="blog-callout"><div class="blog-callout-title">💡 Architecture Key Concept</div><p>Enterprise platforms require strict boundary separation between client components and edge microservices to maximize throughput and maintain sub-100ms response times globally.</p></div><p><br></p>`
+                          )
+                        }
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-50 border border-blue-200 text-[#1769FF] hover:bg-blue-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
+                        title="Insert Highlighted Callout Box"
+                      >
+                        <Bookmark className="w-3 h-3" />
+                        <span>+ Callout Card</span>
+                      </button>
+
+                      {/* Pro Tip Box */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          insertCustomHtml(
+                            `<div class="blog-tip"><p><strong>🚀 Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial JavaScript bundle size and eliminate Interaction to Next Paint (INP) bottlenecks.</p></div><p><br></p>`
+                          )
+                        }
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
+                        title="Insert Green Pro-Tip Box"
+                      >
+                        <Sparkles className="w-3 h-3 text-emerald-600" />
+                        <span>+ Pro Tip Box</span>
+                      </button>
+
+                      {/* 2-Column Grid */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          insertCustomHtml(
+                            `<div class="blog-grid-2"><div class="blog-card"><div class="blog-card-title">Approach A: Traditional</div><p>Higher initial coupling, synchronous monolithic data fetching, and heavier client-side JavaScript execution.</p></div><div class="blog-card"><div class="blog-card-title">Approach B: Composable</div><p>Decoupled edge execution, streaming SSR HTML, and localized partial hydration for instantaneous interactivity.</p></div></div><p><br></p>`
+                          )
+                        }
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 border border-indigo-200 text-indigo-700 hover:bg-indigo-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
+                        title="Insert 2-Column Side-by-Side Responsive Grid"
+                      >
+                        <Grid className="w-3 h-3 text-indigo-600" />
+                        <span>+ 2-Column Grid</span>
+                      </button>
+
+                      {/* Comparison Table */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          insertCustomHtml(
+                            `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Evaluation Metric</th><th>Custom Next.js Stack</th><th>Traditional CMS / Builders</th></tr></thead><tbody><tr><td>Core Web Vitals</td><td>100/100 LCP &amp; Zero CLS</td><td>Degraded Script Bloat</td></tr><tr><td>SEO &amp; JSON-LD</td><td>Granular Edge Head Injection</td><td>Plugin Dependent</td></tr><tr><td>Edge Scalability</td><td>Auto-burst Serverless Shards</td><td>Single Server Choke Points</td></tr></tbody></table></div><p><br></p>`
+                          )
+                        }
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white border border-slate-200 text-slate-700 hover:border-[#1769FF] hover:text-[#1769FF] hover:bg-blue-50/40 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
+                        title="Insert Responsive Comparison Table"
+                      >
+                        <Table className="w-3 h-3 text-slate-500" />
+                        <span>+ Comparison Table</span>
+                      </button>
+
+                      {/* Warning Box */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          insertCustomHtml(
+                            `<div class="blog-warning"><p><strong>⚠️ Warning / Common Pitfall:</strong> Avoid chaining multiple client-side redirects or uncompressed media assets, as this drastically degrades crawl equity and LCP latency.</p></div><p><br></p>`
+                          )
+                        }
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
+                        title="Insert Amber Warning Alert Box"
+                      >
+                        <AlertCircle className="w-3 h-3 text-amber-600" />
+                        <span>+ Warning Box</span>
+                      </button>
+
+                      {/* Key Takeaways Card */}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          insertCustomHtml(
+                            `<div class="blog-card" style="border-left-color: #8b5cf6;"><div class="blog-card-title" style="color: #7c3aed;">📌 Key Takeaways</div><ul style="margin: 0; padding-left: 1.25rem;"><li>Decouple frontends from monolithic CMS runtimes using Next.js.</li><li>Optimize Core Web Vitals to pass Google search ranking criteria.</li><li>Cache dynamic payloads close to end-users via CDN Edge networks.</li></ul></div><p><br></p>`
+                          )
+                        }
+                        className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100 font-semibold text-[11px] transition-colors cursor-pointer shadow-2xs"
+                        title="Insert Bulleted Key Takeaways Box"
+                      >
+                        <CheckCheck className="w-3 h-3 text-purple-600" />
+                        <span>+ Key Takeaways</span>
+                      </button>
+
+                      {/* Quotes */}
                       <button
                         type="button"
                         onClick={() =>
@@ -2780,7 +3039,8 @@ export default function BlogAdmin() {
                             `<blockquote class="blog-quote-blue"><p>"Architecture is not just what it looks like, but how the systems scale under high concurrent load."</p></blockquote><p><br></p>`
                           )
                         }
-                        className="px-2.5 py-1 rounded-md bg-white border border-blue-200 text-[#1769FF] hover:bg-blue-50 font-medium text-[11px] cursor-pointer"
+                        className="px-2.5 py-1 rounded-lg bg-white border border-blue-200 text-[#1769FF] hover:bg-blue-50 font-medium text-[11px] transition-colors cursor-pointer"
+                        title="Insert Blue Quote Block"
                       >
                         + Blue Quote
                       </button>
@@ -2792,63 +3052,16 @@ export default function BlogAdmin() {
                             `<blockquote class="blog-quote-cyan"><p>"Next-generation edge runtimes eliminate cold-starts and serve content at wire speeds globally."</p></blockquote><p><br></p>`
                           )
                         }
-                        className="px-2.5 py-1 rounded-md bg-white border border-cyan-200 text-cyan-700 hover:bg-cyan-50 font-medium text-[11px] cursor-pointer"
+                        className="px-2.5 py-1 rounded-lg bg-white border border-cyan-200 text-cyan-700 hover:bg-cyan-50 font-medium text-[11px] transition-colors cursor-pointer"
+                        title="Insert Cyan Quote Block"
                       >
                         + Cyan Quote
                       </button>
 
                       <button
                         type="button"
-                        onClick={() =>
-                          insertCustomHtml(
-                            `<blockquote class="blog-quote-purple"><p>"Strategic engineering leadership aligns code quality directly with high-impact enterprise revenue."</p></blockquote><p><br></p>`
-                          )
-                        }
-                        className="px-2.5 py-1 rounded-md bg-white border border-purple-200 text-purple-700 hover:bg-purple-50 font-medium text-[11px] cursor-pointer"
-                      >
-                        + Purple Quote
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          insertCustomHtml(
-                            `<div class="blog-tip"><p><strong>Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial JavaScript bundle size.</p></div><p><br></p>`
-                          )
-                        }
-                        className="px-2.5 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 hover:bg-emerald-100 font-medium text-[11px] cursor-pointer"
-                      >
-                        + Pro Tip Box
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          insertCustomHtml(
-                            `<div class="blog-warning"><p><strong>Important Note:</strong> Avoid chaining multiple client-side redirects as this degrades crawl equity and LCP latency.</p></div><p><br></p>`
-                          )
-                        }
-                        className="px-2.5 py-1 rounded-md bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 font-medium text-[11px] cursor-pointer"
-                      >
-                        + Warning Box
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() =>
-                          insertCustomHtml(
-                            `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Evaluation Pillar</th><th>Custom Next.js Stack</th><th>Visual Site Builders</th></tr></thead><tbody><tr><td>Core Web Vitals</td><td>100/100 LCP &amp; Zero Shift</td><td>Degraded Script Bloat</td></tr><tr><td>SEO Control</td><td>Granular JSON-LD &amp; Edge Headers</td><td>Restricted Canonical Settings</td></tr><tr><td>Custom API Scalability</td><td>Full Node.js/Edge Microservices</td><td>Walled Garden Plugins</td></tr></tbody></table></div><p><br></p>`
-                          )
-                        }
-                        className="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-slate-700 hover:border-[#1769FF] hover:text-[#1769FF] font-medium text-[11px] cursor-pointer"
-                      >
-                        + Comparison Table
-                      </button>
-
-                      <button
-                        type="button"
                         onClick={() => switchEditorStep("design")}
-                        className="ml-auto text-[11px] font-bold text-purple-700 hover:underline flex items-center gap-1 cursor-pointer"
+                        className="ml-auto text-[11px] font-bold text-purple-700 hover:underline flex items-center gap-1 cursor-pointer pl-2"
                       >
                         <span>Explore All Design Styles →</span>
                       </button>
@@ -3109,66 +3322,120 @@ export default function BlogAdmin() {
 
                   {/* Section C: Callout Cards, Grids & Figures */}
                   <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
-                    <h4 className="text-sm font-bold text-slate-900 pb-3 border-b border-slate-100">
-                      Callout Cards, Pro Tips &amp; 2-Column Grids
+                    <h4 className="text-sm font-bold text-slate-900 pb-3 border-b border-slate-100 flex items-center justify-between">
+                      <span>Callout Cards, Pro Tips &amp; 2-Column Grids</span>
+                      <span className="text-[11px] font-normal text-slate-500">Click &quot;+ Insert&quot; to inject into your article</span>
                     </h4>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      {/* Pro Tip Box */}
-                      <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {/* Callout Card */}
+                      <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/50 space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-emerald-800">Pro-Tip Box</span>
+                          <span className="text-xs font-bold text-[#1769FF] flex items-center gap-1">
+                            <Bookmark className="w-3.5 h-3.5" />
+                            <span>Callout Card (.blog-callout)</span>
+                          </span>
                           <button
                             type="button"
                             onClick={() =>
                               insertCustomHtml(
-                                `<div class="blog-tip"><p><strong>Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial bundle size.</p></div><p><br></p>`
+                                `<div class="blog-callout"><div class="blog-callout-title">💡 Architecture Key Concept</div><p>Enterprise platforms require strict boundary separation between client components and edge microservices to maximize throughput and maintain sub-100ms response times globally.</p></div><p><br></p>`
                               )
                             }
-                            className="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-600 text-white hover:bg-emerald-700 cursor-pointer"
+                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
                           >
                             + Insert
                           </button>
                         </div>
-                        <p className="text-[11px] text-emerald-700">Emerald border with pro-tip highlight.</p>
+                        <p className="text-[11px] text-blue-700">Electric blue left border with bold card title &amp; description.</p>
+                      </div>
+
+                      {/* Pro Tip Box */}
+                      <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-emerald-800 flex items-center gap-1">
+                            <Sparkles className="w-3.5 h-3.5" />
+                            <span>Pro-Tip Box (.blog-tip)</span>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              insertCustomHtml(
+                                `<div class="blog-tip"><p><strong>🚀 Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial bundle size and eliminate Interaction to Next Paint (INP) bottlenecks.</p></div><p><br></p>`
+                              )
+                            }
+                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors cursor-pointer"
+                          >
+                            + Insert
+                          </button>
+                        </div>
+                        <p className="text-[11px] text-emerald-700">Emerald highlight box for recommended architectural practices.</p>
+                      </div>
+
+                      {/* 2-Column Grid */}
+                      <div className="p-4 rounded-xl border border-indigo-200 bg-indigo-50/50 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-indigo-700 flex items-center gap-1">
+                            <Grid className="w-3.5 h-3.5" />
+                            <span>2-Column Cards (.blog-grid-2)</span>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              insertCustomHtml(
+                                `<div class="blog-grid-2"><div class="blog-card"><div class="blog-card-title">Approach A: Traditional</div><p>Higher initial coupling, synchronous monolithic data fetching, and heavier client-side JavaScript execution.</p></div><div class="blog-card"><div class="blog-card-title">Approach B: Composable</div><p>Decoupled edge execution, streaming SSR HTML, and localized partial hydration for instantaneous interactivity.</p></div></div><p><br></p>`
+                              )
+                            }
+                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors cursor-pointer"
+                          >
+                            + Insert
+                          </button>
+                        </div>
+                        <p className="text-[11px] text-indigo-700">Responsive 2-column comparative layout for approaches.</p>
                       </div>
 
                       {/* Warning Box */}
                       <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-amber-800">Warning Box</span>
+                          <span className="text-xs font-bold text-amber-800 flex items-center gap-1">
+                            <AlertCircle className="w-3.5 h-3.5" />
+                            <span>Warning Box (.blog-warning)</span>
+                          </span>
                           <button
                             type="button"
                             onClick={() =>
                               insertCustomHtml(
-                                `<div class="blog-warning"><p><strong>Important Note:</strong> Avoid chaining multiple client-side redirects as this degrades crawl equity.</p></div><p><br></p>`
+                                `<div class="blog-warning"><p><strong>⚠️ Warning / Common Pitfall:</strong> Avoid chaining multiple client-side redirects as this degrades crawl equity and LCP latency.</p></div><p><br></p>`
                               )
                             }
-                            className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-600 text-white hover:bg-amber-700 cursor-pointer"
+                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors cursor-pointer"
                           >
                             + Insert
                           </button>
                         </div>
-                        <p className="text-[11px] text-amber-700">Amber border with architecture warning.</p>
+                        <p className="text-[11px] text-amber-700">Amber warning box for technical pitfalls and anti-patterns.</p>
                       </div>
 
-                      {/* 2-Column Grid */}
-                      <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/50 space-y-2">
+                      {/* Key Takeaways Box */}
+                      <div className="p-4 rounded-xl border border-purple-200 bg-purple-50/50 space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-[#1769FF]">2-Column Cards</span>
+                          <span className="text-xs font-bold text-purple-800 flex items-center gap-1">
+                            <CheckCheck className="w-3.5 h-3.5" />
+                            <span>Key Takeaways Box</span>
+                          </span>
                           <button
                             type="button"
                             onClick={() =>
                               insertCustomHtml(
-                                `<div class="blog-grid-2"><div class="blog-card"><div class="blog-card-title">Approach A: Monolithic</div><p>Detailed architecture analysis of monolithic design...</p></div><div class="blog-card"><div class="blog-card-title">Approach B: Composable</div><p>Detailed architecture analysis of decoupled design...</p></div></div><p><br></p>`
+                                `<div class="blog-card" style="border-left-color: #8b5cf6;"><div class="blog-card-title" style="color: #7c3aed;">📌 Key Takeaways</div><ul style="margin: 0; padding-left: 1.25rem;"><li>Decouple frontends from monolithic CMS runtimes using Next.js.</li><li>Optimize Core Web Vitals to pass Google search ranking criteria.</li><li>Cache dynamic payloads close to end-users via CDN Edge networks.</li></ul></div><p><br></p>`
                               )
                             }
-                            className="px-2 py-0.5 rounded text-[11px] font-bold bg-[#1769FF] text-white hover:bg-blue-600 cursor-pointer"
+                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-purple-600 text-white hover:bg-purple-700 transition-colors cursor-pointer"
                           >
                             + Insert
                           </button>
                         </div>
-                        <p className="text-[11px] text-blue-700">Side-by-side responsive cards.</p>
+                        <p className="text-[11px] text-purple-700">Purple accent card with bulleted list for summary sections.</p>
                       </div>
                     </div>
                   </div>
@@ -4344,8 +4611,8 @@ export default function BlogAdmin() {
       {/* MODAL 1: CUSTOM CSS CLASS APPLICATOR (FOR ANY SELECTED ELEMENT/TEXT) */}
       {/* ========================================================================= */}
       {isClassModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="max-w-xl w-full rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-200">
+          <div className="max-w-xl w-full rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col max-h-[90vh] modal-animate">
             {/* Modal Header */}
             <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
               <div className="flex items-center gap-2">
@@ -4575,8 +4842,8 @@ export default function BlogAdmin() {
       {/* MODAL 2: MEDIA PICKER MODAL */}
       {/* ========================================================================= */}
       {isMediaModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="max-w-3xl w-full rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-200">
+          <div className="max-w-3xl w-full rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col max-h-[85vh] modal-animate">
             <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
               <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                 <ImageIcon className="w-4 h-4 text-[#1769FF]" />
@@ -4640,32 +4907,120 @@ export default function BlogAdmin() {
       )}
 
       {/* ========================================================================= */}
-      {/* MODAL 3: DELETE CONFIRMATION MODAL */}
+      {/* MODAL 3: SINGLE DELETE CONFIRMATION MODAL */}
       {/* ========================================================================= */}
       {deleteConfirmSlug && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="max-w-md w-full rounded-2xl border border-red-200 bg-white p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-200">
+          <div className="max-w-md w-full rounded-2xl border border-red-200 bg-white p-6 shadow-2xl space-y-4 modal-animate">
             <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center">
               <Trash2 className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold text-slate-900">Delete Article Permanently?</h3>
             <p className="text-xs text-slate-600 leading-relaxed">
-              Are you sure you want to delete <code className="text-[#1769FF] font-mono font-semibold">{deleteConfirmSlug}</code>? This action will permanently remove the article from the blog.
+              Are you sure you want to delete <code className="text-[#1769FF] font-mono font-semibold">{deleteConfirmSlug}</code>? This action will permanently remove the article from your MongoDB database.
             </p>
             <div className="flex items-center justify-end gap-3 pt-2">
               <button
                 type="button"
+                disabled={isDeletingArticle}
                 onClick={() => setDeleteConfirmSlug(null)}
-                className="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50"
+                className="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="button"
+                disabled={isDeletingArticle}
                 onClick={() => handleDeleteArticle(deleteConfirmSlug)}
-                className="px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-sm transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white shadow-sm transition-all cursor-pointer"
               >
-                Confirm Delete
+                {isDeletingArticle ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Deleting...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Confirm Delete</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 3B: BATCH DELETE CONFIRMATION MODAL */}
+      {/* ========================================================================= */}
+      {isBatchDeleteModalOpen && selectedArticles.length > 0 && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-200">
+          <div className="max-w-lg w-full rounded-2xl border border-red-200 bg-white p-6 shadow-2xl space-y-4 modal-animate">
+            <div className="flex items-start justify-between">
+              <div className="w-11 h-11 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center shrink-0">
+                <Trash2 className="w-6 h-6" />
+              </div>
+              <span className="px-2.5 py-1 rounded-full text-[11px] font-mono font-bold bg-red-100 text-red-700">
+                Batch Deletion
+              </span>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-bold text-slate-900">
+                Delete {selectedArticles.length} Selected Articles?
+              </h3>
+              <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+                This will permanently delete the following articles from your MongoDB database and purge their cached routes:
+              </p>
+            </div>
+
+            {/* List of selected articles */}
+            <div className="max-h-40 overflow-y-auto space-y-1.5 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+              {selectedArticles.map((slug) => {
+                const article = articles.find((a) => a.slug === slug);
+                return (
+                  <div key={slug} className="flex items-center justify-between text-slate-700 py-0.5">
+                    <span className="font-semibold truncate max-w-[280px]">
+                      {article ? article.title : slug}
+                    </span>
+                    <span className="text-[10px] font-mono text-slate-400">/blog/{slug}</span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-800 flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />
+              <span>Warning: This batch operation cannot be undone.</span>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                disabled={isBatchDeleting}
+                onClick={() => setIsBatchDeleteModalOpen(false)}
+                className="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isBatchDeleting}
+                onClick={handleBatchDelete}
+                className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white shadow-sm transition-all cursor-pointer"
+              >
+                {isBatchDeleting ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Deleting {selectedArticles.length} articles...</span>
+                  </>
+                ) : (
+                  <>
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Permanently Delete ({selectedArticles.length})</span>
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -4676,8 +5031,8 @@ export default function BlogAdmin() {
       {/* MODAL 4: ADD / EDIT CATEGORY MODAL */}
       {/* ========================================================================= */}
       {isCategoryModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="max-w-lg w-full rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-200">
+          <div className="max-w-lg w-full rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col modal-animate">
             <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
               <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
                 <Tags className="w-4 h-4 text-[#1769FF]" />
@@ -4818,8 +5173,8 @@ export default function BlogAdmin() {
       {/* MODAL 5: DELETE CATEGORY CONFIRMATION MODAL */}
       {/* ========================================================================= */}
       {isDeleteCategoryModalOpen && categoryToDelete && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="max-w-md w-full rounded-2xl border border-red-200 bg-white p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-200">
+          <div className="max-w-md w-full rounded-2xl border border-red-200 bg-white p-6 shadow-2xl space-y-4 modal-animate">
             <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center">
               <Trash2 className="w-5 h-5" />
             </div>

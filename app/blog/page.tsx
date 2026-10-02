@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Blog from "@/src/views/blog/Blog";
 import { generatePageMetadata } from "@/src/lib/seo";
 import { getStoredBlogArticlesAsync } from "@/src/lib/blog-storage";
+import { getStoredCategoriesAsync } from "@/src/lib/category-storage";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,9 @@ export const metadata = generatePageMetadata({
 });
 
 export default async function Page() {
-  const articles = await getStoredBlogArticlesAsync();
-  return <Blog initialArticles={articles} />;
+  const [articles, categories] = await Promise.all([
+    getStoredBlogArticlesAsync(),
+    getStoredCategoriesAsync(),
+  ]);
+  return <Blog initialArticles={articles} initialCategories={categories} />;
 }

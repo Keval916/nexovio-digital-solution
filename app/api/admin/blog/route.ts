@@ -6,6 +6,7 @@ import {
   createBlogArticleInDb,
   updateBlogArticleInDb,
   deleteBlogArticleFromDb,
+  deleteManyBlogArticlesFromDb,
   calculateReadingTime,
   generateSlug,
 } from "@/src/lib/blog-storage";
@@ -292,46 +293,76 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// DELETE: Remove an article from MongoDB
+// DELETE: Remove an article or multiple articles from MongoDB
 export async function DELETE(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     const slug = searchParams.get("slug");
+    const slugsParam = searchParams.get("slugs");
 
-    const target = slug || id;
-    if (!target) {
+    let slugsToDelete: string[] = [];
+
+    if (slugsParam) {
+      slugsToDelete = slugsParam.split(",").map((s) => s.trim()).filter(Boolean);
+    } else if (slug || id) {
+      slugsToDelete = [slug || id!];
+    } else {
+      // Check if JSON body contains slugs
+      try {
+        const body = await req.json();
+        if (Array.isArray(body?.slugs)) {
+          slugsToDelete = body.slugs.map((s: any) => String(s).trim()).filter(Boolean);
+        }
+      } catch {
+        // No body
+      }
+    }
+
+    if (slugsToDelete.length === 0) {
       return NextResponse.json(
-        { success: false, message: "Article ID or slug is required" },
+        { success: false, message: "Article ID, slug, or slugs array is required" },
         { status: 400 }
       );
     }
 
-    const deleted = await deleteBlogArticleFromDb(target);
-
-    if (!deleted && isMongoConfigured()) {
-      return NextResponse.json(
-        { success: false, message: "Article not found in database" },
-        { status: 404 }
-      );
+    if (slugsToDelete.length === 1) {
+      const deleted = await deleteBlogArticleFromDb(slugsToDelete[0]);
+      if (!deleted && isMongoConfigured()) {
+        return NextResponse.json(
+          { success: false, message: "Article not found in database" },
+          { status: 404 }
+        );
+      }
+    } else {
+      const result = await deleteManyBlogArticlesFromDb(slugsToDelete);
+      if (!result.success && isMongoConfigured()) {
+        return NextResponse.json(
+          { success: false, message: "Failed to delete articles from database" },
+          { status: 500 }
+        );
+      }
     }
 
     try {
       revalidatePath("/sitemap.xml");
       revalidatePath("/blog");
-      if (slug) revalidatePath(`/blog/${slug}`);
+      for (const s of slugsToDelete) {
+        revalidatePath(`/blog/${s}`);
+      }
     } catch (e) {
       console.warn("Revalidation warning:", e);
     }
 
     return NextResponse.json({
       success: true,
-      message: "Article deleted from database successfully",
+      message: `${slugsToDelete.length} article(s) deleted successfully from MongoDB`,
+      deletedCount: slugsToDelete.length,
     });
   } catch (error) {
     console.error("API DELETE /api/admin/blog error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to delete article" },
+      { success: false, message: "Failed to delete article(s)" },
       { status: 500 }
     );
   }

@@ -201,6 +201,32 @@ export async function deleteBlogArticleFromDb(slugOrId: string): Promise<boolean
 }
 
 /**
+ * Delete multiple articles from MongoDB by slugs or ids.
+ */
+export async function deleteManyBlogArticlesFromDb(
+  slugsOrIds: string[]
+): Promise<{ count: number; success: boolean }> {
+  if (!isMongoConfigured() || !slugsOrIds || slugsOrIds.length === 0) {
+    return { count: 0, success: false };
+  }
+
+  try {
+    const collection = await getBlogCollection();
+    const res = await collection.deleteMany({
+      $or: [{ slug: { $in: slugsOrIds } }, { id: { $in: slugsOrIds } }],
+    });
+
+    // Invalidate cache
+    memoryArticlesCache = null;
+    lastFetchTime = 0;
+    return { count: res.deletedCount, success: true };
+  } catch (err) {
+    console.error("[blog-storage] MongoDB deleteMany error:", err);
+    return { count: 0, success: false };
+  }
+}
+
+/**
  * Compatibility wrapper for bulk saving array of articles.
  */
 export async function saveStoredBlogArticlesAsync(articles: BlogArticle[]): Promise<boolean> {

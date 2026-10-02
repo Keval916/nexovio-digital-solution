@@ -35,7 +35,10 @@ function loadEnv() {
 
 loadEnv();
 
-const uri = process.env.MONGODB_URI;
+let uri = (process.env.MONGODB_URI || "").trim();
+if ((uri.startsWith('"') && uri.endsWith('"')) || (uri.startsWith("'") && uri.endsWith("'"))) {
+  uri = uri.slice(1, -1).trim();
+}
 const dbName = process.env.MONGODB_DB || "nexovio";
 
 if (!uri) {
@@ -46,80 +49,96 @@ if (!uri) {
   process.exit(1);
 }
 
+const DEFAULT_CATEGORIES = [
+  {
+    id: "cat-web-dev",
+    name: "Web Development",
+    slug: "web-development",
+    description: "Architecture, Next.js, modern frameworks, APIs, and scalable web engineering.",
+    color: "blue",
+    createdAt: "2026-01-15T00:00:00.000Z",
+  },
+  {
+    id: "cat-technology",
+    name: "Technology",
+    slug: "technology",
+    description: "Emerging tech, autonomous AI agents, cloud architectures, and software paradigms.",
+    color: "cyan",
+    createdAt: "2026-01-15T00:00:00.000Z",
+  },
+  {
+    id: "cat-ui-ux",
+    name: "UI/UX",
+    slug: "ui-ux",
+    description: "Design systems, usability heuristics, component libraries, and interactive user experiences.",
+    color: "purple",
+    createdAt: "2026-01-15T00:00:00.000Z",
+  },
+  {
+    id: "cat-seo",
+    name: "SEO",
+    slug: "seo",
+    description: "Core Web Vitals, programmatic SEO, search ranking signals, and technical audits.",
+    color: "emerald",
+    createdAt: "2026-01-15T00:00:00.000Z",
+  },
+  {
+    id: "cat-web-design",
+    name: "Web Design",
+    slug: "web-design",
+    description: "Visual aesthetics, typography, responsive layouts, and creative brand identity.",
+    color: "amber",
+    createdAt: "2026-01-15T00:00:00.000Z",
+  },
+  {
+    id: "cat-digital-marketing",
+    name: "Digital Marketing",
+    slug: "digital-marketing",
+    description: "Conversion rate optimization (CRO), B2B lead generation, and omnichannel growth strategy.",
+    color: "rose",
+    createdAt: "2026-01-15T00:00:00.000Z",
+  },
+];
+
 async function seed() {
   console.log(`\n🚀 Connecting to MongoDB database: "${dbName}"...`);
-  const client = new MongoClient(uri);
+  const client = new MongoClient(uri, {
+    serverSelectionTimeoutMS: 8000,
+    connectTimeoutMS: 10000,
+  });
 
   try {
     await client.connect();
     console.log(" Connected to MongoDB successfully.");
 
     const db = client.db(dbName);
-    const collection = db.collection("blog_posts");
 
-    // Create unique index on slug and text index for search
-    await collection.createIndex({ slug: 1 }, { unique: true });
-    await collection.createIndex({ title: "text", excerpt: "text" });
-    console.log(" Verified unique index on { slug: 1 } and text index on { title, excerpt }.");
+    // 1. Seed Categories Collection
+    const categoryCollection = db.collection("blog_categories");
+    await categoryCollection.createIndex({ slug: 1 }, { unique: true });
+    console.log(" Verified unique index on blog_categories { slug: 1 }.");
 
-    // Find source data
-    let articles = [];
-    const jsonPath = path.join(rootDir, "src", "data", "blog-posts.json");
-    if (fs.existsSync(jsonPath)) {
-      const raw = fs.readFileSync(jsonPath, "utf-8");
-      articles = JSON.parse(raw);
-      console.log(` Found ${articles.length} articles from src/data/blog-posts.json.`);
-    }
-
-    if (articles.length === 0) {
-      // Dynamic import from blog.ts fallback
-      try {
-        const blogTsPath = path.join(rootDir, "src", "data", "blog.ts");
-        const blogTsContent = fs.readFileSync(blogTsPath, "utf-8");
-        const match = blogTsContent.match(/export const FALLBACK_BLOG_ARTICLES:\s*BlogArticle\[\]\s*=\s*(\[[\s\S]*?\]);/);
-        if (match && match[1]) {
-          articles = eval("(" + match[1] + ")");
-          console.log(` Loaded ${articles.length} fallback articles from src/data/blog.ts.`);
-        }
-      } catch (err) {
-        console.warn("Could not parse blog.ts fallback:", err.message);
-      }
-    }
-
-    if (articles.length === 0) {
-      console.log("No articles found to import.");
-      return;
-    }
-
-    let inserted = 0;
-    let updated = 0;
-
-    for (const art of articles) {
-      const { _id, ...cleanArt } = art;
-      const res = await collection.updateOne(
-        { slug: cleanArt.slug },
-        {
-          $set: {
-            ...cleanArt,
-            updatedAtDate: new Date(),
-          },
-          $setOnInsert: {
-            createdAtDate: new Date(cleanArt.publishedAt || Date.now()),
-          },
-        },
+    let catCount = 0;
+    for (const cat of DEFAULT_CATEGORIES) {
+      await categoryCollection.updateOne(
+        { slug: cat.slug },
+        { $set: cat },
         { upsert: true }
       );
-
-      if (res.upsertedCount > 0) {
-        inserted++;
-        console.log(`  ➕ Inserted: "${cleanArt.title}" (${cleanArt.slug})`);
-      } else {
-        updated++;
-        console.log(`  🔄 Updated: "${cleanArt.title}" (${cleanArt.slug})`);
-      }
+      catCount++;
     }
+    console.log(` Seeded ${catCount} categories into "blog_categories" collection.`);
 
-    console.log(`\n🎉 MongoDB Blog Migration Complete! Total: ${articles.length} | Inserted: ${inserted} | Updated: ${updated}\n`);
+    // 2. Seed Blog Posts Collection
+    const collection = db.collection("blog_posts");
+    await collection.createIndex({ slug: 1 }, { unique: true });
+    await collection.createIndex({ title: "text", excerpt: "text" });
+    console.log(" Verified unique index on blog_posts { slug: 1 } and text index on { title, excerpt }.");
+
+    const existingArticles = await collection.find({}).toArray();
+    console.log(` Currently ${existingArticles.length} articles active in "blog_posts".`);
+
+    console.log(`\n🎉 MongoDB Full Migration & Seeding Complete!\n`);
   } catch (err) {
     console.error("\n❌ MongoDB Migration Error:", err);
     process.exit(1);

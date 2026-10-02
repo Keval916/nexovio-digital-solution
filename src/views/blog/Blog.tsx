@@ -27,6 +27,7 @@ import { BLOG_ARTICLES, BlogArticle } from "@/src/data/blog";
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { formatDate } from "@/src/lib/utils";
 import { getCollectionPageSchema } from "@/src/lib/schema";
+import { BlogCategory } from "@/src/lib/category-storage";
 
 const DEFAULT_CATEGORIES = [
   "All",
@@ -42,11 +43,21 @@ const ITEMS_PER_PAGE = 12;
 
 interface BlogHubPageProps {
   initialArticles?: BlogArticle[];
+  initialCategories?: BlogCategory[] | string[];
 }
 
-export default function BlogHubPage({ initialArticles }: BlogHubPageProps = {}) {
+export default function BlogHubPage({ initialArticles, initialCategories }: BlogHubPageProps = {}) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
-  const [categoriesList, setCategoriesList] = useState<string[]>(DEFAULT_CATEGORIES);
+
+  const initialCatNames = useMemo(() => {
+    if (initialCategories && initialCategories.length > 0) {
+      const names = initialCategories.map((c) => (typeof c === "string" ? c : c.name));
+      return ["All", ...Array.from(new Set(names))];
+    }
+    return DEFAULT_CATEGORIES;
+  }, [initialCategories]);
+
+  const [categoriesList, setCategoriesList] = useState<string[]>(initialCatNames);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -68,11 +79,11 @@ export default function BlogHubPage({ initialArticles }: BlogHubPageProps = {}) 
     fetch("/api/admin/categories")
       .then((r) => r.json())
       .then((data) => {
-        if (data.success && Array.isArray(data.categories)) {
-          const names = data.categories.map((c: any) => c.name);
-          const articleCats = Array.from(new Set(BLOG_ARTICLES.map((a) => a.category)));
-          const merged = ["All", ...Array.from(new Set([...names, ...articleCats]))];
-          setCategoriesList(merged);
+        if (data.success && Array.isArray(data.categories) && data.categories.length > 0) {
+          const names: string[] = data.categories
+            .map((c: any) => (c?.name ? String(c.name).trim() : ""))
+            .filter((n: string) => n.length > 0);
+          setCategoriesList(["All", ...Array.from(new Set<string>(names))]);
         }
       })
       .catch(() => {});
