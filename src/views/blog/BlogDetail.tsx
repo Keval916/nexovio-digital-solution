@@ -23,11 +23,13 @@ import {
   ChevronRight,
   MessageSquare,
   Eye,
+  ChevronDown,
+  HelpCircle,
 } from "lucide-react";
 import { getBlogArticleBySlug, BLOG_ARTICLES, BlogArticle } from "@/src/data/blog";
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { Button } from "@/src/components/ui/Button";
-import { formatDate } from "@/src/lib/utils";
+import { formatDate, cn } from "@/src/lib/utils";
 import { getArticleSchema } from "@/src/lib/schema";
 
 interface BlogArticlePageProps {
@@ -120,6 +122,13 @@ export default function SingleBlogArticlePage({
 
   // Live Visitor / Readers view counting
   const [viewsCount, setViewsCount] = useState<number | null>(null);
+
+  // Dedicated Article FAQ Accordion state (first FAQ open by default for discoverability)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex((prev) => (prev === index ? null : index));
+  };
 
   useEffect(() => {
     if (!article) return;
@@ -518,6 +527,99 @@ export default function SingleBlogArticlePage({
                 );
               })}
             </div>
+
+            {/* Dedicated Article FAQ Accordion Section */}
+            {article.faqs && article.faqs.length > 0 && (
+              <div className="mt-12 mb-6 pt-10 border-t border-border-subtle" id="article-faqs">
+                <div className="flex items-center gap-3 mb-6">
+                  <span className="p-2.5 rounded-2xl bg-brand-bright/10 text-brand-bright border border-brand-bright/20 shadow-xs">
+                    <HelpCircle className="w-5 h-5 text-brand-bright" />
+                  </span>
+                  <div>
+                    <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                      Frequently Asked Questions
+                    </h3>
+                    <p className="text-xs sm:text-sm text-muted mt-0.5">
+                      Common technical inquiries and architectural clarifications for this article.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-3.5">
+                  {article.faqs.map((faq, index) => {
+                    const isOpen = openFaqIndex === index;
+                    return (
+                      <div
+                        key={index}
+                        className={cn(
+                          "relative rounded-2xl transition-all duration-300 overflow-hidden backdrop-blur-md",
+                          isOpen
+                            ? "bg-white dark:bg-[#07162c] border border-transparent shadow-[0_8px_30px_rgba(0,198,255,0.14)]"
+                            : "bg-white/95 dark:bg-[#081226]/90 border border-slate-200/90 dark:border-blue-900/40 hover:border-brand-cyan dark:hover:border-brand-cyan hover:bg-white dark:hover:bg-[#0d1b38] shadow-sm hover:shadow-md"
+                        )}
+                      >
+                        {/* Glowing Top 2px Animated Shimmer Line When Open */}
+                        {isOpen && (
+                          <div className="absolute top-0 left-0 right-0 h-[2px] pointer-events-none animate-shimmer-x" />
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={() => toggleFaq(index)}
+                          className="w-full flex items-center justify-between px-4 sm:px-6 py-4 sm:py-4.5 text-left outline-none focus:outline-none group cursor-pointer"
+                          aria-expanded={isOpen}
+                          aria-controls={`article-faq-answer-${index}`}
+                          id={`article-faq-question-${index}`}
+                        >
+                          <div className="flex items-center gap-3 sm:gap-4 pr-3">
+                            <span
+                              className={cn(
+                                "text-sm sm:text-base font-bold transition-colors duration-200 leading-snug",
+                                isOpen
+                                  ? "text-brand-cyan"
+                                  : "text-slate-800 dark:text-slate-200 group-hover:text-brand-cyan"
+                              )}
+                            >
+                              {faq.question}
+                            </span>
+                          </div>
+
+                          {/* Smooth Rotating Chevron Toggle Button */}
+                          <div
+                            className={cn(
+                              "w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300",
+                              isOpen
+                                ? "bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/40 rotate-180 shadow-xs"
+                                : "bg-slate-100 text-slate-500 border border-slate-200 dark:bg-blue-900/40 dark:text-slate-300 dark:border-blue-800/40 group-hover:bg-brand-cyan/15 group-hover:text-brand-cyan"
+                            )}
+                          >
+                            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300" />
+                          </div>
+                        </button>
+
+                        {/* Smooth Animated Answer Panel */}
+                        <div
+                          id={`article-faq-answer-${index}`}
+                          role="region"
+                          aria-labelledby={`article-faq-question-${index}`}
+                          className={cn("faq-accordion-grid", isOpen ? "open" : "")}
+                        >
+                          <div className="faq-accordion-inner">
+                            <div className="px-4 sm:px-6 pb-5 pt-1 border-t border-slate-100 dark:border-blue-900/40">
+                              <div className="pl-3.5 sm:pl-4 border-l-2 border-brand-cyan py-0.5 mt-2">
+                                <p className="text-xs sm:text-sm md:text-base text-slate-600 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                                  {faq.answer}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
             {/* In-Article Conversion Callout Box */}
             <div className="my-14 rounded-3xl border-2 border-brand-bright/30 bg-gradient-to-br from-surface-elevated via-brand-bright/5 to-surface-elevated p-7 sm:p-9 shadow-xl relative overflow-hidden">

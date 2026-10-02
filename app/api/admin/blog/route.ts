@@ -79,6 +79,7 @@ export async function POST(req: NextRequest) {
       socialDescription,
       sitemapPriority,
       changeFreq,
+      faqs,
     } = body;
 
     if (!title || !title.trim()) {
@@ -145,7 +146,7 @@ export async function POST(req: NextRequest) {
       focusKeyword: focusKeyword ? focusKeyword.trim() : undefined,
       keywords: keywordsArray,
       canonicalUrl: canonicalUrl ? canonicalUrl.trim() : undefined,
-      ogImage: ogImage ? ogImage.trim() : undefined,
+      ogImage: (ogImage && ogImage.trim()) || (featuredImage && featuredImage.trim()) || undefined,
       noIndex: Boolean(noIndex),
       noFollow: Boolean(noFollow),
       schemaType: schemaType || "BlogPosting",
@@ -153,6 +154,14 @@ export async function POST(req: NextRequest) {
       socialDescription: socialDescription ? socialDescription.trim() : undefined,
       sitemapPriority: sitemapPriority ? Number(sitemapPriority) : 0.8,
       changeFreq: changeFreq || "weekly",
+      faqs: Array.isArray(faqs)
+        ? faqs
+            .map((f: any) => ({
+              question: String(f?.question || "").trim(),
+              answer: String(f?.answer || "").trim(),
+            }))
+            .filter((f: any) => f.question && f.answer)
+        : undefined,
     };
 
     const saved = await createBlogArticleInDb(newArticle);
@@ -252,7 +261,11 @@ export async function PUT(req: NextRequest) {
       ...(body.focusKeyword !== undefined && { focusKeyword: body.focusKeyword?.trim() || undefined }),
       ...(keywordsArray !== undefined && { keywords: keywordsArray }),
       ...(body.canonicalUrl !== undefined && { canonicalUrl: body.canonicalUrl?.trim() || undefined }),
-      ...(body.ogImage !== undefined && { ogImage: body.ogImage?.trim() || undefined }),
+      ...(body.ogImage !== undefined
+        ? { ogImage: body.ogImage?.trim() || body.featuredImage?.trim() || undefined }
+        : body.featuredImage !== undefined
+        ? { ogImage: body.featuredImage?.trim() || undefined }
+        : {}),
       ...(body.noIndex !== undefined && { noIndex: Boolean(body.noIndex) }),
       ...(body.noFollow !== undefined && { noFollow: Boolean(body.noFollow) }),
       ...(body.schemaType !== undefined && { schemaType: body.schemaType }),
@@ -260,6 +273,16 @@ export async function PUT(req: NextRequest) {
       ...(body.socialDescription !== undefined && { socialDescription: body.socialDescription?.trim() || undefined }),
       ...(body.sitemapPriority !== undefined && { sitemapPriority: Number(body.sitemapPriority) }),
       ...(body.changeFreq !== undefined && { changeFreq: body.changeFreq }),
+      ...(body.faqs !== undefined && {
+        faqs: Array.isArray(body.faqs)
+          ? body.faqs
+              .map((f: any) => ({
+                question: String(f?.question || "").trim(),
+                answer: String(f?.answer || "").trim(),
+              }))
+              .filter((f: any) => f.question && f.answer)
+          : [],
+      }),
     };
 
     const updatedArticle = await updateBlogArticleInDb(targetKey, updates);

@@ -29,6 +29,8 @@ import {
   X,
   ChevronRight,
   ChevronLeft,
+  ChevronDown,
+  ChevronUp,
   ArrowRight,
   LayoutDashboard,
   FolderOpen,
@@ -72,8 +74,8 @@ import {
   Bookmark,
   Loader2,
 } from "lucide-react";
-import { BlogArticle } from "@/src/data/blog";
-import { formatDate, getTodayDateString } from "@/src/lib/utils";
+import { BlogArticle, BlogFAQ } from "@/src/data/blog";
+import { formatDate, getTodayDateString, cn } from "@/src/lib/utils";
 import { BlogAnalyticsData } from "@/src/lib/blog-analytics";
 import { BlogCategory } from "@/src/lib/category-storage";
 
@@ -149,6 +151,7 @@ interface FormState {
   featuredImage: string;
   featuredImageAlt: string;
   tableOfContentsText: string;
+  faqs: { question: string; answer: string }[];
   // Full SEO Settings
   focusKeyword: string;
   keywordsText: string;
@@ -177,12 +180,13 @@ const EMPTY_FORM: FormState = {
   featuredImage: "/images/blog/custom-web-development-vs-website-builders.webp",
   featuredImageAlt: "",
   tableOfContentsText: "",
+  faqs: [],
   focusKeyword: "",
   keywordsText: "Web Development, Nexovio, Digital Solutions, Enterprise Architecture",
   seoTitle: "",
   seoDescription: "",
   canonicalUrl: "",
-  ogImage: "",
+  ogImage: "/images/blog/custom-web-development-vs-website-builders.webp",
   noIndex: false,
   noFollow: false,
   schemaType: "BlogPosting",
@@ -272,6 +276,10 @@ export default function BlogAdmin() {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isHtmlSourceMode, setIsHtmlSourceMode] = useState<boolean>(false);
 
+  // Interactive FAQ Accordion Management State
+  const [adminFaqOpenIndex, setAdminFaqOpenIndex] = useState<number | null>(0);
+  const [faqViewMode, setFaqViewMode] = useState<"edit" | "preview">("edit");
+
   // SERP Preview Device Toggle
   const [serpDevice, setSerpDevice] = useState<"desktop" | "mobile">("desktop");
 
@@ -291,8 +299,9 @@ export default function BlogAdmin() {
   const [selectionRange, setSelectionRange] = useState<Range | null>(null);
   const [selectedTextSnippet, setSelectedTextSnippet] = useState<string>("");
 
-  // Rich Text Editor Ref
+  // Rich Text Editor Ref & Selection Tracking
   const editorRef = useRef<HTMLDivElement>(null);
+  const savedEditorRangeRef = useRef<Range | null>(null);
 
   // Switch editor step safely without losing content
   const switchEditorStep = (step: "content" | "design" | "seo" | "social" | "publish") => {
@@ -307,6 +316,109 @@ export default function BlogAdmin() {
 
   // Toast Notifications
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
+
+  // FAQ Accordion Management Handlers
+  const handleAddFaqItem = () => {
+    setForm((prev) => {
+      const nextFaqs = [...(prev.faqs || []), { question: "", answer: "" }];
+      setAdminFaqOpenIndex(nextFaqs.length - 1);
+      return { ...prev, faqs: nextFaqs };
+    });
+    setFaqViewMode("edit");
+  };
+
+  const handleInsertSampleFaqs = () => {
+    const sampleFaqs = [
+      {
+        question: "How does this architectural approach improve Core Web Vitals (LCP & CLS)?",
+        answer: "By pre-rendering critical above-the-fold content server-side and streaming remaining assets, modern edge architectures reduce Largest Contentful Paint (LCP) by up to 60% while eliminating Cumulative Layout Shift (CLS) through fixed layout reservations.",
+      },
+      {
+        question: "Can these techniques be applied incrementally to an existing production codebase?",
+        answer: "Yes, you can route specific traffic paths or subdomains to modern micro-frontends or edge handlers incrementally without requiring a high-risk, all-at-once rewrite of legacy backend systems.",
+      },
+    ];
+    setForm((prev) => ({
+      ...prev,
+      faqs: [...(prev.faqs || []), ...sampleFaqs],
+    }));
+    setAdminFaqOpenIndex(0);
+    showToast("Added 2 sample FAQs to article!");
+  };
+
+  const handleUpdateFaqItem = (index: number, field: "question" | "answer", value: string) => {
+    setForm((prev) => {
+      const updated = [...(prev.faqs || [])];
+      if (updated[index]) {
+        updated[index] = { ...updated[index], [field]: value };
+      }
+      return { ...prev, faqs: updated };
+    });
+  };
+
+  const handleRemoveFaqItem = (index: number) => {
+    setForm((prev) => ({
+      ...prev,
+      faqs: (prev.faqs || []).filter((_, i) => i !== index),
+    }));
+    if (adminFaqOpenIndex === index) {
+      setAdminFaqOpenIndex(null);
+    } else if (adminFaqOpenIndex !== null && adminFaqOpenIndex > index) {
+      setAdminFaqOpenIndex(adminFaqOpenIndex - 1);
+    }
+    showToast("FAQ item removed");
+  };
+
+  const handleMoveFaqItem = (index: number, direction: "up" | "down") => {
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= (form.faqs?.length || 0)) return;
+    setForm((prev) => {
+      const updated = [...(prev.faqs || [])];
+      const temp = updated[index];
+      updated[index] = updated[targetIndex];
+      updated[targetIndex] = temp;
+      return { ...prev, faqs: updated };
+    });
+    setAdminFaqOpenIndex(targetIndex);
+  };
+
+  // Open media picker for editor while preserving exact cursor position
+  const handleOpenEditorMediaModal = () => {
+    if (editorRef.current) {
+      const sel = window.getSelection();
+      if (
+        sel &&
+        sel.rangeCount > 0 &&
+        editorRef.current.contains(sel.getRangeAt(0).commonAncestorContainer)
+      ) {
+        savedEditorRangeRef.current = sel.getRangeAt(0).cloneRange();
+      } else {
+        savedEditorRangeRef.current = null;
+      }
+    }
+    setMediaTarget("editor");
+    setIsMediaModalOpen(true);
+  };
+
+  // Delete media item from MongoDB
+  const handleDeleteMedia = async (nameOrId: string) => {
+    if (!confirm(`Are you sure you want to delete "${nameOrId}"?`)) return;
+    try {
+      const res = await fetch(`/api/admin/upload?id=${encodeURIComponent(nameOrId)}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast("Image deleted from database");
+        await fetchImages();
+      } else {
+        showToast(data.message || "Failed to delete image", "error");
+      }
+    } catch (err) {
+      console.error("Delete media error:", err);
+      showToast("Error deleting image", "error");
+    }
+  };
 
   // Delete Confirmation
   const [deleteConfirmSlug, setDeleteConfirmSlug] = useState<string | null>(null);
@@ -614,6 +726,8 @@ export default function BlogAdmin() {
   const handleAddNewPost = () => {
     setIsEditing(false);
     setEditorStep("content");
+    setAdminFaqOpenIndex(0);
+    setFaqViewMode("edit");
     const initialContent = "<p>Start writing your article content here...</p>";
     setForm({
       ...EMPTY_FORM,
@@ -653,6 +767,12 @@ export default function BlogAdmin() {
       tableOfContentsText: Array.isArray(article.tableOfContents)
         ? article.tableOfContents.map((t) => t.title).join("\n")
         : "",
+      faqs: Array.isArray(article.faqs)
+        ? article.faqs.map((f) => ({
+            question: f.question || "",
+            answer: f.answer || "",
+          }))
+        : [],
       // SEO Settings
       focusKeyword: article.focusKeyword || "",
       keywordsText: Array.isArray(article.keywords)
@@ -674,6 +794,9 @@ export default function BlogAdmin() {
     if (editorRef.current && !isHtmlSourceMode) {
       editorRef.current.innerHTML = formattedContent;
     }
+
+    setAdminFaqOpenIndex(0);
+    setFaqViewMode("edit");
 
     setTimeout(() => {
       setEditingSlugLoading(null);
@@ -737,22 +860,74 @@ export default function BlogAdmin() {
     }
   };
 
-  // Insert image directly into editor content
+  // Insert image directly into editor content with proper responsive styling and cursor placement
   const insertImageIntoEditor = (imageUrl: string, altText: string = "") => {
+    const cleanAlt = (altText || "").replace(/[<>"']/g, "").trim();
+    const figureHtml = `<figure class="my-8 text-center"><img src="${imageUrl}" alt="${cleanAlt || "Article Illustration"}" class="rounded-2xl max-w-full mx-auto border border-slate-200 shadow-md object-cover" />${cleanAlt ? `<figcaption class="text-xs text-slate-500 mt-2 font-medium italic">${cleanAlt}</figcaption>` : ""}</figure><p><br></p>`;
+
     if (isHtmlSourceMode) {
       setForm((prev) => ({
         ...prev,
-        content:
-          prev.content +
-          `\n<img src="${imageUrl}" alt="${altText}" class="rounded-xl my-6 border border-slate-200 max-w-full shadow-sm" />\n`,
+        content: (prev.content ? prev.content + "\n\n" : "") + figureHtml + "\n",
       }));
-    } else {
-      executeCommand("insertImage", imageUrl);
-      if (editorRef.current) {
-        setForm((prev) => ({ ...prev, content: editorRef.current?.innerHTML || "" }));
+      showToast("Image inserted into HTML source!");
+      return;
+    }
+
+    if (!editorRef.current) return;
+    editorRef.current.focus();
+
+    let inserted = false;
+    let range: Range | null = null;
+    const sel = window.getSelection();
+
+    if (
+      savedEditorRangeRef.current &&
+      editorRef.current.contains(savedEditorRangeRef.current.commonAncestorContainer)
+    ) {
+      range = savedEditorRangeRef.current;
+    } else if (
+      sel &&
+      sel.rangeCount > 0 &&
+      editorRef.current.contains(sel.getRangeAt(0).commonAncestorContainer)
+    ) {
+      range = sel.getRangeAt(0);
+    }
+
+    if (range) {
+      try {
+        range.deleteContents();
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = figureHtml;
+        const frag = document.createDocumentFragment();
+        let child: ChildNode | null;
+        let lastNode: ChildNode | null = null;
+        while ((child = tempDiv.firstChild)) {
+          lastNode = frag.appendChild(child);
+        }
+        range.insertNode(frag);
+        if (lastNode) {
+          range.setStartAfter(lastNode);
+          range.collapse(true);
+          if (sel) {
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        }
+        inserted = true;
+      } catch (err) {
+        console.warn("Range insertion warning, falling back to append:", err);
       }
     }
-    showToast("Image inserted into editor!");
+
+    if (!inserted) {
+      const spacer = editorRef.current.innerHTML.trim() ? "<p><br></p>" : "";
+      editorRef.current.innerHTML = editorRef.current.innerHTML + spacer + figureHtml;
+    }
+
+    savedEditorRangeRef.current = null;
+    syncEditorContent();
+    showToast("Image added to article content!");
   };
 
   // Insert custom common design block (Card, Table, Tip, Warning, Infographic, 2-Col)
@@ -917,10 +1092,14 @@ export default function BlogAdmin() {
       });
       const data = await res.json();
       if (data.success && data.url) {
-        showToast("Image uploaded successfully!");
+        showToast("Image uploaded and saved to database!");
         await fetchImages();
         if (mediaTarget === "featured") {
-          setForm((prev) => ({ ...prev, featuredImage: data.url }));
+          setForm((prev) => ({
+            ...prev,
+            featuredImage: data.url,
+            ogImage: (!prev.ogImage || prev.ogImage === prev.featuredImage) ? data.url : prev.ogImage,
+          }));
         } else if (mediaTarget === "og") {
           setForm((prev) => ({ ...prev, ogImage: data.url }));
         } else {
@@ -991,6 +1170,14 @@ export default function BlogAdmin() {
       .map((k) => k.trim())
       .filter(Boolean);
 
+    // Filter and sanitize FAQ items
+    const cleanedFaqs = (form.faqs || [])
+      .map((f) => ({
+        question: typeof f?.question === "string" ? f.question.trim() : "",
+        answer: typeof f?.answer === "string" ? f.answer.trim() : "",
+      }))
+      .filter((f) => f.question.length > 0 && f.answer.length > 0);
+
     const payload = {
       id: form.id,
       title: form.title.trim(),
@@ -1006,6 +1193,7 @@ export default function BlogAdmin() {
       featuredImage: form.featuredImage.trim(),
       featuredImageAlt: form.featuredImageAlt.trim() || form.title.trim(),
       tableOfContents: tocList.length > 0 ? tocList : undefined,
+      faqs: cleanedFaqs,
       // Full SEO Suite fields
       focusKeyword: form.focusKeyword.trim() || undefined,
       keywords: keywordsArray.length > 0 ? keywordsArray : undefined,
@@ -2884,12 +3072,9 @@ export default function BlogAdmin() {
 
                       <button
                         type="button"
-                        onClick={() => {
-                          setMediaTarget("editor");
-                          setIsMediaModalOpen(true);
-                        }}
+                        onClick={handleOpenEditorMediaModal}
                         title="Insert Image into Content"
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-[#1769FF] bg-blue-50 border border-blue-200 hover:bg-blue-100/70 transition-colors"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-[#1769FF] bg-blue-50 border border-blue-200 hover:bg-blue-100/70 transition-colors cursor-pointer"
                       >
                         <ImageIcon className="w-3.5 h-3.5" />
                         <span>Add Media</span>
@@ -3102,6 +3287,325 @@ export default function BlogAdmin() {
                       </div>
                       <span>Rich Text WYSIWYG Active</span>
                     </div>
+                  </div>
+
+                  {/* ========================================================= */}
+                  {/* ARTICLE FAQ ACCORDIONS (Smooth open/close & MongoDB sync) */}
+                  {/* ========================================================= */}
+                  <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-5">
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                      <div className="flex items-start gap-3">
+                        <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-[#1769FF] shrink-0">
+                          <HelpCircle className="w-5 h-5 text-[#1769FF]" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="text-sm font-bold text-slate-900">
+                              Article FAQ Accordions
+                            </h3>
+                            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#1769FF] border border-blue-200 font-mono">
+                              {(form.faqs || []).length} Items
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            Add frequently asked questions with smooth animated accordions. Readers can expand and collapse answers on the article page.
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Header Actions */}
+                      <div className="flex items-center gap-2 self-start sm:self-center">
+                        {/* Edit vs Preview Toggle */}
+                        {(form.faqs || []).length > 0 && (
+                          <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 text-xs">
+                            <button
+                              type="button"
+                              onClick={() => setFaqViewMode("edit")}
+                              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+                                faqViewMode === "edit"
+                                  ? "bg-white text-[#1769FF] shadow-xs"
+                                  : "text-slate-600 hover:text-slate-900"
+                              }`}
+                            >
+                              Edit Fields
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setFaqViewMode("preview")}
+                              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
+                                faqViewMode === "preview"
+                                  ? "bg-white text-[#1769FF] shadow-xs"
+                                  : "text-slate-600 hover:text-slate-900"
+                              }`}
+                            >
+                              Live Preview
+                            </button>
+                          </div>
+                        )}
+
+                        <button
+                          type="button"
+                          onClick={handleAddFaqItem}
+                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-[#1769FF] hover:bg-blue-600 transition-colors shadow-xs cursor-pointer"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>+ Add FAQ</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* FAQ Items List / Editor */}
+                    {faqViewMode === "edit" ? (
+                      <div>
+                        {(!form.faqs || form.faqs.length === 0) ? (
+                          <div className="p-8 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 text-center space-y-3">
+                            <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200/70 text-[#1769FF] flex items-center justify-center mx-auto">
+                              <HelpCircle className="w-6 h-6" />
+                            </div>
+                            <div className="space-y-1">
+                              <h4 className="text-sm font-bold text-slate-800">No FAQs Configured Yet</h4>
+                              <p className="text-xs text-slate-500 max-w-md mx-auto">
+                                Technical FAQs help clarify complex topics, increase time-on-page, and boost search engine ranking signals.
+                              </p>
+                            </div>
+                            <div className="flex items-center justify-center gap-3 pt-2">
+                              <button
+                                type="button"
+                                onClick={handleAddFaqItem}
+                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#1769FF] hover:bg-blue-600 transition-colors cursor-pointer shadow-xs"
+                              >
+                                <Plus className="w-3.5 h-3.5" />
+                                <span>Create First FAQ</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleInsertSampleFaqs}
+                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer"
+                              >
+                                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                                <span>Insert 2 Sample FAQs</span>
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-4">
+                            {form.faqs.map((faq, index) => {
+                              const isExpanded = adminFaqOpenIndex === index;
+                              return (
+                                <div
+                                  key={index}
+                                  className={`rounded-2xl border transition-all ${
+                                    isExpanded
+                                      ? "border-[#1769FF]/50 bg-blue-50/20 shadow-xs"
+                                      : "border-slate-200 bg-slate-50/40 hover:border-slate-300"
+                                  }`}
+                                >
+                                  {/* Item Header Row */}
+                                  <div className="p-3.5 sm:px-4 flex items-center justify-between gap-3">
+                                    <div
+                                      onClick={() => setAdminFaqOpenIndex(isExpanded ? null : index)}
+                                      className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer select-none"
+                                    >
+                                      <span className="w-6 h-6 rounded-lg bg-blue-100 text-[#1769FF] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                                        #{index + 1}
+                                      </span>
+                                      <span className="text-xs sm:text-sm font-semibold text-slate-900 truncate">
+                                        {faq.question.trim() || "(Untitled Question — Click to Edit)"}
+                                      </span>
+                                    </div>
+
+                                    {/* Actions */}
+                                    <div className="flex items-center gap-1 shrink-0">
+                                      {/* Move Up */}
+                                      <button
+                                        type="button"
+                                        disabled={index === 0}
+                                        onClick={() => handleMoveFaqItem(index, "up")}
+                                        title="Move FAQ Up"
+                                        className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                                      >
+                                        <ChevronUp className="w-3.5 h-3.5" />
+                                      </button>
+                                      {/* Move Down */}
+                                      <button
+                                        type="button"
+                                        disabled={index === form.faqs.length - 1}
+                                        onClick={() => handleMoveFaqItem(index, "down")}
+                                        title="Move FAQ Down"
+                                        className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                                      >
+                                        <ChevronDown className="w-3.5 h-3.5" />
+                                      </button>
+                                      {/* Expand/Collapse Toggle */}
+                                      <button
+                                        type="button"
+                                        onClick={() => setAdminFaqOpenIndex(isExpanded ? null : index)}
+                                        title={isExpanded ? "Collapse item" : "Expand item"}
+                                        className="p-1.5 rounded-lg text-slate-500 hover:text-[#1769FF] hover:bg-white border border-transparent hover:border-slate-200 transition-colors cursor-pointer"
+                                      >
+                                        <ChevronDown
+                                          className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                                            isExpanded ? "rotate-180" : ""
+                                          }`}
+                                        />
+                                      </button>
+                                      {/* Delete */}
+                                      <button
+                                        type="button"
+                                        onClick={() => handleRemoveFaqItem(index)}
+                                        title="Delete FAQ"
+                                        className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors cursor-pointer"
+                                      >
+                                        <Trash2 className="w-3.5 h-3.5" />
+                                      </button>
+                                    </div>
+                                  </div>
+
+                                  {/* Smooth Animated Form Body */}
+                                  <div className={cn("faq-accordion-grid", isExpanded ? "open" : "")}>
+                                    <div className="faq-accordion-inner">
+                                      <div className="px-4 pb-4 pt-2 border-t border-slate-200/70 space-y-3 bg-white rounded-b-2xl">
+                                        <div>
+                                          <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                            Question <span className="text-red-500">*</span>
+                                          </label>
+                                          <input
+                                            type="text"
+                                            value={faq.question}
+                                            onChange={(e) =>
+                                              handleUpdateFaqItem(index, "question", e.target.value)
+                                            }
+                                            placeholder="e.g. How does this architecture reduce server latency?"
+                                            className="w-full text-xs font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:bg-white focus:border-[#1769FF] focus:outline-none transition-colors"
+                                          />
+                                        </div>
+
+                                        <div>
+                                          <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                            Answer Text <span className="text-red-500">*</span>
+                                          </label>
+                                          <textarea
+                                            rows={3}
+                                            value={faq.answer}
+                                            onChange={(e) =>
+                                              handleUpdateFaqItem(index, "answer", e.target.value)
+                                            }
+                                            placeholder="e.g. By leveraging edge runtime workers, static asset caching, and streaming SSR..."
+                                            className="w-full text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:bg-white focus:border-[#1769FF] focus:outline-none transition-colors leading-relaxed"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+
+                            <div className="pt-2 flex items-center justify-between">
+                              <button
+                                type="button"
+                                onClick={handleAddFaqItem}
+                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-[#1769FF] bg-blue-50 border border-blue-200 hover:bg-blue-100/70 transition-colors cursor-pointer"
+                              >
+                                <Plus className="w-3.5 h-3.5" />
+                                <span>+ Add Another FAQ</span>
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setFaqViewMode("preview")}
+                                className="text-xs font-bold text-slate-600 hover:text-[#1769FF] flex items-center gap-1 cursor-pointer"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                <span>Preview Live Accordion →</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      /* Live Interactive Accordion Preview (Theme styled) */
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                          <div className="flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                            <span className="font-semibold text-slate-700">Interactive Accordion Preview</span>
+                            <span>— Click any question below to test smooth open and close animations.</span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setFaqViewMode("edit")}
+                            className="font-bold text-[#1769FF] hover:underline cursor-pointer"
+                          >
+                            ← Back to Edit
+                          </button>
+                        </div>
+
+                        <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 space-y-3">
+                          <div className="flex items-center gap-2 pb-2 text-white">
+                            <HelpCircle className="w-4 h-4 text-[#00C6FF]" />
+                            <h4 className="text-sm font-bold">Frequently Asked Questions (Article Preview)</h4>
+                          </div>
+
+                          {form.faqs.map((faq, index) => {
+                            const isOpen = adminFaqOpenIndex === index;
+                            return (
+                              <div
+                                key={index}
+                                className={cn(
+                                  "relative rounded-2xl transition-all duration-300 overflow-hidden backdrop-blur-md",
+                                  isOpen
+                                    ? "bg-[#07162c] border border-transparent shadow-[0_8px_30px_rgba(0,198,255,0.14)]"
+                                    : "bg-[#081226]/90 border border-blue-900/40 hover:border-brand-cyan hover:bg-[#0d1b38] shadow-sm"
+                                )}
+                              >
+                                {isOpen && (
+                                  <div className="absolute top-0 left-0 right-0 h-[2px] pointer-events-none animate-shimmer-x" />
+                                )}
+
+                                <button
+                                  type="button"
+                                  onClick={() => setAdminFaqOpenIndex(isOpen ? null : index)}
+                                  className="w-full flex items-center justify-between px-4 sm:px-6 py-4 text-left outline-none focus:outline-none group cursor-pointer"
+                                >
+                                  <span
+                                    className={cn(
+                                      "text-sm font-bold transition-colors duration-200 leading-snug",
+                                      isOpen ? "text-[#00C6FF]" : "text-slate-200 group-hover:text-[#00C6FF]"
+                                    )}
+                                  >
+                                    {faq.question.trim() || `(Question #${index + 1})`}
+                                  </span>
+
+                                  <div
+                                    className={cn(
+                                      "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300",
+                                      isOpen
+                                        ? "bg-cyan-500/20 text-[#00C6FF] border border-cyan-500/40 rotate-180 shadow-xs"
+                                        : "bg-blue-900/40 text-slate-300 border border-blue-800/40 group-hover:bg-cyan-500/15 group-hover:text-[#00C6FF]"
+                                    )}
+                                  >
+                                    <ChevronDown className="w-4 h-4 transition-transform duration-300" />
+                                  </div>
+                                </button>
+
+                                <div className={cn("faq-accordion-grid", isOpen ? "open" : "")}>
+                                  <div className="faq-accordion-inner">
+                                    <div className="px-4 sm:px-6 pb-5 pt-1 border-t border-blue-900/40">
+                                      <div className="pl-3.5 sm:pl-4 border-l-2 border-[#00C6FF] py-0.5 mt-2">
+                                        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed whitespace-pre-line">
+                                          {faq.answer.trim() || "(No answer text configured yet.)"}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Bottom Step Nav */}
@@ -3829,15 +4333,15 @@ export default function BlogAdmin() {
                     <div>
                       <div className="flex items-center justify-between mb-1.5">
                         <label className="text-xs font-bold text-slate-700">
-                          Open Graph Image URL (og:image)
+                          Open Graph Image URL (og:image / Twitter / Facebook)
                         </label>
                         <div className="flex items-center gap-3">
                           <button
                             type="button"
                             onClick={() => setForm((prev) => ({ ...prev, ogImage: prev.featuredImage }))}
-                            className="text-[11px] text-[#1769FF] hover:underline"
+                            className="text-[11px] text-[#1769FF] hover:underline font-semibold"
                           >
-                            Use Featured Image
+                            Sync with Cover Image
                           </button>
                           <button
                             type="button"
@@ -3855,7 +4359,7 @@ export default function BlogAdmin() {
                         type="text"
                         value={form.ogImage}
                         onChange={(e) => setForm((prev) => ({ ...prev, ogImage: e.target.value }))}
-                        placeholder="Leave empty to automatically use Featured Cover Image..."
+                        placeholder={form.featuredImage || "Defaults automatically to Featured Cover Image..."}
                         className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs font-mono text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
                       />
                     </div>
@@ -3971,12 +4475,19 @@ export default function BlogAdmin() {
 
                       <div>
                         <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                          Image File Path
+                          Cover Image File Path / URL (Website, OG, Twitter &amp; Facebook)
                         </label>
                         <input
                           type="text"
                           value={form.featuredImage}
-                          onChange={(e) => setForm((prev) => ({ ...prev, featuredImage: e.target.value }))}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setForm((prev) => ({
+                              ...prev,
+                              featuredImage: val,
+                              ogImage: (!prev.ogImage || prev.ogImage === prev.featuredImage) ? val : prev.ogImage,
+                            }));
+                          }}
                           className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-mono text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
                         />
                       </div>
@@ -4409,18 +4920,28 @@ export default function BlogAdmin() {
                           {img.url}
                         </span>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => copyToClipboard(img.url)}
-                        title="Copy Image URL"
-                        className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-[#1769FF] hover:bg-blue-50 transition-colors shrink-0"
-                      >
-                        {copiedUrl === img.url ? (
-                          <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        ) : (
-                          <Copy className="w-3.5 h-3.5" />
-                        )}
-                      </button>
+                      <div className="flex items-center gap-1 shrink-0">
+                        <button
+                          type="button"
+                          onClick={() => copyToClipboard(img.url)}
+                          title="Copy Image URL"
+                          className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-[#1769FF] hover:bg-blue-50 transition-colors shrink-0 cursor-pointer"
+                        >
+                          {copiedUrl === img.url ? (
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteMedia(img.name)}
+                          title="Delete image from database"
+                          className="p-1.5 rounded-lg border border-slate-200 text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors shrink-0 cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -4882,7 +5403,11 @@ export default function BlogAdmin() {
                     type="button"
                     onClick={() => {
                       if (mediaTarget === "featured") {
-                        setForm((prev) => ({ ...prev, featuredImage: img.url }));
+                        setForm((prev) => ({
+                          ...prev,
+                          featuredImage: img.url,
+                          ogImage: (!prev.ogImage || prev.ogImage === prev.featuredImage) ? img.url : prev.ogImage,
+                        }));
                       } else if (mediaTarget === "og") {
                         setForm((prev) => ({ ...prev, ogImage: img.url }));
                       } else {

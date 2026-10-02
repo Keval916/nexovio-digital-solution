@@ -2,6 +2,11 @@
  * Blog Article TypeScript Data Model & Schema Definitions
  * (Data is dynamically managed and stored in MongoDB collection "blog_posts")
  */
+export interface BlogFAQ {
+  question: string;
+  answer: string;
+}
+
 export interface BlogArticle {
   id: string;
   title: string;
@@ -22,6 +27,8 @@ export interface BlogArticle {
   seoTitle: string;
   seoDescription: string;
   relatedSlugs: string[];
+  // FAQs for this article
+  faqs?: BlogFAQ[];
   // Advanced SEO & Canonical Settings
   focusKeyword?: string;
   keywords?: string[];

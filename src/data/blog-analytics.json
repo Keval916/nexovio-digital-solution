@@ -1,6 +1,6 @@
 {
-  "totalViews": 4,
-  "uniqueVisitors": 1,
+  "totalViews": 6,
+  "uniqueVisitors": 2,
   "postViews": {
     "custom-web-development-vs-website-builders": {
       "views": 0,
@@ -36,6 +36,11 @@
       "views": 4,
       "uniqueVisitors": 1,
       "lastVisited": "2026-10-01T08:15:49.852Z"
+    },
+    "nextjs-faq-accordion-integration-guide": {
+      "views": 2,
+      "uniqueVisitors": 1,
+      "lastVisited": "2026-10-02T07:28:23.117Z"
     }
   },
   "dailyTraffic": [
@@ -43,16 +48,21 @@
       "date": "2026-10-01",
       "views": 4,
       "uniqueVisitors": 1
+    },
+    {
+      "date": "2026-10-02",
+      "views": 2,
+      "uniqueVisitors": 1
     }
   ],
   "deviceBreakdown": {
-    "desktop": 4,
+    "desktop": 6,
     "mobile": 0,
     "tablet": 0
   },
   "referrerBreakdown": {
     "google": 0,
-    "direct": 4,
+    "direct": 6,
     "linkedin": 0,
     "twitter": 0,
     "other": 0

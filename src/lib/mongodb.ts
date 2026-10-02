@@ -91,4 +91,37 @@ export async function getCategoryCollection(): Promise<Collection<any>> {
   return collection;
 }
 
+export interface DbMediaItem {
+  id: string;
+  name: string;
+  url: string;
+  contentType: string;
+  size: number;
+  dataBase64: string;
+  createdAt: string;
+}
+
+export async function getMediaCollection(): Promise<Collection<DbMediaItem>> {
+  const db = await getDb();
+  const collection = db.collection<DbMediaItem>("blog_media");
+
+  collection
+    .createIndex({ id: 1 }, { unique: true, background: true })
+    .catch((err) => {
+      if (err?.code !== 85 && err?.code !== 86) {
+        console.warn("[MongoDB] Media id index notice:", err?.message || err);
+      }
+    });
+
+  collection
+    .createIndex({ name: 1 }, { background: true })
+    .catch((err) => {
+      if (err?.code !== 85 && err?.code !== 86) {
+        console.warn("[MongoDB] Media name index notice:", err?.message || err);
+      }
+    });
+
+  return collection;
+}
+
 
