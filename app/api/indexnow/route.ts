@@ -10,10 +10,25 @@ export async function POST(request: Request) {
     const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
     const host = new URL(cleanSiteUrl).host;
 
-    // Use passed URLs or submit all registered routes
-    const urlList: string[] = body.urls && Array.isArray(body.urls) && body.urls.length > 0
-      ? body.urls
-      : (ROUTES as readonly string[]).map((r) => `${cleanSiteUrl}${r === "/" ? "" : r}`);
+    // Use passed URLs or submit all registered routes + dynamic blog posts
+    let urlList: string[] = [];
+    if (body.urls && Array.isArray(body.urls) && body.urls.length > 0) {
+      urlList = body.urls;
+    } else {
+      const staticUrls = (ROUTES as readonly string[])
+        .filter((r) => !r.startsWith("/blog/") || r === "/blog")
+        .map((r) => `${cleanSiteUrl}${r === "/" ? "" : r}`);
+      try {
+        const { getStoredBlogArticlesAsync } = await import("@/src/lib/blog-storage");
+        const blogArticles = await getStoredBlogArticlesAsync();
+        const blogUrls = blogArticles
+          .filter((a) => !a.noIndex)
+          .map((a) => `${cleanSiteUrl}/blog/${a.slug}`);
+        urlList = [...staticUrls, ...blogUrls];
+      } catch {
+        urlList = staticUrls;
+      }
+    }
 
     const payload = {
       host,

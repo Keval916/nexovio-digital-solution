@@ -30,7 +30,7 @@ import { getBlogArticleBySlug, BLOG_ARTICLES, BlogArticle } from "@/src/data/blo
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { Button } from "@/src/components/ui/Button";
 import { formatDate, cn } from "@/src/lib/utils";
-import { getArticleSchema } from "@/src/lib/schema";
+import { getArticleSchema, getFaqSchema } from "@/src/lib/schema";
 
 interface BlogArticlePageProps {
   params: {
@@ -232,6 +232,11 @@ export default function SingleBlogArticlePage({
       })
     : null;
 
+  const faqSchema =
+    article?.faqs && Array.isArray(article.faqs) && article.faqs.length > 0
+      ? getFaqSchema(article.faqs)
+      : null;
+
   // Scroll listener for reading progress bar and active TOC heading
   useEffect(() => {
     if (!article) return;
@@ -399,6 +404,13 @@ export default function SingleBlogArticlePage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
+
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}

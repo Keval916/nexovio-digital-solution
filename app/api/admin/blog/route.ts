@@ -13,6 +13,7 @@ import {
 import { isMongoConfigured } from "@/src/lib/mongodb";
 import { BlogArticle } from "@/src/data/blog";
 import { getTodayDateString } from "@/src/lib/utils";
+import { SITE_URL } from "@/src/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -204,6 +205,16 @@ export async function POST(req: NextRequest) {
       console.warn("Revalidation warning:", e);
     }
 
+    // Ping search engines via IndexNow in background
+    try {
+      const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
+      fetch(`${cleanSiteUrl}/api/indexnow`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ urls: [`${cleanSiteUrl}/blog/${slug}`] }),
+      }).catch(() => {});
+    } catch {}
+
     return NextResponse.json({
       success: true,
       message: "Article saved to database successfully",
@@ -348,6 +359,16 @@ export async function PUT(req: NextRequest) {
     } catch (e) {
       console.warn("Revalidation warning:", e);
     }
+
+    // Ping search engines via IndexNow in background
+    try {
+      const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
+      fetch(`${cleanSiteUrl}/api/indexnow`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ urls: [`${cleanSiteUrl}/blog/${updatedArticle.slug}`] }),
+      }).catch(() => {});
+    } catch {}
 
     return NextResponse.json({
       success: true,

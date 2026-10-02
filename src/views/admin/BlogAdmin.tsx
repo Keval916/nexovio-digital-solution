@@ -39,8 +39,12 @@ import {
   Italic,
   Underline,
   Strikethrough,
+  Heading1,
   Heading2,
   Heading3,
+  Heading4,
+  Heading5,
+  Heading6,
   List,
   ListOrdered,
   Quote,
@@ -846,10 +850,24 @@ export default function BlogAdmin() {
     }
   };
 
-  // Rich Text Editor Commands (A to Z)
+  // Rich Text Editor Commands (A to Z) with cross-browser formatBlock support
   const executeCommand = (command: string, value: string | undefined = undefined) => {
     if (isHtmlSourceMode) return;
-    document.execCommand(command, false, value);
+    try {
+      if (command === "formatBlock" && value) {
+        const tagWithBrackets = value.startsWith("<") ? value : `<${value}>`;
+        try {
+          document.execCommand("formatBlock", false, tagWithBrackets);
+        } catch {
+          const rawTag = value.replace(/[<>]/g, "");
+          document.execCommand("formatBlock", false, rawTag);
+        }
+      } else {
+        document.execCommand(command, false, value);
+      }
+    } catch (err) {
+      console.warn("Editor command error:", err);
+    }
     if (editorRef.current) {
       editorRef.current.focus();
     }
@@ -2971,31 +2989,65 @@ export default function BlogAdmin() {
                     <div className="sticky top-0 z-30 bg-white shadow-md border-b border-slate-200 rounded-t-2xl">
                       {/* Primary Toolbar */}
                       <div className="p-2.5 border-b border-slate-200/80 bg-slate-50 rounded-t-2xl flex flex-wrap items-center gap-1 select-none">
-                      {/* Headings */}
-                      <button
-                        type="button"
-                        onClick={() => executeCommand("formatBlock", "<h2>")}
-                        title="Heading 2"
-                        className="p-1.5 rounded-lg text-slate-700 hover:text-[#1769FF] hover:bg-white border border-transparent hover:border-slate-200 transition-colors"
-                      >
-                        <Heading2 className="w-4 h-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => executeCommand("formatBlock", "<h3>")}
-                        title="Heading 3"
-                        className="p-1.5 rounded-lg text-slate-700 hover:text-[#1769FF] hover:bg-white border border-transparent hover:border-slate-200 transition-colors"
-                      >
-                        <Heading3 className="w-4 h-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => executeCommand("formatBlock", "<p>")}
-                        title="Normal Paragraph"
-                        className="px-2 py-1 text-xs font-semibold text-slate-700 hover:text-[#1769FF] hover:bg-white border border-transparent hover:border-slate-200 rounded-lg"
-                      >
-                        Paragraph
-                      </button>
+                      {/* Heading Levels H1 through H6 + Paragraph */}
+                      <div className="flex items-center gap-0.5 bg-slate-200/70 p-0.5 rounded-lg border border-slate-200/90 shadow-2xs">
+                        <button
+                          type="button"
+                          onClick={() => executeCommand("formatBlock", "<h1>")}
+                          title="Heading 1 (Main Title)"
+                          className="px-2 py-1 rounded text-[11px] font-extrabold text-slate-800 hover:text-[#1769FF] hover:bg-white transition-colors cursor-pointer"
+                        >
+                          H1
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => executeCommand("formatBlock", "<h2>")}
+                          title="Heading 2 (Major Section)"
+                          className="px-2 py-1 rounded text-[11px] font-extrabold text-slate-800 hover:text-[#1769FF] hover:bg-white transition-colors cursor-pointer"
+                        >
+                          H2
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => executeCommand("formatBlock", "<h3>")}
+                          title="Heading 3 (Sub-section)"
+                          className="px-2 py-1 rounded text-[11px] font-extrabold text-slate-800 hover:text-[#1769FF] hover:bg-white transition-colors cursor-pointer"
+                        >
+                          H3
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => executeCommand("formatBlock", "<h4>")}
+                          title="Heading 4"
+                          className="px-1.5 py-1 rounded text-[11px] font-bold text-slate-700 hover:text-[#1769FF] hover:bg-white transition-colors cursor-pointer"
+                        >
+                          H4
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => executeCommand("formatBlock", "<h5>")}
+                          title="Heading 5"
+                          className="px-1.5 py-1 rounded text-[11px] font-bold text-slate-700 hover:text-[#1769FF] hover:bg-white transition-colors cursor-pointer"
+                        >
+                          H5
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => executeCommand("formatBlock", "<h6>")}
+                          title="Heading 6"
+                          className="px-1.5 py-1 rounded text-[11px] font-bold text-slate-700 hover:text-[#1769FF] hover:bg-white transition-colors cursor-pointer"
+                        >
+                          H6
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => executeCommand("formatBlock", "<p>")}
+                          title="Normal Paragraph Text"
+                          className="px-2 py-1 rounded text-[11px] font-semibold text-slate-600 hover:text-[#1769FF] hover:bg-white transition-colors cursor-pointer"
+                        >
+                          Paragraph
+                        </button>
+                      </div>
 
                       <div className="w-[1px] h-5 bg-slate-200 mx-1" />
 

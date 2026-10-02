@@ -68,6 +68,8 @@ export async function getBlogArticleBySlugAsync(slug: string): Promise<BlogArtic
             { id: normalizedSlug },
             { slug: slug },
             { id: slug },
+            { previousSlugs: normalizedSlug },
+            { previousSlugs: slug },
           ],
         },
         { projection: { _id: 0 } }
@@ -86,7 +88,8 @@ export async function getBlogArticleBySlugAsync(slug: string): Promise<BlogArtic
   return articles.find(
     (a) =>
       a.slug.toLowerCase().trim() === normalizedSlug ||
-      (a.id && a.id.toLowerCase().trim() === normalizedSlug)
+      (a.id && a.id.toLowerCase().trim() === normalizedSlug) ||
+      (Array.isArray(a.previousSlugs) && a.previousSlugs.some((s) => s.toLowerCase().trim() === normalizedSlug))
   );
 }
 
@@ -152,9 +155,18 @@ export async function updateBlogArticleInDb(
       return null;
     }
 
+    const existingArticle = existing as BlogArticle;
+    let previousSlugs = Array.isArray(existingArticle.previousSlugs) ? [...existingArticle.previousSlugs] : [];
+    if (updates.slug && existingArticle.slug && updates.slug.trim() !== existingArticle.slug.trim()) {
+      if (!previousSlugs.includes(existingArticle.slug.trim())) {
+        previousSlugs.push(existingArticle.slug.trim());
+      }
+    }
+
     const merged: BlogArticle = {
-      ...(existing as BlogArticle),
+      ...existingArticle,
       ...updates,
+      previousSlugs,
       id: updates.slug || existing.id,
       updatedAt: updates.updatedAt || new Date().toISOString().split("T")[0],
     };

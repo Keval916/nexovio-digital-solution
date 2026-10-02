@@ -29,6 +29,8 @@ export interface BlogArticle {
   relatedSlugs: string[];
   // FAQs for this article
   faqs?: BlogFAQ[];
+  // Previous URL slugs for automatic 301 redirects to preserve SEO rankings
+  previousSlugs?: string[];
   // Advanced SEO & Canonical Settings
   focusKeyword?: string;
   keywords?: string[];
