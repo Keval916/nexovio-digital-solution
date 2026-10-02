@@ -13,7 +13,6 @@ export interface BlogCategory {
 }
 
 import os from "os";
-import { syncFileToGitHub } from "./github-sync";
 
 const CATEGORIES_FILE_PATH = path.join(process.cwd(), "src", "data", "blog-categories.json");
 const TMP_CATEGORIES_FILE_PATH = path.join(os.tmpdir(), "nexovio-blog-categories.json");
@@ -131,13 +130,6 @@ export function saveStoredCategories(categories: BlogCategory[]): boolean {
     console.warn("[category-storage] Warning writing to TMP_CATEGORIES_FILE_PATH:", tmpErr);
   }
 
-  if (process.env.GITHUB_TOKEN || process.env.GH_TOKEN) {
-    syncFileToGitHub(
-      "src/data/blog-categories.json",
-      jsonContent,
-      `chore(blog): update categories via Admin Studio [${new Date().toISOString()}]`
-    ).catch((err) => console.error("[category-storage] GitHub sync error:", err));
-  }
 
   return saved || Boolean(memoryCategoriesCache);
 }

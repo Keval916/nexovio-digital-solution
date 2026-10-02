@@ -1,23 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import {
-  getStoredBlogArticles,
   getStoredBlogArticlesAsync,
-  saveStoredBlogArticles,
-  saveStoredBlogArticlesAsync,
+  getBlogArticleBySlugAsync,
+  createBlogArticleInDb,
+  updateBlogArticleInDb,
+  deleteBlogArticleFromDb,
   calculateReadingTime,
   generateSlug,
 } from "@/src/lib/blog-storage";
+import { isMongoConfigured } from "@/src/lib/mongodb";
 import { BlogArticle } from "@/src/data/blog";
 import { getTodayDateString } from "@/src/lib/utils";
 
 export const dynamic = "force-dynamic";
 
-// GET: Fetch all blog articles (or export raw JSON)
+// GET: Fetch all blog articles (or export backup JSON)
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
-    const articles = await getStoredBlogArticlesAsync();
+    const articles = await getStoredBlogArticlesAsync(true);
 
     if (searchParams.get("export") === "true") {
       const jsonString = JSON.stringify(articles, null, 2);
@@ -25,29 +27,29 @@ export async function GET(req: NextRequest) {
         status: 200,
         headers: {
           "Content-Type": "application/json",
-          "Content-Disposition": `attachment; filename="blog-posts.json"`,
+          "Content-Disposition": `attachment; filename="blog-articles-export.json"`,
         },
       });
     }
 
-    const storageMode =
-      process.env.GITHUB_TOKEN || process.env.GH_TOKEN
-        ? "github"
-        : process.env.VERCEL
-        ? "serverless"
-        : "local";
+    const storageMode = isMongoConfigured() ? "mongodb" : "fallback-memory";
 
-    return NextResponse.json({ success: true, articles, storageMode });
+    return NextResponse.json({
+      success: true,
+      articles,
+      storageMode,
+      isConfigured: isMongoConfigured(),
+    });
   } catch (error) {
     console.error("API GET /api/admin/blog error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch articles" },
+      { success: false, message: "Failed to fetch articles from database" },
       { status: 500 }
     );
   }
 }
 
-// POST: Create a new blog article
+// POST: Create a new blog article in MongoDB
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -85,11 +87,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const articles = await getStoredBlogArticlesAsync();
     const slug = (customSlug && customSlug.trim()) || generateSlug(title);
 
-    // Check slug collision
-    if (articles.some((a) => a.slug === slug)) {
+    // Check slug collision in MongoDB
+    const existing = await getBlogArticleBySlugAsync(slug);
+    if (existing) {
       return NextResponse.json(
         { success: false, message: `An article with slug "${slug}" already exists. Please use a unique title or slug.` },
         { status: 400 }
@@ -152,12 +154,11 @@ export async function POST(req: NextRequest) {
       changeFreq: changeFreq || "weekly",
     };
 
-    articles.unshift(newArticle);
-    const saved = await saveStoredBlogArticlesAsync(articles);
+    const saved = await createBlogArticleInDb(newArticle);
 
-    if (!saved) {
+    if (!saved && isMongoConfigured()) {
       return NextResponse.json(
-        { success: false, message: "Failed to persist article to disk" },
+        { success: false, message: "Failed to persist article to MongoDB" },
         { status: 500 }
       );
     }
@@ -172,7 +173,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Article created successfully",
+      message: "Article saved to database successfully",
       article: newArticle,
     });
   } catch (error) {
@@ -184,33 +185,22 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// PUT: Update an existing blog article
+// PUT: Update an existing blog article in MongoDB
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();
     const { id, slug } = body;
 
-    if (!id && !slug) {
+    const targetKey = slug || id;
+    if (!targetKey) {
       return NextResponse.json(
         { success: false, message: "Article ID or slug is required for updating" },
         { status: 400 }
       );
     }
 
-    const articles = await getStoredBlogArticlesAsync();
-    const index = articles.findIndex((a) => a.id === id || a.slug === slug);
-
-    if (index === -1) {
-      return NextResponse.json(
-        { success: false, message: "Article not found" },
-        { status: 404 }
-      );
-    }
-
-    const current = articles[index];
-
     // Process content if provided
-    let contentArray = current.content;
+    let contentArray: string[] | undefined = undefined;
     if (body.content !== undefined) {
       contentArray = Array.isArray(body.content)
         ? body.content
@@ -222,11 +212,11 @@ export async function PUT(req: NextRequest) {
         : [];
     }
 
-    const readingTime = calculateReadingTime(contentArray);
+    const readingTime = contentArray ? calculateReadingTime(contentArray) : undefined;
     const currentDate = getTodayDateString();
 
     // Process keywords
-    let keywordsArray = current.keywords;
+    let keywordsArray: string[] | undefined = undefined;
     if (body.keywords !== undefined) {
       keywordsArray = Array.isArray(body.keywords)
         ? body.keywords
@@ -238,45 +228,45 @@ export async function PUT(req: NextRequest) {
         : undefined;
     }
 
-    const updatedArticle: BlogArticle = {
-      ...current,
-      title: body.title !== undefined ? body.title.trim() : current.title,
-      slug: body.slug !== undefined ? body.slug.trim() : current.slug,
-      category: body.category !== undefined ? body.category : current.category,
-      excerpt: body.excerpt !== undefined ? body.excerpt.trim() : current.excerpt,
-      content: contentArray,
-      tableOfContents: body.tableOfContents !== undefined ? body.tableOfContents : current.tableOfContents,
-      author: {
-        name: body.authorName !== undefined ? body.authorName.trim() : current.author.name,
-        role: body.authorRole !== undefined ? body.authorRole.trim() : current.author.role,
-      },
-      featuredImage: body.featuredImage !== undefined ? body.featuredImage : current.featuredImage,
-      featuredImageAlt: body.featuredImageAlt !== undefined ? body.featuredImageAlt : current.featuredImageAlt,
-      seoTitle: body.seoTitle !== undefined ? body.seoTitle : current.seoTitle,
-      seoDescription: body.seoDescription !== undefined ? body.seoDescription : current.seoDescription,
-      readingTime: body.readingTime || readingTime,
-      publishedAt: (body.publishedAt && typeof body.publishedAt === "string" && body.publishedAt.trim()) ? body.publishedAt.trim() : current.publishedAt,
+    const updates: Partial<BlogArticle> = {
+      ...(body.title !== undefined && { title: body.title.trim() }),
+      ...(body.slug !== undefined && { slug: body.slug.trim() }),
+      ...(body.category !== undefined && { category: body.category }),
+      ...(body.excerpt !== undefined && { excerpt: body.excerpt.trim() }),
+      ...(contentArray !== undefined && { content: contentArray }),
+      ...(body.tableOfContents !== undefined && { tableOfContents: body.tableOfContents }),
+      ...(body.authorName !== undefined && {
+        author: {
+          name: body.authorName.trim(),
+          role: body.authorRole !== undefined ? body.authorRole.trim() : "Engineering & Strategy",
+        },
+      }),
+      ...(body.featuredImage !== undefined && { featuredImage: body.featuredImage }),
+      ...(body.featuredImageAlt !== undefined && { featuredImageAlt: body.featuredImageAlt }),
+      ...(body.seoTitle !== undefined && { seoTitle: body.seoTitle }),
+      ...(body.seoDescription !== undefined && { seoDescription: body.seoDescription }),
+      ...(readingTime !== undefined && { readingTime }),
+      ...(body.publishedAt !== undefined && { publishedAt: body.publishedAt }),
       updatedAt: currentDate,
-      focusKeyword: body.focusKeyword !== undefined ? (body.focusKeyword?.trim() || undefined) : current.focusKeyword,
-      keywords: keywordsArray,
-      canonicalUrl: body.canonicalUrl !== undefined ? (body.canonicalUrl?.trim() || undefined) : current.canonicalUrl,
-      ogImage: body.ogImage !== undefined ? (body.ogImage?.trim() || undefined) : current.ogImage,
-      noIndex: body.noIndex !== undefined ? Boolean(body.noIndex) : current.noIndex,
-      noFollow: body.noFollow !== undefined ? Boolean(body.noFollow) : current.noFollow,
-      schemaType: body.schemaType !== undefined ? body.schemaType : current.schemaType,
-      socialTitle: body.socialTitle !== undefined ? (body.socialTitle?.trim() || undefined) : current.socialTitle,
-      socialDescription: body.socialDescription !== undefined ? (body.socialDescription?.trim() || undefined) : current.socialDescription,
-      sitemapPriority: body.sitemapPriority !== undefined ? Number(body.sitemapPriority) : current.sitemapPriority,
-      changeFreq: body.changeFreq !== undefined ? body.changeFreq : current.changeFreq,
+      ...(body.focusKeyword !== undefined && { focusKeyword: body.focusKeyword?.trim() || undefined }),
+      ...(keywordsArray !== undefined && { keywords: keywordsArray }),
+      ...(body.canonicalUrl !== undefined && { canonicalUrl: body.canonicalUrl?.trim() || undefined }),
+      ...(body.ogImage !== undefined && { ogImage: body.ogImage?.trim() || undefined }),
+      ...(body.noIndex !== undefined && { noIndex: Boolean(body.noIndex) }),
+      ...(body.noFollow !== undefined && { noFollow: Boolean(body.noFollow) }),
+      ...(body.schemaType !== undefined && { schemaType: body.schemaType }),
+      ...(body.socialTitle !== undefined && { socialTitle: body.socialTitle?.trim() || undefined }),
+      ...(body.socialDescription !== undefined && { socialDescription: body.socialDescription?.trim() || undefined }),
+      ...(body.sitemapPriority !== undefined && { sitemapPriority: Number(body.sitemapPriority) }),
+      ...(body.changeFreq !== undefined && { changeFreq: body.changeFreq }),
     };
 
-    articles[index] = updatedArticle;
-    const saved = await saveStoredBlogArticlesAsync(articles);
+    const updatedArticle = await updateBlogArticleInDb(targetKey, updates);
 
-    if (!saved) {
+    if (!updatedArticle) {
       return NextResponse.json(
-        { success: false, message: "Failed to save updated article to disk" },
-        { status: 500 }
+        { success: false, message: "Article not found or failed to update" },
+        { status: 404 }
       );
     }
 
@@ -290,7 +280,7 @@ export async function PUT(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Article updated successfully",
+      message: "Article updated successfully in MongoDB",
       article: updatedArticle,
     });
   } catch (error) {
@@ -302,35 +292,27 @@ export async function PUT(req: NextRequest) {
   }
 }
 
-// DELETE: Remove an article
+// DELETE: Remove an article from MongoDB
 export async function DELETE(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");
     const slug = searchParams.get("slug");
 
-    if (!id && !slug) {
+    const target = slug || id;
+    if (!target) {
       return NextResponse.json(
         { success: false, message: "Article ID or slug is required" },
         { status: 400 }
       );
     }
 
-    const articles = await getStoredBlogArticlesAsync();
-    const filtered = articles.filter((a) => a.id !== id && a.slug !== slug);
+    const deleted = await deleteBlogArticleFromDb(target);
 
-    if (filtered.length === articles.length) {
+    if (!deleted && isMongoConfigured()) {
       return NextResponse.json(
-        { success: false, message: "Article not found" },
+        { success: false, message: "Article not found in database" },
         { status: 404 }
-      );
-    }
-
-    const saved = await saveStoredBlogArticlesAsync(filtered);
-    if (!saved) {
-      return NextResponse.json(
-        { success: false, message: "Failed to delete article from disk" },
-        { status: 500 }
       );
     }
 
@@ -344,8 +326,7 @@ export async function DELETE(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Article deleted successfully",
-      remainingCount: filtered.length,
+      message: "Article deleted from database successfully",
     });
   } catch (error) {
     console.error("API DELETE /api/admin/blog error:", error);

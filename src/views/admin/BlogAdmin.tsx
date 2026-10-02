@@ -240,8 +240,8 @@ export default function BlogAdmin() {
   // Step-by-Step Editor Navigation Sub-Tab
   const [editorStep, setEditorStep] = useState<"content" | "design" | "seo" | "social" | "publish">("content");
 
-  // Storage Mode reported from backend (local, serverless, or github)
-  const [storageMode, setStorageMode] = useState<"local" | "serverless" | "github">("local");
+  // Storage Mode reported from backend (mongodb, fallback-memory, github, serverless, or local)
+  const [storageMode, setStorageMode] = useState<"mongodb" | "fallback-memory" | "local" | "serverless" | "github">("mongodb");
 
   // Subscribers State
   const [subscribers, setSubscribers] = useState<SubscriberItem[]>([]);
@@ -1525,27 +1525,32 @@ export default function BlogAdmin() {
 
           <div className="flex items-center gap-2.5">
             {/* Storage Mode Badge */}
-            {storageMode === "github" ? (
+            {storageMode === "mongodb" ? (
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200" title="Connected to MongoDB database. Articles are safely saved in your database.">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                MongoDB Live
+              </span>
+            ) : storageMode === "github" ? (
               <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200" title="Connected to GitHub repository. Changes auto-deploy on publish.">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                 GitHub Auto-Deploy Active
               </span>
             ) : storageMode === "serverless" ? (
-              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200" title="Serverless storage active. Articles saved to runtime cache. Add GITHUB_TOKEN to Vercel for Git auto-commit.">
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200" title="Serverless storage active.">
                 <span className="w-2 h-2 rounded-full bg-amber-500" />
                 Serverless Storage
               </span>
             ) : (
-              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200" title="Local disk storage">
-                <span className="w-2 h-2 rounded-full bg-blue-500" />
-                Local Disk Mode
+              <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-50 text-amber-700 border border-amber-200" title="MongoDB URI not detected. Running in memory fallback.">
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
+                Memory Fallback (Set MONGODB_URI)
               </span>
             )}
 
             <button
               type="button"
               onClick={handleDownloadArticlesJson}
-              title="Download backup copy of blog-posts.json"
+              title="Download JSON backup copy of articles"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs"
             >
               <Download className="w-3.5 h-3.5 text-slate-500" />
@@ -4219,7 +4224,7 @@ export default function BlogAdmin() {
                   <span className="text-lg font-bold text-[#1769FF] block truncate">
                     Blog Hub Briefing
                   </span>
-                  <p className="text-[11px] text-slate-400 font-mono">src/data/subscribers.json</p>
+                  <p className="text-[11px] text-emerald-600 font-mono font-medium">MongoDB: newsletter_subscribers</p>
                 </div>
               </div>
 

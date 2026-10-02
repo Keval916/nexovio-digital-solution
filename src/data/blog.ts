@@ -1,5 +1,7 @@
-import blogData from "./blog-posts.json";
-
+/**
+ * Blog Article TypeScript Data Model & Schema Definitions
+ * (Data is dynamically managed and stored in MongoDB collection "blog_posts")
+ */
 export interface BlogArticle {
   id: string;
   title: string;
@@ -34,8 +36,10 @@ export interface BlogArticle {
   changeFreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 }
 
-export const BLOG_ARTICLES: BlogArticle[] = blogData as BlogArticle[];
+// Fallback seed array for typing compatibility
+export const FALLBACK_BLOG_ARTICLES: BlogArticle[] = [];
+export const BLOG_ARTICLES: BlogArticle[] = [];
 
-export function getBlogArticleBySlug(slug: string): BlogArticle | undefined {
-  return BLOG_ARTICLES.find((a) => a.slug === slug);
+export function getBlogArticleBySlug(_slug: string): BlogArticle | undefined {
+  return undefined;
 }

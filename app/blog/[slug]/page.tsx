@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { getStoredBlogArticles, getBlogArticleBySlugAsync } from "@/src/lib/blog-storage";
+import { getStoredBlogArticlesAsync, getBlogArticleBySlugAsync } from "@/src/lib/blog-storage";
+import { BlogArticle } from "@/src/data/blog";
 import { generatePageMetadata } from "@/src/lib/seo";
 import BlogDetail from "@/src/views/blog/BlogDetail";
 
@@ -13,9 +14,9 @@ interface BlogArticlePageProps {
   };
 }
 
-export function generateStaticParams() {
-  const articles = getStoredBlogArticles();
-  return articles.map((article) => ({
+export async function generateStaticParams() {
+  const articles = await getStoredBlogArticlesAsync();
+  return articles.map((article: BlogArticle) => ({
     slug: article.slug,
   }));
 }

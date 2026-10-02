@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
-import { syncFileToGitHub } from "@/src/lib/github-sync";
 
 export const dynamic = "force-dynamic";
 
@@ -84,15 +83,6 @@ export async function POST(req: NextRequest) {
       console.warn("[upload] Serverless read-only disk detected (EROFS):", fsErr?.message);
     }
 
-    // 2. If GITHUB_TOKEN configured, commit the image binary to GitHub repo
-    if (process.env.GITHUB_TOKEN || process.env.GH_TOKEN) {
-      syncFileToGitHub(
-        `public/images/blog/${finalFileName}`,
-        buffer.toString("base64"),
-        `chore(media): upload image ${finalFileName} [${new Date().toISOString()}]`,
-        true
-      ).catch((ghErr) => console.error("[upload] GitHub image sync error:", ghErr));
-    }
 
     // 3. If disk wasn't writable and not yet deployed, fallback to data URL for immediate preview
     if (!savedToDisk && !(process.env.GITHUB_TOKEN || process.env.GH_TOKEN)) {

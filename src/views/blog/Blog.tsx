@@ -40,13 +40,19 @@ const DEFAULT_CATEGORIES = [
 
 const ITEMS_PER_PAGE = 12;
 
-export default function BlogHubPage() {
+interface BlogHubPageProps {
+  initialArticles?: BlogArticle[];
+}
+
+export default function BlogHubPage({ initialArticles }: BlogHubPageProps = {}) {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [categoriesList, setCategoriesList] = useState<string[]>(DEFAULT_CATEGORIES);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [articles, setArticles] = useState<BlogArticle[]>(BLOG_ARTICLES);
+  const [articles, setArticles] = useState<BlogArticle[]>(
+    initialArticles && initialArticles.length > 0 ? initialArticles : BLOG_ARTICLES
+  );
 
   // Dynamically sync categories and latest articles from admin/storage
   useEffect(() => {

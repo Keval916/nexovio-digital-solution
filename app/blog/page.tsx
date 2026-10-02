@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Blog from "@/src/views/blog/Blog";
 import { generatePageMetadata } from "@/src/lib/seo";
+import { getStoredBlogArticlesAsync } from "@/src/lib/blog-storage";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = generatePageMetadata({
   title: "Nexovio Blog – Engineering & Digital Strategy Insights",
@@ -18,6 +21,7 @@ export const metadata = generatePageMetadata({
   path: "/blog",
 });
 
-export default function Page() {
-  return <Blog />;
+export default async function Page() {
+  const articles = await getStoredBlogArticlesAsync();
+  return <Blog initialArticles={articles} />;
 }

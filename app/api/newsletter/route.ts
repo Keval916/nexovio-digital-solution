@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  getStoredSubscribers,
-  addSubscriber,
-  deleteSubscriber,
+  getStoredSubscribersAsync,
+  addSubscriberAsync,
+  deleteSubscriberAsync,
 } from "@/src/lib/subscriber-storage";
 
 export const dynamic = "force-dynamic";
 
-// GET: Fetch all subscribers (for Admin Dashboard)
+// GET: Fetch all subscribers from MongoDB (for Admin Dashboard)
 export async function GET() {
   try {
-    const subscribers = getStoredSubscribers();
+    const subscribers = await getStoredSubscribersAsync(true);
     return NextResponse.json({
       success: true,
       subscribers,
@@ -25,7 +25,7 @@ export async function GET() {
   }
 }
 
-// POST: Add new subscriber (from Blog Hub or Website Newsletter Forms)
+// POST: Add new subscriber to MongoDB (from Blog Hub or Website Newsletter Forms)
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = addSubscriber(email, source || "Blog Hub Newsletter");
+    const result = await addSubscriberAsync(email, source || "Blog Hub Newsletter");
 
     if (!result.success) {
       return NextResponse.json(
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// DELETE: Remove subscriber (for Admin Dashboard)
+// DELETE: Remove subscriber from MongoDB (for Admin Dashboard)
 export async function DELETE(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -77,7 +77,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    const deleted = deleteSubscriber(target);
+    const deleted = await deleteSubscriberAsync(target);
     if (!deleted) {
       return NextResponse.json(
         { success: false, message: "Subscriber not found." },
