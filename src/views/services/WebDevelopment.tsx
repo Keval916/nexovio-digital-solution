@@ -54,8 +54,12 @@ import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { SectionHeading } from "@/src/components/ui/SectionHeading";
 import { Button } from "@/src/components/ui/Button";
 import { Card } from "@/src/components/ui/Card";
+import {
+  getOrganizationSchema,
+  getServiceSchema,
+  getBreadcrumbSchema,
+} from "@/src/lib/schema";
 import { FaqSection } from "@/src/components/sections/FaqSection";
-import { getServiceSchema } from "@/src/lib/schema";
 
 const service = getServiceBySlug("web-development")!;
 
@@ -901,18 +905,33 @@ function RealisticServiceMockup({ previewType }: { previewType: string }) {
 // ==========================================
 
 export default function WebDevelopmentPage() {
+  const organizationSchema = getOrganizationSchema();
   const serviceSchema = getServiceSchema({
     name: service.name,
     description: service.shortDescription,
     url: `/services/${service.slug}`,
     serviceType: "SoftwareDevelopment",
+    image: "/images/services/web-development-digital-experience-team.webp",
   });
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services" },
+    { name: "Web Development", url: "/services/web-development" },
+  ]);
 
   return (
     <div className="bg-background overflow-x-clip">
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* 1. HERO BANNER SECTION (Dark/Gradient Hero Background) */}

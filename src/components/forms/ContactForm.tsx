@@ -280,11 +280,13 @@ export function ContactForm() {
                 onChange={handleChange}
                 className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
               >
-                <option value="unspecified">Select approximate budget</option>
-                <option value="tier-1">$3,000 – $7,500</option>
-                <option value="tier-2">$7,500 – $15,000</option>
-                <option value="tier-3">$15,000 – $30,000</option>
-                <option value="tier-4">$30,000+</option>
+                <option value="unspecified">Select your approximate budget</option>
+                <option value="tier-1">Under $1,000</option>
+                <option value="tier-2">$1,000 – $2,500</option>
+                <option value="tier-3">$2,500 – $5,000</option>
+                <option value="tier-4">$5,000 – $10,000</option>
+                <option value="tier-5">$10,000 – $25,000</option>
+                <option value="tier-6">$25,000+</option>
               </select>
             </div>
           </div>

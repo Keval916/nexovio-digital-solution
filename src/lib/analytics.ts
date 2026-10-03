@@ -50,6 +50,12 @@ export function trackFormSubmit(formName: string, serviceSelected?: string) {
     service_name: serviceSelected || "unspecified",
     page_path: typeof window !== "undefined" ? window.location.pathname : "",
   });
+  // Fire standard GA4 generate_lead conversion event
+  trackEvent("generate_lead", {
+    form_name: formName,
+    service_name: serviceSelected || "unspecified",
+    page_path: typeof window !== "undefined" ? window.location.pathname : "",
+  });
 }
 
 export function trackContactClick(channel: "whatsapp" | "phone" | "email") {

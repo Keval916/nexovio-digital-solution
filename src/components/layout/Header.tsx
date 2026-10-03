@@ -99,12 +99,12 @@ const AI_SOLUTIONS = [
   },
   {
     name: "Generative AI Development",
-    href: "/services/ai-development#ai-services",
+    href: "/generative-ai-development",
     description: "Custom generative models, prompt pipelines & intelligent content workflows",
     icon: Cpu,
-    badge: "Coming Soon",
+    badge: "LIVE",
     category: "GenAI",
-    isLive: false,
+    isLive: true,
   },
   {
     name: "AI Agent Development",

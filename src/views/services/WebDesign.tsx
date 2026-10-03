@@ -62,7 +62,11 @@ import { SectionHeading } from "@/src/components/ui/SectionHeading";
 import { Button } from "@/src/components/ui/Button";
 import { Card } from "@/src/components/ui/Card";
 import { FaqSection } from "@/src/components/sections/FaqSection";
-import { getServiceSchema } from "@/src/lib/schema";
+import {
+  getOrganizationSchema,
+  getServiceSchema,
+  getBreadcrumbSchema,
+} from "@/src/lib/schema";
 
 const service = getServiceBySlug("web-design")!;
 
@@ -572,18 +576,33 @@ const WHY_NEXOVIO_DESIGN = [
 ];
 
 export default function WebDesignPage() {
+  const organizationSchema = getOrganizationSchema();
   const serviceSchema = getServiceSchema({
     name: service.name,
     description: service.shortDescription,
     url: "/services/web-design",
     serviceType: "DesignServices",
+    image: "/images/services/web-design-digital-experience-team.webp",
   });
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services" },
+    { name: "Web Design", url: "/services/web-design" },
+  ]);
 
   return (
     <div className="bg-background overflow-hidden">
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* 1. HERO BANNER SECTION (Dark/Gradient Hero Background) */}
