@@ -62,7 +62,7 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [articles, setArticles] = useState<BlogArticle[]>(
-    initialArticles && initialArticles.length > 0 ? initialArticles : BLOG_ARTICLES
+    initialArticles && initialArticles.length > 0 ? initialArticles : []
   );
 
   // Dynamically sync categories and latest articles from admin/storage
@@ -70,7 +70,7 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
     fetch("/api/admin/blog")
       .then((r) => r.json())
       .then((data) => {
-        if (data.success && Array.isArray(data.articles) && data.articles.length > 0) {
+        if (data.success && Array.isArray(data.articles)) {
           setArticles(data.articles);
         }
       })
@@ -359,21 +359,25 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
             <div className="py-16 text-center rounded-2xl border border-dashed border-border-subtle bg-surface-elevated/40 p-8 max-w-lg mx-auto">
               <Search className="w-10 h-10 text-muted mx-auto mb-3 opacity-60" />
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">
-                No matching articles found
+                {articles.length === 0 ? "No articles found in database" : "No matching articles found"}
               </h3>
               <p className="text-xs text-muted mb-4 leading-relaxed">
-                We couldn&apos;t find any articles matching your search criteria. Try different keywords or clear your filters.
+                {articles.length === 0
+                  ? "There are currently no articles in the database."
+                  : "We couldn't find any articles matching your search criteria. Try different keywords or clear your filters."}
               </p>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelectedCategory("All");
-                  setSearchQuery("");
-                }}
-                className="px-4 py-2 rounded-xl text-xs font-semibold bg-brand-cyan text-slate-950 font-mono uppercase"
-              >
-                Clear All Filters
-              </button>
+              {articles.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedCategory("All");
+                    setSearchQuery("");
+                  }}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold bg-brand-cyan text-slate-950 font-mono uppercase"
+                >
+                  Clear All Filters
+                </button>
+              )}
             </div>
           ) : viewMode === "grid" ? (
             /* 3 TO 4 CARDS RESPONSIVE GRID SYSTEM */

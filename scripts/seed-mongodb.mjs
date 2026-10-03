@@ -135,6 +135,21 @@ async function seed() {
     await collection.createIndex({ title: "text", excerpt: "text" });
     console.log(" Verified unique index on blog_posts { slug: 1 } and text index on { title, excerpt }.");
 
+    const blogPostsPath = path.join(rootDir, "src", "data", "blog-posts.json");
+    if (fs.existsSync(blogPostsPath)) {
+      const blogPosts = JSON.parse(fs.readFileSync(blogPostsPath, "utf-8"));
+      let seededArticlesCount = 0;
+      for (const post of blogPosts) {
+        await collection.updateOne(
+          { slug: post.slug },
+          { $set: post },
+          { upsert: true }
+        );
+        seededArticlesCount++;
+      }
+      console.log(` Seeded/updated ${seededArticlesCount} articles into "blog_posts" collection.`);
+    }
+
     const existingArticles = await collection.find({}).toArray();
     console.log(` Currently ${existingArticles.length} articles active in "blog_posts".`);
 

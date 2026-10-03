@@ -188,12 +188,31 @@ export default function SingleBlogArticlePage({
     message: string;
   }>({ type: null, message: "" });
 
+  // Dynamically fetch database articles for Related Articles Carousel
+  const [dbArticles, setDbArticles] = useState<BlogArticle[]>([]);
+
+  useEffect(() => {
+    fetch("/api/admin/blog")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.articles)) {
+          setDbArticles(data.articles);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   // 4-Card Carousel state for Related Articles
-  const otherArticles = BLOG_ARTICLES.filter((a) => !article || a.slug !== article.slug);
-  // Ensure we have at least 4 items to display in carousel
-  const carouselItems = otherArticles.length >= 4
-    ? [...otherArticles, ...otherArticles]
-    : [...otherArticles, ...otherArticles, ...otherArticles];
+  const otherArticles = (dbArticles.length > 0 ? dbArticles : BLOG_ARTICLES).filter(
+    (a) => !article || a.slug !== article.slug
+  );
+  // Ensure we have at least 4 items to display in carousel if articles exist
+  const carouselItems =
+    otherArticles.length === 0
+      ? []
+      : otherArticles.length >= 4
+      ? [...otherArticles, ...otherArticles]
+      : [...otherArticles, ...otherArticles, ...otherArticles];
 
   const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const [isCarouselPaused, setIsCarouselPaused] = useState<boolean>(false);

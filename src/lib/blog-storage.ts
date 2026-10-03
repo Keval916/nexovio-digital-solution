@@ -1,4 +1,4 @@
-import { BlogArticle, FALLBACK_BLOG_ARTICLES } from "@/src/data/blog";
+import { BlogArticle } from "@/src/data/blog";
 import { getBlogCollection, isMongoConfigured } from "./mongodb";
 
 // In-memory cache for ultra-fast response and serverless continuity
@@ -7,13 +7,13 @@ let lastFetchTime = 0;
 const CACHE_TTL_MS = 15000; // 15s in-memory TTL in dev/prod
 
 /**
- * Synchronous getter returning latest cached articles or fallback.
+ * Synchronous getter returning latest cached articles or empty array.
  */
 export function getStoredBlogArticles(): BlogArticle[] {
-  if (memoryArticlesCache && Array.isArray(memoryArticlesCache) && memoryArticlesCache.length > 0) {
+  if (memoryArticlesCache && Array.isArray(memoryArticlesCache)) {
     return memoryArticlesCache;
   }
-  return FALLBACK_BLOG_ARTICLES;
+  return [];
 }
 
 /**
@@ -34,7 +34,7 @@ export async function getStoredBlogArticlesAsync(forceRefresh = false): Promise<
         .sort({ publishedAt: -1 })
         .toArray();
 
-      if (Array.isArray(docs) && docs.length > 0) {
+      if (Array.isArray(docs)) {
         memoryArticlesCache = docs as BlogArticle[];
         lastFetchTime = now;
         return memoryArticlesCache;
@@ -44,12 +44,11 @@ export async function getStoredBlogArticlesAsync(forceRefresh = false): Promise<
     }
   }
 
-  // Fallback to cache or default articles if MongoDB is not configured or temporarily empty
-  if (memoryArticlesCache && memoryArticlesCache.length > 0) {
+  if (memoryArticlesCache) {
     return memoryArticlesCache;
   }
 
-  return FALLBACK_BLOG_ARTICLES;
+  return [];
 }
 
 /**

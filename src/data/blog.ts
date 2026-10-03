@@ -45,10 +45,12 @@ export interface BlogArticle {
   changeFreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 }
 
-// Fallback seed array for typing compatibility
+// All articles are dynamically managed in MongoDB collection "blog_posts". No hardcoded fallback blogs.
 export const FALLBACK_BLOG_ARTICLES: BlogArticle[] = [];
 export const BLOG_ARTICLES: BlogArticle[] = [];
 
 export function getBlogArticleBySlug(_slug: string): BlogArticle | undefined {
   return undefined;
 }
+
+
