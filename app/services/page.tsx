@@ -3,9 +3,9 @@ import Services from "@/src/views/services/Services";
 import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata = generatePageMetadata({
-  title: "Digital Engineering & IT Services | Nexovio Digital Solutions",
+  title: "Web, Mobile, UI/UX & AI Solutions | Digital Services | Nexovio",
   description:
-    "Explore our end-to-end digital services: web development, bespoke UI/UX and web design, mobile app development, graphic design, and SEO & digital marketing. We create solutions that drive growth.",
+    "Discover Nexovio's digital services including web development, mobile apps, UI/UX design, graphic design, AI solutions, SEO and digital marketing.",
   keywords: [
     "IT services",
     "web development services",
@@ -15,6 +15,7 @@ export const metadata = generatePageMetadata({
     "Digital Solutions",
     "Web Design Agency",
     "Graphic Design",
+    "AI solutions",
   ],
   path: "/services",
 });

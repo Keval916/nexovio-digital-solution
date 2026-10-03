@@ -21,6 +21,11 @@ import {
   MessageSquare,
   Handshake,
   Clock,
+  Tag,
+  BookOpen,
+  Briefcase,
+  HelpCircle,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
@@ -139,17 +144,24 @@ const AI_SOLUTIONS = [
   },
 ];
 
+const EXPLORE_ITEMS = [
+  { name: "About Us", href: "/about", icon: Users },
+  { name: "Case Studies", href: "/case-studies", icon: Briefcase },
+  { name: "Blog", href: "/blog", icon: BookOpen },
+];
+
 export function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Desktop active dropdown menu: "services" | "ai" | null
+  // Desktop active dropdown menu: "services" | "ai" | "explore" | null
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   // Mobile accordion states
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileAiOpen, setMobileAiOpen] = useState(false);
+  const [mobileExploreOpen, setMobileExploreOpen] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -191,6 +203,7 @@ export function Header() {
     setActiveDropdown(null);
     setMobileServicesOpen(false);
     setMobileAiOpen(false);
+    setMobileExploreOpen(false);
   }, [pathname]);
 
   // Handle escape key
@@ -226,7 +239,7 @@ export function Header() {
       {/* Page Backdrop Blur when Any Desktop Dropdown is Open */}
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-black/40 dark:bg-black/60 backdrop-blur-md transition-all duration-300 pointer-events-none",
+          "fixed inset-0 z-40 bg-black/40 dark:bg-black/60 backdrop-blur-[2px] transition-all duration-300 pointer-events-none",
           activeDropdown ? "opacity-100 visible" : "opacity-0 invisible"
         )}
         aria-hidden="true"
@@ -313,27 +326,6 @@ export function Header() {
                 className="hidden lg:flex items-center gap-0.5 xl:gap-1.5"
                 aria-label="Main Navigation"
               >
-                {/* 1. Home */}
-                <Link
-                  href="/"
-                  className={cn(
-                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                    isActive("/") && pathname === "/"
-                      ? "text-brand-cyan font-semibold"
-                      : "text-muted hover:text-brand-cyan"
-                  )}
-                >
-                  <span className="relative py-0.5">
-                    Home
-                    <span
-                      className={cn(
-                        "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                        isActive("/") && pathname === "/" ? "w-full" : "w-0 group-hover:w-full"
-                      )}
-                    />
-                  </span>
-                </Link>
-
                 {/* 3. AI Solutions ▾ (Consistent Uniform Box MegaMenu Matching Services Structure) */}
                 <div
                   className="relative"
@@ -570,64 +562,91 @@ export function Header() {
                   </div>
                 </div>
 
-                {/* 4. Case Studies */}
+                {/* 3. Pricing */}
                 <Link
-                  href="/case-studies"
+                  href="/pricing"
                   className={cn(
                     "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                    isActive("/case-studies") || isActive("/portfolio")
+                    isActive("/pricing")
                       ? "text-brand-cyan font-semibold"
                       : "text-muted hover:text-brand-cyan"
                   )}
                 >
                   <span className="relative py-0.5">
-                    Case Studies
+                    Pricing
                     <span
                       className={cn(
                         "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                        isActive("/case-studies") || isActive("/portfolio") ? "w-full" : "w-0 group-hover:w-full"
+                        isActive("/pricing") ? "w-full" : "w-0 group-hover:w-full"
                       )}
                     />
                   </span>
                 </Link>
 
-                {/* 5. About */}
-                <Link
-                  href="/about"
-                  className={cn(
-                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                    isActive("/about") ? "text-brand-cyan font-semibold" : "text-muted hover:text-brand-cyan"
-                  )}
+                {/* 4. Explore ▾ (Simple Submenu: About Us, Case Studies, Blog) */}
+                <div
+                  className="relative"
+                  onMouseEnter={() => handleMouseEnter("explore")}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <span className="relative py-0.5">
-                    About
-                    <span
+                  <button
+                    type="button"
+                    className={cn(
+                      "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center gap-1.5",
+                      isActive("/blog") ||
+                        isActive("/case-studies") ||
+                        isActive("/portfolio") ||
+                        isActive("/about") ||
+                        activeDropdown === "explore"
+                        ? "text-brand-cyan font-semibold"
+                        : "text-muted hover:text-brand-cyan"
+                    )}
+                    onClick={() => setActiveDropdown(activeDropdown === "explore" ? null : "explore")}
+                  >
+                    <span>Explore</span>
+                    <ChevronDown
                       className={cn(
-                        "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                        isActive("/about") ? "w-full" : "w-0 group-hover:w-full"
+                        "w-3.5 h-3.5 transition-transform duration-300",
+                        activeDropdown === "explore" ? "rotate-180 text-brand-cyan" : "text-muted group-hover:text-brand-cyan"
                       )}
                     />
-                  </span>
-                </Link>
+                  </button>
 
-                {/* 6. Blog */}
-                <Link
-                  href="/blog"
-                  className={cn(
-                    "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center",
-                    isActive("/blog") ? "text-brand-cyan font-semibold" : "text-muted hover:text-brand-cyan"
-                  )}
-                >
-                  <span className="relative py-0.5">
-                    Blog
-                    <span
-                      className={cn(
-                        "absolute -bottom-1 left-0 h-[2px] rounded-full bg-gradient-to-r from-brand-electric to-brand-cyan transition-all duration-300 ease-out",
-                        isActive("/blog") ? "w-full" : "w-0 group-hover:w-full"
-                      )}
-                    />
-                  </span>
-                </Link>
+                  {/* Simple Floating Submenu */}
+                  <div
+                    className={cn(
+                      "absolute top-full left-0 pt-2 transition-all duration-200 z-50",
+                      activeDropdown === "explore"
+                        ? "opacity-100 visible translate-y-0 pointer-events-auto"
+                        : "opacity-0 invisible -translate-y-2 pointer-events-none"
+                    )}
+                  >
+                    <div className="w-56 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white/98 dark:bg-[#070D1A]/98 backdrop-blur-2xl p-2 shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                      <div className="flex flex-col space-y-0.5">
+                        {EXPLORE_ITEMS.map((item) => {
+                          const Icon = item.icon;
+                          const isItemActive = item.href === "/#faq" ? false : isActive(item.href);
+                          return (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              onClick={() => setActiveDropdown(null)}
+                              className={cn(
+                                "flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs xl:text-sm font-medium transition-all group",
+                                isItemActive
+                                  ? "bg-brand-cyan/10 text-brand-cyan font-semibold"
+                                  : "text-slate-700 dark:text-slate-200 hover:text-brand-cyan hover:bg-slate-100/80 dark:hover:bg-white/5"
+                              )}
+                            >
+                              <Icon className="w-4 h-4 text-brand-cyan shrink-0 transition-transform group-hover:scale-110" />
+                              <span>{item.name}</span>
+                            </Link>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                 {/* 7. Contact */}
                 <Link
@@ -655,12 +674,12 @@ export function Header() {
                 <Button
                   href="/schedule-a-call"
                   variant="primary"
-                  size="sm"
+                  size="md"
                   fullWidthMobile={false}
                   trackingName="header_schedule_call"
                   trackingLocation="header"
                   icon={<ArrowRight className="w-3.5 h-3.5" />}
-                  className="text-xs px-3.5 py-2 whitespace-nowrap"
+                  className="text-sm px-4 py-3 whitespace-nowrap"
                 >
                   Schedule a Call
                 </Button>
@@ -727,18 +746,6 @@ export function Header() {
         >
           <div className="px-4 pt-3 pb-6 max-h-[80vh] overflow-y-auto">
             <nav className="flex flex-col space-y-1.5" aria-label="Mobile Navigation">
-              {/* 1. Mobile Home */}
-              <Link
-                href="/"
-                onClick={() => setMobileMenuOpen(false)}
-                className={cn(
-                  "px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                  pathname === "/" ? "bg-brand-cyan/10 text-brand-cyan font-semibold" : "text-muted hover:text-white"
-                )}
-              >
-                Home
-              </Link>
-
               {/* 2. Mobile Services Accordion (6 Core Services) */}
               <div className="rounded-xl border border-slate-200/80 dark:border-white/5 bg-slate-50/50 dark:bg-white/[0.02] overflow-hidden">
                 <button
@@ -748,9 +755,6 @@ export function Header() {
                 >
                   <div className="flex items-center gap-2">
                     <span>Services</span>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.2 rounded bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">
-                      6 Disciplines
-                    </span>
                   </div>
                   <ChevronDown
                     className={cn("w-4 h-4 transition-transform duration-300", mobileServicesOpen && "rotate-180 text-brand-cyan")}
@@ -797,9 +801,6 @@ export function Header() {
                 >
                   <div className="flex items-center gap-2">
                     <span>AI Solutions</span>
-                    <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.2 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                      1 Live &bull; Roadmap
-                    </span>
                   </div>
                   <ChevronDown
                     className={cn("w-4 h-4 transition-transform duration-300", mobileAiOpen && "rotate-180 text-brand-cyan")}
@@ -828,10 +829,6 @@ export function Header() {
                               <Icon className="w-4 h-4 text-brand-cyan shrink-0" />
                               <span className="truncate">{svc.name}</span>
                             </div>
-                            <span className="inline-flex items-center gap-1 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 shrink-0">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                              LIVE
-                            </span>
                           </Link>
                         );
                       }
@@ -856,43 +853,58 @@ export function Header() {
                 </div>
               </div>
 
-              {/* 4. Mobile Case Studies */}
+              {/* 3. Mobile Pricing */}
               <Link
-                href="/case-studies"
+                href="/pricing"
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
                   "px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                  isActive("/case-studies") || isActive("/portfolio")
-                    ? "bg-brand-cyan/10 text-brand-cyan font-semibold"
-                    : "text-muted hover:text-white"
+                  isActive("/pricing") ? "bg-brand-cyan/10 text-brand-cyan font-semibold" : "text-muted hover:text-white"
                 )}
               >
-                Case Studies
+                Pricing
               </Link>
 
-              {/* 5. Mobile About */}
-              <Link
-                href="/about"
-                onClick={() => setMobileMenuOpen(false)}
-                className={cn(
-                  "px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                  isActive("/about") ? "bg-brand-cyan/10 text-brand-cyan font-semibold" : "text-muted hover:text-white"
-                )}
-              >
-                About Nexovio
-              </Link>
+              {/* 4. Mobile Explore Accordion (About Us, Case Studies, Blog) */}
+              <div className="rounded-xl border border-slate-200/80 dark:border-white/5 bg-slate-50/50 dark:bg-white/[0.02] overflow-hidden">
+                <button
+                  type="button"
+                  className="w-full flex items-center justify-between px-4 py-2.5 text-sm font-medium text-slate-800 dark:text-white focus:outline-none"
+                  onClick={() => setMobileExploreOpen(!mobileExploreOpen)}
+                >
+                  <div className="flex items-center gap-2">
+                    <span>Explore</span>
+                  </div>
+                  <ChevronDown
+                    className={cn("w-4 h-4 transition-transform duration-300", mobileExploreOpen && "rotate-180 text-brand-cyan")}
+                  />
+                </button>
 
-              {/* 6. Mobile Blog */}
-              <Link
-                href="/blog"
-                onClick={() => setMobileMenuOpen(false)}
-                className={cn(
-                  "px-4 py-2.5 rounded-lg text-sm font-medium transition-colors",
-                  isActive("/blog") ? "bg-brand-cyan/10 text-brand-cyan font-semibold" : "text-muted hover:text-white"
-                )}
-              >
-                Blog &amp; Insights
-              </Link>
+                {/* Animated Accordion Content */}
+                <div
+                  className={cn(
+                    "overflow-hidden transition-all duration-300 ease-in-out",
+                    mobileExploreOpen ? "max-h-[350px] opacity-100" : "max-h-0 opacity-0"
+                  )}
+                >
+                  <div className="px-3 pb-3 space-y-1 border-t border-slate-200/60 dark:border-white/5 pt-2">
+                    {EXPLORE_ITEMS.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <Link
+                          key={item.name}
+                          href={item.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-700 dark:text-muted hover:text-brand-cyan dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                        >
+                          <Icon className="w-4 h-4 text-brand-cyan shrink-0" />
+                          <span>{item.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
 
               {/* 7. Mobile Contact */}
               <Link

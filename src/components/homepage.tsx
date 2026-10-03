@@ -1565,74 +1565,6 @@ export function SelectedWork() {
   );
 }
 
-// ----------------------------------------------------------------------
-// 11. Content Strategy Section
-// ----------------------------------------------------------------------
-export function ContentStrategySection() {
-  return (
-    <section className="section-white pt-12 sm:pt-16 pb-6 sm:pb-8 relative" id="insights">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimateOnScroll variant="fadeUp" duration={0.7}>
-          <div className="text-center max-w-4xl mx-auto mb-12 sm:mb-16 space-y-3">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-              CONTENT STRATEGY
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
-              Use the Homepage to Open the Door{" "}
-              <span className="bg-gradient-brand bg-clip-text text-transparent">to Deeper Content</span>
-            </h2>
-            <div className="text-base sm:text-lg text-muted leading-relaxed space-y-2 pt-1 max-w-3xl mx-auto">
-              <p className="font-semibold text-foreground">
-                The homepage is the primary authority page for a topic and directs decision makers straight to in-depth technical content, architecture comparisons, and turn-key solutions.
-              </p>
-            </div>
-          </div>
-        </AnimateOnScroll>
-
-        <AnimateOnScroll variant="staggerChildren" stagger={0.08} duration={0.6}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TOPICS.map((t, idx) => {
-              const Icon = t.icon;
-              return (
-                <Card
-                  key={idx}
-                  className="bg-surface-elevated/70 p-6 border-border-subtle hover:border-brand-cyan/40 transition-all space-y-3 group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-cyan group-hover:scale-110 transition-transform">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-bold text-foreground group-hover:text-brand-cyan transition-colors">
-                    {t.category}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {t.items}
-                  </p>
-                </Card>
-              );
-            })}
-          </div>
-        </AnimateOnScroll>
-
-        <AnimateOnScroll variant="fadeUp" duration={0.6} delay={0.2}>
-          <div className="mt-10 sm:mt-12 bg-surface-elevated/80 rounded-2xl p-6 sm:p-8 border border-brand-cyan/30 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="flex items-start gap-4">
-              <CheckCircle2 className="w-6 h-6 text-brand-cyan shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-sm font-bold text-foreground uppercase tracking-wider">
-                  Real Questions. Useful Answers. Better Digital Decisions.
-                </h4>
-                <p className="text-xs sm:text-sm text-muted leading-relaxed mt-1">
-                  We write useful, search-friendly content based on the questions your customers really ask — not generic content designed to just fill a page. Each piece is designed to help businesses learn about their choices, solve real problems, and make better digital decisions, from technical guides to solution-focused insights.
-                </p>
-              </div>
-            </div>
-          </div>
-        </AnimateOnScroll>
-      </div>
-    </section>
-  );
-}
-
 // ==========================================
 // MAIN HOMEPAGE COMPONENT
 // ==========================================
@@ -1674,11 +1606,9 @@ export default function Homepage() {
       {/* 10. Selected Work / Case Studies (Trust & Authority) */}
       <SelectedWork />
 
-      {/* 11. Content Strategy */}
-      <ContentStrategySection />
-
       {/* 13. FAQ Section */}
       <FaqSection
+        variant="white"
         badge="FAQ"
         title="Frequently Asked"
         highlightText="Questions"

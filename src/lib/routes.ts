@@ -8,6 +8,7 @@ export const ROUTES = [
   "/about",
   "/agency-partnership",
   "/contact",
+  "/pricing",
   "/portfolio",
   "/schedule-a-call",
   "/privacy-policy",

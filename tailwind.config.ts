@@ -50,6 +50,7 @@ const config: Config = {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         heading: ["var(--font-plus-jakarta)", "system-ui", "sans-serif"],
         jakarta: ["var(--font-plus-jakarta)", "system-ui", "sans-serif"],
+        serif: ["var(--font-playfair)", "Georgia", "serif"],
         mono: ["var(--font-ibm-plex-mono)", "monospace"],
       },
       keyframes: {

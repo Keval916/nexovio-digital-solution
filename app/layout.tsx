@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Plus_Jakarta_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, IBM_Plex_Mono, Playfair_Display } from "next/font/google";
 import Script from "next/script";
 import "@/src/index.css";
 import SiteChrome from "@/src/components/common/SiteChrome";
@@ -26,6 +26,13 @@ const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   variable: "--font-ibm-plex-mono",
   weight: ["500", "600"],
+  display: "swap",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  weight: ["500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -122,7 +129,7 @@ export default function RootLayout({
         <meta name="rating" content="General" />
         <meta name="revisit-after" content="2 days" />
       </head>
-      <body className="min-h-screen bg-background text-foreground selection:bg-brand-bright selection:text-white flex flex-col font-sans transition-colors duration-300">
+      <body className={`${inter.variable} ${plusJakartaSans.variable} ${ibmPlexMono.variable} ${playfair.variable} min-h-screen bg-background text-foreground selection:bg-brand-bright selection:text-white flex flex-col font-sans transition-colors duration-300`}>
         <GoogleTagManager />
         <GoogleAnalytics />
         <SiteChrome>{children}</SiteChrome>

@@ -247,6 +247,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/pricing" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Pricing Packages
+                  </Link>
+                </li>
+                <li>
                   <Link href="/#process" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
                     Our Process
                   </Link>
