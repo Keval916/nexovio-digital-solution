@@ -21,7 +21,7 @@ export const ROUTES = [
   "/services/seo-digital-marketing",
   "/services/graphic-design",
   "/services/ai-development",
-  "/generative-ai-development",
+  "/services/generative-ai-development",
   "/case-studies",
   "/case-studies/parts-connexion",
   "/case-studies/inside-injury",

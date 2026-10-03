@@ -9,6 +9,15 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  async redirects() {
+    return [
+      {
+        source: '/generative-ai-development',
+        destination: '/services/generative-ai-development',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

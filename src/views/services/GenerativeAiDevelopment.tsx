@@ -519,14 +519,14 @@ export default function GenerativeAiDevelopment() {
     name: "Generative AI Development Services",
     description:
       "Build custom generative AI solutions with Nexovio. From custom LLM applications and RAG systems to intelligent customer assistants and autonomous multi-agent pipelines.",
-    url: "/generative-ai-development",
+    url: "/services/generative-ai-development",
     serviceType: "Generative AI Development Services",
     image: "/images/services/generative-ai/genai-hero-architects.jpg",
   });
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: "Home", url: "/" },
     { name: "Services", url: "/services" },
-    { name: "Generative AI Development", url: "/generative-ai-development" },
+    { name: "Generative AI Development", url: "/services/generative-ai-development" },
   ]);
 
   return (
@@ -560,7 +560,7 @@ export default function GenerativeAiDevelopment() {
               <Breadcrumbs
                 items={[
                   { name: "Services", url: "/services" },
-                  { name: "Generative AI Development", url: "/generative-ai-development" },
+                  { name: "Generative AI Development", url: "/services/generative-ai-development" },
                 ]}
               />
             </div>

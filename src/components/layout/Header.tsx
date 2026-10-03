@@ -99,7 +99,7 @@ const AI_SOLUTIONS = [
   },
   {
     name: "Generative AI Development",
-    href: "/generative-ai-development",
+    href: "/services/generative-ai-development",
     description: "Custom generative models, prompt pipelines & intelligent content workflows",
     icon: Cpu,
     badge: "LIVE",

@@ -21,8 +21,8 @@ export const metadata: Metadata = generatePageMetadata({
     "AI content generation",
     "custom AI solutions",
   ],
-  path: "/generative-ai-development",
-  ogImage: "/images/services/generative-ai/generative-ai-development-services.jpg",
+  path: "/services/generative-ai-development",
+  ogImage: "/images/services/generative-ai/genai-hero-architects.jpg",
 });
 
 export default function Page() {
