@@ -77,11 +77,14 @@ import {
   FolderKanban,
   Bookmark,
   Loader2,
+  UserCheck,
+  Briefcase,
 } from "lucide-react";
 import { BlogArticle, BlogFAQ } from "@/src/data/blog";
 import { formatDate, getTodayDateString, cn } from "@/src/lib/utils";
 import { BlogAnalyticsData } from "@/src/lib/blog-analytics";
 import { BlogCategory } from "@/src/lib/category-storage";
+import { BlogAuthor } from "@/src/lib/author-storage";
 
 // Color styling helpers for category badges
 const getCategoryColorClasses = (color?: string) => {
@@ -151,6 +154,8 @@ interface FormState {
   content: string; // HTML formatted string
   authorName: string;
   authorRole: string;
+  authorAvatar?: string;
+  authorBio?: string;
   publishedAt: string;
   featuredImage: string;
   featuredImageAlt: string;
@@ -180,6 +185,8 @@ const EMPTY_FORM: FormState = {
   content: "",
   authorName: "Nexovio Technical Engineering",
   authorRole: "Solutions Architecture",
+  authorAvatar: "/images/brand/nexovio-logo-square.png",
+  authorBio: "",
   publishedAt: getTodayDateString(),
   featuredImage: "/images/blog/custom-web-development-vs-website-builders.webp",
   featuredImageAlt: "",
@@ -219,7 +226,7 @@ export default function BlogAdmin() {
   const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
 
   // Active Main Navigation Tab
-  const [activeTab, setActiveTab] = useState<"dashboard" | "posts" | "editor" | "categories" | "media" | "subscribers">("dashboard");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "posts" | "editor" | "categories" | "authors" | "media" | "subscribers">("dashboard");
 
   // Categories Management State
   const [categories, setCategories] = useState<BlogCategory[]>([]);
@@ -243,6 +250,39 @@ export default function BlogAdmin() {
     slug: "",
     description: "",
     color: "blue",
+    updateArticles: true,
+  });
+
+  // Authors Management State
+  const [authors, setAuthors] = useState<BlogAuthor[]>([]);
+  const [authorsLoading, setAuthorsLoading] = useState<boolean>(false);
+  const [authorSearch, setAuthorSearch] = useState<string>("");
+  const [isAuthorModalOpen, setIsAuthorModalOpen] = useState<boolean>(false);
+  const [isDeleteAuthorModalOpen, setIsDeleteAuthorModalOpen] = useState<boolean>(false);
+  const [isSavingAuthor, setIsSavingAuthor] = useState<boolean>(false);
+  const [isDeletingAuthor, setIsDeletingAuthor] = useState<boolean>(false);
+  const [authorToDelete, setAuthorToDelete] = useState<BlogAuthor | null>(null);
+  const [reassignAuthorTarget, setReassignAuthorTarget] = useState<string>("");
+  const [authorForm, setAuthorForm] = useState<{
+    id?: string;
+    name: string;
+    role: string;
+    avatar: string;
+    bio: string;
+    email: string;
+    linkedin: string;
+    twitter: string;
+    github: string;
+    updateArticles: boolean;
+  }>({
+    name: "",
+    role: "",
+    avatar: "/images/brand/nexovio-logo-square.png",
+    bio: "",
+    email: "",
+    linkedin: "",
+    twitter: "",
+    github: "",
     updateArticles: true,
   });
 
@@ -292,7 +332,7 @@ export default function BlogAdmin() {
   const [availableImages, setAvailableImages] = useState<{ name: string; url: string }[]>([]);
   const [isMediaModalOpen, setIsMediaModalOpen] = useState<boolean>(false);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-  const [mediaTarget, setMediaTarget] = useState<"featured" | "editor" | "og">("featured");
+  const [mediaTarget, setMediaTarget] = useState<"featured" | "editor" | "og" | "author">("featured");
 
   // Custom CSS Class Manager State
   const [isClassModalOpen, setIsClassModalOpen] = useState<boolean>(false);
@@ -676,10 +716,163 @@ export default function BlogAdmin() {
     }
   };
 
+  // Fetch blog authors from database
+  const fetchAuthors = async () => {
+    setAuthorsLoading(true);
+    try {
+      const res = await fetch("/api/admin/authors", { cache: "no-store" });
+      const data = await res.json();
+      if (data.success && Array.isArray(data.authors)) {
+        setAuthors(data.authors);
+      }
+    } catch (err) {
+      console.error("Failed to fetch authors:", err);
+    } finally {
+      setAuthorsLoading(false);
+    }
+  };
+
+  // Open Add Author Modal
+  const handleOpenAddAuthor = () => {
+    setAuthorForm({
+      id: undefined,
+      name: "",
+      role: "",
+      avatar: "/images/brand/nexovio-logo-square.png",
+      bio: "",
+      email: "",
+      linkedin: "",
+      twitter: "",
+      github: "",
+      updateArticles: false,
+    });
+    setIsAuthorModalOpen(true);
+  };
+
+  // Open Edit Author Modal
+  const handleOpenEditAuthor = (author: BlogAuthor) => {
+    setAuthorForm({
+      id: author.id,
+      name: author.name,
+      role: author.role,
+      avatar: author.avatar || "/images/brand/nexovio-logo-square.png",
+      bio: author.bio || "",
+      email: author.email || "",
+      linkedin: author.socialLinks?.linkedin || "",
+      twitter: author.socialLinks?.twitter || "",
+      github: author.socialLinks?.github || "",
+      updateArticles: true,
+    });
+    setIsAuthorModalOpen(true);
+  };
+
+  // Save Author (Create or Update)
+  const handleSaveAuthor = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!authorForm.name.trim()) {
+      showToast("Author name is required", "error");
+      return;
+    }
+    if (!authorForm.role.trim()) {
+      showToast("Author position / role is required", "error");
+      return;
+    }
+
+    setIsSavingAuthor(true);
+    try {
+      const isEdit = Boolean(authorForm.id);
+      const url = "/api/admin/authors";
+      const method = isEdit ? "PUT" : "POST";
+      const payload = {
+        id: authorForm.id,
+        name: authorForm.name.trim(),
+        role: authorForm.role.trim(),
+        avatar: authorForm.avatar.trim() || undefined,
+        bio: authorForm.bio.trim() || undefined,
+        email: authorForm.email.trim() || undefined,
+        socialLinks: {
+          ...(authorForm.linkedin.trim() ? { linkedin: authorForm.linkedin.trim() } : {}),
+          ...(authorForm.twitter.trim() ? { twitter: authorForm.twitter.trim() } : {}),
+          ...(authorForm.github.trim() ? { github: authorForm.github.trim() } : {}),
+        },
+        updateArticles: authorForm.updateArticles,
+      };
+
+      const res = await fetch(url, {
+        method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(data.message || (isEdit ? "Author updated successfully!" : "Author created successfully!"));
+        setIsAuthorModalOpen(false);
+        await fetchAuthors();
+        if (isEdit && authorForm.updateArticles) {
+          await fetchArticles();
+        }
+        // Auto-select newly created author if editing article
+        if (!isEdit && data.author) {
+          setForm((prev) => ({
+            ...prev,
+            authorName: data.author.name,
+            authorRole: data.author.role,
+            authorAvatar: data.author.avatar,
+            authorBio: data.author.bio,
+          }));
+        }
+      } else {
+        showToast(data.message || "Failed to save author", "error");
+      }
+    } catch (err) {
+      console.error("Save author error:", err);
+      showToast("Error saving author", "error");
+    } finally {
+      setIsSavingAuthor(false);
+    }
+  };
+
+  // Open Delete Author Modal
+  const handleOpenDeleteAuthor = (auth: BlogAuthor) => {
+    setAuthorToDelete(auth);
+    const alternate = authors.find((a) => a.id !== auth.id);
+    setReassignAuthorTarget(alternate ? alternate.id : "");
+    setIsDeleteAuthorModalOpen(true);
+  };
+
+  // Confirm Delete Author
+  const handleConfirmDeleteAuthor = async () => {
+    if (!authorToDelete) return;
+    setIsDeletingAuthor(true);
+    try {
+      let url = `/api/admin/authors?id=${encodeURIComponent(authorToDelete.id)}`;
+      if ((authorToDelete.articleCount || 0) > 0 && reassignAuthorTarget) {
+        url += `&reassignId=${encodeURIComponent(reassignAuthorTarget)}`;
+      }
+      const res = await fetch(url, { method: "DELETE" });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast("Author deleted successfully from database");
+        setIsDeleteAuthorModalOpen(false);
+        setAuthorToDelete(null);
+        await fetchAuthors();
+        await fetchArticles();
+      } else {
+        showToast(data.message || "Failed to delete author", "error");
+      }
+    } catch (err) {
+      console.error("Delete author error:", err);
+      showToast("Error deleting author", "error");
+    } finally {
+      setIsDeletingAuthor(false);
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       fetchArticles();
       fetchCategories();
+      fetchAuthors();
       fetchImages();
       fetchSubscribers();
       fetchAnalytics();
@@ -768,6 +961,8 @@ export default function BlogAdmin() {
       content: formattedContent,
       authorName: article.author.name,
       authorRole: article.author.role,
+      authorAvatar: article.author.avatar || "/images/brand/nexovio-logo-square.png",
+      authorBio: article.author.bio || "",
       publishedAt: article.publishedAt || getTodayDateString(),
       featuredImage: article.featuredImage,
       featuredImageAlt: article.featuredImageAlt || article.title,
@@ -1224,7 +1419,13 @@ export default function BlogAdmin() {
       author: {
         name: form.authorName.trim() || "Nexovio Technical Engineering",
         role: form.authorRole.trim() || "Solutions Architecture",
+        ...(form.authorAvatar ? { avatar: form.authorAvatar.trim() } : {}),
+        ...(form.authorBio ? { bio: form.authorBio.trim() } : {}),
       },
+      authorName: form.authorName.trim() || "Nexovio Technical Engineering",
+      authorRole: form.authorRole.trim() || "Solutions Architecture",
+      authorAvatar: form.authorAvatar ? form.authorAvatar.trim() : undefined,
+      authorBio: form.authorBio ? form.authorBio.trim() : undefined,
       featuredImage: form.featuredImage.trim(),
       featuredImageAlt: form.featuredImageAlt.trim() || form.title.trim(),
       tableOfContents: tocList.length > 0 ? tocList : undefined,
@@ -1364,6 +1565,18 @@ export default function BlogAdmin() {
         (c.description && c.description.toLowerCase().includes(q))
     );
   }, [categories, categorySearch]);
+
+  // Filtered authors for search
+  const filteredAuthors = useMemo(() => {
+    if (!authorSearch.trim()) return authors;
+    const q = authorSearch.toLowerCase().trim();
+    return authors.filter(
+      (a) =>
+        a.name.toLowerCase().includes(q) ||
+        a.role.toLowerCase().includes(q) ||
+        (a.bio && a.bio.toLowerCase().includes(q))
+    );
+  }, [authors, authorSearch]);
 
   // Copy image URL helper
   const copyToClipboard = (url: string) => {
@@ -1736,6 +1949,26 @@ export default function BlogAdmin() {
               </div>
               <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
                 {categories.length}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                fetchAuthors();
+                setActiveTab("authors");
+              }}
+              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-all ${activeTab === "authors"
+                ? "bg-blue-50 text-[#1769FF] font-bold shadow-xs border border-blue-100"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                }`}
+            >
+              <div className="flex items-center gap-3">
+                <UserCheck className="w-4 h-4 text-[#1769FF]" />
+                <span>Authors</span>
+              </div>
+              <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-slate-100 text-slate-700">
+                {authors.length}
               </span>
             </button>
 
@@ -2918,6 +3151,66 @@ export default function BlogAdmin() {
                       <span className="text-[11px] text-slate-400">
                         Defaults to today&apos;s real date • Change anytime
                       </span>
+                    </div>
+
+                    {/* Author & Position Selection Row right in Step 1 */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                          <UserCheck className="w-3.5 h-3.5 text-[#1769FF]" />
+                          <span>Author &amp; Position <span className="text-red-500">*</span>:</span>
+                        </span>
+
+                        {/* Author Dropdown */}
+                        <select
+                          value={(() => {
+                            const matched = authors.find(
+                              (a) => a.name.toLowerCase().trim() === form.authorName.toLowerCase().trim()
+                            );
+                            return matched ? matched.id : "custom";
+                          })()}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            if (val === "custom") return;
+                            const selected = authors.find((a) => a.id === val);
+                            if (selected) {
+                              setForm((prev) => ({
+                                ...prev,
+                                authorName: selected.name,
+                                authorRole: selected.role,
+                                authorAvatar: selected.avatar,
+                                authorBio: selected.bio,
+                              }));
+                              showToast(`Author selected: ${selected.name} (${selected.role})`);
+                            }
+                          }}
+                          className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none cursor-pointer max-w-[280px] sm:max-w-[360px] truncate"
+                        >
+                          {authors.map((auth) => (
+                            <option key={auth.id} value={auth.id}>
+                              {auth.name} — {auth.role}
+                            </option>
+                          ))}
+                          <option value="custom">✎ Custom / Manual Author</option>
+                        </select>
+
+                        {/* Live Author Preview Badge */}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-[#1769FF] border border-blue-200/70">
+                          <User className="w-3 h-3 text-[#1769FF]" />
+                          <span className="font-bold">{form.authorName || "No Author"}</span>
+                          <span className="text-blue-300">|</span>
+                          <span className="text-[11px] text-slate-600 font-mono">{form.authorRole || "No Position"}</span>
+                        </span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={handleOpenAddAuthor}
+                        className="text-xs font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200/60 hover:bg-blue-100/70 transition-colors self-start sm:self-auto cursor-pointer"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>+ New Author</span>
+                      </button>
                     </div>
 
                     {/* Headline / Title */}
@@ -4665,28 +4958,101 @@ export default function BlogAdmin() {
                           </p>
                         </div>
 
-                        <div>
-                          <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                            Author Name
-                          </label>
-                          <input
-                            type="text"
-                            value={form.authorName}
-                            onChange={(e) => setForm((prev) => ({ ...prev, authorName: e.target.value }))}
-                            className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                          />
-                        </div>
+                        {/* Author Selector Dropdown */}
+                        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/90 space-y-3">
+                          <div>
+                            <div className="flex items-center justify-between mb-1.5">
+                              <label className="block text-[11px] font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                                <UserCheck className="w-3.5 h-3.5 text-[#1769FF]" />
+                                <span>Author Dropdown (Name &amp; Position) *</span>
+                              </label>
+                              <button
+                                type="button"
+                                onClick={handleOpenAddAuthor}
+                                className="text-[11px] font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1 cursor-pointer"
+                              >
+                                <Plus className="w-3 h-3" />
+                                <span>+ New Author</span>
+                              </button>
+                            </div>
 
-                        <div>
-                          <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                            Author Professional Title / Role
-                          </label>
-                          <input
-                            type="text"
-                            value={form.authorRole}
-                            onChange={(e) => setForm((prev) => ({ ...prev, authorRole: e.target.value }))}
-                            className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                          />
+                            <select
+                              value={(() => {
+                                const matched = authors.find(
+                                  (a) => a.name.toLowerCase().trim() === form.authorName.toLowerCase().trim()
+                                );
+                                return matched ? matched.id : (form.authorName ? "custom" : "");
+                              })()}
+                              onChange={(e) => {
+                                const val = e.target.value;
+                                if (!val) return;
+                                if (val === "custom") return;
+                                const selected = authors.find((a) => a.id === val);
+                                if (selected) {
+                                  setForm((prev) => ({
+                                    ...prev,
+                                    authorName: selected.name,
+                                    authorRole: selected.role,
+                                    authorAvatar: selected.avatar,
+                                    authorBio: selected.bio,
+                                  }));
+                                  showToast(`Selected author: ${selected.name} (${selected.role})`);
+                                }
+                              }}
+                              className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs font-semibold text-slate-900 shadow-xs focus:border-[#1769FF] focus:ring-2 focus:ring-[#1769FF]/20 focus:outline-none cursor-pointer"
+                            >
+                              <option value="">-- Choose Author from Saved Database --</option>
+                              {authors.map((auth) => (
+                                <option key={auth.id} value={auth.id}>
+                                  {auth.name} — {auth.role}
+                                </option>
+                              ))}
+                              <option value="custom">✎ Custom / Manual Entry...</option>
+                            </select>
+                          </div>
+
+                          {/* Live Author Preview */}
+                          {form.authorName && (
+                            <div className="flex items-center gap-2.5 p-2 rounded-lg bg-blue-50/70 border border-blue-200/60 text-xs">
+                              <span className="w-7 h-7 rounded-lg bg-[#1769FF] text-white flex items-center justify-center font-bold text-[10px] tracking-wide shrink-0">
+                                {form.authorName.split(" ").filter(Boolean).length >= 2
+                                  ? (form.authorName.split(" ")[0][0] + form.authorName.split(" ").slice(-1)[0][0]).toUpperCase()
+                                  : form.authorName.slice(0, 2).toUpperCase()}
+                              </span>
+                              <div className="min-w-0 flex-1">
+                                <span className="font-bold text-slate-900 block truncate">{form.authorName}</span>
+                                <span className="text-[11px] text-[#1769FF] font-medium block truncate">{form.authorRole || "No Position"}</span>
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                            <div>
+                              <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                                Author Name
+                              </label>
+                              <input
+                                type="text"
+                                value={form.authorName}
+                                onChange={(e) => setForm((prev) => ({ ...prev, authorName: e.target.value }))}
+                                placeholder="Author Full Name"
+                                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1769FF] focus:outline-none"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                                Author Professional Title / Role
+                              </label>
+                              <input
+                                type="text"
+                                value={form.authorRole}
+                                onChange={(e) => setForm((prev) => ({ ...prev, authorRole: e.target.value }))}
+                                placeholder="e.g. Engineering & Strategy"
+                                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1769FF] focus:outline-none"
+                              />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -4940,6 +5306,200 @@ export default function BlogAdmin() {
                       </div>
                     );
                   })}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ================================================================= */}
+          {/* VIEW: AUTHORS MANAGEMENT */}
+          {/* ================================================================= */}
+          {activeTab === "authors" && (
+            <div className="p-6 sm:p-8 space-y-6 max-w-7xl mx-auto">
+              {/* Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+                    <UserCheck className="w-6 h-6 text-[#1769FF]" />
+                    <span>Blog Authors ({authors.length})</span>
+                  </h1>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Manage authors, designations/roles, bios, and profile avatars. Saved authors automatically appear in the blog editor dropdown.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={fetchAuthors}
+                    disabled={authorsLoading}
+                    className="p-2 rounded-xl border border-slate-200 bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer"
+                    title="Refresh authors list"
+                  >
+                    <RefreshCw className={cn("w-4 h-4", authorsLoading && "animate-spin text-[#1769FF]")} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleOpenAddAuthor}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1769FF] to-[#00A3FF] hover:from-[#0F58E0] hover:to-[#008FE0] shadow-sm hover:shadow transition-all cursor-pointer"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add New Author</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Search & Stats Bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="relative flex-1 sm:max-w-md">
+                  <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={authorSearch}
+                    onChange={(e) => setAuthorSearch(e.target.value)}
+                    placeholder="Search by author name, position/role, or bio..."
+                    className="w-full rounded-xl border border-slate-200 bg-white pl-9 pr-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:border-[#1769FF] focus:outline-none shadow-xs"
+                  />
+                  {authorSearch && (
+                    <button
+                      type="button"
+                      onClick={() => setAuthorSearch("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-3 text-xs text-slate-500">
+                  <span>
+                    Showing <strong className="text-slate-800">{filteredAuthors.length}</strong> of{" "}
+                    <strong className="text-slate-800">{authors.length}</strong> author(s)
+                  </span>
+                </div>
+              </div>
+
+              {/* Authors Grid */}
+              {authorsLoading && authors.length === 0 ? (
+                <div className="p-16 text-center text-slate-500 text-xs">
+                  <RefreshCw className="w-6 h-6 text-[#1769FF] animate-spin mx-auto mb-2" />
+                  Loading authors from database...
+                </div>
+              ) : filteredAuthors.length === 0 ? (
+                <div className="p-16 text-center rounded-2xl border border-dashed border-slate-300 bg-white space-y-3">
+                  <div className="w-12 h-12 rounded-full bg-blue-50 text-[#1769FF] flex items-center justify-center mx-auto">
+                    <UserCheck className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-800">
+                    {authorSearch ? "No authors match your search" : "No authors added yet"}
+                  </h3>
+                  <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                    {authorSearch
+                      ? `Try clearing your search query "${authorSearch}" to view all authors.`
+                      : "Add your first author with their official title or position to streamline publishing."}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleOpenAddAuthor}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#1769FF] hover:bg-[#0F58E0] shadow-sm transition-all"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Create Author</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {filteredAuthors.map((auth) => (
+                    <div
+                      key={auth.id}
+                      className="group rounded-2xl border border-slate-200/90 bg-white p-5 shadow-xs hover:border-[#1769FF]/50 hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+                    >
+                      <div className="space-y-3">
+                        {/* Top: Avatar + Name + Actions */}
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-12 h-12 rounded-xl border border-slate-200 overflow-hidden relative shrink-0 bg-slate-100 flex items-center justify-center shadow-xs">
+                              {auth.avatar ? (
+                                <Image
+                                  src={auth.avatar}
+                                  alt={auth.name}
+                                  fill
+                                  className="object-cover"
+                                  onError={(e) => {
+                                    (e.target as any).style.display = "none";
+                                  }}
+                                />
+                              ) : (
+                                <User className="w-6 h-6 text-slate-400" />
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <h3 className="text-sm font-bold text-slate-900 group-hover:text-[#1769FF] transition-colors truncate">
+                                {auth.name}
+                              </h3>
+                              <div className="flex items-center gap-1.5 mt-0.5">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-blue-50 text-[#1769FF] border border-blue-200/70 truncate max-w-[200px]">
+                                  <Briefcase className="w-3 h-3 shrink-0" />
+                                  <span className="truncate">{auth.role}</span>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-1 shrink-0">
+                            <button
+                              type="button"
+                              onClick={() => handleOpenEditAuthor(auth)}
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-[#1769FF] hover:bg-blue-50 transition-colors cursor-pointer"
+                              title="Edit author profile"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleOpenDeleteAuthor(auth)}
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition-colors cursor-pointer"
+                              title="Delete author"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Bio / Description */}
+                        {auth.bio ? (
+                          <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
+                            {auth.bio}
+                          </p>
+                        ) : (
+                          <p className="text-xs text-slate-400 italic">No bio provided.</p>
+                        )}
+                      </div>
+
+                      {/* Card Footer: Article Count & Details */}
+                      <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setSearchQuery(auth.name);
+                            setActiveTab("posts");
+                          }}
+                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#1769FF] hover:underline"
+                        >
+                          <FileText className="w-3.5 h-3.5" />
+                          <span>
+                            {auth.articleCount ?? 0} {auth.articleCount === 1 ? "Article" : "Articles"}
+                          </span>
+                        </button>
+
+                        {auth.email && (
+                          <span className="text-[11px] text-slate-400 truncate max-w-[140px]" title={auth.email}>
+                            {auth.email}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -5486,6 +6046,8 @@ export default function BlogAdmin() {
                         }));
                       } else if (mediaTarget === "og") {
                         setForm((prev) => ({ ...prev, ogImage: img.url }));
+                      } else if (mediaTarget === "author") {
+                        setAuthorForm((prev) => ({ ...prev, avatar: img.url }));
                       } else {
                         insertImageIntoEditor(img.url, img.name);
                       }
@@ -5829,6 +6391,248 @@ export default function BlogAdmin() {
                 className="px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-sm transition-colors cursor-pointer flex items-center gap-1.5 disabled:opacity-60"
               >
                 {isDeletingCategory && <RefreshCw className="w-3.5 h-3.5 animate-spin" />}
+                <span>Confirm Delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 6: ADD / EDIT AUTHOR MODAL */}
+      {/* ========================================================================= */}
+      {isAuthorModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-200">
+          <div className="max-w-lg w-full rounded-2xl border border-slate-200 bg-white shadow-2xl overflow-hidden flex flex-col max-h-[90vh] modal-animate">
+            <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+              <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <UserCheck className="w-4 h-4 text-[#1769FF]" />
+                <span>{authorForm.id ? "Edit Author Profile" : "Add New Blog Author"}</span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsAuthorModalOpen(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-200/50"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveAuthor} className="p-6 space-y-4 overflow-y-auto">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Author Full Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={authorForm.name}
+                  onChange={(e) => setAuthorForm((prev) => ({ ...prev, name: e.target.value }))}
+                  placeholder="e.g. Keval Kadecha"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Author Position / Designation *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={authorForm.role}
+                  onChange={(e) => setAuthorForm((prev) => ({ ...prev, role: e.target.value }))}
+                  placeholder="e.g. Lead Technical Architect, Founder & CTO"
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                />
+                <p className="text-[11px] text-slate-400 mt-1">
+                  Shown in the blog post byline and author dropdown (e.g. &ldquo;Name — Position&rdquo;).
+                </p>
+              </div>
+
+              {/* Avatar input with preview & media picker */}
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Avatar / Profile Photo
+                </label>
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-xl border border-slate-200 bg-slate-100 overflow-hidden relative shrink-0 flex items-center justify-center">
+                    {authorForm.avatar ? (
+                      <Image
+                        src={authorForm.avatar}
+                        alt="Avatar Preview"
+                        fill
+                        className="object-cover"
+                        onError={(e) => {
+                          (e.target as any).style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <User className="w-5 h-5 text-slate-400" />
+                    )}
+                  </div>
+                  <input
+                    type="text"
+                    value={authorForm.avatar}
+                    onChange={(e) => setAuthorForm((prev) => ({ ...prev, avatar: e.target.value }))}
+                    placeholder="/images/team/keval.jpg"
+                    className="flex-1 rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs font-mono text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMediaTarget("author");
+                      setIsMediaModalOpen(true);
+                    }}
+                    className="px-3 py-2 rounded-xl text-xs font-semibold text-[#1769FF] bg-blue-50 hover:bg-blue-100/70 border border-blue-200/60 transition-colors shrink-0"
+                  >
+                    Pick Image
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Author Bio
+                </label>
+                <textarea
+                  rows={2}
+                  value={authorForm.bio}
+                  onChange={(e) => setAuthorForm((prev) => ({ ...prev, bio: e.target.value }))}
+                  placeholder="Short 1-2 sentence background or industry specialization..."
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                />
+              </div>
+
+              {/* Social / Contact Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                    Contact Email (Optional)
+                  </label>
+                  <input
+                    type="email"
+                    value={authorForm.email}
+                    onChange={(e) => setAuthorForm((prev) => ({ ...prev, email: e.target.value }))}
+                    placeholder="author@nexovio.com"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                    LinkedIn URL (Optional)
+                  </label>
+                  <input
+                    type="url"
+                    value={authorForm.linkedin}
+                    onChange={(e) => setAuthorForm((prev) => ({ ...prev, linkedin: e.target.value }))}
+                    placeholder="https://linkedin.com/in/..."
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-1.5 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              {authorForm.id && (
+                <div className="pt-2">
+                  <label className="flex items-center gap-2 text-xs text-slate-700 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={authorForm.updateArticles}
+                      onChange={(e) =>
+                        setAuthorForm((prev) => ({ ...prev, updateArticles: e.target.checked }))
+                      }
+                      className="rounded border-slate-300 text-[#1769FF] focus:ring-[#1769FF]"
+                    />
+                    <span>Cascade rename name and position to all existing articles by this author</span>
+                  </label>
+                </div>
+              )}
+
+              <div className="pt-4 border-t border-slate-200 flex items-center justify-end gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setIsAuthorModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingAuthor}
+                  className="px-5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1769FF] to-[#00A3FF] hover:from-[#0F58E0] hover:to-[#008FE0] shadow-sm transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-60"
+                >
+                  {isSavingAuthor ? (
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Check className="w-3.5 h-3.5" />
+                  )}
+                  <span>{authorForm.id ? "Save Changes" : "Create Author"}</span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 7: DELETE AUTHOR CONFIRMATION MODAL */}
+      {/* ========================================================================= */}
+      {isDeleteAuthorModalOpen && authorToDelete && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 transition-all duration-200">
+          <div className="max-w-md w-full rounded-2xl border border-red-200 bg-white p-6 shadow-2xl space-y-4 modal-animate">
+            <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center">
+              <Trash2 className="w-5 h-5" />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900">Delete Author &quot;{authorToDelete.name}&quot;?</h3>
+
+            {(authorToDelete.articleCount ?? 0) > 0 ? (
+              <div className="space-y-3">
+                <p className="text-xs text-amber-700 bg-amber-50 p-3 rounded-xl border border-amber-200 leading-relaxed">
+                  <strong>Warning:</strong> There are currently <strong>{authorToDelete.articleCount}</strong> published article(s) written by this author. Select an author to safely reassign them:
+                </p>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                    Reassign Articles To:
+                  </label>
+                  <select
+                    value={reassignAuthorTarget}
+                    onChange={(e) => setReassignAuthorTarget(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1769FF] focus:outline-none"
+                  >
+                    {authors
+                      .filter((a) => a.id !== authorToDelete.id)
+                      .map((a) => (
+                        <option key={a.id} value={a.id}>
+                          {a.name} — {a.role}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Are you sure you want to delete this author? There are currently no articles assigned to them.
+              </p>
+            )}
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDeleteAuthorModalOpen(false);
+                  setAuthorToDelete(null);
+                }}
+                className="px-4 py-2 rounded-xl text-xs font-semibold border border-slate-200 text-slate-600 hover:bg-slate-50"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={isDeletingAuthor}
+                onClick={handleConfirmDeleteAuthor}
+                className="px-4 py-2 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-700 text-white shadow-sm transition-colors cursor-pointer flex items-center gap-1.5 disabled:opacity-60"
+              >
+                {isDeletingAuthor && <RefreshCw className="w-3.5 h-3.5 animate-spin" />}
                 <span>Confirm Delete</span>
               </button>
             </div>

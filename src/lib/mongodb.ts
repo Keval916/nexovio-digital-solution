@@ -124,4 +124,27 @@ export async function getMediaCollection(): Promise<Collection<DbMediaItem>> {
   return collection;
 }
 
+export async function getAuthorCollection(): Promise<Collection<any>> {
+  const db = await getDb();
+  const collection = db.collection("blog_authors");
+
+  collection
+    .createIndex({ id: 1 }, { unique: true, background: true })
+    .catch((err) => {
+      if (err?.code !== 85 && err?.code !== 86) {
+        console.warn("[MongoDB] Author id index notice:", err?.message || err);
+      }
+    });
+
+  collection
+    .createIndex({ name: 1 }, { background: true })
+    .catch((err) => {
+      if (err?.code !== 85 && err?.code !== 86) {
+        console.warn("[MongoDB] Author name index notice:", err?.message || err);
+      }
+    });
+
+  return collection;
+}
+
 

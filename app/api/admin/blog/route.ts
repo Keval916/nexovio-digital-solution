@@ -60,6 +60,8 @@ export async function POST(req: NextRequest) {
       category,
       authorName,
       authorRole,
+      authorAvatar,
+      authorBio,
       featuredImage,
       featuredImageAlt,
       excerpt,
@@ -158,6 +160,8 @@ export async function POST(req: NextRequest) {
       author: {
         name: (authorName && authorName.trim()) || "Nexovio Technical Team",
         role: (authorRole && authorRole.trim()) || "Engineering & Strategy",
+        ...(authorAvatar ? { avatar: authorAvatar.trim() } : {}),
+        ...(authorBio ? { bio: authorBio.trim() } : {}),
       },
       publishedAt: (customDate && customDate.trim()) ? customDate.trim() : currentDate,
       updatedAt: currentDate,
@@ -304,6 +308,8 @@ export async function PUT(req: NextRequest) {
         author: {
           name: body.authorName.trim(),
           role: body.authorRole !== undefined ? body.authorRole.trim() : "Engineering & Strategy",
+          ...(body.authorAvatar !== undefined ? { avatar: body.authorAvatar.trim() } : {}),
+          ...(body.authorBio !== undefined ? { bio: body.authorBio.trim() } : {}),
         },
       }),
       ...(body.featuredImage !== undefined && { featuredImage: body.featuredImage }),

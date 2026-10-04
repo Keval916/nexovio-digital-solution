@@ -1,6 +1,6 @@
 {
-  "totalViews": 8,
-  "uniqueVisitors": 2,
+  "totalViews": 18,
+  "uniqueVisitors": 5,
   "postViews": {
     "custom-web-development-vs-website-builders": {
       "views": 0,
@@ -28,9 +28,9 @@
       "lastVisited": "2026-10-01T07:00:00.000Z"
     },
     "mastering-core-web-vitals-performance": {
-      "views": 0,
-      "uniqueVisitors": 0,
-      "lastVisited": "2026-10-01T07:00:00.000Z"
+      "views": 2,
+      "uniqueVisitors": 1,
+      "lastVisited": "2026-10-04T10:37:01.395Z"
     },
     "nextjs-15-app-router-best-practices-performance-optimization": {
       "views": 4,
@@ -41,6 +41,16 @@
       "views": 4,
       "uniqueVisitors": 1,
       "lastVisited": "2026-10-02T07:47:11.959Z"
+    },
+    "ai-automation-for-business": {
+      "views": 4,
+      "uniqueVisitors": 1,
+      "lastVisited": "2026-10-04T10:39:46.565Z"
+    },
+    "ecommerce-solutions-for-businesses": {
+      "views": 4,
+      "uniqueVisitors": 1,
+      "lastVisited": "2026-10-04T10:46:21.284Z"
     }
   },
   "dailyTraffic": [
@@ -53,16 +63,21 @@
       "date": "2026-10-02",
       "views": 4,
       "uniqueVisitors": 1
+    },
+    {
+      "date": "2026-10-04",
+      "views": 10,
+      "uniqueVisitors": 3
     }
   ],
   "deviceBreakdown": {
-    "desktop": 8,
+    "desktop": 18,
     "mobile": 0,
     "tablet": 0
   },
   "referrerBreakdown": {
     "google": 0,
-    "direct": 8,
+    "direct": 18,
     "linkedin": 0,
     "twitter": 0,
     "other": 0

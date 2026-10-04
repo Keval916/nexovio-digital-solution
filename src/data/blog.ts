@@ -18,6 +18,8 @@ export interface BlogArticle {
   author: {
     name: string;
     role: string;
+    avatar?: string;
+    bio?: string;
   };
   publishedAt: string;
   updatedAt?: string;

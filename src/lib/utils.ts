@@ -39,3 +39,13 @@ export function formatDate(dateString: string): string {
   });
 }
 
+export function getAuthorInitials(name?: string): string {
+  if (!name || !name.trim()) return "NX";
+  const cleaned = name.trim();
+  const words = cleaned.split(/\s+/).filter(Boolean);
+  if (words.length >= 2) {
+    return (words[0][0] + words[words.length - 1][0]).toUpperCase();
+  }
+  return cleaned.slice(0, 2).toUpperCase();
+}
+

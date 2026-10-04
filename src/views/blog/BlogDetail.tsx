@@ -29,7 +29,7 @@ import {
 import { getBlogArticleBySlug, BLOG_ARTICLES, BlogArticle } from "@/src/data/blog";
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { Button } from "@/src/components/ui/Button";
-import { formatDate, cn } from "@/src/lib/utils";
+import { formatDate, cn, getAuthorInitials } from "@/src/lib/utils";
 import { getArticleSchema, getFaqSchema } from "@/src/lib/schema";
 
 interface BlogArticlePageProps {
@@ -779,11 +779,20 @@ export default function SingleBlogArticlePage({
 
             {/* Author Biography Box */}
             <div className="mt-8 rounded-2xl border border-border-subtle bg-surface-elevated/70 p-6 sm:p-7 flex flex-col sm:flex-row items-start gap-4 shadow-md">
-              <div className="w-14 h-14 rounded-2xl bg-brand-cyan/20 border border-brand-cyan/30 flex items-center justify-center text-brand-bright text-sm font-bold shrink-0">
-                NX
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-cyan/20 to-brand-bright/20 border border-brand-cyan/35 flex items-center justify-center text-brand-bright text-base font-extrabold tracking-wider shrink-0 overflow-hidden relative shadow-sm">
+                {article.author.avatar && !article.author.avatar.includes("nexovio-logo") ? (
+                  <Image
+                    src={article.author.avatar}
+                    alt={article.author.name}
+                    fill
+                    className="object-cover"
+                  />
+                ) : (
+                  <span>{getAuthorInitials(article.author.name)}</span>
+                )}
               </div>
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
+              <div className="space-y-1.5 flex-1 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                   <h3 className="text-base font-bold text-slate-900 dark:text-white">
                     {article.author.name}
                   </h3>
@@ -792,7 +801,8 @@ export default function SingleBlogArticlePage({
                   </span>
                 </div>
                 <p className="text-xs text-muted leading-relaxed">
-                  Published by the technical architecture team at Nexovio Digital Solutions. We engineer custom web platforms, high-performance UI/UX design systems, and search intelligence frameworks for scaling businesses worldwide.
+                  {article.author.bio ||
+                    "Published by the technical architecture team at Nexovio Digital Solutions. We engineer custom web platforms, high-performance UI/UX design systems, and search intelligence frameworks for scaling businesses worldwide."}
                 </p>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import { SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE } from "./seo";
+import { SITE_NAME, SITE_URL, DEFAULT_OG_IMAGE, BRAND_LOGO_SQUARE } from "./seo";
 
 export function getOrganizationSchema() {
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
@@ -9,7 +9,7 @@ export function getOrganizationSchema() {
     "@type": ["Organization", "ProfessionalService"],
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+    logo: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
     image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     description:
       "Nexovio Digital Solutions provides strategy-led web development, modern web design, UI/UX architecture, brand graphic design, and digital marketing services.",
@@ -157,7 +157,7 @@ export function getAboutPageSchema() {
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
-      logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+      logo: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
       image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     },
   };
@@ -179,7 +179,7 @@ export function getContactPageSchema() {
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
-      logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+      logo: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
       image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
       contactPoint: {
         "@type": "ContactPoint",
@@ -249,7 +249,7 @@ export function getServiceSchema({ name, description, url, serviceType, image }:
       "@type": "Organization",
       name: SITE_NAME,
       url: SITE_URL,
-      logo: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+      logo: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
       image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     },
     url: fullUrl,
@@ -306,7 +306,7 @@ export function getArticleSchema({
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/images/brand/nexovio-digital-solutions-og-image.jpg`,
+        url: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
       },
       image: `${SITE_URL}${DEFAULT_OG_IMAGE}`,
     },

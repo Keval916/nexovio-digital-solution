@@ -4,6 +4,7 @@ export const SITE_NAME = "Nexovio Digital Solutions";
 export const SITE_TAGLINE = "IT Software Development & Digital Solutions Agency";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nexoviodigitalsolutions.com";
 export const DEFAULT_OG_IMAGE = "/images/brand/nexovio-digital-solutions-og-image.jpg";
+export const BRAND_LOGO_SQUARE = "/images/brand/nexovio-logo-square.png";
 
 export interface PageMetadataProps {
   title: string;
@@ -97,6 +98,16 @@ export function generatePageMetadata({
           height: 630,
           alt: `${SITE_NAME} - ${title}`,
         },
+        ...(ogImage === DEFAULT_OG_IMAGE
+          ? [
+            {
+              url: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
+              width: 512,
+              height: 512,
+              alt: `${SITE_NAME} Logo`,
+            },
+          ]
+          : []),
       ],
       ...(type === "article" && publishedTime
         ? {
