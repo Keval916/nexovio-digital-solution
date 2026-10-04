@@ -130,6 +130,52 @@ export default function SingleBlogArticlePage({
     setOpenFaqIndex((prev) => (prev === index ? null : index));
   };
 
+  // Resolved Author details (supports uploaded photo with automatic fallback to name initials)
+  const [authorAvatarUrl, setAuthorAvatarUrl] = useState<string | null>(null);
+  const [authorBioText, setAuthorBioText] = useState<string | null>(null);
+  const [avatarImgFailed, setAvatarImgFailed] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!article?.author) return;
+
+    // Check if article already has a valid uploaded avatar
+    const articleAvatar = article.author.avatar;
+    const isCustomAvatar = Boolean(
+      articleAvatar &&
+      articleAvatar.trim() &&
+      !articleAvatar.includes("nexovio-logo")
+    );
+
+    if (isCustomAvatar && articleAvatar) {
+      setAuthorAvatarUrl(articleAvatar.trim());
+    }
+    if (article.author.bio) {
+      setAuthorBioText(article.author.bio);
+    }
+
+    // Always fetch latest author profile to sync photo updates from authors database
+    fetch("/api/admin/authors")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success && Array.isArray(data.authors)) {
+          const match = data.authors.find(
+            (a: any) =>
+              a.name.toLowerCase().trim() === article.author.name.toLowerCase().trim()
+          );
+          if (match) {
+            if (match.avatar && !match.avatar.includes("nexovio-logo")) {
+              setAuthorAvatarUrl(match.avatar.trim());
+              setAvatarImgFailed(false);
+            }
+            if (match.bio) {
+              setAuthorBioText(match.bio);
+            }
+          }
+        }
+      })
+      .catch(() => {});
+  }, [article?.author?.name, article?.author?.avatar, article?.author?.bio]);
+
   useEffect(() => {
     if (!article) return;
 
@@ -780,12 +826,14 @@ export default function SingleBlogArticlePage({
             {/* Author Biography Box */}
             <div className="mt-8 rounded-2xl border border-border-subtle bg-surface-elevated/70 p-6 sm:p-7 flex flex-col sm:flex-row items-start gap-4 shadow-md">
               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-brand-cyan/20 to-brand-bright/20 border border-brand-cyan/35 flex items-center justify-center text-brand-bright text-base font-extrabold tracking-wider shrink-0 overflow-hidden relative shadow-sm">
-                {article.author.avatar && !article.author.avatar.includes("nexovio-logo") ? (
+                {authorAvatarUrl && !avatarImgFailed ? (
                   <Image
-                    src={article.author.avatar}
+                    src={authorAvatarUrl}
                     alt={article.author.name}
                     fill
+                    unoptimized={authorAvatarUrl.startsWith("/api/media/")}
                     className="object-cover"
+                    onError={() => setAvatarImgFailed(true)}
                   />
                 ) : (
                   <span>{getAuthorInitials(article.author.name)}</span>
@@ -801,7 +849,8 @@ export default function SingleBlogArticlePage({
                   </span>
                 </div>
                 <p className="text-xs text-muted leading-relaxed">
-                  {article.author.bio ||
+                  {authorBioText ||
+                    article.author.bio ||
                     "Published by the technical architecture team at Nexovio Digital Solutions. We engineer custom web platforms, high-performance UI/UX design systems, and search intelligence frameworks for scaling businesses worldwide."}
                 </p>
               </div>

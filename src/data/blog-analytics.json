@@ -1,5 +1,5 @@
 {
-  "totalViews": 18,
+  "totalViews": 22,
   "uniqueVisitors": 5,
   "postViews": {
     "custom-web-development-vs-website-builders": {
@@ -43,14 +43,14 @@
       "lastVisited": "2026-10-02T07:47:11.959Z"
     },
     "ai-automation-for-business": {
-      "views": 4,
+      "views": 6,
       "uniqueVisitors": 1,
-      "lastVisited": "2026-10-04T10:39:46.565Z"
+      "lastVisited": "2026-10-04T11:02:02.778Z"
     },
     "ecommerce-solutions-for-businesses": {
-      "views": 4,
+      "views": 6,
       "uniqueVisitors": 1,
-      "lastVisited": "2026-10-04T10:46:21.284Z"
+      "lastVisited": "2026-10-04T11:01:24.591Z"
     }
   },
   "dailyTraffic": [
@@ -66,18 +66,18 @@
     },
     {
       "date": "2026-10-04",
-      "views": 10,
+      "views": 14,
       "uniqueVisitors": 3
     }
   ],
   "deviceBreakdown": {
-    "desktop": 18,
+    "desktop": 22,
     "mobile": 0,
     "tablet": 0
   },
   "referrerBreakdown": {
     "google": 0,
-    "direct": 18,
+    "direct": 22,
     "linkedin": 0,
     "twitter": 0,
     "other": 0

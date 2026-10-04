@@ -276,11 +276,11 @@ export async function updateAuthorAsync(
       );
 
       // Optionally cascade author update to articles currently authored by this person
-      if (updates.updateArticles && (oldName !== newName || oldRole !== newRole)) {
+      if (updates.updateArticles) {
         try {
           const blogCollection = await getBlogCollection();
           await blogCollection.updateMany(
-            { "author.name": oldName },
+            { $or: [{ "author.name": oldName }, { "author.name": newName }] },
             {
               $set: {
                 "author.name": newName,
