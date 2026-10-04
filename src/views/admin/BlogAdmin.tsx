@@ -215,6 +215,11 @@ interface SubscriberItem {
   status: "active" | "unsubscribed";
 }
 
+// Admin Session Security Settings
+const ADMIN_SESSION_KEY = "nexovio_admin_session";
+const INACTIVITY_TIMEOUT_MS = 30 * 60 * 1000; // 30 minutes of inactivity auto-logout
+const SESSION_MAX_AGE_MS = 4 * 60 * 60 * 1000; // 4 hours maximum session lifetime
+
 export default function BlogAdmin() {
   // Authentication State
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -480,13 +485,140 @@ export default function BlogAdmin() {
   // Copied Image URL state
   const [copiedUrl, setCopiedUrl] = useState<string | null>(null);
 
-  // Check login session on mount
+  // Check login session & expiry on mount
   useEffect(() => {
-    const authStatus = localStorage.getItem("nexovio_admin_session");
-    if (authStatus === "active") {
+    try {
+      const stored =
+        localStorage.getItem(ADMIN_SESSION_KEY) ||
+        sessionStorage.getItem(ADMIN_SESSION_KEY);
+
+      if (!stored) return;
+
+      if (stored === "active") {
+        // Upgrade legacy session with current timestamp
+        const now = Date.now();
+        const upgradedSession = {
+          authenticated: true,
+          email: "admin@nexovio.com",
+          loginTime: now,
+          lastActive: now,
+        };
+        localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(upgradedSession));
+        setIsAuthenticated(true);
+        return;
+      }
+
+      const session = JSON.parse(stored);
+      const now = Date.now();
+
+      // Check inactivity expiry (30 mins)
+      if (now - session.lastActive > INACTIVITY_TIMEOUT_MS) {
+        localStorage.removeItem(ADMIN_SESSION_KEY);
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        setIsAuthenticated(false);
+        setLoginError("Session expired due to 30 minutes of inactivity. Please log in again.");
+        return;
+      }
+
+      // Check absolute session max age (4 hours)
+      if (now - session.loginTime > SESSION_MAX_AGE_MS) {
+        localStorage.removeItem(ADMIN_SESSION_KEY);
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        setIsAuthenticated(false);
+        setLoginError("Session expired after 4 hours. Please log in again.");
+        return;
+      }
+
+      // Valid session: update last active timestamp
+      session.lastActive = now;
+      if (localStorage.getItem(ADMIN_SESSION_KEY)) {
+        localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
+      } else {
+        sessionStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(session));
+      }
       setIsAuthenticated(true);
+    } catch {
+      localStorage.removeItem(ADMIN_SESSION_KEY);
+      sessionStorage.removeItem(ADMIN_SESSION_KEY);
     }
   }, []);
+
+  // Auto-logout: Inactivity timer (30 minutes) & Max session check
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    let lastInteraction = Date.now();
+    let lastSaved = Date.now();
+
+    const updateActivity = () => {
+      const now = Date.now();
+      lastInteraction = now;
+
+      // Throttle saving timestamp to storage (at most once every 30 seconds)
+      if (now - lastSaved > 30000) {
+        lastSaved = now;
+        try {
+          const raw =
+            localStorage.getItem(ADMIN_SESSION_KEY) ||
+            sessionStorage.getItem(ADMIN_SESSION_KEY);
+          if (raw) {
+            const data = JSON.parse(raw);
+            data.lastActive = now;
+            if (localStorage.getItem(ADMIN_SESSION_KEY)) {
+              localStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(data));
+            } else {
+              sessionStorage.setItem(ADMIN_SESSION_KEY, JSON.stringify(data));
+            }
+          }
+        } catch {
+          // ignore parsing error
+        }
+      }
+    };
+
+    // User activity events to reset inactivity timer
+    const events = ["mousemove", "mousedown", "keydown", "scroll", "touchstart"];
+    events.forEach((evt) => window.addEventListener(evt, updateActivity, { passive: true }));
+
+    // Periodic check every 15 seconds
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const idleTime = now - lastInteraction;
+
+      if (idleTime >= INACTIVITY_TIMEOUT_MS) {
+        localStorage.removeItem(ADMIN_SESSION_KEY);
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        setIsAuthenticated(false);
+        setLoginError("You were automatically logged out due to 30 minutes of inactivity.");
+        showToast("Logged out due to inactivity", "error");
+        return;
+      }
+
+      // Check max session expiration
+      try {
+        const raw =
+          localStorage.getItem(ADMIN_SESSION_KEY) ||
+          sessionStorage.getItem(ADMIN_SESSION_KEY);
+        if (raw) {
+          const data = JSON.parse(raw);
+          if (now - data.loginTime >= SESSION_MAX_AGE_MS) {
+            localStorage.removeItem(ADMIN_SESSION_KEY);
+            sessionStorage.removeItem(ADMIN_SESSION_KEY);
+            setIsAuthenticated(false);
+            setLoginError("Session expired after 4 hours. Please log in again.");
+            showToast("Session expired", "error");
+          }
+        }
+      } catch {
+        // ignore
+      }
+    }, 15000);
+
+    return () => {
+      events.forEach((evt) => window.removeEventListener(evt, updateActivity));
+      clearInterval(interval);
+    };
+  }, [isAuthenticated]);
 
   // Fetch articles from API
   const fetchArticles = async () => {
@@ -894,22 +1026,35 @@ export default function BlogAdmin() {
     setLoginError("");
 
     setTimeout(() => {
-      const user = usernameInput.trim();
+      const user = usernameInput.trim().toLowerCase();
       const pass = passwordInput.trim();
 
       if (
-        (user === "admin" || user === "admin@nexovio.com") &&
-        (pass === "admin" || pass === "admin123" || pass === "nexovio2026")
+        user === "admin@nexovio.com" &&
+        pass === "admin"
       ) {
         setIsAuthenticated(true);
+        const now = Date.now();
+        const sessionPayload = JSON.stringify({
+          authenticated: true,
+          email: "admin@nexovio.com",
+          loginTime: now,
+          lastActive: now,
+        });
+
         if (rememberMe) {
-          localStorage.setItem("nexovio_admin_session", "active");
+          localStorage.setItem(ADMIN_SESSION_KEY, sessionPayload);
+          sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        } else {
+          sessionStorage.setItem(ADMIN_SESSION_KEY, sessionPayload);
+          localStorage.removeItem(ADMIN_SESSION_KEY);
         }
+
         setUsernameInput("");
         setPasswordInput("");
         showToast("Welcome back, Administrator");
       } else {
-        setLoginError("Invalid username or password. Use default admin credentials.");
+        setLoginError("Invalid username or password.");
       }
       setIsLoggingIn(false);
     }, 300);
@@ -917,7 +1062,8 @@ export default function BlogAdmin() {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem("nexovio_admin_session");
+    localStorage.removeItem(ADMIN_SESSION_KEY);
+    sessionStorage.removeItem(ADMIN_SESSION_KEY);
   };
 
   // Open Editor for New Post
@@ -971,9 +1117,9 @@ export default function BlogAdmin() {
         : "",
       faqs: Array.isArray(article.faqs)
         ? article.faqs.map((f) => ({
-            question: f.question || "",
-            answer: f.answer || "",
-          }))
+          question: f.question || "",
+          answer: f.answer || "",
+        }))
         : [],
       // SEO Settings
       focusKeyword: article.focusKeyword || "",
@@ -1785,7 +1931,7 @@ export default function BlogAdmin() {
                   required
                   value={usernameInput}
                   onChange={(e) => setUsernameInput(e.target.value)}
-                  placeholder="admin"
+                  placeholder="Enter your username or email"
                   className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none focus:ring-2 focus:ring-[#1769FF]/15 transition-all"
                 />
               </div>
@@ -1800,7 +1946,7 @@ export default function BlogAdmin() {
                     required
                     value={passwordInput}
                     onChange={(e) => setPasswordInput(e.target.value)}
-                    placeholder="admin"
+                    placeholder="Enter your password"
                     className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2.5 pr-10 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none focus:ring-2 focus:ring-[#1769FF]/15 transition-all"
                   />
                   <button
@@ -1823,7 +1969,6 @@ export default function BlogAdmin() {
                   />
                   <span>Remember me</span>
                 </label>
-                <span className="text-[11px] text-slate-400 font-mono">admin / admin</span>
               </div>
 
               <button
@@ -2036,6 +2181,9 @@ export default function BlogAdmin() {
               <div>
                 <span className="text-xs font-bold text-slate-900 block leading-tight">Admin User</span>
                 <span className="text-[10px] text-slate-500 block font-mono">admin@nexovio.com</span>
+                <span className="text-[9px] text-emerald-600 font-medium flex items-center gap-1 mt-0.5">
+                  <Shield className="w-2.5 h-2.5" /> 30m Auto-lock
+                </span>
               </div>
             </div>
 
@@ -2793,11 +2941,10 @@ export default function BlogAdmin() {
                           return (
                             <tr
                               key={article.slug}
-                              className={`transition-colors group ${
-                                isSelected
-                                  ? "bg-blue-50/70 border-l-4 border-l-[#1769FF]"
-                                  : "hover:bg-slate-50/80"
-                              }`}
+                              className={`transition-colors group ${isSelected
+                                ? "bg-blue-50/70 border-l-4 border-l-[#1769FF]"
+                                : "hover:bg-slate-50/80"
+                                }`}
                             >
                               <td className="p-4 sm:p-5 w-12 text-center">
                                 <input
@@ -3063,225 +3210,225 @@ export default function BlogAdmin() {
               {/* STEP 1: CONTENT & WYSIWYG EDITOR */}
               {/* ============================================================= */}
               <div className={editorStep === "content" ? "space-y-6" : "hidden"}>
-                  {/* Title, Category & Slug Card */}
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-                    {/* Category Selection Row right in Step 1 */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                          <Tags className="w-3.5 h-3.5 text-[#1769FF]" />
-                          <span>Category Pillar <span className="text-red-500">*</span>:</span>
-                        </span>
-
-                        {/* Category Dropdown */}
-                        <select
-                          value={form.category}
-                          onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))}
-                          className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none cursor-pointer"
-                        >
-                          {categories.map((c) => (
-                            <option key={c.id} value={c.name}>
-                              {c.name} ({c.articleCount ?? 0} articles)
-                            </option>
-                          ))}
-                        </select>
-
-                        {/* Live Badge Preview */}
-                        {(() => {
-                          const matchedCat = categories.find(
-                            (c) => c.name.toLowerCase().trim() === form.category.toLowerCase().trim()
-                          );
-                          const color = matchedCat?.color || "blue";
-                          return (
-                            <span
-                              className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${getCategoryColorClasses(
-                                color
-                              )}`}
-                            >
-                              <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColorDot(color)}`} />
-                              {form.category || "Select Category"}
-                            </span>
-                          );
-                        })()}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={handleOpenAddCategory}
-                        className="text-xs font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200/60 hover:bg-blue-100/70 transition-colors self-start sm:self-auto cursor-pointer"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>+ New Category</span>
-                      </button>
-                    </div>
-
-                    {/* Publication Date Row right in Step 1 */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                          <Calendar className="w-3.5 h-3.5 text-[#1769FF]" />
-                          <span>Publication Date:</span>
-                        </span>
-
-                        <input
-                          type="date"
-                          value={form.publishedAt}
-                          onChange={(e) => setForm((prev) => ({ ...prev, publishedAt: e.target.value }))}
-                          className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none cursor-pointer"
-                        />
-
-                        {/* Set to Today Quick Action Button */}
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const today = getTodayDateString();
-                            setForm((prev) => ({ ...prev, publishedAt: today }));
-                            showToast(`Date set to today (${formatDate(today)})`);
-                          }}
-                          className={`text-xs font-bold px-2.5 py-1 rounded-lg border transition-colors cursor-pointer ${form.publishedAt === getTodayDateString()
-                            ? "bg-blue-50 border-blue-200 text-[#1769FF]"
-                            : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
-                            }`}
-                          title="Click to set date to today"
-                        >
-                          {form.publishedAt === getTodayDateString() ? "✓ Today" : "Set to Today"}
-                        </button>
-                      </div>
-
-                      <span className="text-[11px] text-slate-400">
-                        Defaults to today&apos;s real date • Change anytime
+                {/* Title, Category & Slug Card */}
+                <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+                  {/* Category Selection Row right in Step 1 */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                        <Tags className="w-3.5 h-3.5 text-[#1769FF]" />
+                        <span>Category Pillar <span className="text-red-500">*</span>:</span>
                       </span>
-                    </div>
 
-                    {/* Author & Position Selection Row right in Step 1 */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-                      <div className="flex flex-wrap items-center gap-2.5">
-                        <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
-                          <UserCheck className="w-3.5 h-3.5 text-[#1769FF]" />
-                          <span>Author &amp; Position <span className="text-red-500">*</span>:</span>
-                        </span>
-
-                        {/* Author Dropdown */}
-                        <select
-                          value={(() => {
-                            const matched = authors.find(
-                              (a) => a.name.toLowerCase().trim() === form.authorName.toLowerCase().trim()
-                            );
-                            return matched ? matched.id : "custom";
-                          })()}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            if (val === "custom") return;
-                            const selected = authors.find((a) => a.id === val);
-                            if (selected) {
-                              setForm((prev) => ({
-                                ...prev,
-                                authorName: selected.name,
-                                authorRole: selected.role,
-                                authorAvatar: selected.avatar,
-                                authorBio: selected.bio,
-                              }));
-                              showToast(`Author selected: ${selected.name} (${selected.role})`);
-                            }
-                          }}
-                          className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none cursor-pointer max-w-[280px] sm:max-w-[360px] truncate"
-                        >
-                          {authors.map((auth) => (
-                            <option key={auth.id} value={auth.id}>
-                              {auth.name} — {auth.role}
-                            </option>
-                          ))}
-                          <option value="custom">✎ Custom / Manual Author</option>
-                        </select>
-
-                        {/* Live Author Preview Badge */}
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-[#1769FF] border border-blue-200/70">
-                          <User className="w-3 h-3 text-[#1769FF]" />
-                          <span className="font-bold">{form.authorName || "No Author"}</span>
-                          <span className="text-blue-300">|</span>
-                          <span className="text-[11px] text-slate-600 font-mono">{form.authorRole || "No Position"}</span>
-                        </span>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={handleOpenAddAuthor}
-                        className="text-xs font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200/60 hover:bg-blue-100/70 transition-colors self-start sm:self-auto cursor-pointer"
+                      {/* Category Dropdown */}
+                      <select
+                        value={form.category}
+                        onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))}
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none cursor-pointer"
                       >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>+ New Author</span>
-                      </button>
+                        {categories.map((c) => (
+                          <option key={c.id} value={c.name}>
+                            {c.name} ({c.articleCount ?? 0} articles)
+                          </option>
+                        ))}
+                      </select>
+
+                      {/* Live Badge Preview */}
+                      {(() => {
+                        const matchedCat = categories.find(
+                          (c) => c.name.toLowerCase().trim() === form.category.toLowerCase().trim()
+                        );
+                        const color = matchedCat?.color || "blue";
+                        return (
+                          <span
+                            className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border ${getCategoryColorClasses(
+                              color
+                            )}`}
+                          >
+                            <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColorDot(color)}`} />
+                            {form.category || "Select Category"}
+                          </span>
+                        );
+                      })()}
                     </div>
 
-                    {/* Headline / Title */}
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                        Article Headline / Title <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={form.title}
-                        onChange={handleTitleChange}
-                        placeholder="e.g. Next.js 15 vs Legacy Monolithic Architectures: Enterprise Performance Benchmark"
-                        className="w-full text-xl sm:text-2xl font-extrabold text-slate-900 placeholder-slate-300 bg-transparent border-b border-slate-200 pb-2 focus:outline-none focus:border-[#1769FF] transition-colors"
-                      />
-                    </div>
+                    <button
+                      type="button"
+                      onClick={handleOpenAddCategory}
+                      className="text-xs font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200/60 hover:bg-blue-100/70 transition-colors self-start sm:self-auto cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>+ New Category</span>
+                    </button>
+                  </div>
 
-                    <div className="pt-1 flex flex-wrap items-center gap-2 text-xs text-slate-500 font-mono">
-                      <span className="font-semibold text-slate-700">Permanent URL Slug:</span>
-                      <span className="text-slate-400">/blog/</span>
+                  {/* Publication Date Row right in Step 1 */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5 text-[#1769FF]" />
+                        <span>Publication Date:</span>
+                      </span>
+
                       <input
-                        type="text"
-                        value={form.slug}
-                        onChange={(e) => {
-                          const val = e.target.value.toLowerCase().replace(/\s+/g, "-");
-                          setForm((prev) => ({ ...prev, slug: val }));
-                        }}
-                        placeholder="article-slug-url"
-                        className="bg-slate-50 border border-slate-200 text-[#1769FF] font-mono px-3 py-1 rounded-lg text-xs focus:outline-none focus:border-[#1769FF] focus:bg-white"
+                        type="date"
+                        value={form.publishedAt}
+                        onChange={(e) => setForm((prev) => ({ ...prev, publishedAt: e.target.value }))}
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none cursor-pointer"
                       />
+
+                      {/* Set to Today Quick Action Button */}
                       <button
                         type="button"
                         onClick={() => {
-                          const generated = form.title
-                            .toLowerCase()
-                            .replace(/[^\w\s-]/g, "")
-                            .replace(/[\s_-]+/g, "-")
-                            .replace(/^-+|-+$/g, "");
-                          setForm((prev) => ({ ...prev, slug: generated }));
-                          showToast("Slug regenerated from title");
+                          const today = getTodayDateString();
+                          setForm((prev) => ({ ...prev, publishedAt: today }));
+                          showToast(`Date set to today (${formatDate(today)})`);
                         }}
-                        className="text-[11px] text-[#1769FF] hover:underline cursor-pointer"
+                        className={`text-xs font-bold px-2.5 py-1 rounded-lg border transition-colors cursor-pointer ${form.publishedAt === getTodayDateString()
+                          ? "bg-blue-50 border-blue-200 text-[#1769FF]"
+                          : "bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100"
+                          }`}
+                        title="Click to set date to today"
                       >
-                        Regenerate
+                        {form.publishedAt === getTodayDateString() ? "✓ Today" : "Set to Today"}
                       </button>
                     </div>
+
+                    <span className="text-[11px] text-slate-400">
+                      Defaults to today&apos;s real date • Change anytime
+                    </span>
                   </div>
 
-                  {/* Excerpt Box */}
-                  <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1.5">
-                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                      Article Summary / Excerpt
+                  {/* Author & Position Selection Row right in Step 1 */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                    <div className="flex flex-wrap items-center gap-2.5">
+                      <span className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                        <UserCheck className="w-3.5 h-3.5 text-[#1769FF]" />
+                        <span>Author &amp; Position <span className="text-red-500">*</span>:</span>
+                      </span>
+
+                      {/* Author Dropdown */}
+                      <select
+                        value={(() => {
+                          const matched = authors.find(
+                            (a) => a.name.toLowerCase().trim() === form.authorName.toLowerCase().trim()
+                          );
+                          return matched ? matched.id : "custom";
+                        })()}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          if (val === "custom") return;
+                          const selected = authors.find((a) => a.id === val);
+                          if (selected) {
+                            setForm((prev) => ({
+                              ...prev,
+                              authorName: selected.name,
+                              authorRole: selected.role,
+                              authorAvatar: selected.avatar,
+                              authorBio: selected.bio,
+                            }));
+                            showToast(`Author selected: ${selected.name} (${selected.role})`);
+                          }
+                        }}
+                        className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none cursor-pointer max-w-[280px] sm:max-w-[360px] truncate"
+                      >
+                        {authors.map((auth) => (
+                          <option key={auth.id} value={auth.id}>
+                            {auth.name} — {auth.role}
+                          </option>
+                        ))}
+                        <option value="custom">✎ Custom / Manual Author</option>
+                      </select>
+
+                      {/* Live Author Preview Badge */}
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-[#1769FF] border border-blue-200/70">
+                        <User className="w-3 h-3 text-[#1769FF]" />
+                        <span className="font-bold">{form.authorName || "No Author"}</span>
+                        <span className="text-blue-300">|</span>
+                        <span className="text-[11px] text-slate-600 font-mono">{form.authorRole || "No Position"}</span>
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleOpenAddAuthor}
+                      className="text-xs font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 border border-blue-200/60 hover:bg-blue-100/70 transition-colors self-start sm:self-auto cursor-pointer"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>+ New Author</span>
+                    </button>
+                  </div>
+
+                  {/* Headline / Title */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                      Article Headline / Title <span className="text-red-500">*</span>
                     </label>
-                    <p className="text-[11px] text-slate-500">
-                      Brief synopsis shown on the blog index cards and used as fallback meta description.
-                    </p>
-                    <textarea
-                      rows={2}
-                      value={form.excerpt}
-                      onChange={(e) => setForm((prev) => ({ ...prev, excerpt: e.target.value }))}
-                      placeholder="Enter an engaging 2-sentence summary of the key engineering takeaways..."
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                    <input
+                      type="text"
+                      required
+                      value={form.title}
+                      onChange={handleTitleChange}
+                      placeholder="e.g. Next.js 15 vs Legacy Monolithic Architectures: Enterprise Performance Benchmark"
+                      className="w-full text-xl sm:text-2xl font-extrabold text-slate-900 placeholder-slate-300 bg-transparent border-b border-slate-200 pb-2 focus:outline-none focus:border-[#1769FF] transition-colors"
                     />
                   </div>
 
-                  {/* RICH TEXTBOX WYSIWYG EDITOR */}
-                  <div className="rounded-2xl border border-slate-200 bg-white shadow-xs">
-                    {/* Sticky Toolbar Header Container (Sticky on Scroll) */}
-                    <div className="sticky top-0 z-30 bg-white shadow-md border-b border-slate-200 rounded-t-2xl">
-                      {/* Primary Toolbar */}
-                      <div className="p-2.5 border-b border-slate-200/80 bg-slate-50 rounded-t-2xl flex flex-wrap items-center gap-1 select-none">
+                  <div className="pt-1 flex flex-wrap items-center gap-2 text-xs text-slate-500 font-mono">
+                    <span className="font-semibold text-slate-700">Permanent URL Slug:</span>
+                    <span className="text-slate-400">/blog/</span>
+                    <input
+                      type="text"
+                      value={form.slug}
+                      onChange={(e) => {
+                        const val = e.target.value.toLowerCase().replace(/\s+/g, "-");
+                        setForm((prev) => ({ ...prev, slug: val }));
+                      }}
+                      placeholder="article-slug-url"
+                      className="bg-slate-50 border border-slate-200 text-[#1769FF] font-mono px-3 py-1 rounded-lg text-xs focus:outline-none focus:border-[#1769FF] focus:bg-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const generated = form.title
+                          .toLowerCase()
+                          .replace(/[^\w\s-]/g, "")
+                          .replace(/[\s_-]+/g, "-")
+                          .replace(/^-+|-+$/g, "");
+                        setForm((prev) => ({ ...prev, slug: generated }));
+                        showToast("Slug regenerated from title");
+                      }}
+                      className="text-[11px] text-[#1769FF] hover:underline cursor-pointer"
+                    >
+                      Regenerate
+                    </button>
+                  </div>
+                </div>
+
+                {/* Excerpt Box */}
+                <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-1.5">
+                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                    Article Summary / Excerpt
+                  </label>
+                  <p className="text-[11px] text-slate-500">
+                    Brief synopsis shown on the blog index cards and used as fallback meta description.
+                  </p>
+                  <textarea
+                    rows={2}
+                    value={form.excerpt}
+                    onChange={(e) => setForm((prev) => ({ ...prev, excerpt: e.target.value }))}
+                    placeholder="Enter an engaging 2-sentence summary of the key engineering takeaways..."
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                  />
+                </div>
+
+                {/* RICH TEXTBOX WYSIWYG EDITOR */}
+                <div className="rounded-2xl border border-slate-200 bg-white shadow-xs">
+                  {/* Sticky Toolbar Header Container (Sticky on Scroll) */}
+                  <div className="sticky top-0 z-30 bg-white shadow-md border-b border-slate-200 rounded-t-2xl">
+                    {/* Primary Toolbar */}
+                    <div className="p-2.5 border-b border-slate-200/80 bg-slate-50 rounded-t-2xl flex flex-wrap items-center gap-1 select-none">
                       {/* Heading Levels H1 through H6 + Paragraph */}
                       <div className="flex items-center gap-0.5 bg-slate-200/70 p-0.5 rounded-lg border border-slate-200/90 shadow-2xs">
                         <button
@@ -3622,349 +3769,243 @@ export default function BlogAdmin() {
                   </div>
 
                   {/* Editing Canvas */}
-                    <div className="p-6 min-h-[460px] bg-white">
-                      {isHtmlSourceMode ? (
-                        <textarea
-                          value={form.content}
-                          onChange={(e) => setForm((prev) => ({ ...prev, content: e.target.value }))}
-                          rows={20}
-                          className="w-full h-full bg-slate-900 text-emerald-400 font-mono text-xs p-4 rounded-xl focus:outline-none resize-y leading-relaxed"
-                          placeholder="<div>Raw HTML code...</div>"
-                        />
-                      ) : (
-                        <div
-                          ref={(node) => {
-                            (editorRef as any).current = node;
-                            if (node && !isHtmlSourceMode && node.innerHTML !== form.content) {
-                              node.innerHTML = form.content || "";
-                            }
-                          }}
-                          contentEditable
-                          suppressContentEditableWarning
-                          onInput={syncEditorContent}
-                          onBlur={syncEditorContent}
-                          className="w-full min-h-[420px] focus:outline-none blog-content text-slate-800 font-sans selection:bg-[#1769FF] selection:text-white"
-                        />
-                      )}
-                    </div>
-
-                    {/* Editor Bottom Meta Bar */}
-                    <div className="px-6 py-2.5 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-[11px] text-slate-500 font-mono">
-                      <div className="flex items-center gap-4">
-                        <span>Words: <strong className="text-slate-700">{wordCount}</strong></span>
-                        <span>Est. Read Time: <strong className="text-slate-700">{readingTimeEstimate} min</strong></span>
-                      </div>
-                      <span>Rich Text WYSIWYG Active</span>
-                    </div>
+                  <div className="p-6 min-h-[460px] bg-white">
+                    {isHtmlSourceMode ? (
+                      <textarea
+                        value={form.content}
+                        onChange={(e) => setForm((prev) => ({ ...prev, content: e.target.value }))}
+                        rows={20}
+                        className="w-full h-full bg-slate-900 text-emerald-400 font-mono text-xs p-4 rounded-xl focus:outline-none resize-y leading-relaxed"
+                        placeholder="<div>Raw HTML code...</div>"
+                      />
+                    ) : (
+                      <div
+                        ref={(node) => {
+                          (editorRef as any).current = node;
+                          if (node && !isHtmlSourceMode && node.innerHTML !== form.content) {
+                            node.innerHTML = form.content || "";
+                          }
+                        }}
+                        contentEditable
+                        suppressContentEditableWarning
+                        onInput={syncEditorContent}
+                        onBlur={syncEditorContent}
+                        className="w-full min-h-[420px] focus:outline-none blog-content text-slate-800 font-sans selection:bg-[#1769FF] selection:text-white"
+                      />
+                    )}
                   </div>
 
-                  {/* ========================================================= */}
-                  {/* ARTICLE FAQ ACCORDIONS (Smooth open/close & MongoDB sync) */}
-                  {/* ========================================================= */}
-                  <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-5">
-                    {/* Header */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
-                      <div className="flex items-start gap-3">
-                        <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-[#1769FF] shrink-0">
-                          <HelpCircle className="w-5 h-5 text-[#1769FF]" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h3 className="text-sm font-bold text-slate-900">
-                              Article FAQ Accordions
-                            </h3>
-                            <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#1769FF] border border-blue-200 font-mono">
-                              {(form.faqs || []).length} Items
-                            </span>
-                          </div>
-                          <p className="text-xs text-slate-500 mt-0.5">
-                            Add frequently asked questions with smooth animated accordions. Readers can expand and collapse answers on the article page.
-                          </p>
-                        </div>
+                  {/* Editor Bottom Meta Bar */}
+                  <div className="px-6 py-2.5 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+                    <div className="flex items-center gap-4">
+                      <span>Words: <strong className="text-slate-700">{wordCount}</strong></span>
+                      <span>Est. Read Time: <strong className="text-slate-700">{readingTimeEstimate} min</strong></span>
+                    </div>
+                    <span>Rich Text WYSIWYG Active</span>
+                  </div>
+                </div>
+
+                {/* ========================================================= */}
+                {/* ARTICLE FAQ ACCORDIONS (Smooth open/close & MongoDB sync) */}
+                {/* ========================================================= */}
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs space-y-5">
+                  {/* Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200 text-[#1769FF] shrink-0">
+                        <HelpCircle className="w-5 h-5 text-[#1769FF]" />
                       </div>
-
-                      {/* Header Actions */}
-                      <div className="flex items-center gap-2 self-start sm:self-center">
-                        {/* Edit vs Preview Toggle */}
-                        {(form.faqs || []).length > 0 && (
-                          <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 text-xs">
-                            <button
-                              type="button"
-                              onClick={() => setFaqViewMode("edit")}
-                              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                                faqViewMode === "edit"
-                                  ? "bg-white text-[#1769FF] shadow-xs"
-                                  : "text-slate-600 hover:text-slate-900"
-                              }`}
-                            >
-                              Edit Fields
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setFaqViewMode("preview")}
-                              className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${
-                                faqViewMode === "preview"
-                                  ? "bg-white text-[#1769FF] shadow-xs"
-                                  : "text-slate-600 hover:text-slate-900"
-                              }`}
-                            >
-                              Live Preview
-                            </button>
-                          </div>
-                        )}
-
-                        <button
-                          type="button"
-                          onClick={handleAddFaqItem}
-                          className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-[#1769FF] hover:bg-blue-600 transition-colors shadow-xs cursor-pointer"
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                          <span>+ Add FAQ</span>
-                        </button>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-sm font-bold text-slate-900">
+                            Article FAQ Accordions
+                          </h3>
+                          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-[#1769FF] border border-blue-200 font-mono">
+                            {(form.faqs || []).length} Items
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          Add frequently asked questions with smooth animated accordions. Readers can expand and collapse answers on the article page.
+                        </p>
                       </div>
                     </div>
 
-                    {/* FAQ Items List / Editor */}
-                    {faqViewMode === "edit" ? (
-                      <div>
-                        {(!form.faqs || form.faqs.length === 0) ? (
-                          <div className="p-8 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 text-center space-y-3">
-                            <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200/70 text-[#1769FF] flex items-center justify-center mx-auto">
-                              <HelpCircle className="w-6 h-6" />
-                            </div>
-                            <div className="space-y-1">
-                              <h4 className="text-sm font-bold text-slate-800">No FAQs Configured Yet</h4>
-                              <p className="text-xs text-slate-500 max-w-md mx-auto">
-                                Technical FAQs help clarify complex topics, increase time-on-page, and boost search engine ranking signals.
-                              </p>
-                            </div>
-                            <div className="flex items-center justify-center gap-3 pt-2">
-                              <button
-                                type="button"
-                                onClick={handleAddFaqItem}
-                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#1769FF] hover:bg-blue-600 transition-colors cursor-pointer shadow-xs"
-                              >
-                                <Plus className="w-3.5 h-3.5" />
-                                <span>Create First FAQ</span>
-                              </button>
-                              <button
-                                type="button"
-                                onClick={handleInsertSampleFaqs}
-                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer"
-                              >
-                                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                                <span>Insert 2 Sample FAQs</span>
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="space-y-4">
-                            {form.faqs.map((faq, index) => {
-                              const isExpanded = adminFaqOpenIndex === index;
-                              return (
-                                <div
-                                  key={index}
-                                  className={`rounded-2xl border transition-all ${
-                                    isExpanded
-                                      ? "border-[#1769FF]/50 bg-blue-50/20 shadow-xs"
-                                      : "border-slate-200 bg-slate-50/40 hover:border-slate-300"
-                                  }`}
-                                >
-                                  {/* Item Header Row */}
-                                  <div className="p-3.5 sm:px-4 flex items-center justify-between gap-3">
-                                    <div
-                                      onClick={() => setAdminFaqOpenIndex(isExpanded ? null : index)}
-                                      className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer select-none"
-                                    >
-                                      <span className="w-6 h-6 rounded-lg bg-blue-100 text-[#1769FF] font-mono text-xs font-bold flex items-center justify-center shrink-0">
-                                        #{index + 1}
-                                      </span>
-                                      <span className="text-xs sm:text-sm font-semibold text-slate-900 truncate">
-                                        {faq.question.trim() || "(Untitled Question — Click to Edit)"}
-                                      </span>
-                                    </div>
-
-                                    {/* Actions */}
-                                    <div className="flex items-center gap-1 shrink-0">
-                                      {/* Move Up */}
-                                      <button
-                                        type="button"
-                                        disabled={index === 0}
-                                        onClick={() => handleMoveFaqItem(index, "up")}
-                                        title="Move FAQ Up"
-                                        className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
-                                      >
-                                        <ChevronUp className="w-3.5 h-3.5" />
-                                      </button>
-                                      {/* Move Down */}
-                                      <button
-                                        type="button"
-                                        disabled={index === form.faqs.length - 1}
-                                        onClick={() => handleMoveFaqItem(index, "down")}
-                                        title="Move FAQ Down"
-                                        className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
-                                      >
-                                        <ChevronDown className="w-3.5 h-3.5" />
-                                      </button>
-                                      {/* Expand/Collapse Toggle */}
-                                      <button
-                                        type="button"
-                                        onClick={() => setAdminFaqOpenIndex(isExpanded ? null : index)}
-                                        title={isExpanded ? "Collapse item" : "Expand item"}
-                                        className="p-1.5 rounded-lg text-slate-500 hover:text-[#1769FF] hover:bg-white border border-transparent hover:border-slate-200 transition-colors cursor-pointer"
-                                      >
-                                        <ChevronDown
-                                          className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                                            isExpanded ? "rotate-180" : ""
-                                          }`}
-                                        />
-                                      </button>
-                                      {/* Delete */}
-                                      <button
-                                        type="button"
-                                        onClick={() => handleRemoveFaqItem(index)}
-                                        title="Delete FAQ"
-                                        className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors cursor-pointer"
-                                      >
-                                        <Trash2 className="w-3.5 h-3.5" />
-                                      </button>
-                                    </div>
-                                  </div>
-
-                                  {/* Smooth Animated Form Body */}
-                                  <div className={cn("faq-accordion-grid", isExpanded ? "open" : "")}>
-                                    <div className="faq-accordion-inner">
-                                      <div className="px-4 pb-4 pt-2 border-t border-slate-200/70 space-y-3 bg-white rounded-b-2xl">
-                                        <div>
-                                          <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                                            Question <span className="text-red-500">*</span>
-                                          </label>
-                                          <input
-                                            type="text"
-                                            value={faq.question}
-                                            onChange={(e) =>
-                                              handleUpdateFaqItem(index, "question", e.target.value)
-                                            }
-                                            placeholder="e.g. How does this architecture reduce server latency?"
-                                            className="w-full text-xs font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:bg-white focus:border-[#1769FF] focus:outline-none transition-colors"
-                                          />
-                                        </div>
-
-                                        <div>
-                                          <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
-                                            Answer Text <span className="text-red-500">*</span>
-                                          </label>
-                                          <textarea
-                                            rows={3}
-                                            value={faq.answer}
-                                            onChange={(e) =>
-                                              handleUpdateFaqItem(index, "answer", e.target.value)
-                                            }
-                                            placeholder="e.g. By leveraging edge runtime workers, static asset caching, and streaming SSR..."
-                                            className="w-full text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:bg-white focus:border-[#1769FF] focus:outline-none transition-colors leading-relaxed"
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-
-                            <div className="pt-2 flex items-center justify-between">
-                              <button
-                                type="button"
-                                onClick={handleAddFaqItem}
-                                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-[#1769FF] bg-blue-50 border border-blue-200 hover:bg-blue-100/70 transition-colors cursor-pointer"
-                              >
-                                <Plus className="w-3.5 h-3.5" />
-                                <span>+ Add Another FAQ</span>
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => setFaqViewMode("preview")}
-                                className="text-xs font-bold text-slate-600 hover:text-[#1769FF] flex items-center gap-1 cursor-pointer"
-                              >
-                                <Eye className="w-3.5 h-3.5" />
-                                <span>Preview Live Accordion →</span>
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      /* Live Interactive Accordion Preview (Theme styled) */
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-200">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                            <span className="font-semibold text-slate-700">Interactive Accordion Preview</span>
-                            <span>— Click any question below to test smooth open and close animations.</span>
-                          </div>
+                    {/* Header Actions */}
+                    <div className="flex items-center gap-2 self-start sm:self-center">
+                      {/* Edit vs Preview Toggle */}
+                      {(form.faqs || []).length > 0 && (
+                        <div className="inline-flex rounded-xl p-1 bg-slate-100 border border-slate-200 text-xs">
                           <button
                             type="button"
                             onClick={() => setFaqViewMode("edit")}
-                            className="font-bold text-[#1769FF] hover:underline cursor-pointer"
+                            className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${faqViewMode === "edit"
+                              ? "bg-white text-[#1769FF] shadow-xs"
+                              : "text-slate-600 hover:text-slate-900"
+                              }`}
                           >
-                            ← Back to Edit
+                            Edit Fields
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setFaqViewMode("preview")}
+                            className={`px-3 py-1 rounded-lg font-bold transition-all cursor-pointer ${faqViewMode === "preview"
+                              ? "bg-white text-[#1769FF] shadow-xs"
+                              : "text-slate-600 hover:text-slate-900"
+                              }`}
+                          >
+                            Live Preview
                           </button>
                         </div>
+                      )}
 
-                        <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 space-y-3">
-                          <div className="flex items-center gap-2 pb-2 text-white">
-                            <HelpCircle className="w-4 h-4 text-[#00C6FF]" />
-                            <h4 className="text-sm font-bold">Frequently Asked Questions (Article Preview)</h4>
+                      <button
+                        type="button"
+                        onClick={handleAddFaqItem}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-[#1769FF] hover:bg-blue-600 transition-colors shadow-xs cursor-pointer"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>+ Add FAQ</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* FAQ Items List / Editor */}
+                  {faqViewMode === "edit" ? (
+                    <div>
+                      {(!form.faqs || form.faqs.length === 0) ? (
+                        <div className="p-8 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 text-center space-y-3">
+                          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200/70 text-[#1769FF] flex items-center justify-center mx-auto">
+                            <HelpCircle className="w-6 h-6" />
                           </div>
-
+                          <div className="space-y-1">
+                            <h4 className="text-sm font-bold text-slate-800">No FAQs Configured Yet</h4>
+                            <p className="text-xs text-slate-500 max-w-md mx-auto">
+                              Technical FAQs help clarify complex topics, increase time-on-page, and boost search engine ranking signals.
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-center gap-3 pt-2">
+                            <button
+                              type="button"
+                              onClick={handleAddFaqItem}
+                              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-[#1769FF] hover:bg-blue-600 transition-colors cursor-pointer shadow-xs"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                              <span>Create First FAQ</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleInsertSampleFaqs}
+                              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-100 transition-colors cursor-pointer"
+                            >
+                              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                              <span>Insert 2 Sample FAQs</span>
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
                           {form.faqs.map((faq, index) => {
-                            const isOpen = adminFaqOpenIndex === index;
+                            const isExpanded = adminFaqOpenIndex === index;
                             return (
                               <div
                                 key={index}
-                                className={cn(
-                                  "relative rounded-2xl transition-all duration-300 overflow-hidden backdrop-blur-md",
-                                  isOpen
-                                    ? "bg-[#07162c] border border-transparent shadow-[0_8px_30px_rgba(0,198,255,0.14)]"
-                                    : "bg-[#081226]/90 border border-blue-900/40 hover:border-brand-cyan hover:bg-[#0d1b38] shadow-sm"
-                                )}
+                                className={`rounded-2xl border transition-all ${isExpanded
+                                  ? "border-[#1769FF]/50 bg-blue-50/20 shadow-xs"
+                                  : "border-slate-200 bg-slate-50/40 hover:border-slate-300"
+                                  }`}
                               >
-                                {isOpen && (
-                                  <div className="absolute top-0 left-0 right-0 h-[2px] pointer-events-none animate-shimmer-x" />
-                                )}
-
-                                <button
-                                  type="button"
-                                  onClick={() => setAdminFaqOpenIndex(isOpen ? null : index)}
-                                  className="w-full flex items-center justify-between px-4 sm:px-6 py-4 text-left outline-none focus:outline-none group cursor-pointer"
-                                >
-                                  <span
-                                    className={cn(
-                                      "text-sm font-bold transition-colors duration-200 leading-snug",
-                                      isOpen ? "text-[#00C6FF]" : "text-slate-200 group-hover:text-[#00C6FF]"
-                                    )}
-                                  >
-                                    {faq.question.trim() || `(Question #${index + 1})`}
-                                  </span>
-
+                                {/* Item Header Row */}
+                                <div className="p-3.5 sm:px-4 flex items-center justify-between gap-3">
                                   <div
-                                    className={cn(
-                                      "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300",
-                                      isOpen
-                                        ? "bg-cyan-500/20 text-[#00C6FF] border border-cyan-500/40 rotate-180 shadow-xs"
-                                        : "bg-blue-900/40 text-slate-300 border border-blue-800/40 group-hover:bg-cyan-500/15 group-hover:text-[#00C6FF]"
-                                    )}
+                                    onClick={() => setAdminFaqOpenIndex(isExpanded ? null : index)}
+                                    className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer select-none"
                                   >
-                                    <ChevronDown className="w-4 h-4 transition-transform duration-300" />
+                                    <span className="w-6 h-6 rounded-lg bg-blue-100 text-[#1769FF] font-mono text-xs font-bold flex items-center justify-center shrink-0">
+                                      #{index + 1}
+                                    </span>
+                                    <span className="text-xs sm:text-sm font-semibold text-slate-900 truncate">
+                                      {faq.question.trim() || "(Untitled Question — Click to Edit)"}
+                                    </span>
                                   </div>
-                                </button>
 
-                                <div className={cn("faq-accordion-grid", isOpen ? "open" : "")}>
+                                  {/* Actions */}
+                                  <div className="flex items-center gap-1 shrink-0">
+                                    {/* Move Up */}
+                                    <button
+                                      type="button"
+                                      disabled={index === 0}
+                                      onClick={() => handleMoveFaqItem(index, "up")}
+                                      title="Move FAQ Up"
+                                      className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                                    >
+                                      <ChevronUp className="w-3.5 h-3.5" />
+                                    </button>
+                                    {/* Move Down */}
+                                    <button
+                                      type="button"
+                                      disabled={index === form.faqs.length - 1}
+                                      onClick={() => handleMoveFaqItem(index, "down")}
+                                      title="Move FAQ Down"
+                                      className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-white border border-transparent hover:border-slate-200 disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+                                    >
+                                      <ChevronDown className="w-3.5 h-3.5" />
+                                    </button>
+                                    {/* Expand/Collapse Toggle */}
+                                    <button
+                                      type="button"
+                                      onClick={() => setAdminFaqOpenIndex(isExpanded ? null : index)}
+                                      title={isExpanded ? "Collapse item" : "Expand item"}
+                                      className="p-1.5 rounded-lg text-slate-500 hover:text-[#1769FF] hover:bg-white border border-transparent hover:border-slate-200 transition-colors cursor-pointer"
+                                    >
+                                      <ChevronDown
+                                        className={`w-3.5 h-3.5 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""
+                                          }`}
+                                      />
+                                    </button>
+                                    {/* Delete */}
+                                    <button
+                                      type="button"
+                                      onClick={() => handleRemoveFaqItem(index)}
+                                      title="Delete FAQ"
+                                      className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 border border-transparent hover:border-red-200 transition-colors cursor-pointer"
+                                    >
+                                      <Trash2 className="w-3.5 h-3.5" />
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* Smooth Animated Form Body */}
+                                <div className={cn("faq-accordion-grid", isExpanded ? "open" : "")}>
                                   <div className="faq-accordion-inner">
-                                    <div className="px-4 sm:px-6 pb-5 pt-1 border-t border-blue-900/40">
-                                      <div className="pl-3.5 sm:pl-4 border-l-2 border-[#00C6FF] py-0.5 mt-2">
-                                        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed whitespace-pre-line">
-                                          {faq.answer.trim() || "(No answer text configured yet.)"}
-                                        </p>
+                                    <div className="px-4 pb-4 pt-2 border-t border-slate-200/70 space-y-3 bg-white rounded-b-2xl">
+                                      <div>
+                                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                          Question <span className="text-red-500">*</span>
+                                        </label>
+                                        <input
+                                          type="text"
+                                          value={faq.question}
+                                          onChange={(e) =>
+                                            handleUpdateFaqItem(index, "question", e.target.value)
+                                          }
+                                          placeholder="e.g. How does this architecture reduce server latency?"
+                                          className="w-full text-xs font-semibold text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:bg-white focus:border-[#1769FF] focus:outline-none transition-colors"
+                                        />
+                                      </div>
+
+                                      <div>
+                                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                          Answer Text <span className="text-red-500">*</span>
+                                        </label>
+                                        <textarea
+                                          rows={3}
+                                          value={faq.answer}
+                                          onChange={(e) =>
+                                            handleUpdateFaqItem(index, "answer", e.target.value)
+                                          }
+                                          placeholder="e.g. By leveraging edge runtime workers, static asset caching, and streaming SSR..."
+                                          className="w-full text-xs text-slate-800 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 focus:bg-white focus:border-[#1769FF] focus:outline-none transition-colors leading-relaxed"
+                                        />
                                       </div>
                                     </div>
                                   </div>
@@ -3972,1190 +4013,1292 @@ export default function BlogAdmin() {
                               </div>
                             );
                           })}
-                        </div>
-                      </div>
-                    )}
-                  </div>
 
-                  {/* Bottom Step Nav */}
-                  <div className="flex items-center justify-between pt-2">
-                    <div className="text-xs text-slate-500">
-                      Content ready? Proceed to configure design styles or SEO metadata.
+                          <div className="pt-2 flex items-center justify-between">
+                            <button
+                              type="button"
+                              onClick={handleAddFaqItem}
+                              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-[#1769FF] bg-blue-50 border border-blue-200 hover:bg-blue-100/70 transition-colors cursor-pointer"
+                            >
+                              <Plus className="w-3.5 h-3.5" />
+                              <span>+ Add Another FAQ</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setFaqViewMode("preview")}
+                              className="text-xs font-bold text-slate-600 hover:text-[#1769FF] flex items-center gap-1 cursor-pointer"
+                            >
+                              <Eye className="w-3.5 h-3.5" />
+                              <span>Preview Live Accordion →</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => switchEditorStep("design")}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
-                    >
-                      <span>Next: 2. Design Elements &amp; Quotes</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                  ) : (
+                    /* Live Interactive Accordion Preview (Theme styled) */
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                          <span className="font-semibold text-slate-700">Interactive Accordion Preview</span>
+                          <span>— Click any question below to test smooth open and close animations.</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setFaqViewMode("edit")}
+                          className="font-bold text-[#1769FF] hover:underline cursor-pointer"
+                        >
+                          ← Back to Edit
+                        </button>
+                      </div>
+
+                      <div className="p-4 sm:p-6 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-800 space-y-3">
+                        <div className="flex items-center gap-2 pb-2 text-white">
+                          <HelpCircle className="w-4 h-4 text-[#00C6FF]" />
+                          <h4 className="text-sm font-bold">Frequently Asked Questions (Article Preview)</h4>
+                        </div>
+
+                        {form.faqs.map((faq, index) => {
+                          const isOpen = adminFaqOpenIndex === index;
+                          return (
+                            <div
+                              key={index}
+                              className={cn(
+                                "relative rounded-2xl transition-all duration-300 overflow-hidden backdrop-blur-md",
+                                isOpen
+                                  ? "bg-[#07162c] border border-transparent shadow-[0_8px_30px_rgba(0,198,255,0.14)]"
+                                  : "bg-[#081226]/90 border border-blue-900/40 hover:border-brand-cyan hover:bg-[#0d1b38] shadow-sm"
+                              )}
+                            >
+                              {isOpen && (
+                                <div className="absolute top-0 left-0 right-0 h-[2px] pointer-events-none animate-shimmer-x" />
+                              )}
+
+                              <button
+                                type="button"
+                                onClick={() => setAdminFaqOpenIndex(isOpen ? null : index)}
+                                className="w-full flex items-center justify-between px-4 sm:px-6 py-4 text-left outline-none focus:outline-none group cursor-pointer"
+                              >
+                                <span
+                                  className={cn(
+                                    "text-sm font-bold transition-colors duration-200 leading-snug",
+                                    isOpen ? "text-[#00C6FF]" : "text-slate-200 group-hover:text-[#00C6FF]"
+                                  )}
+                                >
+                                  {faq.question.trim() || `(Question #${index + 1})`}
+                                </span>
+
+                                <div
+                                  className={cn(
+                                    "w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300",
+                                    isOpen
+                                      ? "bg-cyan-500/20 text-[#00C6FF] border border-cyan-500/40 rotate-180 shadow-xs"
+                                      : "bg-blue-900/40 text-slate-300 border border-blue-800/40 group-hover:bg-cyan-500/15 group-hover:text-[#00C6FF]"
+                                  )}
+                                >
+                                  <ChevronDown className="w-4 h-4 transition-transform duration-300" />
+                                </div>
+                              </button>
+
+                              <div className={cn("faq-accordion-grid", isOpen ? "open" : "")}>
+                                <div className="faq-accordion-inner">
+                                  <div className="px-4 sm:px-6 pb-5 pt-1 border-t border-blue-900/40">
+                                    <div className="pl-3.5 sm:pl-4 border-l-2 border-[#00C6FF] py-0.5 mt-2">
+                                      <p className="text-xs sm:text-sm text-slate-300 leading-relaxed whitespace-pre-line">
+                                        {faq.answer.trim() || "(No answer text configured yet.)"}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
+
+                {/* Bottom Step Nav */}
+                <div className="flex items-center justify-between pt-2">
+                  <div className="text-xs text-slate-500">
+                    Content ready? Proceed to configure design styles or SEO metadata.
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => switchEditorStep("design")}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
+                  >
+                    <span>Next: 2. Design Elements &amp; Quotes</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
 
               {/* ============================================================= */}
               {/* STEP 2: DESIGN PALETTE, TABLES & MULTI-COLOR QUOTES */}
               {/* ============================================================= */}
               <div className={editorStep === "design" ? "space-y-6" : "hidden"}>
                 <div className="p-5 rounded-2xl border border-blue-200 bg-blue-50/50 space-y-1">
-                    <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                      <Palette className="w-4 h-4 text-[#1769FF]" />
-                      <span>Design Elements &amp; Quote Palette</span>
-                    </h3>
-                    <p className="text-xs text-slate-600">
-                      Click any element below to immediately inject it into your article content. All styling automatically matches the Nexovio design system.
-                    </p>
-                  </div>
+                  <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <Palette className="w-4 h-4 text-[#1769FF]" />
+                    <span>Design Elements &amp; Quote Palette</span>
+                  </h3>
+                  <p className="text-xs text-slate-600">
+                    Click any element below to immediately inject it into your article content. All styling automatically matches the Nexovio design system.
+                  </p>
+                </div>
 
-                  {/* Section A: Multi-Color Blockquotes */}
-                  <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                      <div>
-                        <h4 className="text-sm font-bold text-slate-900">Stylized Quotes (5 Brand Color Schemes)</h4>
-                        <p className="text-xs text-slate-500">Use different colors for engineering insights, technical notes, warnings, or leadership advice.</p>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* Blue Quote */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-[#1769FF] flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-[#1769FF]" />
-                            Electric Blue Quote (.blog-quote-blue)
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<blockquote class="blog-quote-blue"><p>"Architecture is not just what it looks like, but how the systems scale under high concurrent load."</p></blockquote><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <blockquote className="blog-quote-blue !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-[#1769FF] bg-white rounded-r-lg">
-                          &quot;Architecture is not just what it looks like, but how the systems scale under high concurrent load.&quot;
-                        </blockquote>
-                      </div>
-
-                      {/* Cyan Quote */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-cyan-600 flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-[#00C6FF]" />
-                            Cyber Cyan Quote (.blog-quote-cyan)
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<blockquote class="blog-quote-cyan"><p>"Next-generation edge runtimes eliminate cold-starts and serve content at wire speeds globally."</p></blockquote><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-600 text-white hover:bg-cyan-700 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <blockquote className="blog-quote-cyan !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-[#00C6FF] bg-white rounded-r-lg">
-                          &quot;Next-generation edge runtimes eliminate cold-starts and serve content at wire speeds globally.&quot;
-                        </blockquote>
-                      </div>
-
-                      {/* Purple Quote */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-purple-600 flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-purple-600" />
-                            Royal Purple Quote (.blog-quote-purple)
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<blockquote class="blog-quote-purple"><p>"Strategic engineering leadership aligns code quality directly with high-impact enterprise revenue."</p></blockquote><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-600 text-white hover:bg-purple-700 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <blockquote className="blog-quote-purple !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-purple-500 bg-white rounded-r-lg">
-                          &quot;Strategic engineering leadership aligns code quality directly with high-impact enterprise revenue.&quot;
-                        </blockquote>
-                      </div>
-
-                      {/* Emerald Quote */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-emerald-600 flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                            Emerald Green Quote (.blog-quote-emerald)
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<blockquote class="blog-quote-emerald"><p>"Achieving perfect 100/100 Core Web Vitals guarantees superior organic search ranking retention."</p></blockquote><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <blockquote className="blog-quote-emerald !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-emerald-500 bg-white rounded-r-lg">
-                          &quot;Achieving perfect 100/100 Core Web Vitals guarantees superior organic search ranking retention.&quot;
-                        </blockquote>
-                      </div>
-
-                      {/* Amber Quote */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3 md:col-span-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-amber-600 flex items-center gap-1.5">
-                            <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                            Warm Amber Warning Quote (.blog-quote-amber)
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<blockquote class="blog-quote-amber"><p>"Never commit secrets, tokens, or unauthenticated database credentials to client-facing bundles."</p></blockquote><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <blockquote className="blog-quote-amber !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-amber-500 bg-white rounded-r-lg">
-                          &quot;Never commit secrets, tokens, or unauthenticated database credentials to client-facing bundles.&quot;
-                        </blockquote>
-                      </div>
+                {/* Section A: Multi-Color Blockquotes */}
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900">Stylized Quotes (5 Brand Color Schemes)</h4>
+                      <p className="text-xs text-slate-500">Use different colors for engineering insights, technical notes, warnings, or leadership advice.</p>
                     </div>
                   </div>
 
-                  {/* Section B: Responsive Tables */}
-                  <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-                      <div>
-                        <h4 className="text-sm font-bold text-slate-900">Engineered Table Designs</h4>
-                        <p className="text-xs text-slate-500">Theme-styled with zebra rows, electric blue headers, and horizontal mobile scrolling.</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Blue Quote */}
+                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-[#1769FF] flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#1769FF]" />
+                          Electric Blue Quote (.blog-quote-blue)
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<blockquote class="blog-quote-blue"><p>"Architecture is not just what it looks like, but how the systems scale under high concurrent load."</p></blockquote><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
                       </div>
+                      <blockquote className="blog-quote-blue !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-[#1769FF] bg-white rounded-r-lg">
+                        &quot;Architecture is not just what it looks like, but how the systems scale under high concurrent load.&quot;
+                      </blockquote>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {/* Comparison Table */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-slate-800">Comparison Table (2 vs 1)</span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Evaluation Pillar</th><th>Custom Next.js Stack</th><th>Visual Site Builders</th></tr></thead><tbody><tr><td>Core Web Vitals</td><td>100/100 LCP &amp; Zero Shift</td><td>Degraded Script Bloat</td></tr><tr><td>SEO Control</td><td>Granular JSON-LD &amp; Edge Headers</td><td>Restricted Canonical Settings</td></tr><tr><td>Scalability</td><td>Serverless Auto-Burst Sharding</td><td>Single Server Bottlenecks</td></tr></tbody></table></div><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <p className="text-[11px] text-slate-500 leading-relaxed">
-                          Pre-filled with 3 rows comparing evaluation pillars. Wrapped in <code>.blog-table-container</code>.
-                        </p>
+                    {/* Cyan Quote */}
+                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-cyan-600 flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-[#00C6FF]" />
+                          Cyber Cyan Quote (.blog-quote-cyan)
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<blockquote class="blog-quote-cyan"><p>"Next-generation edge runtimes eliminate cold-starts and serve content at wire speeds globally."</p></blockquote><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-cyan-600 text-white hover:bg-cyan-700 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
                       </div>
-
-                      {/* Specification / Benchmark Table */}
-                      <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-slate-800">Architecture Benchmark Table</span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Parameter</th><th>Target Metric</th><th>Optimization Strategy</th></tr></thead><tbody><tr><td>Largest Contentful Paint (LCP)</td><td>&lt; 1.2s</td><td>Edge HTML cache + AVIF Image compression</td></tr><tr><td>Interaction to Next Paint (INP)</td><td>&lt; 150ms</td><td>Web workers &amp; requestIdleCallback</td></tr><tr><td>Cumulative Layout Shift (CLS)</td><td>0.00</td><td>Strict aspect ratio reserving &amp; font display swap</td></tr></tbody></table></div><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <p className="text-[11px] text-slate-500 leading-relaxed">
-                          Benchmark spec table with columns for Parameter, Target Metric, and Optimization Strategy.
-                        </p>
-                      </div>
+                      <blockquote className="blog-quote-cyan !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-[#00C6FF] bg-white rounded-r-lg">
+                        &quot;Next-generation edge runtimes eliminate cold-starts and serve content at wire speeds globally.&quot;
+                      </blockquote>
                     </div>
-                  </div>
 
-                  {/* Section C: Callout Cards, Grids & Figures */}
-                  <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
-                    <h4 className="text-sm font-bold text-slate-900 pb-3 border-b border-slate-100 flex items-center justify-between">
-                      <span>Callout Cards, Pro Tips &amp; 2-Column Grids</span>
-                      <span className="text-[11px] font-normal text-slate-500">Click &quot;+ Insert&quot; to inject into your article</span>
-                    </h4>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {/* Callout Card */}
-                      <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/50 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-[#1769FF] flex items-center gap-1">
-                            <Bookmark className="w-3.5 h-3.5" />
-                            <span>Callout Card (.blog-callout)</span>
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<div class="blog-callout"><div class="blog-callout-title">💡 Architecture Key Concept</div><p>Enterprise platforms require strict boundary separation between client components and edge microservices to maximize throughput and maintain sub-100ms response times globally.</p></div><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <p className="text-[11px] text-blue-700">Electric blue left border with bold card title &amp; description.</p>
+                    {/* Purple Quote */}
+                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-purple-600 flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-purple-600" />
+                          Royal Purple Quote (.blog-quote-purple)
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<blockquote class="blog-quote-purple"><p>"Strategic engineering leadership aligns code quality directly with high-impact enterprise revenue."</p></blockquote><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-purple-600 text-white hover:bg-purple-700 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
                       </div>
-
-                      {/* Pro Tip Box */}
-                      <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-emerald-800 flex items-center gap-1">
-                            <Sparkles className="w-3.5 h-3.5" />
-                            <span>Pro-Tip Box (.blog-tip)</span>
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<div class="blog-tip"><p><strong>🚀 Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial bundle size and eliminate Interaction to Next Paint (INP) bottlenecks.</p></div><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <p className="text-[11px] text-emerald-700">Emerald highlight box for recommended architectural practices.</p>
-                      </div>
-
-                      {/* 2-Column Grid */}
-                      <div className="p-4 rounded-xl border border-indigo-200 bg-indigo-50/50 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-indigo-700 flex items-center gap-1">
-                            <Grid className="w-3.5 h-3.5" />
-                            <span>2-Column Cards (.blog-grid-2)</span>
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<div class="blog-grid-2"><div class="blog-card"><div class="blog-card-title">Approach A: Traditional</div><p>Higher initial coupling, synchronous monolithic data fetching, and heavier client-side JavaScript execution.</p></div><div class="blog-card"><div class="blog-card-title">Approach B: Composable</div><p>Decoupled edge execution, streaming SSR HTML, and localized partial hydration for instantaneous interactivity.</p></div></div><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <p className="text-[11px] text-indigo-700">Responsive 2-column comparative layout for approaches.</p>
-                      </div>
-
-                      {/* Warning Box */}
-                      <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-amber-800 flex items-center gap-1">
-                            <AlertCircle className="w-3.5 h-3.5" />
-                            <span>Warning Box (.blog-warning)</span>
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<div class="blog-warning"><p><strong>⚠️ Warning / Common Pitfall:</strong> Avoid chaining multiple client-side redirects as this degrades crawl equity and LCP latency.</p></div><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <p className="text-[11px] text-amber-700">Amber warning box for technical pitfalls and anti-patterns.</p>
-                      </div>
-
-                      {/* Key Takeaways Box */}
-                      <div className="p-4 rounded-xl border border-purple-200 bg-purple-50/50 space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-purple-800 flex items-center gap-1">
-                            <CheckCheck className="w-3.5 h-3.5" />
-                            <span>Key Takeaways Box</span>
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              insertCustomHtml(
-                                `<div class="blog-card" style="border-left-color: #8b5cf6;"><div class="blog-card-title" style="color: #7c3aed;">📌 Key Takeaways</div><ul style="margin: 0; padding-left: 1.25rem;"><li>Decouple frontends from monolithic CMS runtimes using Next.js.</li><li>Optimize Core Web Vitals to pass Google search ranking criteria.</li><li>Cache dynamic payloads close to end-users via CDN Edge networks.</li></ul></div><p><br></p>`
-                              )
-                            }
-                            className="px-2.5 py-1 rounded text-[11px] font-bold bg-purple-600 text-white hover:bg-purple-700 transition-colors cursor-pointer"
-                          >
-                            + Insert
-                          </button>
-                        </div>
-                        <p className="text-[11px] text-purple-700">Purple accent card with bulleted list for summary sections.</p>
-                      </div>
+                      <blockquote className="blog-quote-purple !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-purple-500 bg-white rounded-r-lg">
+                        &quot;Strategic engineering leadership aligns code quality directly with high-impact enterprise revenue.&quot;
+                      </blockquote>
                     </div>
-                  </div>
 
-                  {/* Stepper Navigation */}
-                  <div className="flex items-center justify-between pt-2">
-                    <button
-                      type="button"
-                      onClick={() => switchEditorStep("content")}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
-                    >
-                      <ChevronLeft className="w-3.5 h-3.5" />
-                      <span>Back: 1. Content &amp; Textbox</span>
-                    </button>
+                    {/* Emerald Quote */}
+                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-emerald-600 flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                          Emerald Green Quote (.blog-quote-emerald)
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<blockquote class="blog-quote-emerald"><p>"Achieving perfect 100/100 Core Web Vitals guarantees superior organic search ranking retention."</p></blockquote><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <blockquote className="blog-quote-emerald !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-emerald-500 bg-white rounded-r-lg">
+                        &quot;Achieving perfect 100/100 Core Web Vitals guarantees superior organic search ranking retention.&quot;
+                      </blockquote>
+                    </div>
 
-                    <button
-                      type="button"
-                      onClick={() => switchEditorStep("seo")}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
-                    >
-                      <span>Next: 3. Google SEO Suite</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                    {/* Amber Quote */}
+                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3 md:col-span-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-amber-600 flex items-center gap-1.5">
+                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+                          Warm Amber Warning Quote (.blog-quote-amber)
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<blockquote class="blog-quote-amber"><p>"Never commit secrets, tokens, or unauthenticated database credentials to client-facing bundles."</p></blockquote><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <blockquote className="blog-quote-amber !m-0 !p-3 text-xs text-slate-700 italic border-l-4 border-amber-500 bg-white rounded-r-lg">
+                        &quot;Never commit secrets, tokens, or unauthenticated database credentials to client-facing bundles.&quot;
+                      </blockquote>
+                    </div>
                   </div>
                 </div>
+
+                {/* Section B: Responsive Tables */}
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div>
+                      <h4 className="text-sm font-bold text-slate-900">Engineered Table Designs</h4>
+                      <p className="text-xs text-slate-500">Theme-styled with zebra rows, electric blue headers, and horizontal mobile scrolling.</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Comparison Table */}
+                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-800">Comparison Table (2 vs 1)</span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Evaluation Pillar</th><th>Custom Next.js Stack</th><th>Visual Site Builders</th></tr></thead><tbody><tr><td>Core Web Vitals</td><td>100/100 LCP &amp; Zero Shift</td><td>Degraded Script Bloat</td></tr><tr><td>SEO Control</td><td>Granular JSON-LD &amp; Edge Headers</td><td>Restricted Canonical Settings</td></tr><tr><td>Scalability</td><td>Serverless Auto-Burst Sharding</td><td>Single Server Bottlenecks</td></tr></tbody></table></div><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                        Pre-filled with 3 rows comparing evaluation pillars. Wrapped in <code>.blog-table-container</code>.
+                      </p>
+                    </div>
+
+                    {/* Specification / Benchmark Table */}
+                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-slate-800">Architecture Benchmark Table</span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<div class="blog-table-container"><table class="blog-table"><thead><tr><th>Parameter</th><th>Target Metric</th><th>Optimization Strategy</th></tr></thead><tbody><tr><td>Largest Contentful Paint (LCP)</td><td>&lt; 1.2s</td><td>Edge HTML cache + AVIF Image compression</td></tr><tr><td>Interaction to Next Paint (INP)</td><td>&lt; 150ms</td><td>Web workers &amp; requestIdleCallback</td></tr><tr><td>Cumulative Layout Shift (CLS)</td><td>0.00</td><td>Strict aspect ratio reserving &amp; font display swap</td></tr></tbody></table></div><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-slate-500 leading-relaxed">
+                        Benchmark spec table with columns for Parameter, Target Metric, and Optimization Strategy.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Section C: Callout Cards, Grids & Figures */}
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-4 shadow-xs">
+                  <h4 className="text-sm font-bold text-slate-900 pb-3 border-b border-slate-100 flex items-center justify-between">
+                    <span>Callout Cards, Pro Tips &amp; 2-Column Grids</span>
+                    <span className="text-[11px] font-normal text-slate-500">Click &quot;+ Insert&quot; to inject into your article</span>
+                  </h4>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {/* Callout Card */}
+                    <div className="p-4 rounded-xl border border-blue-200 bg-blue-50/50 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-[#1769FF] flex items-center gap-1">
+                          <Bookmark className="w-3.5 h-3.5" />
+                          <span>Callout Card (.blog-callout)</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<div class="blog-callout"><div class="blog-callout-title">💡 Architecture Key Concept</div><p>Enterprise platforms require strict boundary separation between client components and edge microservices to maximize throughput and maintain sub-100ms response times globally.</p></div><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded text-[11px] font-bold bg-[#1769FF] text-white hover:bg-blue-600 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-blue-700">Electric blue left border with bold card title &amp; description.</p>
+                    </div>
+
+                    {/* Pro Tip Box */}
+                    <div className="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-emerald-800 flex items-center gap-1">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Pro-Tip Box (.blog-tip)</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<div class="blog-tip"><p><strong>🚀 Pro Tip:</strong> Implement code-split dynamic imports for client-heavy modules to minimize initial bundle size and eliminate Interaction to Next Paint (INP) bottlenecks.</p></div><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded text-[11px] font-bold bg-emerald-600 text-white hover:bg-emerald-700 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-emerald-700">Emerald highlight box for recommended architectural practices.</p>
+                    </div>
+
+                    {/* 2-Column Grid */}
+                    <div className="p-4 rounded-xl border border-indigo-200 bg-indigo-50/50 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-indigo-700 flex items-center gap-1">
+                          <Grid className="w-3.5 h-3.5" />
+                          <span>2-Column Cards (.blog-grid-2)</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<div class="blog-grid-2"><div class="blog-card"><div class="blog-card-title">Approach A: Traditional</div><p>Higher initial coupling, synchronous monolithic data fetching, and heavier client-side JavaScript execution.</p></div><div class="blog-card"><div class="blog-card-title">Approach B: Composable</div><p>Decoupled edge execution, streaming SSR HTML, and localized partial hydration for instantaneous interactivity.</p></div></div><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded text-[11px] font-bold bg-indigo-600 text-white hover:bg-indigo-700 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-indigo-700">Responsive 2-column comparative layout for approaches.</p>
+                    </div>
+
+                    {/* Warning Box */}
+                    <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/50 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-amber-800 flex items-center gap-1">
+                          <AlertCircle className="w-3.5 h-3.5" />
+                          <span>Warning Box (.blog-warning)</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<div class="blog-warning"><p><strong>⚠️ Warning / Common Pitfall:</strong> Avoid chaining multiple client-side redirects as this degrades crawl equity and LCP latency.</p></div><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded text-[11px] font-bold bg-amber-600 text-white hover:bg-amber-700 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-amber-700">Amber warning box for technical pitfalls and anti-patterns.</p>
+                    </div>
+
+                    {/* Key Takeaways Box */}
+                    <div className="p-4 rounded-xl border border-purple-200 bg-purple-50/50 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-purple-800 flex items-center gap-1">
+                          <CheckCheck className="w-3.5 h-3.5" />
+                          <span>Key Takeaways Box</span>
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            insertCustomHtml(
+                              `<div class="blog-card" style="border-left-color: #8b5cf6;"><div class="blog-card-title" style="color: #7c3aed;">📌 Key Takeaways</div><ul style="margin: 0; padding-left: 1.25rem;"><li>Decouple frontends from monolithic CMS runtimes using Next.js.</li><li>Optimize Core Web Vitals to pass Google search ranking criteria.</li><li>Cache dynamic payloads close to end-users via CDN Edge networks.</li></ul></div><p><br></p>`
+                            )
+                          }
+                          className="px-2.5 py-1 rounded text-[11px] font-bold bg-purple-600 text-white hover:bg-purple-700 transition-colors cursor-pointer"
+                        >
+                          + Insert
+                        </button>
+                      </div>
+                      <p className="text-[11px] text-purple-700">Purple accent card with bulleted list for summary sections.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stepper Navigation */}
+                <div className="flex items-center justify-between pt-2">
+                  <button
+                    type="button"
+                    onClick={() => switchEditorStep("content")}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
+                  >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    <span>Back: 1. Content &amp; Textbox</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => switchEditorStep("seo")}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
+                  >
+                    <span>Next: 3. Google SEO Suite</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
 
               {/* ============================================================= */}
               {/* STEP 3: SEARCH ENGINE OPTIMIZATION (SEO) SUITE */}
               {/* ============================================================= */}
               <div className={editorStep === "seo" ? "space-y-6" : "hidden"}>
-                  {/* SEO Score Banner */}
-                  <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center font-extrabold text-lg shadow-xs">
-                        {seoAudit.score}
-                      </div>
-                      <div>
-                        <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                          <span>Search Engine Optimization Score</span>
-                          <span
-                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${seoAudit.score >= 80
-                              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                              : seoAudit.score >= 50
-                                ? "bg-amber-50 text-amber-700 border border-amber-200"
-                                : "bg-red-50 text-red-700 border border-red-200"
-                              }`}
-                          >
-                            {seoAudit.score >= 80 ? "Excellent" : seoAudit.score >= 50 ? "Good" : "Needs Review"}
-                          </span>
-                        </h3>
-                        <p className="text-xs text-slate-500">
-                          Real-time audit for Google crawler indexing, keyword density, and SERP snippet readability.
-                        </p>
-                      </div>
+                {/* SEO Score Banner */}
+                <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center font-extrabold text-lg shadow-xs">
+                      {seoAudit.score}
                     </div>
-
-                    <div className="flex items-center gap-4 text-xs font-mono text-slate-500">
-                      <div>Title: <strong className={seoAudit.titleGood ? "text-emerald-600" : "text-amber-600"}>{seoAudit.titleLength}/60</strong></div>
-                      <div>Description: <strong className={seoAudit.descGood ? "text-emerald-600" : "text-amber-600"}>{seoAudit.descLength}/160</strong></div>
-                    </div>
-                  </div>
-
-                  {/* Google SERP Live Snippet Preview */}
-                  <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-3">
-                    <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                      <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                        <Eye className="w-3.5 h-3.5 text-[#1769FF]" />
-                        Live Google SERP Search Snippet Preview
-                      </span>
-
-                      <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-[11px]">
-                        <button
-                          type="button"
-                          onClick={() => setSerpDevice("desktop")}
-                          className={`px-2 py-0.5 rounded flex items-center gap-1 ${serpDevice === "desktop" ? "bg-white font-bold text-slate-900 shadow-xs" : "text-slate-500"
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                        <span>Search Engine Optimization Score</span>
+                        <span
+                          className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${seoAudit.score >= 80
+                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                            : seoAudit.score >= 50
+                              ? "bg-amber-50 text-amber-700 border border-amber-200"
+                              : "bg-red-50 text-red-700 border border-red-200"
                             }`}
                         >
-                          <Monitor className="w-3 h-3" />
-                          <span>Desktop</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setSerpDevice("mobile")}
-                          className={`px-2 py-0.5 rounded flex items-center gap-1 ${serpDevice === "mobile" ? "bg-white font-bold text-slate-900 shadow-xs" : "text-slate-500"
-                            }`}
-                        >
-                          <Smartphone className="w-3 h-3" />
-                          <span>Mobile</span>
-                        </button>
-                      </div>
-                    </div>
-
-                    <div
-                      className={`p-4 bg-white rounded-xl border border-slate-200 text-left transition-all ${serpDevice === "mobile" ? "max-w-md mx-auto" : "w-full"
-                        }`}
-                    >
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <div className="w-4 h-4 rounded-full bg-[#1769FF] flex items-center justify-center text-[9px] text-white font-bold">
-                          N
-                        </div>
-                        <span className="text-[11px] text-slate-600 truncate block">
-                          https://www.nexoviodigitalsolutions.com › blog › {form.slug || "slug"}
+                          {seoAudit.score >= 80 ? "Excellent" : seoAudit.score >= 50 ? "Good" : "Needs Review"}
                         </span>
-                      </div>
-                      <h4 className="text-base font-semibold text-[#1a0dab] hover:underline cursor-pointer line-clamp-1">
-                        {form.seoTitle || form.title || "Article Headline"} | Nexovio Digital Solutions
-                      </h4>
-                      <p className="text-xs text-[#4d5156] line-clamp-2 mt-1 leading-relaxed">
-                        {form.seoDescription || form.excerpt || "Enter a compelling meta description to describe your publication to search engine visitors..."}
+                      </h3>
+                      <p className="text-xs text-slate-500">
+                        Real-time audit for Google crawler indexing, keyword density, and SERP snippet readability.
                       </p>
                     </div>
                   </div>
 
-                  {/* Form Fields: Focus Keyword, SEO Title, SEO Description, Canonical */}
-                  <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-5 shadow-xs">
-                    {/* Focus Keyword */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                          <Key className="w-3.5 h-3.5 text-[#1769FF]" />
-                          <span>Focus Target Keyword</span>
-                        </label>
-                        <span className="text-[11px] text-slate-400">Primary search query intent</span>
-                      </div>
-                      <input
-                        type="text"
-                        value={form.focusKeyword}
-                        onChange={(e) => setForm((prev) => ({ ...prev, focusKeyword: e.target.value }))}
-                        placeholder="e.g. web development vs website builders"
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                      />
-                    </div>
-
-                    {/* SEO Meta Title */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-xs font-bold text-slate-700">
-                          Search Engine Meta Title
-                        </label>
-                        <button
-                          type="button"
-                          onClick={() => setForm((prev) => ({ ...prev, seoTitle: prev.title }))}
-                          className="text-[11px] text-[#1769FF] hover:underline"
-                        >
-                          Copy from Post Title
-                        </button>
-                      </div>
-                      <input
-                        type="text"
-                        value={form.seoTitle}
-                        onChange={(e) => setForm((prev) => ({ ...prev, seoTitle: e.target.value }))}
-                        placeholder="Leave empty to use article headline..."
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                      />
-                      <div className="flex items-center justify-between text-[11px] mt-1 text-slate-400">
-                        <span>Recommended length: 50–60 characters</span>
-                        <span className={seoAudit.titleGood ? "text-emerald-600 font-semibold" : "text-amber-600"}>
-                          {(form.seoTitle || form.title).length} chars
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* SEO Meta Description */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-xs font-bold text-slate-700">
-                          Search Engine Meta Description
-                        </label>
-                        <button
-                          type="button"
-                          onClick={() => setForm((prev) => ({ ...prev, seoDescription: prev.excerpt }))}
-                          className="text-[11px] text-[#1769FF] hover:underline"
-                        >
-                          Copy from Excerpt
-                        </button>
-                      </div>
-                      <textarea
-                        rows={3}
-                        value={form.seoDescription}
-                        onChange={(e) => setForm((prev) => ({ ...prev, seoDescription: e.target.value }))}
-                        placeholder="Describe this article in 150-160 characters for search results..."
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                      />
-                      <div className="flex items-center justify-between text-[11px] mt-1 text-slate-400">
-                        <span>Recommended length: 140–160 characters</span>
-                        <span className={seoAudit.descGood ? "text-emerald-600 font-semibold" : "text-amber-600"}>
-                          {(form.seoDescription || form.excerpt).length} chars
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Secondary Keywords */}
-                    <div>
-                      <label className="block text-xs font-bold text-slate-700 mb-1">
-                        Secondary Keywords (Comma-separated)
-                      </label>
-                      <input
-                        type="text"
-                        value={form.keywordsText}
-                        onChange={(e) => setForm((prev) => ({ ...prev, keywordsText: e.target.value }))}
-                        placeholder="Web Development, Custom Solutions, Next.js, Enterprise Architecture"
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                      />
-                    </div>
-
-                    {/* Canonical URL */}
-                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2">
-                      <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                        <Globe className="w-3.5 h-3.5 text-[#1769FF]" />
-                        <span>Canonical URL</span>
-                      </label>
-                      <p className="text-[11px] text-slate-500">
-                        Default canonical tag emitted for this publication:
-                      </p>
-                      <div className="p-2 bg-white rounded-lg border border-slate-200 text-[11px] font-mono text-slate-700 break-all select-all">
-                        {defaultCanonical}
-                      </div>
-
-                      <div className="pt-2">
-                        <label className="block text-[11px] font-semibold text-slate-700 mb-1">
-                          Custom Canonical Override (Optional)
-                        </label>
-                        <input
-                          type="url"
-                          value={form.canonicalUrl}
-                          onChange={(e) => setForm((prev) => ({ ...prev, canonicalUrl: e.target.value }))}
-                          placeholder="https://example.com/original-source-publication"
-                          className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-mono text-slate-800 placeholder-slate-400 focus:border-[#1769FF] focus:outline-none"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Robots Directives */}
-                    <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-3">
-                      <span className="text-xs font-bold text-slate-800 block">
-                        Robots Indexing Directives
-                      </span>
-
-                      <div className="space-y-2 text-xs">
-                        <label className="flex items-center gap-2.5 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={form.noIndex}
-                            onChange={(e) => setForm((prev) => ({ ...prev, noIndex: e.target.checked }))}
-                            className="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-500"
-                          />
-                          <div>
-                            <span className="font-semibold text-slate-800 block">
-                              Exclude from search engines (noindex)
-                            </span>
-                            <span className="text-[11px] text-slate-500 block">
-                              Adds &lt;meta name=&quot;robots&quot; content=&quot;noindex&quot; /&gt; and hides from sitemap.
-                            </span>
-                          </div>
-                        </label>
-
-                        <label className="flex items-center gap-2.5 cursor-pointer pt-1 border-t border-slate-200/60">
-                          <input
-                            type="checkbox"
-                            checked={form.noFollow}
-                            onChange={(e) => setForm((prev) => ({ ...prev, noFollow: e.target.checked }))}
-                            className="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-500"
-                          />
-                          <div>
-                            <span className="font-semibold text-slate-800 block">
-                              Do not follow links (nofollow)
-                            </span>
-                            <span className="text-[11px] text-slate-500 block">
-                              Instructs search spiders not to crawl outgoing links in this article.
-                            </span>
-                          </div>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Stepper Navigation */}
-                  <div className="flex items-center justify-between pt-2">
-                    <button
-                      type="button"
-                      onClick={() => switchEditorStep("design")}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
-                    >
-                      <ChevronLeft className="w-3.5 h-3.5" />
-                      <span>Back: 2. Design Elements</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => switchEditorStep("social")}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
-                    >
-                      <span>Next: 4. Social Media Cards</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
+                  <div className="flex items-center gap-4 text-xs font-mono text-slate-500">
+                    <div>Title: <strong className={seoAudit.titleGood ? "text-emerald-600" : "text-amber-600"}>{seoAudit.titleLength}/60</strong></div>
+                    <div>Description: <strong className={seoAudit.descGood ? "text-emerald-600" : "text-amber-600"}>{seoAudit.descLength}/160</strong></div>
                   </div>
                 </div>
+
+                {/* Google SERP Live Snippet Preview */}
+                <div className="p-5 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-slate-100">
+                    <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                      <Eye className="w-3.5 h-3.5 text-[#1769FF]" />
+                      Live Google SERP Search Snippet Preview
+                    </span>
+
+                    <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg text-[11px]">
+                      <button
+                        type="button"
+                        onClick={() => setSerpDevice("desktop")}
+                        className={`px-2 py-0.5 rounded flex items-center gap-1 ${serpDevice === "desktop" ? "bg-white font-bold text-slate-900 shadow-xs" : "text-slate-500"
+                          }`}
+                      >
+                        <Monitor className="w-3 h-3" />
+                        <span>Desktop</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setSerpDevice("mobile")}
+                        className={`px-2 py-0.5 rounded flex items-center gap-1 ${serpDevice === "mobile" ? "bg-white font-bold text-slate-900 shadow-xs" : "text-slate-500"
+                          }`}
+                      >
+                        <Smartphone className="w-3 h-3" />
+                        <span>Mobile</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    className={`p-4 bg-white rounded-xl border border-slate-200 text-left transition-all ${serpDevice === "mobile" ? "max-w-md mx-auto" : "w-full"
+                      }`}
+                  >
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <div className="w-4 h-4 rounded-full bg-[#1769FF] flex items-center justify-center text-[9px] text-white font-bold">
+                        N
+                      </div>
+                      <span className="text-[11px] text-slate-600 truncate block">
+                        https://www.nexoviodigitalsolutions.com › blog › {form.slug || "slug"}
+                      </span>
+                    </div>
+                    <h4 className="text-base font-semibold text-[#1a0dab] hover:underline cursor-pointer line-clamp-1">
+                      {form.seoTitle || form.title || "Article Headline"} | Nexovio Digital Solutions
+                    </h4>
+                    <p className="text-xs text-[#4d5156] line-clamp-2 mt-1 leading-relaxed">
+                      {form.seoDescription || form.excerpt || "Enter a compelling meta description to describe your publication to search engine visitors..."}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Form Fields: Focus Keyword, SEO Title, SEO Description, Canonical */}
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-5 shadow-xs">
+                  {/* Focus Keyword */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                        <Key className="w-3.5 h-3.5 text-[#1769FF]" />
+                        <span>Focus Target Keyword</span>
+                      </label>
+                      <span className="text-[11px] text-slate-400">Primary search query intent</span>
+                    </div>
+                    <input
+                      type="text"
+                      value={form.focusKeyword}
+                      onChange={(e) => setForm((prev) => ({ ...prev, focusKeyword: e.target.value }))}
+                      placeholder="e.g. web development vs website builders"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                    />
+                  </div>
+
+                  {/* SEO Meta Title */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-slate-700">
+                        Search Engine Meta Title
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, seoTitle: prev.title }))}
+                        className="text-[11px] text-[#1769FF] hover:underline"
+                      >
+                        Copy from Post Title
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={form.seoTitle}
+                      onChange={(e) => setForm((prev) => ({ ...prev, seoTitle: e.target.value }))}
+                      placeholder="Leave empty to use article headline..."
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                    />
+                    <div className="flex items-center justify-between text-[11px] mt-1 text-slate-400">
+                      <span>Recommended length: 50–60 characters</span>
+                      <span className={seoAudit.titleGood ? "text-emerald-600 font-semibold" : "text-amber-600"}>
+                        {(form.seoTitle || form.title).length} chars
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* SEO Meta Description */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-slate-700">
+                        Search Engine Meta Description
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, seoDescription: prev.excerpt }))}
+                        className="text-[11px] text-[#1769FF] hover:underline"
+                      >
+                        Copy from Excerpt
+                      </button>
+                    </div>
+                    <textarea
+                      rows={3}
+                      value={form.seoDescription}
+                      onChange={(e) => setForm((prev) => ({ ...prev, seoDescription: e.target.value }))}
+                      placeholder="Describe this article in 150-160 characters for search results..."
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                    />
+                    <div className="flex items-center justify-between text-[11px] mt-1 text-slate-400">
+                      <span>Recommended length: 140–160 characters</span>
+                      <span className={seoAudit.descGood ? "text-emerald-600 font-semibold" : "text-amber-600"}>
+                        {(form.seoDescription || form.excerpt).length} chars
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Secondary Keywords */}
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Secondary Keywords (Comma-separated)
+                    </label>
+                    <input
+                      type="text"
+                      value={form.keywordsText}
+                      onChange={(e) => setForm((prev) => ({ ...prev, keywordsText: e.target.value }))}
+                      placeholder="Web Development, Custom Solutions, Next.js, Enterprise Architecture"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                    />
+                  </div>
+
+                  {/* Canonical URL */}
+                  <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-2">
+                    <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                      <Globe className="w-3.5 h-3.5 text-[#1769FF]" />
+                      <span>Canonical URL</span>
+                    </label>
+                    <p className="text-[11px] text-slate-500">
+                      Default canonical tag emitted for this publication:
+                    </p>
+                    <div className="p-2 bg-white rounded-lg border border-slate-200 text-[11px] font-mono text-slate-700 break-all select-all">
+                      {defaultCanonical}
+                    </div>
+
+                    <div className="pt-2">
+                      <label className="block text-[11px] font-semibold text-slate-700 mb-1">
+                        Custom Canonical Override (Optional)
+                      </label>
+                      <input
+                        type="url"
+                        value={form.canonicalUrl}
+                        onChange={(e) => setForm((prev) => ({ ...prev, canonicalUrl: e.target.value }))}
+                        placeholder="https://example.com/original-source-publication"
+                        className="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-mono text-slate-800 placeholder-slate-400 focus:border-[#1769FF] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Robots Directives */}
+                  <div className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 space-y-3">
+                    <span className="text-xs font-bold text-slate-800 block">
+                      Robots Indexing Directives
+                    </span>
+
+                    <div className="space-y-2 text-xs">
+                      <label className="flex items-center gap-2.5 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={form.noIndex}
+                          onChange={(e) => setForm((prev) => ({ ...prev, noIndex: e.target.checked }))}
+                          className="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-500"
+                        />
+                        <div>
+                          <span className="font-semibold text-slate-800 block">
+                            Exclude from search engines (noindex)
+                          </span>
+                          <span className="text-[11px] text-slate-500 block">
+                            Adds &lt;meta name=&quot;robots&quot; content=&quot;noindex&quot; /&gt; and hides from sitemap.
+                          </span>
+                        </div>
+                      </label>
+
+                      <label className="flex items-center gap-2.5 cursor-pointer pt-1 border-t border-slate-200/60">
+                        <input
+                          type="checkbox"
+                          checked={form.noFollow}
+                          onChange={(e) => setForm((prev) => ({ ...prev, noFollow: e.target.checked }))}
+                          className="w-4 h-4 rounded border-slate-300 text-red-600 focus:ring-red-500"
+                        />
+                        <div>
+                          <span className="font-semibold text-slate-800 block">
+                            Do not follow links (nofollow)
+                          </span>
+                          <span className="text-[11px] text-slate-500 block">
+                            Instructs search spiders not to crawl outgoing links in this article.
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stepper Navigation */}
+                <div className="flex items-center justify-between pt-2">
+                  <button
+                    type="button"
+                    onClick={() => switchEditorStep("design")}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
+                  >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    <span>Back: 2. Design Elements</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => switchEditorStep("social")}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
+                  >
+                    <span>Next: 4. Social Media Cards</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
 
               {/* ============================================================= */}
               {/* STEP 4: SOCIAL MEDIA CARDS (OPEN GRAPH & TWITTER) */}
               {/* ============================================================= */}
               <div className={editorStep === "social" ? "space-y-6" : "hidden"}>
-                  <div className="p-5 rounded-2xl border border-cyan-200 bg-cyan-50/50 space-y-1">
-                    <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                      <Share2 className="w-4 h-4 text-cyan-600" />
-                      <span>Social Media Sharing &amp; Open Graph Previews</span>
-                    </h3>
-                    <p className="text-xs text-slate-600">
-                      Configure rich preview cards displayed when sharing this article link on LinkedIn, Twitter/X, Facebook, and Slack.
-                    </p>
-                  </div>
+                <div className="p-5 rounded-2xl border border-cyan-200 bg-cyan-50/50 space-y-1">
+                  <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <Share2 className="w-4 h-4 text-cyan-600" />
+                    <span>Social Media Sharing &amp; Open Graph Previews</span>
+                  </h3>
+                  <p className="text-xs text-slate-600">
+                    Configure rich preview cards displayed when sharing this article link on LinkedIn, Twitter/X, Facebook, and Slack.
+                  </p>
+                </div>
 
-                  {/* Live Social Previews Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* LinkedIn / Facebook Card */}
-                    <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-3">
-                      <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                        <Share2 className="w-3.5 h-3.5 text-[#1769FF]" />
-                        LinkedIn &amp; Facebook Share Card Preview
-                      </span>
+                {/* Live Social Previews Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* LinkedIn / Facebook Card */}
+                  <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-3">
+                    <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                      <Share2 className="w-3.5 h-3.5 text-[#1769FF]" />
+                      LinkedIn &amp; Facebook Share Card Preview
+                    </span>
 
-                      <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs bg-slate-50">
-                        <div className="relative aspect-[1.91/1] w-full bg-slate-200">
-                          {form.ogImage || form.featuredImage ? (
-                            <Image
-                              src={form.ogImage || form.featuredImage}
-                              alt="Social preview"
-                              fill
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
-                              No image selected
-                            </div>
-                          )}
-                        </div>
-                        <div className="p-3 bg-white space-y-1 border-t border-slate-100">
-                          <span className="text-[10px] text-slate-400 uppercase font-mono block">
-                            nexoviodigitalsolutions.com
-                          </span>
-                          <h4 className="text-xs font-bold text-slate-900 line-clamp-1">
-                            {form.socialTitle || form.seoTitle || form.title || "Article Headline"}
-                          </h4>
-                          <p className="text-[11px] text-slate-500 line-clamp-2">
-                            {form.socialDescription || form.seoDescription || form.excerpt || "Article summary snippet..."}
-                          </p>
-                        </div>
+                    <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs bg-slate-50">
+                      <div className="relative aspect-[1.91/1] w-full bg-slate-200">
+                        {form.ogImage || form.featuredImage ? (
+                          <Image
+                            src={form.ogImage || form.featuredImage}
+                            alt="Social preview"
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
+                            No image selected
+                          </div>
+                        )}
                       </div>
-                    </div>
-
-                    {/* Twitter / X Feed Card */}
-                    <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-3">
-                      <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                        <Share2 className="w-3.5 h-3.5 text-slate-900" />
-                        Twitter / X Feed Card Preview
-                      </span>
-
-                      <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs bg-slate-50">
-                        <div className="relative aspect-[16/9] w-full bg-slate-200">
-                          {form.ogImage || form.featuredImage ? (
-                            <Image
-                              src={form.ogImage || form.featuredImage}
-                              alt="Twitter preview"
-                              fill
-                              className="object-cover"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
-                              No image selected
-                            </div>
-                          )}
-                        </div>
-                        <div className="p-3 bg-white space-y-1 border-t border-slate-100">
-                          <span className="text-[10px] text-slate-400 font-mono block">
-                            nexoviodigitalsolutions.com
-                          </span>
-                          <h4 className="text-xs font-bold text-slate-900 line-clamp-1">
-                            {form.socialTitle || form.seoTitle || form.title || "Article Headline"}
-                          </h4>
-                          <p className="text-[11px] text-slate-500 line-clamp-2">
-                            {form.socialDescription || form.seoDescription || form.excerpt || "Article summary snippet..."}
-                          </p>
-                        </div>
+                      <div className="p-3 bg-white space-y-1 border-t border-slate-100">
+                        <span className="text-[10px] text-slate-400 uppercase font-mono block">
+                          nexoviodigitalsolutions.com
+                        </span>
+                        <h4 className="text-xs font-bold text-slate-900 line-clamp-1">
+                          {form.socialTitle || form.seoTitle || form.title || "Article Headline"}
+                        </h4>
+                        <p className="text-[11px] text-slate-500 line-clamp-2">
+                          {form.socialDescription || form.seoDescription || form.excerpt || "Article summary snippet..."}
+                        </p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Social Settings Form */}
-                  <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-5 shadow-xs">
-                    {/* OG Image Picker */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <label className="text-xs font-bold text-slate-700">
-                          Open Graph Image URL (og:image / Twitter / Facebook)
-                        </label>
-                        <div className="flex items-center gap-3">
-                          <button
-                            type="button"
-                            onClick={() => setForm((prev) => ({ ...prev, ogImage: prev.featuredImage }))}
-                            className="text-[11px] text-[#1769FF] hover:underline font-semibold"
-                          >
-                            Sync with Cover Image
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setMediaTarget("og");
-                              setIsMediaModalOpen(true);
-                            }}
-                            className="text-[11px] text-[#1769FF] hover:underline font-semibold"
-                          >
-                            Select from Media
-                          </button>
-                        </div>
+                  {/* Twitter / X Feed Card */}
+                  <div className="p-4 rounded-2xl border border-slate-200 bg-white shadow-xs space-y-3">
+                    <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                      <Share2 className="w-3.5 h-3.5 text-slate-900" />
+                      Twitter / X Feed Card Preview
+                    </span>
+
+                    <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs bg-slate-50">
+                      <div className="relative aspect-[16/9] w-full bg-slate-200">
+                        {form.ogImage || form.featuredImage ? (
+                          <Image
+                            src={form.ogImage || form.featuredImage}
+                            alt="Twitter preview"
+                            fill
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-400 text-xs">
+                            No image selected
+                          </div>
+                        )}
                       </div>
-                      <input
-                        type="text"
-                        value={form.ogImage}
-                        onChange={(e) => setForm((prev) => ({ ...prev, ogImage: e.target.value }))}
-                        placeholder={form.featuredImage || "Defaults automatically to Featured Cover Image..."}
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs font-mono text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                      />
-                    </div>
-
-                    {/* Social Title Override */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-xs font-bold text-slate-700">
-                          Custom Social Card Title (og:title)
-                        </label>
-                        <button
-                          type="button"
-                          onClick={() => setForm((prev) => ({ ...prev, socialTitle: prev.seoTitle || prev.title }))}
-                          className="text-[11px] text-[#1769FF] hover:underline"
-                        >
-                          Copy Meta Title
-                        </button>
+                      <div className="p-3 bg-white space-y-1 border-t border-slate-100">
+                        <span className="text-[10px] text-slate-400 font-mono block">
+                          nexoviodigitalsolutions.com
+                        </span>
+                        <h4 className="text-xs font-bold text-slate-900 line-clamp-1">
+                          {form.socialTitle || form.seoTitle || form.title || "Article Headline"}
+                        </h4>
+                        <p className="text-[11px] text-slate-500 line-clamp-2">
+                          {form.socialDescription || form.seoDescription || form.excerpt || "Article summary snippet..."}
+                        </p>
                       </div>
-                      <input
-                        type="text"
-                        value={form.socialTitle}
-                        onChange={(e) => setForm((prev) => ({ ...prev, socialTitle: e.target.value }))}
-                        placeholder="Leave empty to use SEO Meta Title..."
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                      />
                     </div>
-
-                    {/* Social Description Override */}
-                    <div>
-                      <div className="flex items-center justify-between mb-1">
-                        <label className="text-xs font-bold text-slate-700">
-                          Custom Social Description (og:description)
-                        </label>
-                        <button
-                          type="button"
-                          onClick={() => setForm((prev) => ({ ...prev, socialDescription: prev.seoDescription || prev.excerpt }))}
-                          className="text-[11px] text-[#1769FF] hover:underline"
-                        >
-                          Copy Meta Description
-                        </button>
-                      </div>
-                      <textarea
-                        rows={2}
-                        value={form.socialDescription}
-                        onChange={(e) => setForm((prev) => ({ ...prev, socialDescription: e.target.value }))}
-                        placeholder="Leave empty to use SEO Meta Description..."
-                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Stepper Navigation */}
-                  <div className="flex items-center justify-between pt-2">
-                    <button
-                      type="button"
-                      onClick={() => switchEditorStep("seo")}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
-                    >
-                      <ChevronLeft className="w-3.5 h-3.5" />
-                      <span>Back: 3. Google SEO</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => switchEditorStep("publish")}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
-                    >
-                      <span>Next: 5. Publishing &amp; Cover</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
                   </div>
                 </div>
+
+                {/* Social Settings Form */}
+                <div className="bg-white rounded-2xl border border-slate-200 p-6 space-y-5 shadow-xs">
+                  {/* OG Image Picker */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <label className="text-xs font-bold text-slate-700">
+                        Open Graph Image URL (og:image / Twitter / Facebook)
+                      </label>
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setForm((prev) => ({ ...prev, ogImage: prev.featuredImage }))}
+                          className="text-[11px] text-[#1769FF] hover:underline font-semibold"
+                        >
+                          Sync with Cover Image
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setMediaTarget("og");
+                            setIsMediaModalOpen(true);
+                          }}
+                          className="text-[11px] text-[#1769FF] hover:underline font-semibold"
+                        >
+                          Select from Media
+                        </button>
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      value={form.ogImage}
+                      onChange={(e) => setForm((prev) => ({ ...prev, ogImage: e.target.value }))}
+                      placeholder={form.featuredImage || "Defaults automatically to Featured Cover Image..."}
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs font-mono text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                    />
+                  </div>
+
+                  {/* Social Title Override */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-slate-700">
+                        Custom Social Card Title (og:title)
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, socialTitle: prev.seoTitle || prev.title }))}
+                        className="text-[11px] text-[#1769FF] hover:underline"
+                      >
+                        Copy Meta Title
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      value={form.socialTitle}
+                      onChange={(e) => setForm((prev) => ({ ...prev, socialTitle: e.target.value }))}
+                      placeholder="Leave empty to use SEO Meta Title..."
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                    />
+                  </div>
+
+                  {/* Social Description Override */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-bold text-slate-700">
+                        Custom Social Description (og:description)
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setForm((prev) => ({ ...prev, socialDescription: prev.seoDescription || prev.excerpt }))}
+                        className="text-[11px] text-[#1769FF] hover:underline"
+                      >
+                        Copy Meta Description
+                      </button>
+                    </div>
+                    <textarea
+                      rows={2}
+                      value={form.socialDescription}
+                      onChange={(e) => setForm((prev) => ({ ...prev, socialDescription: e.target.value }))}
+                      placeholder="Leave empty to use SEO Meta Description..."
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 p-3 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Stepper Navigation */}
+                <div className="flex items-center justify-between pt-2">
+                  <button
+                    type="button"
+                    onClick={() => switchEditorStep("seo")}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
+                  >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    <span>Back: 3. Google SEO</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => switchEditorStep("publish")}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all cursor-pointer shadow-xs"
+                  >
+                    <span>Next: 5. Publishing &amp; Cover</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
 
               {/* ============================================================= */}
               {/* STEP 5: PUBLISHING & COVER IMAGE & SCHEMA */}
               {/* ============================================================= */}
               <div className={editorStep === "publish" ? "space-y-6" : "hidden"}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Featured Cover Image */}
-                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-xs font-bold uppercase tracking-wider text-[#1769FF] flex items-center gap-2">
-                          <ImageIcon className="w-4 h-4" />
-                          <span>Featured Cover Image</span>
-                        </h3>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setMediaTarget("featured");
-                            setIsMediaModalOpen(true);
-                          }}
-                          className="text-xs font-bold text-[#1769FF] hover:underline"
-                        >
-                          Choose from Media
-                        </button>
-                      </div>
-
-                      <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-slate-200 bg-slate-100 group">
-                        {form.featuredImage ? (
-                          <Image
-                            src={form.featuredImage}
-                            alt={form.featuredImageAlt || form.title}
-                            fill
-                            className="object-cover"
-                          />
-                        ) : (
-                          <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 text-xs">
-                            <ImageIcon className="w-8 h-8 mb-2 text-slate-300" />
-                            <span>No cover image selected</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                          Cover Image File Path / URL (Website, OG, Twitter &amp; Facebook)
-                        </label>
-                        <input
-                          type="text"
-                          value={form.featuredImage}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setForm((prev) => ({
-                              ...prev,
-                              featuredImage: val,
-                              ogImage: (!prev.ogImage || prev.ogImage === prev.featuredImage) ? val : prev.ogImage,
-                            }));
-                          }}
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-mono text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                          Alt Text (Image Accessibility &amp; SEO)
-                        </label>
-                        <input
-                          type="text"
-                          value={form.featuredImageAlt}
-                          onChange={(e) => setForm((prev) => ({ ...prev, featuredImageAlt: e.target.value }))}
-                          placeholder="Descriptive image context for screen readers and Google Image search..."
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                        />
-                      </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Featured Cover Image */}
+                  <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#1769FF] flex items-center gap-2">
+                        <ImageIcon className="w-4 h-4" />
+                        <span>Featured Cover Image</span>
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMediaTarget("featured");
+                          setIsMediaModalOpen(true);
+                        }}
+                        className="text-xs font-bold text-[#1769FF] hover:underline"
+                      >
+                        Choose from Media
+                      </button>
                     </div>
 
-                    {/* Post Metadata & Author */}
-                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-[#1769FF] flex items-center gap-2">
-                        <Sparkles className="w-4 h-4" />
-                        <span>Article Metadata &amp; Author</span>
-                      </h3>
+                    <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-slate-200 bg-slate-100 group">
+                      {form.featuredImage ? (
+                        <Image
+                          src={form.featuredImage}
+                          alt={form.featuredImageAlt || form.title}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-slate-400 text-xs">
+                          <ImageIcon className="w-8 h-8 mb-2 text-slate-300" />
+                          <span>No cover image selected</span>
+                        </div>
+                      )}
+                    </div>
 
-                      <div className="space-y-3 text-xs">
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                        Cover Image File Path / URL (Website, OG, Twitter &amp; Facebook)
+                      </label>
+                      <input
+                        type="text"
+                        value={form.featuredImage}
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          setForm((prev) => ({
+                            ...prev,
+                            featuredImage: val,
+                            ogImage: (!prev.ogImage || prev.ogImage === prev.featuredImage) ? val : prev.ogImage,
+                          }));
+                        }}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-mono text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                        Alt Text (Image Accessibility &amp; SEO)
+                      </label>
+                      <input
+                        type="text"
+                        value={form.featuredImageAlt}
+                        onChange={(e) => setForm((prev) => ({ ...prev, featuredImageAlt: e.target.value }))}
+                        placeholder="Descriptive image context for screen readers and Google Image search..."
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Post Metadata & Author */}
+                  <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#1769FF] flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" />
+                      <span>Article Metadata &amp; Author</span>
+                    </h3>
+
+                    <div className="space-y-3 text-xs">
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="block text-[11px] font-semibold text-slate-600">
+                            Category Pillar
+                          </label>
+                          <button
+                            type="button"
+                            onClick={handleOpenAddCategory}
+                            className="text-[11px] font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1 cursor-pointer"
+                          >
+                            <Plus className="w-3 h-3" />
+                            <span>New Category</span>
+                          </button>
+                        </div>
+                        <select
+                          value={form.category}
+                          onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))}
+                          className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                        >
+                          {categories.map((c) => (
+                            <option key={c.id} value={c.name}>
+                              {c.name} ({c.articleCount ?? 0} articles)
+                            </option>
+                          ))}
+                        </select>
+                        {/* Live Category Tag Preview */}
+                        <div className="mt-1.5 flex items-center gap-2">
+                          <span className="text-[10px] text-slate-400 font-mono">Live badge preview:</span>
+                          {(() => {
+                            const matchedCat = categories.find(
+                              (c) => c.name.toLowerCase().trim() === form.category.toLowerCase().trim()
+                            );
+                            const color = matchedCat?.color || "blue";
+                            return (
+                              <span
+                                className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${getCategoryColorClasses(
+                                  color
+                                )}`}
+                              >
+                                <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColorDot(color)}`} />
+                                {form.category || "Select category"}
+                              </span>
+                            );
+                          })()}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <label className="text-[11px] font-semibold text-slate-600">
+                            Publication Date
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const today = getTodayDateString();
+                              setForm((prev) => ({ ...prev, publishedAt: today }));
+                              showToast(`Date set to today (${formatDate(today)})`);
+                            }}
+                            className="text-[10px] text-[#1769FF] font-semibold hover:underline cursor-pointer"
+                          >
+                            Set to Today
+                          </button>
+                        </div>
+                        <input
+                          type="date"
+                          value={form.publishedAt}
+                          onChange={(e) => setForm((prev) => ({ ...prev, publishedAt: e.target.value }))}
+                          className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                        />
+                        <p className="text-[10px] text-slate-400 mt-1">
+                          Displays as: <span className="font-semibold text-slate-700">{formatDate(form.publishedAt) || "No date"}</span>
+                        </p>
+                      </div>
+
+                      {/* Author Selector Dropdown */}
+                      <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/90 space-y-3">
                         <div>
-                          <div className="flex items-center justify-between mb-1">
-                            <label className="block text-[11px] font-semibold text-slate-600">
-                              Category Pillar
+                          <div className="flex items-center justify-between mb-1.5">
+                            <label className="block text-[11px] font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
+                              <UserCheck className="w-3.5 h-3.5 text-[#1769FF]" />
+                              <span>Author Dropdown (Name &amp; Position) *</span>
                             </label>
                             <button
                               type="button"
-                              onClick={handleOpenAddCategory}
+                              onClick={handleOpenAddAuthor}
                               className="text-[11px] font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1 cursor-pointer"
                             >
                               <Plus className="w-3 h-3" />
-                              <span>New Category</span>
+                              <span>+ New Author</span>
                             </button>
                           </div>
+
                           <select
-                            value={form.category}
-                            onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))}
-                            className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                            value={(() => {
+                              const matched = authors.find(
+                                (a) => a.name.toLowerCase().trim() === form.authorName.toLowerCase().trim()
+                              );
+                              return matched ? matched.id : (form.authorName ? "custom" : "");
+                            })()}
+                            onChange={(e) => {
+                              const val = e.target.value;
+                              if (!val) return;
+                              if (val === "custom") return;
+                              const selected = authors.find((a) => a.id === val);
+                              if (selected) {
+                                setForm((prev) => ({
+                                  ...prev,
+                                  authorName: selected.name,
+                                  authorRole: selected.role,
+                                  authorAvatar: selected.avatar,
+                                  authorBio: selected.bio,
+                                }));
+                                showToast(`Selected author: ${selected.name} (${selected.role})`);
+                              }
+                            }}
+                            className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs font-semibold text-slate-900 shadow-xs focus:border-[#1769FF] focus:ring-2 focus:ring-[#1769FF]/20 focus:outline-none cursor-pointer"
                           >
-                            {categories.map((c) => (
-                              <option key={c.id} value={c.name}>
-                                {c.name} ({c.articleCount ?? 0} articles)
+                            <option value="">-- Choose Author from Saved Database --</option>
+                            {authors.map((auth) => (
+                              <option key={auth.id} value={auth.id}>
+                                {auth.name} — {auth.role}
                               </option>
                             ))}
+                            <option value="custom">✎ Custom / Manual Entry...</option>
                           </select>
-                          {/* Live Category Tag Preview */}
-                          <div className="mt-1.5 flex items-center gap-2">
-                            <span className="text-[10px] text-slate-400 font-mono">Live badge preview:</span>
-                            {(() => {
-                              const matchedCat = categories.find(
-                                (c) => c.name.toLowerCase().trim() === form.category.toLowerCase().trim()
-                              );
-                              const color = matchedCat?.color || "blue";
-                              return (
-                                <span
-                                  className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${getCategoryColorClasses(
-                                    color
-                                  )}`}
-                                >
-                                  <span className={`w-1.5 h-1.5 rounded-full ${getCategoryColorDot(color)}`} />
-                                  {form.category || "Select category"}
-                                </span>
-                              );
-                            })()}
-                          </div>
                         </div>
 
-                        <div>
-                          <div className="flex items-center justify-between mb-1">
-                            <label className="text-[11px] font-semibold text-slate-600">
-                              Publication Date
-                            </label>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const today = getTodayDateString();
-                                setForm((prev) => ({ ...prev, publishedAt: today }));
-                                showToast(`Date set to today (${formatDate(today)})`);
-                              }}
-                              className="text-[10px] text-[#1769FF] font-semibold hover:underline cursor-pointer"
-                            >
-                              Set to Today
-                            </button>
+                        {/* Live Author Preview */}
+                        {form.authorName && (
+                          <div className="flex items-center gap-2.5 p-2 rounded-lg bg-blue-50/70 border border-blue-200/60 text-xs">
+                            <span className="w-7 h-7 rounded-lg bg-[#1769FF] text-white flex items-center justify-center font-bold text-[10px] tracking-wide shrink-0">
+                              {form.authorName.split(" ").filter(Boolean).length >= 2
+                                ? (form.authorName.split(" ")[0][0] + form.authorName.split(" ").slice(-1)[0][0]).toUpperCase()
+                                : form.authorName.slice(0, 2).toUpperCase()}
+                            </span>
+                            <div className="min-w-0 flex-1">
+                              <span className="font-bold text-slate-900 block truncate">{form.authorName}</span>
+                              <span className="text-[11px] text-[#1769FF] font-medium block truncate">{form.authorRole || "No Position"}</span>
+                            </div>
                           </div>
-                          <input
-                            type="date"
-                            value={form.publishedAt}
-                            onChange={(e) => setForm((prev) => ({ ...prev, publishedAt: e.target.value }))}
-                            className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                          />
-                          <p className="text-[10px] text-slate-400 mt-1">
-                            Displays as: <span className="font-semibold text-slate-700">{formatDate(form.publishedAt) || "No date"}</span>
-                          </p>
-                        </div>
+                        )}
 
-                        {/* Author Selector Dropdown */}
-                        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/90 space-y-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                           <div>
-                            <div className="flex items-center justify-between mb-1.5">
-                              <label className="block text-[11px] font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                                <UserCheck className="w-3.5 h-3.5 text-[#1769FF]" />
-                                <span>Author Dropdown (Name &amp; Position) *</span>
-                              </label>
-                              <button
-                                type="button"
-                                onClick={handleOpenAddAuthor}
-                                className="text-[11px] font-bold text-[#1769FF] hover:underline inline-flex items-center gap-1 cursor-pointer"
-                              >
-                                <Plus className="w-3 h-3" />
-                                <span>+ New Author</span>
-                              </button>
-                            </div>
-
-                            <select
-                              value={(() => {
-                                const matched = authors.find(
-                                  (a) => a.name.toLowerCase().trim() === form.authorName.toLowerCase().trim()
-                                );
-                                return matched ? matched.id : (form.authorName ? "custom" : "");
-                              })()}
-                              onChange={(e) => {
-                                const val = e.target.value;
-                                if (!val) return;
-                                if (val === "custom") return;
-                                const selected = authors.find((a) => a.id === val);
-                                if (selected) {
-                                  setForm((prev) => ({
-                                    ...prev,
-                                    authorName: selected.name,
-                                    authorRole: selected.role,
-                                    authorAvatar: selected.avatar,
-                                    authorBio: selected.bio,
-                                  }));
-                                  showToast(`Selected author: ${selected.name} (${selected.role})`);
-                                }
-                              }}
-                              className="w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-xs font-semibold text-slate-900 shadow-xs focus:border-[#1769FF] focus:ring-2 focus:ring-[#1769FF]/20 focus:outline-none cursor-pointer"
-                            >
-                              <option value="">-- Choose Author from Saved Database --</option>
-                              {authors.map((auth) => (
-                                <option key={auth.id} value={auth.id}>
-                                  {auth.name} — {auth.role}
-                                </option>
-                              ))}
-                              <option value="custom">✎ Custom / Manual Entry...</option>
-                            </select>
+                            <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                              Author Name
+                            </label>
+                            <input
+                              type="text"
+                              value={form.authorName}
+                              onChange={(e) => setForm((prev) => ({ ...prev, authorName: e.target.value }))}
+                              placeholder="Author Full Name"
+                              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1769FF] focus:outline-none"
+                            />
                           </div>
 
-                          {/* Live Author Preview */}
-                          {form.authorName && (
-                            <div className="flex items-center gap-2.5 p-2 rounded-lg bg-blue-50/70 border border-blue-200/60 text-xs">
-                              <span className="w-7 h-7 rounded-lg bg-[#1769FF] text-white flex items-center justify-center font-bold text-[10px] tracking-wide shrink-0">
-                                {form.authorName.split(" ").filter(Boolean).length >= 2
-                                  ? (form.authorName.split(" ")[0][0] + form.authorName.split(" ").slice(-1)[0][0]).toUpperCase()
-                                  : form.authorName.slice(0, 2).toUpperCase()}
-                              </span>
-                              <div className="min-w-0 flex-1">
-                                <span className="font-bold text-slate-900 block truncate">{form.authorName}</span>
-                                <span className="text-[11px] text-[#1769FF] font-medium block truncate">{form.authorRole || "No Position"}</span>
-                              </div>
-                            </div>
-                          )}
-
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                            <div>
-                              <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                                Author Name
-                              </label>
-                              <input
-                                type="text"
-                                value={form.authorName}
-                                onChange={(e) => setForm((prev) => ({ ...prev, authorName: e.target.value }))}
-                                placeholder="Author Full Name"
-                                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1769FF] focus:outline-none"
-                              />
-                            </div>
-
-                            <div>
-                              <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                                Author Professional Title / Role
-                              </label>
-                              <input
-                                type="text"
-                                value={form.authorRole}
-                                onChange={(e) => setForm((prev) => ({ ...prev, authorRole: e.target.value }))}
-                                placeholder="e.g. Engineering & Strategy"
-                                className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1769FF] focus:outline-none"
-                              />
-                            </div>
+                          <div>
+                            <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                              Author Professional Title / Role
+                            </label>
+                            <input
+                              type="text"
+                              value={form.authorRole}
+                              onChange={(e) => setForm((prev) => ({ ...prev, authorRole: e.target.value }))}
+                              placeholder="e.g. Engineering & Strategy"
+                              className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1769FF] focus:outline-none"
+                            />
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Schema.org & Sitemap XML Configuration */}
-                  <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
-                      <Shield className="w-4 h-4 text-[#1769FF]" />
-                      <span>Schema.org Structured Data &amp; Sitemap Directives</span>
-                    </h3>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                          Schema.org JSON-LD Type
-                        </label>
-                        <select
-                          value={form.schemaType}
-                          onChange={(e) => setForm((prev) => ({ ...prev, schemaType: e.target.value as any }))}
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                        >
-                          <option value="BlogPosting">BlogPosting (Standard Blog)</option>
-                          <option value="TechArticle">TechArticle (Engineering Guide)</option>
-                          <option value="Article">Article (General Editorial)</option>
-                          <option value="NewsArticle">NewsArticle (Company Press)</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                          XML Sitemap Priority
-                        </label>
-                        <select
-                          value={form.sitemapPriority}
-                          onChange={(e) => setForm((prev) => ({ ...prev, sitemapPriority: e.target.value }))}
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                        >
-                          <option value="1.0">1.0 (Critical Pillar Page)</option>
-                          <option value="0.9">0.9 (High Priority)</option>
-                          <option value="0.8">0.8 (Standard Blog Post)</option>
-                          <option value="0.7">0.7 (Regular)</option>
-                          <option value="0.5">0.5 (Low Priority)</option>
-                        </select>
-                      </div>
-
-                      <div>
-                        <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                          Crawl Change Frequency
-                        </label>
-                        <select
-                          value={form.changeFreq}
-                          onChange={(e) => setForm((prev) => ({ ...prev, changeFreq: e.target.value as any }))}
-                          className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                        >
-                          <option value="weekly">Weekly (Standard)</option>
-                          <option value="daily">Daily (Fast Updates)</option>
-                          <option value="monthly">Monthly (Evergreen)</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Table of Contents Anchors */}
-                  <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-2">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
-                        <List className="w-4 h-4 text-[#1769FF]" />
-                        <span>Table of Contents Outline</span>
-                      </h3>
-                      <span className="text-[11px] text-slate-400">One anchor heading per line</span>
-                    </div>
-                    <textarea
-                      rows={3}
-                      value={form.tableOfContentsText}
-                      onChange={(e) => setForm((prev) => ({ ...prev, tableOfContentsText: e.target.value }))}
-                      placeholder="1. Architecture Foundations&#10;2. Performance Benchmarks&#10;3. Implementation Checklist"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-mono text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
-                    />
-                  </div>
-
-                  {/* Stepper Navigation */}
-                  <div className="flex items-center justify-between pt-2">
-                    <button
-                      type="button"
-                      onClick={() => switchEditorStep("social")}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
-                    >
-                      <ChevronLeft className="w-3.5 h-3.5" />
-                      <span>Back: 4. Social Cards</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={handleSaveArticle}
-                      disabled={isSaving}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1769FF] to-[#00A3FF] hover:from-[#0F58E0] hover:to-[#008FE0] shadow-md hover:shadow-lg transition-all cursor-pointer"
-                    >
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>{isEditing ? "Save & Update Article" : "Publish Article Now"}</span>
-                    </button>
                   </div>
                 </div>
+
+                {/* Schema.org & Sitemap XML Configuration */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-[#1769FF]" />
+                    <span>Schema.org Structured Data &amp; Sitemap Directives</span>
+                  </h3>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                        Schema.org JSON-LD Type
+                      </label>
+                      <select
+                        value={form.schemaType}
+                        onChange={(e) => setForm((prev) => ({ ...prev, schemaType: e.target.value as any }))}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                      >
+                        <option value="BlogPosting">BlogPosting (Standard Blog)</option>
+                        <option value="TechArticle">TechArticle (Engineering Guide)</option>
+                        <option value="Article">Article (General Editorial)</option>
+                        <option value="NewsArticle">NewsArticle (Company Press)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                        XML Sitemap Priority
+                      </label>
+                      <select
+                        value={form.sitemapPriority}
+                        onChange={(e) => setForm((prev) => ({ ...prev, sitemapPriority: e.target.value }))}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                      >
+                        <option value="1.0">1.0 (Critical Pillar Page)</option>
+                        <option value="0.9">0.9 (High Priority)</option>
+                        <option value="0.8">0.8 (Standard Blog Post)</option>
+                        <option value="0.7">0.7 (Regular)</option>
+                        <option value="0.5">0.5 (Low Priority)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                        Crawl Change Frequency
+                      </label>
+                      <select
+                        value={form.changeFreq}
+                        onChange={(e) => setForm((prev) => ({ ...prev, changeFreq: e.target.value as any }))}
+                        className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                      >
+                        <option value="weekly">Weekly (Standard)</option>
+                        <option value="daily">Daily (Fast Updates)</option>
+                        <option value="monthly">Monthly (Evergreen)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Table of Contents Anchors */}
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-2">
+                      <List className="w-4 h-4 text-[#1769FF]" />
+                      <span>Table of Contents Outline</span>
+                    </h3>
+                    <span className="text-[11px] text-slate-400">One anchor heading per line</span>
+                  </div>
+                  <textarea
+                    rows={3}
+                    value={form.tableOfContentsText}
+                    onChange={(e) => setForm((prev) => ({ ...prev, tableOfContentsText: e.target.value }))}
+                    placeholder="1. Architecture Foundations&#10;2. Performance Benchmarks&#10;3. Implementation Checklist"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3 py-2 text-xs font-mono text-slate-800 focus:bg-white focus:border-[#1769FF] focus:outline-none"
+                  />
+                </div>
+
+                {/* Stepper Navigation */}
+                <div className="flex items-center justify-between pt-2">
+                  <button
+                    type="button"
+                    onClick={() => switchEditorStep("social")}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition-colors"
+                  >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                    <span>Back: 4. Social Cards</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={handleSaveArticle}
+                    disabled={isSaving}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-[#1769FF] to-[#00A3FF] hover:from-[#0F58E0] hover:to-[#008FE0] shadow-md hover:shadow-lg transition-all cursor-pointer"
+                  >
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>{isEditing ? "Save & Update Article" : "Publish Article Now"}</span>
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
@@ -6428,7 +6571,7 @@ export default function BlogAdmin() {
                   required
                   value={authorForm.name}
                   onChange={(e) => setAuthorForm((prev) => ({ ...prev, name: e.target.value }))}
-                  placeholder="e.g. Keval Kadecha"
+                  placeholder="e.g. John Smith"
                   className="w-full rounded-xl border border-slate-200 bg-slate-50/50 px-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#1769FF] focus:outline-none"
                 />
               </div>
