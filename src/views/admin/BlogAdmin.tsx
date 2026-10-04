@@ -2181,9 +2181,6 @@ export default function BlogAdmin() {
               <div>
                 <span className="text-xs font-bold text-slate-900 block leading-tight">Admin User</span>
                 <span className="text-[10px] text-slate-500 block font-mono">admin@nexovio.com</span>
-                <span className="text-[9px] text-emerald-600 font-medium flex items-center gap-1 mt-0.5">
-                  <Shield className="w-2.5 h-2.5" /> 30m Auto-lock
-                </span>
               </div>
             </div>
 
