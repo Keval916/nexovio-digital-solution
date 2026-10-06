@@ -130,11 +130,11 @@ export async function POST(req: NextRequest) {
 
     const contentArray: string[] = Array.isArray(content)
       ? content
-          .map((p: string) => (typeof p === "string" ? p.trim() : ""))
-          .filter((p: string) => !isEmptyParagraph(p))
+        .map((p: string) => (typeof p === "string" ? p.trim() : ""))
+        .filter((p: string) => !isEmptyParagraph(p))
       : typeof content === "string"
-      ? sanitizeAndSplitHtml(content)
-      : [];
+        ? sanitizeAndSplitHtml(content)
+        : [];
 
     const readingTime = calculateReadingTime(contentArray);
     const currentDate = getTodayDateString();
@@ -143,11 +143,11 @@ export async function POST(req: NextRequest) {
     const keywordsArray = Array.isArray(keywords)
       ? keywords
       : typeof keywords === "string"
-      ? keywords
+        ? keywords
           .split(",")
           .map((k: string) => k.trim())
           .filter(Boolean)
-      : undefined;
+        : undefined;
 
     const newArticle: BlogArticle = {
       id: slug,
@@ -184,11 +184,11 @@ export async function POST(req: NextRequest) {
       changeFreq: changeFreq || "weekly",
       faqs: Array.isArray(faqs)
         ? faqs
-            .map((f: any) => ({
-              question: String(f?.question || "").trim(),
-              answer: String(f?.answer || "").trim(),
-            }))
-            .filter((f: any) => f.question && f.answer)
+          .map((f: any) => ({
+            question: String(f?.question || "").trim(),
+            answer: String(f?.answer || "").trim(),
+          }))
+          .filter((f: any) => f.question && f.answer)
         : undefined,
     };
 
@@ -204,6 +204,7 @@ export async function POST(req: NextRequest) {
     try {
       revalidatePath("/sitemap.xml");
       revalidatePath("/blog");
+      revalidatePath("/");
       revalidatePath(`/blog/${slug}`);
     } catch (e) {
       console.warn("Revalidation warning:", e);
@@ -216,8 +217,8 @@ export async function POST(req: NextRequest) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ urls: [`${cleanSiteUrl}/blog/${slug}`] }),
-      }).catch(() => {});
-    } catch {}
+      }).catch(() => { });
+    } catch { }
 
     return NextResponse.json({
       success: true,
@@ -274,11 +275,11 @@ export async function PUT(req: NextRequest) {
 
       contentArray = Array.isArray(body.content)
         ? body.content
-            .map((p: string) => (typeof p === "string" ? p.trim() : ""))
-            .filter((p: string) => !isEmptyParagraphPut(p))
+          .map((p: string) => (typeof p === "string" ? p.trim() : ""))
+          .filter((p: string) => !isEmptyParagraphPut(p))
         : typeof body.content === "string"
-        ? sanitizeAndSplitHtmlPut(body.content)
-        : [];
+          ? sanitizeAndSplitHtmlPut(body.content)
+          : [];
     }
 
     const readingTime = contentArray ? calculateReadingTime(contentArray) : undefined;
@@ -290,11 +291,11 @@ export async function PUT(req: NextRequest) {
       keywordsArray = Array.isArray(body.keywords)
         ? body.keywords
         : typeof body.keywords === "string"
-        ? body.keywords
+          ? body.keywords
             .split(",")
             .map((k: string) => k.trim())
             .filter(Boolean)
-        : undefined;
+          : undefined;
     }
 
     const updates: Partial<BlogArticle> = {
@@ -325,8 +326,8 @@ export async function PUT(req: NextRequest) {
       ...(body.ogImage !== undefined
         ? { ogImage: body.ogImage?.trim() || body.featuredImage?.trim() || undefined }
         : body.featuredImage !== undefined
-        ? { ogImage: body.featuredImage?.trim() || undefined }
-        : {}),
+          ? { ogImage: body.featuredImage?.trim() || undefined }
+          : {}),
       ...(body.noIndex !== undefined && { noIndex: Boolean(body.noIndex) }),
       ...(body.noFollow !== undefined && { noFollow: Boolean(body.noFollow) }),
       ...(body.schemaType !== undefined && { schemaType: body.schemaType }),
@@ -337,11 +338,11 @@ export async function PUT(req: NextRequest) {
       ...(body.faqs !== undefined && {
         faqs: Array.isArray(body.faqs)
           ? body.faqs
-              .map((f: any) => ({
-                question: String(f?.question || "").trim(),
-                answer: String(f?.answer || "").trim(),
-              }))
-              .filter((f: any) => f.question && f.answer)
+            .map((f: any) => ({
+              question: String(f?.question || "").trim(),
+              answer: String(f?.answer || "").trim(),
+            }))
+            .filter((f: any) => f.question && f.answer)
           : [],
       }),
     };
@@ -358,6 +359,7 @@ export async function PUT(req: NextRequest) {
     try {
       revalidatePath("/sitemap.xml");
       revalidatePath("/blog");
+      revalidatePath("/");
       if (originalSlug && originalSlug !== updatedArticle.slug) {
         revalidatePath(`/blog/${originalSlug}`);
       }
@@ -373,8 +375,8 @@ export async function PUT(req: NextRequest) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ urls: [`${cleanSiteUrl}/blog/${updatedArticle.slug}`] }),
-      }).catch(() => {});
-    } catch {}
+      }).catch(() => { });
+    } catch { }
 
     return NextResponse.json({
       success: true,
@@ -444,6 +446,7 @@ export async function DELETE(req: NextRequest) {
     try {
       revalidatePath("/sitemap.xml");
       revalidatePath("/blog");
+      revalidatePath("/");
       for (const s of slugsToDelete) {
         revalidatePath(`/blog/${s}`);
       }

@@ -1,6 +1,10 @@
 import React from "react";
 import Home from "@/src/views/Home";
 import { generatePageMetadata } from "@/src/lib/seo";
+import { getStoredBlogArticlesAsync } from "@/src/lib/blog-storage";
+import type { BlogArticle } from "@/src/data/blog";
+
+export const revalidate = 60;
 
 export const metadata = generatePageMetadata({
   title: "Web Development Company | AI, Web Design & SEO | Nexovio",
@@ -23,6 +27,12 @@ export const metadata = generatePageMetadata({
   path: "/",
 });
 
-export default function Page() {
-  return <Home />;
+export default async function Page() {
+  let articles: BlogArticle[] = [];
+  try {
+    articles = await getStoredBlogArticlesAsync();
+  } catch (err) {
+    console.warn("[app/page.tsx] Stored articles lookup fallback:", err);
+  }
+  return <Home initialArticles={articles} />;
 }
