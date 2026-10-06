@@ -52,7 +52,6 @@ export async function generateMetadata({ params }: BlogArticlePageProps) {
     keywords: keywordsList,
     path: `/blog/${article.slug}`,
     canonicalOverride: canonicalUrl,
-    ogImage: article.ogImage || article.featuredImage,
     type: "article",
     publishedTime: article.publishedAt,
     modifiedTime: article.updatedAt || article.publishedAt,

@@ -19,7 +19,6 @@ export const metadata: Metadata = generatePageMetadata({
     'Nexovio agency partnership',
   ],
   path: '/agency-partnership',
-  ogImage: '/images/agency-partnership/agency-hero-team.jpg',
 });
 
 const schema = {

@@ -43,7 +43,8 @@ export function generatePageMetadata({
 }: PageMetadataProps): Metadata {
   const canonical = (canonicalOverride && canonicalOverride.trim()) ? canonicalOverride.trim() : getCanonicalUrl(path);
   const fullTitle = title.includes(SITE_NAME) || title.includes("Nexovio") ? title : `${title} | ${SITE_NAME}`;
-  const fullImageUrl = ogImage.startsWith("http") ? ogImage : `${SITE_URL}${ogImage.startsWith("/") ? ogImage : `/${ogImage}`}`;
+  const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
+  const fullImageUrl = `${cleanSiteUrl}${DEFAULT_OG_IMAGE.startsWith("/") ? DEFAULT_OG_IMAGE : `/${DEFAULT_OG_IMAGE}`}`;
 
   return {
     title: fullTitle,
@@ -98,16 +99,6 @@ export function generatePageMetadata({
           height: 630,
           alt: `${SITE_NAME} - ${title}`,
         },
-        ...(ogImage === DEFAULT_OG_IMAGE
-          ? [
-            {
-              url: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
-              width: 512,
-              height: 512,
-              alt: `${SITE_NAME} Logo`,
-            },
-          ]
-          : []),
       ],
       ...(type === "article" && publishedTime
         ? {
