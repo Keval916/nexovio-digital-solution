@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const SITE_NAME = "Nexovio Digital Solutions";
 export const SITE_TAGLINE = "IT Software Development & Digital Solutions Agency";
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.nexoviodigitalsolutions.com";
-export const DEFAULT_OG_IMAGE = "/images/brand/nexovio-digital-solutions-og-image.jpg";
+export const DEFAULT_OG_IMAGE = "/images/brand/og-image.jpg";
 export const BRAND_LOGO_SQUARE = "/images/brand/nexovio-logo-square.png";
 
 export interface PageMetadataProps {
