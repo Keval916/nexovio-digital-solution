@@ -179,6 +179,14 @@ export function Footer() {
                   <Link href="/services/ai-development" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors block footer-link flex items-center gap-1.5">
                     <span>AI Development</span>
                     <span className="px-1 py-0.2 rounded text-[9px] font-mono font-bold bg-cyan-400/20 text-cyan-300">
+                      HOT
+                    </span>
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services/ai-agent-development" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors block footer-link flex items-center gap-1.5">
+                    <span>AI Agent Development</span>
+                    <span className="px-1 py-0.2 rounded text-[9px] font-mono font-bold bg-cyan-400/20 text-cyan-300">
                       NEW
                     </span>
                   </Link>

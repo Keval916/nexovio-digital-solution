@@ -108,12 +108,12 @@ const AI_SOLUTIONS = [
   },
   {
     name: "AI Agent Development",
-    href: "/services/ai-development#ai-services",
+    href: "/services/ai-agent-development",
     description: "Task-specific autonomous agents reasoning across multi-step workflows",
     icon: Bot,
-    badge: "Coming Soon",
+    badge: "LIVE",
     category: "Agents",
-    isLive: false,
+    isLive: true,
   },
   {
     name: "AI Chatbot Development",

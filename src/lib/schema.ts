@@ -114,8 +114,24 @@ export function getOrganizationSchema() {
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: "AI Solutions & Agent Development",
+            name: "AI Solutions & Automation",
             url: `${SITE_URL}/services/ai-development`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "Generative AI Development",
+            url: `${SITE_URL}/services/generative-ai-development`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "AI Agent Development Services",
+            url: `${SITE_URL}/services/ai-agent-development`,
           },
         },
       ],

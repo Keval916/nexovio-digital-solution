@@ -22,6 +22,7 @@ export const ROUTES = [
   "/services/graphic-design",
   "/services/ai-development",
   "/services/generative-ai-development",
+  "/services/ai-agent-development",
   "/case-studies",
   "/case-studies/parts-connexion",
   "/case-studies/inside-injury",
