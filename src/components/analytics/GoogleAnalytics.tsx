@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, Suspense } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import Script from "next/script";
 import { usePathname, useSearchParams } from "next/navigation";
 import { GA_TRACKING_ID, trackPageView } from "@/src/lib/analytics";
@@ -8,8 +8,15 @@ import { GA_TRACKING_ID, trackPageView } from "@/src/lib/analytics";
 function RouteTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    // Skip initial mount because gtag config already sent initial pageview
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     if (pathname) {
       const url = searchParams?.toString()
         ? `${pathname}?${searchParams.toString()}`
@@ -40,6 +47,14 @@ export function GoogleAnalytics() {
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             window.gtag = gtag;
+            var storedConsent = null;
+            try { storedConsent = localStorage.getItem('nexovio_cookie_consent'); } catch(e){}
+            gtag('consent', 'default', {
+              'analytics_storage': storedConsent === 'denied' ? 'denied' : 'granted',
+              'ad_storage': 'denied',
+              'ad_user_data': 'denied',
+              'ad_personalization': 'denied'
+            });
             gtag('js', new Date());
             gtag('config', '${gaId}', {
               page_path: window.location.pathname,

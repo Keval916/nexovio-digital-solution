@@ -12,9 +12,9 @@ export function hasAnalyticsConsent(): boolean {
   if (typeof window === "undefined") return false;
   try {
     const consent = localStorage.getItem("nexovio_cookie_consent");
-    return consent === "granted";
+    return consent !== "denied";
   } catch {
-    return false;
+    return true;
   }
 }
 
@@ -66,8 +66,27 @@ export function trackContactClick(channel: "whatsapp" | "phone" | "email") {
 }
 
 export function trackPageView(url: string) {
-  if (typeof window === "undefined" || !window.gtag || !GA_TRACKING_ID) return;
-  window.gtag("config", GA_TRACKING_ID, {
-    page_path: url,
-  });
+  if (typeof window === "undefined") return;
+
+  const fullUrl = window.location.href;
+  const pageTitle = typeof document !== "undefined" ? document.title : "";
+
+  // 1. Send virtual pageview to GA4 via gtag
+  if (window.gtag && GA_TRACKING_ID) {
+    window.gtag("event", "page_view", {
+      page_path: url,
+      page_location: fullUrl,
+      page_title: pageTitle,
+    });
+  }
+
+  // 2. Push to GTM dataLayer for GTM tag triggers
+  if (window.dataLayer) {
+    window.dataLayer.push({
+      event: "pageview",
+      page_path: url,
+      page_location: fullUrl,
+      page_title: pageTitle,
+    });
+  }
 }

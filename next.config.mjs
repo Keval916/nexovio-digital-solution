@@ -2,6 +2,7 @@
 const nextConfig = {
   distDir: process.env.BUILD_DIR || '.next',
   reactStrictMode: true,
+  transpilePackages: ['gsap'],
   images: {
     unoptimized: true,
     formats: ['image/avif', 'image/webp'],

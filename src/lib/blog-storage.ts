@@ -1,4 +1,4 @@
-import { BlogArticle } from "@/src/data/blog";
+import { BlogArticle, FALLBACK_BLOG_ARTICLES } from "@/src/data/blog";
 import { getBlogCollection, isMongoConfigured } from "./mongodb";
 
 // In-memory cache for ultra-fast response and serverless continuity
@@ -7,18 +7,18 @@ let lastFetchTime = 0;
 const CACHE_TTL_MS = 15000; // 15s in-memory TTL in dev/prod
 
 /**
- * Synchronous getter returning latest cached articles or empty array.
+ * Synchronous getter returning latest cached articles or static fallback.
  */
 export function getStoredBlogArticles(): BlogArticle[] {
-  if (memoryArticlesCache && Array.isArray(memoryArticlesCache)) {
+  if (memoryArticlesCache && Array.isArray(memoryArticlesCache) && memoryArticlesCache.length > 0) {
     return memoryArticlesCache;
   }
-  return [];
+  return FALLBACK_BLOG_ARTICLES;
 }
 
 /**
  * Primary asynchronous fetcher for all blog articles.
- * Queries MongoDB collection "blog_posts".
+ * Queries MongoDB collection "blog_posts" and resiliently merges with FALLBACK_BLOG_ARTICLES.
  */
 export async function getStoredBlogArticlesAsync(forceRefresh = false): Promise<BlogArticle[]> {
   const now = Date.now();
@@ -26,6 +26,7 @@ export async function getStoredBlogArticlesAsync(forceRefresh = false): Promise<
     return memoryArticlesCache;
   }
 
+  let dbArticles: BlogArticle[] = [];
   if (isMongoConfigured()) {
     try {
       const collection = await getBlogCollection();
@@ -34,25 +35,40 @@ export async function getStoredBlogArticlesAsync(forceRefresh = false): Promise<
         .sort({ publishedAt: -1 })
         .toArray();
 
-      if (Array.isArray(docs)) {
-        memoryArticlesCache = docs as BlogArticle[];
-        lastFetchTime = now;
-        return memoryArticlesCache;
+      if (Array.isArray(docs) && docs.length > 0) {
+        dbArticles = docs as BlogArticle[];
       }
     } catch (dbErr) {
-      console.error("[blog-storage] MongoDB fetch error:", dbErr);
+      console.warn("[blog-storage] MongoDB fetch error or offline, falling back to static articles:", dbErr);
     }
   }
 
-  if (memoryArticlesCache) {
-    return memoryArticlesCache;
+  // Merge DB articles with fallback articles so no indexable URL or ranking is ever lost
+  const mergedMap = new Map<string, BlogArticle>();
+  // 1. Static fallback articles
+  for (const staticArt of FALLBACK_BLOG_ARTICLES) {
+    mergedMap.set(staticArt.slug.toLowerCase().trim(), staticArt);
+  }
+  // 2. Database articles (takes priority for updated content)
+  for (const dbArt of dbArticles) {
+    mergedMap.set(dbArt.slug.toLowerCase().trim(), dbArt);
   }
 
-  return [];
+  const merged = Array.from(mergedMap.values()).sort(
+    (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+
+  if (merged.length > 0) {
+    memoryArticlesCache = merged;
+    lastFetchTime = now;
+    return merged;
+  }
+
+  return FALLBACK_BLOG_ARTICLES;
 }
 
 /**
- * Fetch a single article by slug or ID with MongoDB.
+ * Fetch a single article by slug or ID with MongoDB or static fallback.
  */
 export async function getBlogArticleBySlugAsync(slug: string): Promise<BlogArticle | undefined> {
   const normalizedSlug = decodeURIComponent(slug).toLowerCase().trim();
@@ -78,17 +94,28 @@ export async function getBlogArticleBySlugAsync(slug: string): Promise<BlogArtic
         return doc as BlogArticle;
       }
     } catch (err) {
-      console.error("[blog-storage] MongoDB findOne error:", err);
+      console.warn("[blog-storage] MongoDB findOne warning:", err);
     }
   }
 
-  // Fallback lookup
+  // Fallback lookup from merged or static articles
   const articles = await getStoredBlogArticlesAsync();
-  return articles.find(
+  const found = articles.find(
     (a) =>
       a.slug.toLowerCase().trim() === normalizedSlug ||
       (a.id && a.id.toLowerCase().trim() === normalizedSlug) ||
-      (Array.isArray(a.previousSlugs) && a.previousSlugs.some((s) => s.toLowerCase().trim() === normalizedSlug))
+      (Array.isArray(a.previousSlugs) &&
+        a.previousSlugs.some((s) => s.toLowerCase().trim() === normalizedSlug))
+  );
+
+  if (found) return found;
+
+  return FALLBACK_BLOG_ARTICLES.find(
+    (a) =>
+      a.slug.toLowerCase().trim() === normalizedSlug ||
+      (a.id && a.id.toLowerCase().trim() === normalizedSlug) ||
+      (Array.isArray(a.previousSlugs) &&
+        a.previousSlugs.some((s) => s.toLowerCase().trim() === normalizedSlug))
   );
 }
 

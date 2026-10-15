@@ -30,6 +30,8 @@ export const ROUTES = [
   "/case-studies/fintech-mobile-app",
   "/case-studies/b2b-digital-platform",
   "/blog",
+  "/blog/ai-automation-for-business",
+  "/blog/ecommerce-solutions-for-businesses",
   "/blog/custom-web-development-vs-website-builders",
   "/blog/why-slow-websites-sabotage-lead-conversion",
   "/blog/technical-seo-checklist-for-modern-websites",

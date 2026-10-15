@@ -24,12 +24,12 @@ export function PricingPackages({
         {/* SECTION HEADER */}
         {showTitle && (
           <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-            <h2 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0F172A] dark:text-white tracking-tight">
+            <h1 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl text-[#0F172A] dark:text-white tracking-tight">
               Flexible {" "}
               <span className="bg-gradient-brand bg-clip-text text-transparent">
                 Website Development Packages
               </span>
-            </h2>
+            </h1>
             <p className="mt-3 text-sm sm:text-base text-[#64748B] dark:text-slate-400 font-normal">
               Explore affordable website development packages designed to fit your business needs and budget.
             </p>

@@ -47,12 +47,22 @@ export interface BlogArticle {
   changeFreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
 }
 
-// All articles are dynamically managed in MongoDB collection "blog_posts". No hardcoded fallback blogs.
-export const FALLBACK_BLOG_ARTICLES: BlogArticle[] = [];
-export const BLOG_ARTICLES: BlogArticle[] = [];
+import staticBlogPosts from "./blog-posts.json";
 
-export function getBlogArticleBySlug(_slug: string): BlogArticle | undefined {
-  return undefined;
+// Dynamic MongoDB articles with resilient static fallback to ensure 0% 404 rate
+export const FALLBACK_BLOG_ARTICLES: BlogArticle[] = (staticBlogPosts as unknown) as BlogArticle[];
+export const BLOG_ARTICLES: BlogArticle[] = FALLBACK_BLOG_ARTICLES;
+
+export function getBlogArticleBySlug(slug: string): BlogArticle | undefined {
+  if (!slug) return undefined;
+  const normalized = slug.toLowerCase().trim();
+  return BLOG_ARTICLES.find(
+    (a) =>
+      a.slug.toLowerCase().trim() === normalized ||
+      (a.id && a.id.toLowerCase().trim() === normalized) ||
+      (Array.isArray(a.previousSlugs) &&
+        a.previousSlugs.some((s) => s.toLowerCase().trim() === normalized))
+  );
 }
 
 
