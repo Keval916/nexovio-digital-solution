@@ -3,9 +3,9 @@ import About from "@/src/views/About";
 import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata = generatePageMetadata({
-  title: "About Nexovio Digital Solutions | Web Development & Digital Solutions",
+  title: "About Nexovio | Global Web Development & Digital Solutions",
   description:
-    "Learn about Nexovio Digital Solutions and our approach to web development, web design, UI/UX, mobile apps, SEO, digital marketing and practical digital solutions.",
+    "Learn about Nexovio Digital Solutions. We deliver custom web development, UI/UX design, mobile apps, and enterprise AI solutions engineered to scale.",
   keywords: [
     "About Nexovio Digital Solutions",
     "web development company",

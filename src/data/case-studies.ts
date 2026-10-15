@@ -158,7 +158,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     publishedAt: "2026-06-15",
     seoTitle: "Inside Injury AI Build Case Study | Nexovio Digital Solutions",
     seoDescription:
-      "See how Nexovio Digital Solutions created an AI-powered intake portal and automated workflow engine for Inside Injury, boosting conversions by 25% and cutting processing by 70%.",
+      "How Nexovio built an AI intake portal and automated workflow engine for Inside Injury, boosting conversions by 25% and cutting processing time by 70%.",
   },
   {
     slug: "infiniti-home-comfort",
@@ -215,7 +215,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     publishedAt: "2026-08-01",
     seoTitle: "Infiniti Home Comfort Case Study | Nexovio Digital Solutions",
     seoDescription:
-      "Explore how Nexovio Digital Solutions engineered an HVAC digital booking engine and local SEO pipeline for Infiniti Home Comfort, boosting organic leads by 185% with 99.9% uptime.",
+      "How Nexovio engineered a fast HVAC booking platform and local SEO engine for Infiniti Home Comfort, driving a 185% increase in qualified organic leads.",
   },
   {
     slug: "fintech-mobile-app",

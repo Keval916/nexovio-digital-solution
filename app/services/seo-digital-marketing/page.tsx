@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     ],
     path: "/services/seo-digital-marketing",
   }),
-  title: "SEO & Digital Marketing Services | Grow Organic Visibility & Leads | Nexovio",
+  title: "SEO & Digital Marketing Services | Organic Growth | Nexovio",
 };
 
 export default function Page() {

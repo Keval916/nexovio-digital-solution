@@ -9,7 +9,7 @@ export const revalidate = 60;
 export const metadata = generatePageMetadata({
   title: "Web Development Company | AI, Web Design & SEO | Nexovio",
   description:
-    "Nexovio Digital Solutions is a global web development and AI solutions company offering custom web development, web design, UI/UX, eCommerce, SEO and digital marketing services for modern businesses.",
+    "Nexovio is a global web development & AI solutions company. We build high-performance websites, custom web apps, UI/UX, eCommerce, and SEO that drive revenue.",
   keywords: [
     "web development company",
     "web development services",

@@ -21,7 +21,11 @@ function RouteTracker() {
       const url = searchParams?.toString()
         ? `${pathname}?${searchParams.toString()}`
         : pathname;
-      trackPageView(url);
+      // Allow Next.js App Router to commit document.title in DOM before sending GA4 pageview
+      const timer = setTimeout(() => {
+        trackPageView(url);
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, [pathname, searchParams]);
 

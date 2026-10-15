@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     ],
     path: "/services/ui-ux-design",
   }),
-  title: "UI/UX Design Services | Product & Digital Experience Design | Nexovio",
+  title: "UI/UX Design Services | Product & App Experience | Nexovio",
 };
 
 export default function Page() {

@@ -4,9 +4,9 @@ import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
-    title: "Web Development Services | Custom Websites & E-commerce | Nexovio",
+    title: "Web Development Services | Custom Websites & Apps | Nexovio",
     description:
-      "Professional web development services for custom websites, e-commerce and web apps. We use WordPress, React/Next.js and headless CMS to build fast, secure, scalable online platforms.",
+      "Custom web development services for high-speed websites, web apps, and eCommerce. We build scalable platforms using Next.js, React, Node, and WordPress.",
     keywords: [
       "web development services",
       "custom web apps",
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     ],
     path: "/services/web-development",
   }),
-  title: "Web Development Services | Websites, E-commerce & Web Apps | Nexovio",
+  title: "Web Development Services | Custom Websites & Apps | Nexovio",
 };
 
 export default function Page() {

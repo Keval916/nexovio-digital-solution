@@ -5,7 +5,7 @@ import { generatePageMetadata } from "@/src/lib/seo";
 export const metadata = generatePageMetadata({
   title: "Engineering Case Studies & Architectural Teardowns | Nexovio",
   description:
-    "Explore in-depth technical case studies documenting how Nexovio Digital Solutions architects high-performance web applications, headless ecommerce migrations, custom AI workflows, and local SEO engines with verified business results.",
+    "Explore in-depth technical case studies showing how Nexovio architects high-performance web applications, headless eCommerce, and custom AI workflows.",
   keywords: [
     "web development case study",
     "headless ecommerce case study",

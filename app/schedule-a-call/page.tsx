@@ -4,9 +4,9 @@ import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata: Metadata = {
   ...generatePageMetadata({
-    title: "Schedule a 30-Minute Discovery Call | Nexovio Digital Solutions",
+    title: "Schedule a 30-Minute Discovery Call | Nexovio",
     description:
-      "Book a direct 30-minute discovery call with Nexovio's software engineering and UI/UX team. Discuss project requirements, technical architecture, timelines, and budget estimates.",
+      "Book a free 30-minute discovery call with Nexovio's engineering team. Discuss your technical scope, architecture, timeline, and custom budget estimates.",
     keywords: [
       "schedule a call",
       "book a discovery call",
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     ],
     path: "/schedule-a-call",
   }),
-  title: "Schedule a 30-Minute Discovery Call | Nexovio Digital Solutions",
+  title: "Schedule a 30-Minute Discovery Call | Nexovio",
 };
 
 export default function Page() {

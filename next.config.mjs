@@ -22,6 +22,16 @@ const nextConfig = {
         destination: '/services/ai-agent-development',
         permanent: true,
       },
+      {
+        source: '/ai-chatbot-development',
+        destination: '/services/ai-chatbot-development',
+        permanent: true,
+      },
+      {
+        source: '/ai-automation-solutions',
+        destination: '/services/ai-automation-solutions',
+        permanent: true,
+      },
     ];
   },
   async headers() {

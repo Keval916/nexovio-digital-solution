@@ -123,7 +123,7 @@ export const SERVICES: ServiceItem[] = [
       "Fully integrated APIs, contact forms, and lead capture hooks",
       "Automated CI/CD deployment configuration",
     ],
-    seoTitle: "Web Development Services | Websites, E-commerce & Web Apps | Nexovio",
+    seoTitle: "Web Development Services | Custom Websites & Apps | Nexovio",
     seoDescription:
       "Nexovio Digital Solutions offers web development services including custom websites, WordPress, React, Next.js, e-commerce, web applications and API integrations.",
     image: "/images/services/nexovio-web-development-services.webp",

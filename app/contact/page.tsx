@@ -3,9 +3,9 @@ import Contact from "@/src/views/Contact";
 import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata = generatePageMetadata({
-  title: "Contact Nexovio Digital Solutions – Start Your Project",
+  title: "Contact Nexovio | Start Your Web, App & AI Project",
   description:
-    "Ready to build a website, app or digital marketing strategy? Contact Nexovio to discuss your project. Our technical team will review your requirements and respond within one business day.",
+    "Contact Nexovio to discuss your web development, mobile app, or AI project. Our engineering team reviews requirements and responds within 24 hours.",
   keywords: [
     "contact web development agency",
     "request quote digital marketing",

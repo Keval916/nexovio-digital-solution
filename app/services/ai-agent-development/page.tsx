@@ -3,7 +3,7 @@ import AiAgentDevelopment from "@/src/views/services/AiAgentDevelopment";
 import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "AI Agent Development Services | Autonomous Business Automation | Nexovio",
+  title: "AI Agent Development Services | Autonomous AI | Nexovio",
   description:
     "Build custom AI agents that understand context, connect to business data, and execute real workflows. Production AI agent development services by Nexovio.",
   keywords: [

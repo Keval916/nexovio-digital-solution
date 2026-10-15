@@ -7,9 +7,9 @@ import { getStoredCategoriesAsync } from "@/src/lib/category-storage";
 export const dynamic = "force-dynamic";
 
 export const metadata = generatePageMetadata({
-  title: "Nexovio Blog – Engineering & Digital Strategy Insights",
+  title: "Engineering & Digital Strategy Insights | Nexovio Blog",
   description:
-    "Original articles and insights on web development, UX/UI design, Core Web Vitals and technical SEO. Learn best practices and trends to improve your website and growth strategy.",
+    "Engineering insights on web development, UI/UX design, Core Web Vitals, and technical SEO. Best practices to scale your website and digital performance.",
   keywords: [
     "web development blog",
     "digital strategy blog",
