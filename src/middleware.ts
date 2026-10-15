@@ -22,15 +22,16 @@ export function middleware(request: NextRequest) {
 
   // 1. Redirect apex domain (nexoviodigitalsolutions.com) to www.nexoviodigitalsolutions.com (301 Permanent)
   const isApex = host === "nexoviodigitalsolutions.com";
-  // 2. Redirect http to https (in production)
-  const isHttp = proto === "http" && process.env.NODE_ENV === "production";
+  // 2. Redirect http to https (in production or live environments)
+  const isHttp = proto === "http" || request.nextUrl.protocol === "http:";
   // 3. Remove trailing slash (e.g. /case-studies/ -> /case-studies)
   const hasTrailingSlash = pathname.length > 1 && pathname.endsWith("/");
 
   if (isApex || isHttp || hasTrailingSlash) {
     const cleanPath = hasTrailingSlash ? pathname.slice(0, -1) : pathname;
-    const targetHost = isApex ? CANONICAL_HOST : host;
-    const targetProto = isHttp ? "https" : (proto || "https");
+    // Always target canonical host & HTTPS in a single hop to preserve external search referrers
+    const targetHost = (isApex || host.includes("nexoviodigitalsolutions.com")) ? CANONICAL_HOST : host;
+    const targetProto = (isHttp || isApex) ? "https" : (proto || "https");
     const redirectUrl = `${targetProto}://${targetHost}${cleanPath}${search}`;
 
     return NextResponse.redirect(new URL(redirectUrl), 301);

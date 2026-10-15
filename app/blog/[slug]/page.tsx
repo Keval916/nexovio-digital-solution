@@ -45,8 +45,19 @@ export async function generateMetadata({ params }: BlogArticlePageProps) {
     ? article.canonicalUrl
     : `${cleanSiteUrl}/blog/${article.slug}`;
 
+  let cleanTitle = article.seoTitle || article.title;
+  // If title exceeds recommended SERP band (>65 chars), trim redundant keyword suffixes
+  if (cleanTitle.length > 65) {
+    cleanTitle = cleanTitle.replace(/\s*\|\s*Shopify\s*&amp;\s*WooCommerce\s*\|\s*Nexovio/i, " | Nexovio");
+    cleanTitle = cleanTitle.replace(/\s*\|\s*Shopify\s*&\s*WooCommerce\s*\|\s*Nexovio/i, " | Nexovio");
+    if (cleanTitle.length > 65 && cleanTitle.includes("|")) {
+      const parts = cleanTitle.split("|");
+      cleanTitle = `${parts[0].trim()} | Nexovio`;
+    }
+  }
+
   return generatePageMetadata({
-    title: article.seoTitle || article.title,
+    title: cleanTitle,
     description: article.seoDescription || article.excerpt,
     keywords: keywordsList,
     path: `/blog/${article.slug}`,
@@ -72,6 +83,22 @@ export default async function Page({ params }: BlogArticlePageProps) {
     redirect(`/blog/${article.slug}`);
   }
 
-  return <BlogDetail params={params} article={article} />;
+  // Guarantee strict semantic hierarchy: exactly one <h1> per page (the title).
+  // Convert any <h1> tags inside the article content to <h2>.
+  const sanitizedContent = Array.isArray(article.content)
+    ? article.content.map((block) =>
+        typeof block === "string"
+          ? block.replace(/<h1(\s[^>]*)?>/gi, "<h2$1>").replace(/<\/h1>/gi, "</h2>")
+          : block
+      )
+    : article.content;
+
+  const sanitizedArticle: BlogArticle = {
+    ...article,
+    content: sanitizedContent,
+  };
+
+  return <BlogDetail params={params} article={sanitizedArticle} />;
 }
+
 

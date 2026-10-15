@@ -1,37 +1,13 @@
-"use client";
-
 import Script from "next/script";
-import { useEffect, useRef, Suspense } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
-import { GA_TRACKING_ID, trackPageView } from "@/src/lib/analytics";
+import { Suspense } from "react";
+import { GA_TRACKING_ID } from "@/src/lib/analytics";
+import { RouteTracker } from "./RouteTracker";
 
-function RouteTracker() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    // Skip initial mount because gtag config already sent initial pageview
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-
-    if (pathname) {
-      const url = searchParams?.toString()
-        ? `${pathname}?${searchParams.toString()}`
-        : pathname;
-      // Allow Next.js App Router to commit document.title in DOM before sending GA4 pageview
-      const timer = setTimeout(() => {
-        trackPageView(url);
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-  }, [pathname, searchParams]);
-
-  return null;
-}
-
+/**
+ * Server-rendered Google Analytics base tag initializer.
+ * Renders into initial HTML stream so GA4 begins downloading immediately
+ * without waiting for client-side React hydration to complete.
+ */
 export function GoogleAnalytics() {
   const gaId = GA_TRACKING_ID;
 

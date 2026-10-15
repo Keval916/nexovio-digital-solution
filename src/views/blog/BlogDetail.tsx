@@ -605,11 +605,13 @@ export default function SingleBlogArticlePage({
                 }
                 const isHtml = /<[a-z][\s\S]*>/i.test(trimmed);
                 if (isHtml) {
-                  // Sanitize: strip embedded empty paragraphs/divs and collapse excessive <br>
+                  // Sanitize: strip embedded empty paragraphs/divs, collapse excessive <br>, and guarantee single H1
                   const cleanHtml = trimmed
                     .replace(/<p[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/p>/gi, "")
                     .replace(/<div[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/div>/gi, "")
                     .replace(/(<br\s*\/?\s*>[\s]*){3,}/gi, "<br><br>")
+                    .replace(/<h1(\s[^>]*)?>/gi, "<h2$1>")
+                    .replace(/<\/h1>/gi, "</h2>")
                     .trim();
                   if (!cleanHtml) return null;
                   return (
