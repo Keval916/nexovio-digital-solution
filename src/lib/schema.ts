@@ -50,6 +50,7 @@ export function getOrganizationSchema() {
       "Digital Marketing Campaigns",
       "Artificial Intelligence & AI Agents",
       "Generative AI & LLM Solutions",
+      "AI Chatbots & Conversational AI Systems",
     ],
     contactPoint: {
       "@type": "ContactPoint",
@@ -132,6 +133,14 @@ export function getOrganizationSchema() {
             "@type": "Service",
             name: "AI Agent Development Services",
             url: `${SITE_URL}/services/ai-agent-development`,
+          },
+        },
+        {
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            name: "AI Chatbot Development Services",
+            url: `${SITE_URL}/services/ai-chatbot-development`,
           },
         },
       ],

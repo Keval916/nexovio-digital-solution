@@ -185,6 +185,11 @@ export function Footer() {
                     <span>AI Agent Development</span>
                   </Link>
                 </li>
+                <li>
+                  <Link href="/services/ai-chatbot-development" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    <span>AI Chatbot Development</span>
+                  </Link>
+                </li>
               </ul>
             </div>
 

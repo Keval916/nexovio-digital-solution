@@ -114,12 +114,11 @@ const AI_SOLUTIONS = [
   },
   {
     name: "AI Chatbot Development",
-    href: "/services/ai-development#ai-services",
+    href: "/services/ai-chatbot-development",
     description: "Intelligent conversational bots for customer service & lead qualification",
     icon: MessageSquare,
-    badge: "Coming Soon",
     category: "Assistants",
-    isLive: false,
+    isLive: true,
   },
   {
     name: "AI Automation Solutions",
