@@ -32,8 +32,23 @@ export function CookieConsent() {
       try {
         localStorage.setItem("nexovio_cookie_consent", value);
         if (typeof window !== "undefined" && window.gtag) {
-          window.gtag("consent", "update", { analytics_storage: value });
+          window.gtag("consent", "update", {
+            analytics_storage: value,
+            ad_storage: value,
+            ad_user_data: value,
+            ad_personalization: value,
+          });
         }
+      } catch { }
+      setShowBanner(false);
+    }, 400);
+  };
+
+  const closeNotice = () => {
+    setVisible(false);
+    setTimeout(() => {
+      try {
+        localStorage.setItem("nexovio_cookie_consent", "dismissed");
       } catch { }
       setShowBanner(false);
     }, 400);
@@ -161,7 +176,7 @@ export function CookieConsent() {
                 {/* Close X */}
                 <button
                   type="button"
-                  onClick={() => dismiss("denied")}
+                  onClick={closeNotice}
                   aria-label="Close cookie notice"
                   style={{
                     flexShrink: 0,

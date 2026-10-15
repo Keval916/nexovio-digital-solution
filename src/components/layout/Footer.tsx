@@ -176,19 +176,13 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/services/ai-development" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors block footer-link flex items-center gap-1.5">
+                  <Link href="/services/ai-development" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
                     <span>AI Development</span>
-                    <span className="px-1 py-0.2 rounded text-[9px] font-mono font-bold bg-cyan-400/20 text-cyan-300">
-                      HOT
-                    </span>
                   </Link>
                 </li>
                 <li>
-                  <Link href="/services/ai-agent-development" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors block footer-link flex items-center gap-1.5">
+                  <Link href="/services/ai-agent-development" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
                     <span>AI Agent Development</span>
-                    <span className="px-1 py-0.2 rounded text-[9px] font-mono font-bold bg-cyan-400/20 text-cyan-300">
-                      NEW
-                    </span>
                   </Link>
                 </li>
               </ul>
@@ -201,7 +195,7 @@ export function Footer() {
               </h3>
               <ul className="space-y-2.5 text-sm text-slate-300 keep-slate">
                 <li>
-                  <Link href="/agency-partnership" className="text-cyan-300 hover:text-cyan-200 font-medium transition-colors block footer-link">
+                  <Link href="/agency-partnership" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
                     Agency Partnership
                   </Link>
                 </li>
@@ -289,13 +283,8 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/schedule-a-call" className="text-cyan-300 hover:text-cyan-200 transition-colors block font-medium footer-link">
+                  <Link href="/schedule-a-call" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
                     Schedule a Call
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/#faqs" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    Client FAQs
                   </Link>
                 </li>
                 <li>

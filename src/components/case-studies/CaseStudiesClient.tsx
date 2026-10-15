@@ -570,7 +570,7 @@ export function CaseStudiesClient({ caseStudies }: CaseStudiesClientProps) {
                     onClick={() => setActiveSlide(index)}
                     className={`group px-3 sm:px-4 py-1.5 rounded-full text-xs font-mono font-medium transition-all flex items-center gap-2 border ${isActive
                       ? "bg-brand-cyan/25 border-brand-cyan text-[#fff] shadow-sm ring-1 ring-brand-cyan/40"
-                      : "bg-white/5 border-white/10 text-white/70 hover:text-[#fff] hover:bg-white/10 hover:border-white/25"
+                      : "bg-white/5 border-white/10 text-[#00D9F1] hover:bg-[#00D9F1] hover:border-white/25"
                       }`}
                     aria-label={`Go to slide ${index + 1}: ${item.company}`}
                   >

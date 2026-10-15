@@ -93,7 +93,6 @@ const AI_SOLUTIONS = [
     href: "/services/ai-development",
     description: "Custom AI software, intelligent web apps & production LLM integrations",
     icon: Sparkles,
-    badge: "LIVE",
     category: "Flagship",
     isLive: true,
   },
@@ -102,7 +101,6 @@ const AI_SOLUTIONS = [
     href: "/services/generative-ai-development",
     description: "Custom generative models, prompt pipelines & intelligent content workflows",
     icon: Cpu,
-    badge: "LIVE",
     category: "GenAI",
     isLive: true,
   },
@@ -111,7 +109,6 @@ const AI_SOLUTIONS = [
     href: "/services/ai-agent-development",
     description: "Task-specific autonomous agents reasoning across multi-step workflows",
     icon: Bot,
-    badge: "LIVE",
     category: "Agents",
     isLive: true,
   },
@@ -399,10 +396,6 @@ export function Header() {
                                   <div className="flex items-center justify-between gap-1">
                                     <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
                                       {svc.name}
-                                    </span>
-                                    <span className="inline-flex items-center gap-1 text-[9px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 shrink-0">
-                                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                                      LIVE
                                     </span>
                                   </div>
                                   <div className="text-[11px] text-slate-600 dark:text-slate-300 line-clamp-2 mt-1 leading-relaxed">

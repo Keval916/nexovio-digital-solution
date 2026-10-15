@@ -44,7 +44,10 @@ export function generatePageMetadata({
   const canonical = (canonicalOverride && canonicalOverride.trim()) ? canonicalOverride.trim() : getCanonicalUrl(path);
   const fullTitle = title.includes(SITE_NAME) || title.includes("Nexovio") ? title : `${title} | Nexovio`;
   const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
-  const fullImageUrl = `${cleanSiteUrl}${DEFAULT_OG_IMAGE.startsWith("/") ? DEFAULT_OG_IMAGE : `/${DEFAULT_OG_IMAGE}`}`;
+  const chosenImage = ogImage || DEFAULT_OG_IMAGE;
+  const fullImageUrl = chosenImage.startsWith("http")
+    ? chosenImage
+    : `${cleanSiteUrl}${chosenImage.startsWith("/") ? chosenImage : `/${chosenImage}`}`;
 
   return {
     title: fullTitle,

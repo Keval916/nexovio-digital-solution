@@ -148,7 +148,7 @@ for (let i = 0; i < routes.length; i++) {
   const warnText = routeReport.warnings.length > 0 ? ` (${routeReport.warnings.length} warning(s))` : "";
   console.log(`[${i + 1}/${routes.length}] ${statusSymbol} ${route}${warnText}`);
   if (routeReport.errors.length > 0) {
-    for (const e of routeReport.errors) console.error(`    ERROR: ${e}`);
+    for (const e of routeReport.errors) console.log(`    ERROR: ${e}`);
   }
   if (routeReport.warnings.length > 0) {
     for (const w of routeReport.warnings) console.log(`    WARN: ${w}`);

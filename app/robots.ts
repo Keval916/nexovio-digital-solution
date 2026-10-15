@@ -3,6 +3,7 @@ import { SITE_URL } from "@/src/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
   const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
+  const cleanHost = new URL(cleanSiteUrl).host;
 
   return {
     rules: [
@@ -29,6 +30,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: `${cleanSiteUrl}/sitemap.xml`,
-    host: cleanSiteUrl,
+    host: cleanHost,
   };
 }
