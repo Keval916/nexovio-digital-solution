@@ -198,40 +198,40 @@ export function Footer() {
               </ul>
             </div>
 
-            {/* Column 3: Solutions & Partnerships (2 cols) */}
+            {/* Column 3: Case Studies (2 cols) */}
             <div className="lg:col-span-2 space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-white keep-white">
-                Solutions
+                Case Studies
               </h3>
               <ul className="space-y-2.5 text-sm text-slate-300 keep-slate">
                 <li>
-                  <Link href="/agency-partnership" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    Agency Partnership
+                  <Link href="/case-studies/parts-connexion" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Parts Connexion
                   </Link>
                 </li>
                 <li>
-                  <Link href="/services/web-development" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    React &amp; Next.js Apps
+                  <Link href="/case-studies/inside-injury" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Inside Injury AI
                   </Link>
                 </li>
                 <li>
-                  <Link href="/services/web-development" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    E-Commerce Stores
+                  <Link href="/case-studies/infiniti-home-comfort" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Infiniti HVAC SEO
                   </Link>
                 </li>
                 <li>
-                  <Link href="/services/ui-ux-design" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    Design Systems
+                  <Link href="/case-studies/fintech-mobile-app" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    FinTech Mobile App
                   </Link>
                 </li>
                 <li>
-                  <Link href="/services/seo-digital-marketing" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    Technical SEO Audits
+                  <Link href="/case-studies/b2b-digital-platform" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Apex Cloud SaaS
                   </Link>
                 </li>
                 <li>
-                  <Link href="/portfolio" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    Digital Showcase
+                  <Link href="/case-studies" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors block footer-link">
+                    View All Case Studies
                   </Link>
                 </li>
               </ul>
@@ -249,13 +249,13 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/portfolio" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    Selected Work
+                  <Link href="/agency-partnership" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Agency Partnership
                   </Link>
                 </li>
                 <li>
-                  <Link href="/case-studies" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    Case Studies
+                  <Link href="/portfolio" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Selected Work
                   </Link>
                 </li>
                 <li>

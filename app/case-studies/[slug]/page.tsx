@@ -3,6 +3,9 @@ import { getCaseStudyBySlug, CASE_STUDIES } from "@/src/data/case-studies";
 import { generatePageMetadata } from "@/src/lib/seo";
 import CaseStudyDetail from "@/src/views/case-studies/CaseStudyDetail";
 
+export const revalidate = 3600;
+export const dynamicParams = false;
+
 interface CaseStudyPageProps {
   params: {
     slug: string;

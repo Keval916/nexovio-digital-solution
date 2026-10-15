@@ -35,35 +35,6 @@ interface CaseStudyPageProps {
   };
 }
 
-export function generateStaticParams() {
-  return CASE_STUDIES.map((study) => ({
-    slug: study.slug,
-  }));
-}
-
-export function generateMetadata({ params }: CaseStudyPageProps) {
-  const study = getCaseStudyBySlug(params.slug);
-  if (!study) {
-    return {
-      title: "Case Study Not Found",
-    };
-  }
-
-  return generatePageMetadata({
-    title: study.seoTitle,
-    description: study.seoDescription,
-    keywords: [
-      study.industry,
-      ...study.services,
-      ...study.techStack,
-      "Case Study",
-      "Technical Architecture",
-      "Nexovio Digital Solutions",
-    ],
-    path: `/case-studies/${study.slug}`,
-  });
-}
-
 export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
   const study = getCaseStudyBySlug(params.slug);
   if (!study) {

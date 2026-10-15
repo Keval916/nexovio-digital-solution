@@ -4,8 +4,7 @@ import { BlogArticle } from "@/src/data/blog";
 import { generatePageMetadata, SITE_URL } from "@/src/lib/seo";
 import BlogDetail from "@/src/views/blog/BlogDetail";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 60;
 export const dynamicParams = true;
 
 interface BlogArticlePageProps {
