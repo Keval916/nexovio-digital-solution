@@ -122,12 +122,11 @@ const AI_SOLUTIONS = [
   },
   {
     name: "AI Automation Solutions",
-    href: "/services/ai-development#ai-services",
+    href: "/services/ai-automation-solutions",
     description: "Automate repetitive support, CRM, document processing & lead workflows",
     icon: Zap,
-    badge: "Coming Soon",
     category: "Automation",
-    isLive: false,
+    isLive: true,
   },
   {
     name: "AI Search & RAG Solutions",

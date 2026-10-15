@@ -24,6 +24,7 @@ export const ROUTES = [
   "/services/generative-ai-development",
   "/services/ai-agent-development",
   "/services/ai-chatbot-development",
+  "/services/ai-automation-solutions",
   "/case-studies",
   "/case-studies/parts-connexion",
   "/case-studies/inside-injury",
