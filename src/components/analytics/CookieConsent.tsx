@@ -10,15 +10,23 @@ export function CookieConsent() {
 
   useEffect(() => {
     try {
-      const consent = localStorage.getItem("nexovio_cookie_consent");
-      if (!consent) {
+      const v2Consent = localStorage.getItem("nexovio_consent_v2");
+      const legacyConsent = localStorage.getItem("nexovio_cookie_consent");
+
+      // Auto-heal legacy 'denied' bug from clicking X
+      if (legacyConsent === "denied" && !v2Consent) {
+        localStorage.setItem("nexovio_consent_v2", "dismissed");
+        return;
+      }
+
+      if (!v2Consent && !legacyConsent) {
         const timer = setTimeout(() => {
           setShowBanner(true);
           // Trigger entrance animation
           requestAnimationFrame(() => {
             setTimeout(() => setVisible(true), 20);
           });
-        }, 0);
+        }, 300);
         return () => clearTimeout(timer);
       }
     } catch {
@@ -26,17 +34,19 @@ export function CookieConsent() {
     }
   }, []);
 
-  const dismiss = (value: "granted" | "denied") => {
+  const dismiss = (value: "granted" | "declined") => {
     setVisible(false);
     setTimeout(() => {
       try {
-        localStorage.setItem("nexovio_cookie_consent", value);
+        localStorage.setItem("nexovio_consent_v2", value);
+        localStorage.setItem("nexovio_cookie_consent", value === "declined" ? "denied" : "granted");
         if (typeof window !== "undefined" && window.gtag) {
+          const gaValue = value === "declined" ? "denied" : "granted";
           window.gtag("consent", "update", {
-            analytics_storage: value,
-            ad_storage: value,
-            ad_user_data: value,
-            ad_personalization: value,
+            analytics_storage: gaValue,
+            ad_storage: gaValue,
+            ad_user_data: gaValue,
+            ad_personalization: gaValue,
           });
         }
       } catch { }
@@ -48,6 +58,7 @@ export function CookieConsent() {
     setVisible(false);
     setTimeout(() => {
       try {
+        localStorage.setItem("nexovio_consent_v2", "dismissed");
         localStorage.setItem("nexovio_cookie_consent", "dismissed");
       } catch { }
       setShowBanner(false);
@@ -239,7 +250,7 @@ export function CookieConsent() {
                   {/* Decline */}
                   <button
                     type="button"
-                    onClick={() => dismiss("denied")}
+                    onClick={() => dismiss("declined")}
                     style={{
                       padding: "10px 22px",
                       borderRadius: "10px",

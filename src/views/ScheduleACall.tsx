@@ -26,6 +26,7 @@ import { Card } from "@/src/components/ui/Card";
 import { FaqSection } from "@/src/components/sections/FaqSection";
 import { SITE_NAME, SITE_URL } from "@/src/lib/seo";
 import { getBreadcrumbSchema } from "@/src/lib/schema";
+import { trackContactClick } from "@/src/lib/analytics";
 
 // ==========================================
 // CALL AGENDA PILLARS
@@ -330,6 +331,7 @@ export default function ScheduleCallPage() {
               href="https://wa.me/916351312234"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackContactClick("whatsapp", "schedule_a_call_direct")}
               className="group p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] hover:border-emerald-400 hover:shadow-lg transition-all duration-300 flex flex-col justify-between text-left"
             >
               <div className="space-y-3">
@@ -351,6 +353,7 @@ export default function ScheduleCallPage() {
             {/* Direct Email */}
             <a
               href="mailto:info@nexoviodigitalsolutions.com"
+              onClick={() => trackContactClick("email", "schedule_a_call_direct")}
               className="group p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] hover:border-brand-cyan hover:shadow-lg transition-all duration-300 flex flex-col justify-between text-left"
             >
               <div className="space-y-3">
@@ -372,6 +375,7 @@ export default function ScheduleCallPage() {
             {/* Direct Phone */}
             <a
               href="tel:+916351312234"
+              onClick={() => trackContactClick("phone", "schedule_a_call_direct")}
               className="group p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] hover:border-brand-bright hover:shadow-lg transition-all duration-300 flex flex-col justify-between text-left"
             >
               <div className="space-y-3">

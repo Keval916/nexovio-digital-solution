@@ -14,6 +14,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { FinalCtaSection } from "@/src/components/sections/FinalCtaSection";
+import { trackContactClick } from "@/src/lib/analytics";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -53,6 +54,7 @@ export function Footer() {
               <div className="flex flex-wrap items-center gap-3">
                 <a
                   href={`mailto:${contactEmail}`}
+                  onClick={() => trackContactClick("email", "footer_action_bar")}
                   className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700 text-xs font-medium text-slate-200 keep-slate hover:text-white keep-white transition-all duration-200"
                 >
                   <Mail className="w-3.5 h-3.5 text-cyan-400" />
@@ -63,6 +65,7 @@ export function Footer() {
                   href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackContactClick("whatsapp", "footer_action_bar")}
                   className="whatsapp-btn inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-950/70 border border-emerald-500/30 hover:border-emerald-500/50 text-xs font-medium text-emerald-400 hover:text-emerald-400 transition-all duration-200"
                 >
                   <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
@@ -103,6 +106,7 @@ export function Footer() {
                   <Phone className="w-4 h-4 text-cyan-400 shrink-0" />
                   <a
                     href={`tel:${contactPhone.replace(/\s+/g, "")}`}
+                    onClick={() => trackContactClick("phone", "footer_contact_info")}
                     className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors"
                   >
                     {contactPhone}

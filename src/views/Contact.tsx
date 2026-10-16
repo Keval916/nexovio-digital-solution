@@ -7,6 +7,7 @@ import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { ContactForm } from "@/src/components/forms/ContactForm";
 import { FaqSection } from "@/src/components/sections/FaqSection";
 import { getContactPageSchema } from "@/src/lib/schema";
+import { trackContactClick } from "@/src/lib/analytics";
 
 const STEPS = [
   {
@@ -117,6 +118,7 @@ export default function ContactPage() {
                 <div className="space-y-4">
                   <a
                     href={`mailto:${contactEmail}`}
+                    onClick={() => trackContactClick("email", "contact_page_card")}
                     className="flex items-start gap-4 p-4 rounded-xl border border-border-subtle bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
                   >
                     <div className="p-3 rounded-lg bg-brand-bright/10 text-brand-bright group-hover:text-brand-cyan transition-colors">
@@ -134,6 +136,7 @@ export default function ContactPage() {
 
                   <a
                     href={`tel:${contactPhone.replace(/\s+/g, "")}`}
+                    onClick={() => trackContactClick("phone", "contact_page_card")}
                     className="flex items-start gap-4 p-4 rounded-xl border border-border-subtle bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
                   >
                     <div className="p-3 rounded-lg bg-brand-bright/10 text-brand-bright group-hover:text-brand-cyan transition-colors">
@@ -153,6 +156,7 @@ export default function ContactPage() {
                     href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => trackContactClick("whatsapp", "contact_page_card")}
                     className="flex items-start gap-4 p-4 rounded-xl border border-border-subtle bg-surface/60 hover:border-brand-cyan/40 hover:bg-surface transition-all group"
                   >
                     <div className="p-3 rounded-lg bg-brand-cyan/10 text-brand-cyan group-hover:brightness-125 transition-all">

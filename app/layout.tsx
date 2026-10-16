@@ -147,8 +147,8 @@ export default function RootLayout({
         <meta name="revisit-after" content="2 days" />
       </head>
       <body className={`${inter.variable} ${plusJakartaSans.variable} ${ibmPlexMono.variable} ${playfair.variable} min-h-screen bg-background text-foreground selection:bg-brand-bright selection:text-white flex flex-col font-sans transition-colors duration-300`}>
-        <GoogleTagManager />
         <GoogleAnalytics />
+        <GoogleTagManager />
         <SiteChrome>{children}</SiteChrome>
         {/* Tawk.to Live Chat Script */}
         <Script

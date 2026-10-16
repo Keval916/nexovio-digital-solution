@@ -30,6 +30,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { cn } from "@/lib/utils";
+import { trackContactClick } from "@/src/lib/analytics";
 
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
 const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
@@ -276,6 +277,7 @@ export function Header() {
                 href={`https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackContactClick("whatsapp", "header_top_bar")}
                 className="flex items-center gap-2.5 text-xs text-slate-300 keep-slate hover:text-brand-cyan transition-colors"
               >
                 <MessageSquare className="w-3.5 h-3.5 text-brand-cyan" />

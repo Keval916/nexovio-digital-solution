@@ -24,17 +24,32 @@ export function GoogleAnalytics() {
             function gtag(){dataLayer.push(arguments);}
             window.gtag = gtag;
             var storedConsent = null;
-            try { storedConsent = localStorage.getItem('nexovio_cookie_consent'); } catch(e){}
+            try {
+              storedConsent = localStorage.getItem('nexovio_consent_v2');
+              if (!storedConsent) {
+                var legacy = localStorage.getItem('nexovio_cookie_consent');
+                // Auto-migrate legacy bug: previous 'denied' caused by clicking X is converted to dismissed
+                if (legacy === 'denied') {
+                  storedConsent = 'dismissed';
+                  localStorage.setItem('nexovio_consent_v2', 'dismissed');
+                } else if (legacy) {
+                  storedConsent = legacy;
+                }
+              }
+            } catch(e){}
+
+            var isDeclined = storedConsent === 'declined';
             gtag('consent', 'default', {
-              'analytics_storage': storedConsent === 'denied' ? 'denied' : 'granted',
-              'ad_storage': storedConsent === 'denied' ? 'denied' : 'granted',
-              'ad_user_data': storedConsent === 'denied' ? 'denied' : 'granted',
-              'ad_personalization': storedConsent === 'denied' ? 'denied' : 'granted'
+              'analytics_storage': isDeclined ? 'denied' : 'granted',
+              'ad_storage': isDeclined ? 'denied' : 'granted',
+              'ad_user_data': isDeclined ? 'denied' : 'granted',
+              'ad_personalization': isDeclined ? 'denied' : 'granted'
             });
             gtag('js', new Date());
             gtag('config', '${gaId}', {
               page_location: window.location.href,
-              page_title: document.title
+              page_title: document.title,
+              send_page_view: true
             });
           `,
         }}

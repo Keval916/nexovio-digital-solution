@@ -20,10 +20,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Ignore localhost / dev environments for domain and protocol enforcement
+  const isLocal = host.includes("localhost") || host.includes("127.0.0.1") || host === "";
+
   // 1. Redirect apex domain (nexoviodigitalsolutions.com) to www.nexoviodigitalsolutions.com (301 Permanent)
-  const isApex = host === "nexoviodigitalsolutions.com";
-  // 2. Redirect http to https (in production or live environments)
-  const isHttp = proto === "http" || request.nextUrl.protocol === "http:";
+  const isApex = !isLocal && host === "nexoviodigitalsolutions.com";
+  // 2. Redirect http to https (only in live environments when client connects via http)
+  const isHttp = !isLocal && proto === "http";
   // 3. Remove trailing slash (e.g. /case-studies/ -> /case-studies)
   const hasTrailingSlash = pathname.length > 1 && pathname.endsWith("/");
 
