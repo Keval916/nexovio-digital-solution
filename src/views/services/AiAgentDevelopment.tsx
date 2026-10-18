@@ -1173,9 +1173,9 @@ export default function AiAgentDevelopment() {
                         </div>
                       </div>
 
-                      <div className="pt-4 mt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-[11px] font-mono text-muted">
-                        <span className="text-slate-500 dark:text-slate-400 truncate max-w-[210px]">
-                          {srv.keywordCluster}
+                      <div className="pt-4 mt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-muted">
+                        <span className="text-slate-500 dark:text-slate-400 font-medium">
+                          Autonomous Agent Swarms
                         </span>
                         <Link
                           href="/contact"

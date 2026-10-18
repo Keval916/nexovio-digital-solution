@@ -159,7 +159,7 @@ const CORE_SERVICES: CoreServiceItem[] = [
     tagline: "Semantic HTML & Headings Hierarchy",
     description:
       "Refine H1-H3 hierarchy, title tags, meta descriptions, semantic layout, internal link, image SEO and page content to make each URL more focused.",
-    keywordFocus: ["on-page SEO", "seo content optimization", "serviços de on-page seo"],
+    keywordFocus: ["on-page SEO", "seo content optimization", "on-page SEO audit"],
     bestFor: "Established service pages that could use more search relevance and CTR.",
     previewType: "onpage",
   },
@@ -293,7 +293,7 @@ const HUMANIZED_CONTENT_RULES = [
   "Create depth of topic. Powerful service pages are supported by related articles that cover comparisons, guides, and FAQs that help solidify the topic.",
   "Provide your own business perspective. Case studies, project examples, process notes and real-world operational experience lend credibility to your content.",
   "Don't make over the top promises. Substitute the “guaranteed rankings” type language with transparent information about what is being optimized and assessed.",
-  "Rewrite for spoken language. Short sentences, real-life examples and simple language language are what help make technical SEO understandable to busy executives.",
+  "Rewrite for spoken language. Short sentences, real-life examples and simple language are what help make technical SEO understandable to busy executives.",
   "Make each page friendly. One main search intent with a couple of closely related search intents is a much better recipe for content clarity than trying to rank for everything.",
 ];
 
@@ -916,27 +916,6 @@ export default function SeoDigitalMarketingPage() {
                       {srv.description}
                     </p>
 
-                    <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-white/10">
-                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
-                        Keyword Focus:
-                      </span>
-                      <div className="flex flex-wrap gap-1.5">
-                        {srv.keywordFocus.map((kw) => (
-                          <span
-                            key={kw}
-                            className="px-2 py-0.5 rounded text-[10px] font-semibold bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20"
-                          >
-                            {kw}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {srv.note && (
-                      <p className="text-[11px] text-amber-500 italic bg-amber-500/10 p-2 rounded border border-amber-500/20">
-                        {srv.note}
-                      </p>
-                    )}
                   </div>
 
                   <div className="pt-4 border-t border-slate-100 dark:border-white/10 mt-6">

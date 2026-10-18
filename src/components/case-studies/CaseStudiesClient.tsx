@@ -70,7 +70,7 @@ const VERIFICATION_FRAMEWORK = [
     description:
       "For e-commerce and SaaS platforms with active revenues, we run parallel staging synchronization and bidirectional database routines to eliminate downtime entirely.",
     icon: Database,
-    highlight: "Zero Revenue Loss Guarantee",
+    highlight: "Zero Downtime Cutover Protocol",
   },
   {
     step: "04",
@@ -79,7 +79,7 @@ const VERIFICATION_FRAMEWORK = [
     description:
       "Post-launch telemetry is mapped via GA4 enhanced measurement, Search Console indexing logs, and Lighthouse audits to verify conversion and revenue gains.",
     icon: BarChart3,
-    highlight: "100% Client-Audited Outcomes",
+    highlight: "Documented Telemetry & Outcomes",
   },
 ];
 

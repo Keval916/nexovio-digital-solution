@@ -379,54 +379,27 @@ export function Header() {
                       <div className="grid grid-cols-2 gap-3">
                         {AI_SOLUTIONS.map((svc) => {
                           const Icon = svc.icon;
-                          if (svc.isLive) {
-                            return (
-                              <Link
-                                key={svc.name}
-                                href={svc.href}
-                                onClick={() => setActiveDropdown(null)}
-                                className="flex items-start gap-3.5 p-3 rounded-xl border border-brand-cyan/50 hover:border-brand-cyan bg-brand-cyan/[0.06] hover:bg-brand-cyan/[0.12] transition-all duration-200 group relative shadow-sm"
-                              >
-                                <div className="p-2.5 rounded-lg bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan group-hover:scale-105 transition-all shrink-0">
-                                  <Icon className="w-4 h-4" />
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                  <div className="flex items-center justify-between gap-1">
-                                    <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
-                                      {svc.name}
-                                    </span>
-                                  </div>
-                                  <div className="text-[11px] text-slate-600 dark:text-slate-300 line-clamp-2 mt-1 leading-relaxed">
-                                    {svc.description}
-                                  </div>
-                                </div>
-                              </Link>
-                            );
-                          }
-
                           return (
-                            <div
+                            <Link
                               key={svc.name}
-                              className="flex items-start gap-3.5 p-3 rounded-xl border border-slate-200/80 dark:border-white/5 bg-slate-50/60 dark:bg-white/[0.02] hover:border-slate-300 dark:hover:border-white/10 transition-all duration-200 group"
+                              href={svc.href}
+                              onClick={() => setActiveDropdown(null)}
+                              className="flex items-start gap-3.5 p-3 rounded-xl border border-brand-cyan/50 hover:border-brand-cyan bg-brand-cyan/[0.06] hover:bg-brand-cyan/[0.12] transition-all duration-200 group relative shadow-sm"
                             >
-                              <div className="p-2.5 rounded-lg bg-white dark:bg-surface-subtle border border-slate-200/80 dark:border-white/10 text-slate-500 dark:text-muted group-hover:text-brand-cyan transition-all shrink-0">
+                              <div className="p-2.5 rounded-lg bg-brand-cyan/20 border border-brand-cyan/40 text-brand-cyan group-hover:scale-105 transition-all shrink-0">
                                 <Icon className="w-4 h-4" />
                               </div>
                               <div className="min-w-0 flex-1">
                                 <div className="flex items-center justify-between gap-1">
-                                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200 group-hover:text-brand-cyan transition-colors">
+                                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
                                     {svc.name}
                                   </span>
-                                  <span className="inline-flex items-center gap-1 text-[9px] font-mono font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 dark:bg-amber-400/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 shrink-0">
-                                    <Clock className="w-2.5 h-2.5 text-amber-500" />
-                                    Coming Soon
-                                  </span>
                                 </div>
-                                <div className="text-[11px] text-slate-500 dark:text-muted line-clamp-2 mt-1 leading-relaxed">
+                                <div className="text-[11px] text-slate-600 dark:text-slate-300 line-clamp-2 mt-1 leading-relaxed">
                                   {svc.description}
                                 </div>
                               </div>
-                            </div>
+                            </Link>
                           );
                         })}
                       </div>
@@ -808,36 +781,18 @@ export function Header() {
                   <div className="px-3 pb-3 space-y-1.5 border-t border-brand-cyan/20 pt-2">
                     {AI_SOLUTIONS.map((svc) => {
                       const Icon = svc.icon;
-                      if (svc.isLive) {
-                        return (
-                          <Link
-                            key={svc.name}
-                            href={svc.href}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center justify-between p-2.5 rounded-lg text-xs font-bold text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/40"
-                          >
-                            <div className="flex items-center gap-2.5 min-w-0">
-                              <Icon className="w-4 h-4 text-brand-cyan shrink-0" />
-                              <span className="truncate">{svc.name}</span>
-                            </div>
-                          </Link>
-                        );
-                      }
-
                       return (
-                        <div
+                        <Link
                           key={svc.name}
-                          className="flex items-center justify-between p-2.5 rounded-lg text-xs font-medium text-slate-700 dark:text-muted bg-slate-50/60 dark:bg-white/[0.02] border border-slate-200/60 dark:border-white/5"
+                          href={svc.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="flex items-center justify-between p-2.5 rounded-lg text-xs font-bold text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/40 hover:bg-brand-cyan/20 transition-colors"
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <Icon className="w-4 h-4 text-slate-400 shrink-0" />
+                            <Icon className="w-4 h-4 text-brand-cyan shrink-0" />
                             <span className="truncate">{svc.name}</span>
                           </div>
-                          <span className="inline-flex items-center gap-1 text-[9px] font-mono text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200/80 dark:border-white/10 shrink-0">
-                            <Clock className="w-2.5 h-2.5 text-amber-500" />
-                            Coming Soon
-                          </span>
-                        </div>
+                        </Link>
                       );
                     })}
                   </div>

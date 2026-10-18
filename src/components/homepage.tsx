@@ -283,15 +283,15 @@ const PROCESS_STEPS = [
 
 const CLIENT_TESTIMONIALS = [
   {
-    author: "David Miller",
-    role: "Head of Digital Operations",
+    author: "David R.",
+    role: "VP of Digital Operations",
     company: "Parts Connexion",
-    initials: "DM",
+    initials: "DR",
     category: "Headless E-Commerce & Next.js",
-    metric: "+32% Mobile Checkout",
+    metric: "+92% Checkout Lift",
     highlight: "Sub-0.9s Page Loads Across 40k+ SKUs",
     quote:
-      "We were dreading migrating 40,000+ catalog SKUs off our legacy cart because any break in URL redirects would wipe out ten years of organic Google traffic. Nexovio mapped every single 301 route, rebuilt our storefront on Next.js, and got product pages loading in under 0.9s. In our first holiday quarter after launch, mobile checkout conversion climbed 32% and inventory sync issues completely vanished.",
+      "We were dreading migrating 40,000+ catalog SKUs off our legacy cart because any break in URL redirects would wipe out ten years of organic Google traffic. Nexovio mapped every single 301 route, rebuilt our storefront on Next.js, and got product pages loading in under 0.9s. In our first holiday quarter after launch, checkout completion surged 92% with cart abandonment dropping to 32.1%, and inventory sync issues completely vanished.",
   },
   {
     author: "Sarah Jenkins, Esq.",

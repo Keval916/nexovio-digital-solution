@@ -838,19 +838,14 @@ export default function UiUxDesignPage() {
                   </div>
 
                   <div className="pt-4 border-t border-slate-100 dark:border-white/10 mt-6 flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-brand-cyan block">
-                        Keyword Focus:
-                      </span>
-                      <span className="text-[11px] font-mono text-muted">
-                        {srv.keywordCluster}
-                      </span>
-                    </div>
+                    <span className="text-xs text-muted font-medium">
+                      Tailored design deliverables
+                    </span>
                     <Link
                       href="/contact"
                       className="inline-flex items-center gap-1 text-xs font-bold text-brand-cyan hover:underline"
                     >
-                      <span>Inquire</span>
+                      <span>Request a Consultation</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>

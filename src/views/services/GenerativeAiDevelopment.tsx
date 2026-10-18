@@ -821,9 +821,9 @@ export default function GenerativeAiDevelopment() {
                         </div>
                       </div>
 
-                      <div className="pt-4 mt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-[11px] font-mono text-muted">
-                        <span className="text-slate-500 dark:text-slate-400 truncate max-w-[220px]">
-                          {srv.keywordCluster}
+                      <div className="pt-4 mt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-xs text-muted">
+                        <span className="text-slate-500 dark:text-slate-400 font-medium">
+                          Production GenAI Models
                         </span>
                         <Link
                           href="/contact"

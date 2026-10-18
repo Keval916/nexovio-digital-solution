@@ -964,7 +964,7 @@ export default function WebDevelopmentPage() {
               </h1>
 
               <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed">
-                <p className="font-medium text-md text-slate-900 dark:text-white">We craft clean, modern, responsive and scalable digital experience to connect businesses with customers, build trust and help them grow online. Business websites and e-commerce stores to web applications and API powered platforms, we architect solutions aligned to your objectives.</p>
+                <p className="font-medium text-md text-slate-900 dark:text-white">We craft clean, modern, responsive, and scalable digital experiences to connect businesses with customers, build trust, and accelerate online growth. From business websites and e-commerce stores to custom web applications and API-powered platforms, we architect solutions aligned with your commercial objectives.</p>
               </div>
 
               {/* 6 Banner Badges in 3-Column Grid */}

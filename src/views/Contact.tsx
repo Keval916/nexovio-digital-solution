@@ -177,7 +177,7 @@ export default function ContactPage() {
               <div className="rounded-xl border border-border-subtle bg-surface/50 p-6 space-y-3">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-900 dark:text-white">
                   <ShieldCheck className="w-4 h-4 text-brand-cyan" />
-                  <span>Our Privacy & Confidentiality Guarantee</span>
+                  <span>Our Privacy & Confidentiality Commitment</span>
                 </div>
                 <p className="text-xs text-muted leading-relaxed">
                   All project details and technical inquiries shared with Nexovio Digital Solutions remain strictly confidential. We never sell your contact information or disclose project roadmaps.
