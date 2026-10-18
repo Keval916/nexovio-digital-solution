@@ -5,7 +5,7 @@ import { SITE_URL, generatePageMetadata, BRAND_LOGO_SQUARE } from '@/src/lib/seo
 export const metadata: Metadata = generatePageMetadata({
   title: 'White-Label Web Development Partner for Agencies | Nexovio',
   description:
-    'Partner with Nexovio as your trusted white-label web development partner. Reliable outsourced web development, UI/UX design, Next.js apps, and agency delivery support behind the scenes.',
+    'Scale your agency with Nexovio. Confidential white-label web development, Next.js engineering, UI/UX design, and dedicated agency delivery support.',
   keywords: [
     'white-label web development partner',
     'outsourced web development',

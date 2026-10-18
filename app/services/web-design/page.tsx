@@ -5,7 +5,7 @@ import { generatePageMetadata } from "@/src/lib/seo";
 export const metadata: Metadata = generatePageMetadata({
   title: "Professional Web Design & Responsive Website Design | Nexovio",
   description:
-    "Bespoke, conversion-focused web design services for business websites and landing pages. Intuitive layouts, responsive design, modern typography, and brand-driven visual systems.",
+    "Conversion-focused web design services for business websites and landing pages. Intuitive layouts, responsive interfaces, and modern brand visual systems.",
   keywords: [
     "web design services",
     "responsive website design",

@@ -5,9 +5,9 @@ import { headers } from "next/headers";
 import { SupportedCurrency, getCurrencyForCountry } from "@/src/data/pricing";
 
 export const metadata = generatePageMetadata({
-  title: "Website Development Pricing & Packages | Starting $149 / ₹9,999 | Nexovio",
+  title: "Website Development Pricing & Packages | Nexovio",
   description:
-    "Explore transparent website development pricing starting at $149 (₹9,999 INR / AED 549). Fixed-price starter, professional, and custom web application packages with clear deliverables.",
+    "Transparent website development packages starting at $149 / ₹9,999. Fixed-price starter, professional, and custom web application pricing with zero surprises.",
   keywords: [
     "website development pricing",
     "website design packages",

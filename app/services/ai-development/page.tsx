@@ -5,7 +5,7 @@ import { generatePageMetadata } from "@/src/lib/seo";
 export const metadata: Metadata = generatePageMetadata({
   title: "AI Automation Services & Business Workflow Automation | Nexovio",
   description:
-    "Deploy practical AI automation services and AI-powered business applications. Custom workflow automation, document processing, intelligent triage, and enterprise AI integrations.",
+    "Deploy practical AI automation and business applications. Custom workflow automation, document processing, intelligent triage, and enterprise LLM integrations.",
   keywords: [
     "AI automation services",
     "business workflow automation",

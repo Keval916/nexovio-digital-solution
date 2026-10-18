@@ -5,7 +5,7 @@ import { generatePageMetadata } from "@/src/lib/seo";
 export const metadata: Metadata = generatePageMetadata({
   title: "Technical SEO Services, Website SEO Audits & Growth | Nexovio",
   description:
-    "Improve organic search rankings and qualified website traffic with Nexovio. Technical SEO services, comprehensive website audits, Core Web Vitals fixes, and content optimization.",
+    "Improve search rankings and qualified traffic with Nexovio. Technical SEO services, comprehensive website audits, Core Web Vitals fixes, and CRO.",
   keywords: [
     "technical SEO services",
     "website SEO audits",
