@@ -1124,7 +1124,7 @@ export default function WebDevelopmentPage() {
                       </div>
                       <div>
                         <span className="text-[10px] font-mono font-bold text-brand-cyan uppercase tracking-wider block">
-                          Service 0{idx + 1}
+                          Service {String(idx + 1).padStart(2, "0")}
                         </span>
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors h-[56px] overflow-hidden">
                           {srv.title}
@@ -1267,7 +1267,7 @@ export default function WebDevelopmentPage() {
               >
                 <div>
                   <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/20 inline-block mb-3">
-                    Phase 0{pIdx + 1}
+                    Phase {String(pIdx + 1).padStart(2, "0")}
                   </span>
                   <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
                     {phase.title}

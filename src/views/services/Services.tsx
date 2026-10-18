@@ -118,7 +118,7 @@ export default function ServicesPage() {
                       </div>
                       <div>
                         <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan">
-                          Service 0{index + 1}
+                          Service {String(index + 1).padStart(2, "0")}
                         </span>
                         <h2 className="text-xl sm:text-2xl font-bold bg-gradient-brand bg-clip-text text-transparent">
                           {service.name}

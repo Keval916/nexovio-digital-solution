@@ -693,7 +693,7 @@ export default function AboutPage() {
               >
                 <div>
                   <div className="w-8 h-8 rounded-full bg-brand-cyan/10 border border-brand-cyan/25 text-brand-cyan font-mono text-xs font-bold flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-brand-cyan group-hover:text-black transition-all duration-300">
-                    0{i + 1}
+                    {String(i + 1).padStart(2, "0")}
                   </div>
                   <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2 group-hover:text-brand-cyan transition-colors">{principle.title}</h3>
                   <p className="text-xs text-muted leading-relaxed">{principle.desc}</p>

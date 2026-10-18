@@ -1405,7 +1405,7 @@ export default function MobileAppDevelopmentPage() {
                 className="group flex items-start gap-3.5 p-4 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071328] shadow-xs hover:border-brand-cyan/60 hover:bg-brand-cyan/[0.03] hover:translate-x-1.5 transition-all duration-300 cursor-default"
               >
                 <div className="w-7 h-7 rounded-lg bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan font-mono text-xs font-bold shrink-0 mt-0.5 group-hover:bg-brand-cyan group-hover:text-slate-950 group-hover:border-brand-cyan group-hover:scale-110 transition-all duration-300">
-                  0{index + 1}
+                  {String(index + 1).padStart(2, "0")}
                 </div>
                 <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-snug group-hover:text-slate-950 dark:group-hover:text-white transition-colors">
                   {deliv}

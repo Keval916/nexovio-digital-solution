@@ -876,7 +876,7 @@ export default function WebDesignPage() {
                 className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-surface/80 space-y-3 hover:border-brand-cyan/40 transition-colors shadow-sm"
               >
                 <span className="text-xs font-mono font-bold text-brand-cyan">
-                  STEP 0{idx + 1}
+                  STEP {String(idx + 1).padStart(2, "0")}
                 </span>
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white">
                   {step.title}

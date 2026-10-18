@@ -89,7 +89,7 @@ export function ProcessSection() {
                         <Icon className="w-6 h-6" />
                       </div>
                       <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">
-                        Phase 0{index + 1}
+                        Phase {String(index + 1).padStart(2, "0")}
                       </span>
                     </div>
                     <h3 className="text-xl font-bold text-foreground mb-1 group-hover:text-brand-cyan transition-colors">

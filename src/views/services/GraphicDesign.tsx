@@ -1279,7 +1279,7 @@ export default function GraphicDesignPage() {
                 className="group flex items-center gap-3 p-4 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#070F22] hover:border-brand-cyan/60 hover:bg-brand-cyan/[0.03] hover:translate-x-1.5 transition-all duration-300 cursor-default shadow-xs"
               >
                 <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan font-mono text-xs font-bold shrink-0 group-hover:scale-110 group-hover:bg-brand-cyan group-hover:text-slate-950 transition-all duration-300">
-                  0{index + 1}
+                  {String(index + 1).padStart(2, "0")}
                 </div>
                 <p className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 italic leading-snug group-hover:text-brand-cyan transition-colors">
                   {req}

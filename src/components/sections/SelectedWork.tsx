@@ -71,7 +71,7 @@ export function SelectedWork() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
                     <span className="absolute top-3 left-3 text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-black/80 text-brand-cyan border border-brand-cyan/30 backdrop-blur-sm">
-                      CASE STUDY 0{index + 1}
+                      CASE STUDY {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
 

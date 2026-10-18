@@ -103,7 +103,7 @@ export function ServicesInteractive() {
               <div className="lg:col-span-6 space-y-6">
                 <div>
                   <span className="text-xs font-mono text-brand-cyan tracking-widest uppercase block mb-1">
-                    SERVICE 0{SERVICES.findIndex((s) => s.slug === activeService.slug) + 1}
+                    SERVICE {String(SERVICES.findIndex((s) => s.slug === activeService.slug) + 1).padStart(2, "0")}
                   </span>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-2">
                     {activeService.name}

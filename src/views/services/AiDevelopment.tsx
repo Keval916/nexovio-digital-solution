@@ -1191,7 +1191,7 @@ export default function AiDevelopment() {
                       </div>
                       <div>
                         <div className="text-[10px] font-mono uppercase tracking-wider text-muted">
-                          Problem 0{idx + 1}
+                          Problem {String(idx + 1).padStart(2, "0")}
                         </div>
                         <div
                           className={`text-xs sm:text-sm font-bold transition-colors line-clamp-1 ${isSelected

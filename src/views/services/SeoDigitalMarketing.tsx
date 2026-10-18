@@ -1043,7 +1043,7 @@ export default function SeoDigitalMarketingPage() {
                   className="p-4 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] flex items-start gap-3.5 shadow-xs hover:border-brand-cyan/40 transition-colors group"
                 >
                   <div className="w-6 h-6 rounded-md bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan font-mono text-xs font-bold shrink-0 mt-0.5 group-hover:bg-brand-cyan group-hover:text-black transition-colors">
-                    0{idx + 1}
+                    {String(idx + 1).padStart(2, "0")}
                   </div>
                   <span className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium">{rule}</span>
                 </div>
