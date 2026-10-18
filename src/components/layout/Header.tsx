@@ -132,7 +132,6 @@ const AI_SOLUTIONS = [
     href: "/services/ai-development#ai-services",
     description: "Connect language models to proprietary enterprise docs & private vector data",
     icon: BrainCircuit,
-    badge: "ACTIVE",
     category: "Search & RAG",
     isLive: true,
   },

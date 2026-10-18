@@ -787,7 +787,7 @@ export default function GenerativeAiDevelopment() {
                           </div>
                           <div>
                             <span className="text-[10px] font-mono font-bold text-brand-cyan uppercase tracking-wider block">
-                              Capability 0{idx + 1} &bull; {srv.badge}
+                              Capability {String(idx + 1).padStart(2, "0")} &bull; {srv.badge}
                             </span>
                             <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
                               {srv.title}

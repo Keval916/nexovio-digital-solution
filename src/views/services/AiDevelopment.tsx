@@ -300,7 +300,7 @@ const AI_SERVICES: AiServiceItem[] = [
   },
   {
     id: "ai-search-rag",
-    title: "AI Search & RAG Development",
+    title: "AI Search & RAG Solutions",
     shortDesc:
       "Ground language models directly in your internal knowledge base with vector embeddings, semantic retrieval, and verified citations.",
     deliverables: [

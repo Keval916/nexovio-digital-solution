@@ -322,23 +322,23 @@ const GLOBAL_SEO_PILLARS = [
 const MEASUREMENT_LAYERS = [
   {
     layer: "Acquisition",
-    metrics: "Organic sessions, landing pages, query themes, demand for recommendations vs. non-ren- dation branded",
+    metrics: "Organic search sessions, landing-page distribution, branded vs. non-branded query demand",
   },
   {
     layer: "Engagement",
-    metrics: "Engaged sessions, scroll session, key page event, content con- sumption",
+    metrics: "Engaged sessions, average scroll depth, key interactive events, and multi-page content journeys",
   },
   {
     layer: "Conversion",
-    metrics: "Form submissions, calls, clicks on WhatsApp, bookings for consultations, downloads",
+    metrics: "Form submissions, inbound calls, WhatsApp conversations, consultation bookings, and resource downloads",
   },
   {
     layer: "Commercial quality",
-    metrics: "Lead source, service interest, quali- fied enquiry signals, downstream opportunity information",
+    metrics: "Attributed lead sources, specific service interest, qualified inquiry signals, and downstream deal pipeline",
   },
   {
     layer: "Optimization",
-    metrics: "High impression but low CTR pages, high traffic but low con- version pages, soon-to-be expired URLs, hidden gems",
+    metrics: "High-impression / low-CTR queries, high-traffic / low-conversion pages, and content refresh opportunities",
   },
 ];
 
@@ -346,123 +346,123 @@ const PROCESS_STEPS_FULL = [
   {
     step: "01",
     title: "Audit",
-    desc: "Know the business, website, search visibility, technical status, content and conversion path.",
+    desc: "Examine business goals, existing search visibility, technical architecture, content quality, and current conversion paths.",
   },
   {
     step: "02",
     title: "Research",
-    desc: "Organize keywords, intent of search, competitors, questions of audience, and opportunities commercial.",
+    desc: "Map commercial search intent, audience questions, competitor keyword gaps, and high-value conversion queries.",
   },
   {
     step: "03",
     title: "Prioritize",
-    desc: "Distinguish among the essential technical repairs, content opportunities, and conversion enhancements.",
+    desc: "Prioritize mission-critical technical repairs, high-intent content opportunities, and high-impact CRO enhancements.",
   },
   {
     step: "04",
     title: "Implement",
-    desc: "Enhance architecture, metadata, content, internal links, technical infrastructure, tracking, and priority landing pages.",
+    desc: "Upgrade technical infrastructure, semantic metadata, internal linking structures, priority service landing pages, and GA4 event tracking.",
   },
   {
     step: "05",
     title: "Measure",
-    desc: "Track visibility, landing page activity, and meaningful conversions with Search Console/GA4/GTM.",
+    desc: "Monitor impression trends, organic landing page engagement, and qualified lead completions via Search Console, GA4, and Google Tag Manager.",
   },
   {
     step: "06",
     title: "Refine",
-    desc: "Leverage performance data to refresh content, test conversion paths, expand strong topic clusters, and mitigate emerging issues technical.",
+    desc: "Leverage performance telemetry to refresh aging content, A/B test conversion funnels, expand topical clusters, and resolve technical anomalies.",
   },
 ];
 
 const INDUSTRIES = [
   {
     title: "SaaS & Technology",
-    desc: "High intent product/service pages, feature topics and comparison content, technical SEO and content clustesr for complex product questions.",
+    desc: "High-intent feature comparison pages, technical SEO for web applications, and topic clusters answering complex architectural questions.",
     icon: Cpu,
   },
   {
     title: "E-commerce",
-    desc: "Category/product organization, on-site links, faceted-navigation issues, product information and landing pages focused on conversion.",
+    desc: "Clean taxonomy, faceted navigation optimization, schema product markup, and high-converting category landing pages.",
     icon: ShoppingBag,
   },
   {
     title: "Healthcare",
-    desc: "Trust content, unambiguous service details, local discovery, and content quality conisderations.",
+    desc: "High-trust clinical explanations, clear doctor and treatment profiles, localized discovery, and stringent E-E-A-T content quality.",
     icon: Stethoscope,
   },
   {
     title: "Real Estate",
-    desc: "Location + service intent, real estate content, lead capture, and local search ranking.",
+    desc: "Localized geographic search architecture, property inventory indexing, high-intent lead funnels, and local map rankings.",
     icon: Home,
   },
   {
     title: "Home Services",
-    desc: "Local SEO service pages location intent path to quotes and bookings (where applicable) conversion tracking.",
+    desc: "Localized neighborhood service pages, Google Business Profile alignment, click-to-call mobile tracking, and frictionless quote requests.",
     icon: Building2,
   },
   {
     title: "Professional Services",
-    desc: "Authority-driven content, service pages, proof, commercial intent search, and lead generation UX.",
+    desc: "Authority-building case studies, structured service offerings, executive thought leadership, and high-trust B2B lead generation funnels.",
     icon: Briefcase,
   },
   {
     title: "Startups",
-    desc: "Concentrated keyphrase targets a few high-value landing pages a content architecture that scales a measurement discipline.",
+    desc: "High-leverage early keyword targeting, focused MVP landing pages, scalable content architecture, and transparent growth measurement.",
     icon: Sparkles,
   },
 ];
 
 const BRAND_POSITIONING_REASONS = [
   {
-    title: "Engineering aware SEO",
-    desc: "Think of technical SEO as working with the underlying website architecture rather than SEO as copywriting.",
+    title: "Engineering-Led Technical SEO",
+    desc: "We approach technical search architecture as integral software engineering rather than superficial keyword insertion.",
   },
   {
-    title: "Humanized content",
-    desc: "Describe what the technical work is in plain English and do not make exaggerated ranking claims.",
+    title: "Humanized Content Architecture",
+    desc: "Clear, authoritative copy written in plain language that communicates deep subject matter expertise without inflated claims.",
   },
   {
-    title: "Intent-first strategy",
-    desc: "Keyword research helps explain what people want, indicating what pages are most likely to satisfy that intent."
+    title: "Intent-First Commercial Strategy",
+    desc: "We analyze search queries to understand real buyer intent, building landing pages specifically structured to satisfy and convert that demand.",
   },
   {
-    title: "Connected design and development",
-    desc: "Nexovio provides web development and web design along with UI/UX and mobile apps - so addressing product and code SEO is straightforward."
+    title: "Full-Stack Development Synergy",
+    desc: "Because Nexovio engineers custom web applications, UI/UX systems, and mobile platforms, executing code-level SEO enhancements is seamless.",
   },
   {
-    title: "Measurable marketing",
-    desc: "GA4 - GTM tracking Establishing a Connection Between Acquisition & User Engagement."
+    title: "Measurable Analytics Discipline",
+    desc: "End-to-end GA4 and Google Tag Manager architecture that bridges the gap between top-of-funnel traffic and actual closed revenue.",
   },
   {
-    title: "Honest expectations",
-    desc: "Explicitly avoid #1 ranking guarantees and treat organic growth as an iterative, disciplined SEO/optimization effort."
+    title: "Transparent & Ethical Roadmaps",
+    desc: "We reject deceptive #1 ranking guarantees, treating organic search growth as a disciplined, compounding engineering methodology.",
   },
 ];
 
 const GLOBAL_SEARCH_INTENT_CLUSTERS = [
   {
     title: "Commercial & Vendor Intent",
-    description: "Seize the buyers who are actively shopping for agencies or niche SEO vendors.",
-    terms: ["SEO services", "SEO agency", "SEO company", "technical SEO services", "digital marketing agency"],
+    description: "Capturing decision-makers who are actively researching specialist software development and SEO partners.",
+    capabilities: ["High-Converting Service Pages", "Transparent Pricing Architecture", "Verified Case Study Proof", "Decision-Maker CRO Funnels"],
     badge: "High Conversion Alignment",
   },
   {
-    title: "Technical & Audit Intent",
-    description: "Target firms in need of an urgent site diagnosis or migration remediation.",
-    terms: ["website SEO audit", "technical SEO audit", "Core Web Vitals optimization", "indexation recovery"],
+    title: "Technical & Diagnostic Intent",
+    description: "Targeting companies requiring immediate architectural diagnosis, crawl remediation, or platform migrations.",
+    capabilities: ["Deep Crawlability & Indexing Audits", "Core Web Vitals Remediation", "Canonical & Redirect Hygiene", "Rich Schema Markup Architecture"],
     badge: "Diagnostic Health",
   },
   {
     title: "Informational & Authority Intent",
-    description: "Connect B2B decision makers who are looking for educational clarity and strategic frameworks.",
-    terms: ["SEO content strategy", "search intent mapping", "topical cluster architecture", "B2B SaaS SEO"],
+    description: "Engaging enterprise leaders searching for educational clarity, architectural benchmarks, and strategic roadmaps.",
+    capabilities: ["Topic Cluster Content Frameworks", "Technical Architecture Guides", "B2B SaaS Growth Blueprints", "Buyer Search Intent Mapping"],
     badge: "Topical Leadership",
   },
   {
-    title: "Geographic & Global Intent",
-    description: "Reach location buyers and international cross-border expansion markets.",
-    terms: ["local SEO services", "international SEO services", "multilingual SEO", "global SEO agency"],
+    title: "Geographic & Multi-Market Intent",
+    description: "Expanding visibility across regional locations and high-value international cross-border target markets.",
+    capabilities: ["Multi-Regional Hreflang Strategies", "International URL Architectures", "Localized Cultural Content Adaptation", "Global Search Console Segmentation"],
     badge: "Multi-Market Reach",
   },
 ];
@@ -904,7 +904,7 @@ export default function SeoDigitalMarketingPage() {
                       </div>
                       <div>
                         <span className="text-[10px] font-mono font-bold text-brand-cyan uppercase tracking-wider block">
-                          Service 0{idx + 1}
+                          Service {String(idx + 1).padStart(2, "0")}
                         </span>
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors h-[56px] overflow-hidden">
                           {srv.title}
@@ -975,7 +975,7 @@ export default function SeoDigitalMarketingPage() {
               One Approach, Not Five Separate Strategies
             </h3>
             <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium max-w-3xl mx-auto">
-              A content keyword plan should be informed by content. Content should take you to useful landing pages. Landing pages need to back up conversions. Decisions analytics should tell us what happened next. Holding these decisions together makes the system of marketing easier to manage and improve.
+              A keyword plan should be guided by real customer intent. Strategic content leads visitors to dedicated, high-converting service pages, while conversion rate optimization reduces friction at key decision points. Full-funnel analytics measure real business pipeline rather than superficial impressions.
             </p>
           </div>
         </div>
@@ -988,7 +988,7 @@ export default function SeoDigitalMarketingPage() {
             badge="INFRASTRUCTURE LAYER"
             title="Technical SEO Improvements to Make Your Site"
             highlightText="Easier to Crawl and Understand"
-            description="Technical SEO is the foundation of organic search. Nexovio currently has them define the work related to crawl errors, site structure, XML sitemaps, JSON-LD structured data, canonicalization and Core Web Vitals."
+            description="Technical SEO is the architectural backbone of organic search. We audit, configure, and resolve bottlenecks across crawl budgets, XML sitemaps, JSON-LD structured data, canonical tags, and sub-second Core Web Vitals performance."
             align="center"
           />
 
@@ -1109,7 +1109,8 @@ export default function SeoDigitalMarketingPage() {
               Global Scale & Localization Protocol
             </h3>
             <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium max-w-3xl mx-auto">
-              With international SEO your site architecture, hreflang signals, and localized content are all aligned so expanding your brand across borders means its scale is seamlessly executed in new global markets.</p>
+              With international SEO, your site architecture, hreflang signals, and localized content are all harmonized so cross-border expansion delivers consistent search visibility and local relevance.
+            </p>
           </div>
         </div>
       </section>
@@ -1121,7 +1122,7 @@ export default function SeoDigitalMarketingPage() {
             badge="CRO &amp; ANALYTICS"
             title="Tracking Organic Traffic"
             highlightText="All the Way to Business Actions"
-            description="Traffic is only valuable when it leads to a meaningful business goal. Nexovio talks CRO as reducing user friction, testing CTA placement, simplifying forms and tweaking copy, setting up GA4/GTM around custom events."
+            description="Traffic is only valuable when it leads to meaningful commercial outcomes. We approach CRO by removing conversion friction, testing CTA placement, streamlining user forms, and tracking every critical milestone with GA4 and GTM."
             align="center"
           />
 
@@ -1255,7 +1256,7 @@ export default function SeoDigitalMarketingPage() {
             badge="GLOBAL SEARCH INTELLIGENCE"
             title="Global Search Strategy &"
             highlightText="Target Intent Architecture"
-            description="We investigate actual customer search behavior in North America, Europe, Europe, Australia, and APAC to align technical architecture, content roadmaps, and conversion funnels with ready-to-buy decision-makers."
+            description="We investigate actual customer search behavior in North America, Europe, Australia, and APAC to align technical architecture, content roadmaps, and conversion funnels with ready-to-buy decision-makers."
             align="center"
           />
 
@@ -1279,12 +1280,12 @@ export default function SeoDigitalMarketingPage() {
                   {cluster.description}
                 </p>
                 <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-100 dark:border-white/10">
-                  {cluster.terms.map((term) => (
+                  {cluster.capabilities.map((cap) => (
                     <span
-                      key={term}
+                      key={cap}
                       className="px-2.5 py-1 rounded text-[11px] font-medium bg-slate-100 dark:bg-[#040A18] text-slate-800 dark:text-slate-200 border border-slate-200/80 dark:border-white/10"
                     >
-                      {term}
+                      {cap}
                     </span>
                   ))}
                 </div>

@@ -1059,7 +1059,7 @@ export default function MobileAppDevelopmentPage() {
                       </div>
                       <div>
                         <span className="text-[10px] font-mono font-bold text-brand-cyan uppercase tracking-wider block">
-                          Capability 0{idx + 1}
+                          Capability {String(idx + 1).padStart(2, "0")}
                         </span>
                         <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors">
                           {srv.title}

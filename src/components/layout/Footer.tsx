@@ -204,6 +204,11 @@ export function Footer() {
                     Generative AI
                   </Link>
                 </li>
+                <li>
+                  <Link href="/services/ai-development#ai-services" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    <span>AI Search &amp; RAG Solutions</span>
+                  </Link>
+                </li>
               </ul>
             </div>
 
