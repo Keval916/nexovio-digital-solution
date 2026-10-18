@@ -173,7 +173,7 @@ export default function SingleBlogArticlePage({
           }
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, [article?.author?.name, article?.author?.avatar, article?.author?.bio]);
 
   useEffect(() => {
@@ -245,7 +245,7 @@ export default function SingleBlogArticlePage({
           setDbArticles(data.articles);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   // 4-Card Carousel state for Related Articles
@@ -257,8 +257,8 @@ export default function SingleBlogArticlePage({
     otherArticles.length === 0
       ? []
       : otherArticles.length >= 4
-      ? [...otherArticles, ...otherArticles]
-      : [...otherArticles, ...otherArticles, ...otherArticles];
+        ? [...otherArticles, ...otherArticles]
+        : [...otherArticles, ...otherArticles, ...otherArticles];
 
   const [carouselIndex, setCarouselIndex] = useState<number>(0);
   const [isCarouselPaused, setIsCarouselPaused] = useState<boolean>(false);
@@ -285,16 +285,16 @@ export default function SingleBlogArticlePage({
 
   const articleSchema = article
     ? getArticleSchema({
-        title: article.title,
-        description: article.excerpt,
-        url: article.canonicalUrl || `/blog/${article.slug}`,
-        image: article.ogImage || article.featuredImage,
-        publishedAt: article.publishedAt,
-        updatedAt: article.updatedAt,
-        authorName: article.author.name,
-        schemaType: article.schemaType || "BlogPosting",
-        keywords: article.keywords,
-      })
+      title: article.title,
+      description: article.excerpt,
+      url: article.canonicalUrl || `/blog/${article.slug}`,
+      image: article.ogImage || article.featuredImage,
+      publishedAt: article.publishedAt,
+      updatedAt: article.updatedAt,
+      authorName: article.author.name,
+      schemaType: article.schemaType || "BlogPosting",
+      keywords: article.keywords,
+    })
     : null;
 
   const faqSchema =
@@ -605,7 +605,7 @@ export default function SingleBlogArticlePage({
                 }
                 const isHtml = /<[a-z][\s\S]*>/i.test(trimmed);
                 if (isHtml) {
-                  // Sanitize: strip embedded empty paragraphs/divs, collapse excessive <br>, and guarantee single H1
+                  // Sanitize: strip embedded empty paragraphs/divs, collapse excessive <br>, and demote any <h1> in article body to semantic <h2>
                   const cleanHtml = trimmed
                     .replace(/<p[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/p>/gi, "")
                     .replace(/<div[^>]*>\s*(<br\s*\/?>|\s|&nbsp;)*\s*<\/div>/gi, "")

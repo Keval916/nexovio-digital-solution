@@ -121,5 +121,15 @@ export function useGeoCurrency(initialCurrency?: SupportedCurrency) {
     };
   }, [detectLiveIpGeo]);
 
-  return { currency, country, isLoading };
+  const setCurrency = useCallback((newCurrency: SupportedCurrency) => {
+    setCurrencyState(newCurrency);
+    try {
+      sessionStorage.setItem("nexovio_currency", newCurrency);
+      document.cookie = `nexovio_currency=${newCurrency}; path=/; max-age=86400; SameSite=Lax`;
+    } catch {
+      // Ignore storage errors
+    }
+  }, []);
+
+  return { currency, country, isLoading, setCurrency };
 }

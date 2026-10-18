@@ -32,6 +32,26 @@ const nextConfig = {
         destination: '/services/ai-automation-solutions',
         permanent: true,
       },
+      {
+        source: '/blog/custom-web-development-vs-website-builders',
+        destination: '/services/web-development',
+        permanent: true,
+      },
+      {
+        source: '/blog/why-slow-websites-sabotage-lead-conversion',
+        destination: '/blog/mastering-core-web-vitals-performance',
+        permanent: true,
+      },
+      {
+        source: '/blog/technical-seo-checklist-for-modern-websites',
+        destination: '/services/seo-digital-marketing',
+        permanent: true,
+      },
+      {
+        source: '/blog/ai-agents-and-automation-web-applications',
+        destination: '/blog/ai-automation-for-business',
+        permanent: true,
+      },
     ];
   },
   async headers() {

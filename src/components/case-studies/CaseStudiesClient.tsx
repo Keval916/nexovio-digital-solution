@@ -87,7 +87,7 @@ const EXECUTIVE_VERIFICATIONS = [
   {
     id: "parts-connexion",
     quote:
-      "The headless e-commerce migration executed by Nexovio was completely seamless without losing a single second of sales. Our checkout conversion rates jumped 92% in the first quarter, and warehouse ERP syncing is finally automated and rock solid.",
+      "The headless e-commerce migration executed by Nexovio was completely seamless without losing a single second of sales. Our checkout completion rate jumped 92% in the first quarter, while cart abandonment dropped to 32.1%, and warehouse ERP syncing is finally automated and rock solid.",
     author: "David R.",
     role: "VP of Digital Operations",
     company: "Parts Connexion",
@@ -96,9 +96,9 @@ const EXECUTIVE_VERIFICATIONS = [
     industryBadge: "Headless E-Commerce & Retail",
     verifiedMetricTag: "Zero Downtime Cutover",
     stats: [
-      { value: "+92%", label: "Conversion Lift", colorClass: "bg-gradient-brand bg-clip-text text-transparent" },
-      { value: "0 min", label: "Migration Downtime", colorClass: "text-emerald-400" },
-      { value: "< 2s", label: "Automated ERP Sync", colorClass: "text-brand-cyan" },
+      { value: "+92%", label: "Checkout Lift", colorClass: "bg-gradient-brand bg-clip-text text-transparent" },
+      { value: "32.1%", label: "Cart Dropoff", colorClass: "text-emerald-400" },
+      { value: "0 min", label: "Cutover Downtime", colorClass: "text-brand-cyan" },
     ],
   },
   {

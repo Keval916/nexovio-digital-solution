@@ -73,10 +73,10 @@ export const CASE_STUDIES: CaseStudy[] = [
       "Implemented a high-throughput webhook synchronization service connecting the store to internal warehouse databases. Cached product metadata at the edge via Cloudflare workers for instant catalog rendering.",
     solution:
       "A modern, ultra-fast headless ecommerce platform delivering instant mobile browsing, reliable warehouse synchronization, and frictionless checkout that drastically lifted revenue.",
-    results: "92% conversion rate increase + zero migration downtime",
+    results: "+92% checkout conversion lift with cart abandonment reduced to 32.1% and zero downtime",
     stats: [
-      { label: "Conversion Lift", value: "+92%", detail: "Post-launch checkout completion rate" },
-      { label: "Migration Downtime", value: "0 min", detail: "Zero revenue or transaction loss" },
+      { label: "Checkout Conversion Lift", value: "+92%", detail: "Q1 post-launch checkout completion rate increase" },
+      { label: "Cart Abandonment", value: "32.1%", detail: "Reduced from 68.4% on legacy store" },
       { label: "Mobile Page Speed", value: "0.9s", detail: "Down from 4.8s on legacy platform" },
       { label: "Inventory Sync", value: "<2s", detail: "Real-time automated warehouse sync" },
     ],
@@ -88,7 +88,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     clientQuote: {
       quote:
-        "The migration to our modern headless architecture was completely seamless without losing a single second of sales. Our conversion rates jumped 92% in the first quarter, and warehouse syncing is finally automated and rock solid.",
+        "The migration to our modern headless architecture was completely seamless without losing a single second of sales. Our checkout completion rate jumped 92% in the first quarter, while cart abandonment dropped to 32.1%, and warehouse syncing is finally automated and rock solid.",
       author: "David R.",
       role: "VP of Digital Operations",
       company: "Parts Connexion",

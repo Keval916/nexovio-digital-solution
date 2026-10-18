@@ -47,8 +47,8 @@ export function TestimonialsSection() {
                   PC
                 </div>
                 <div>
-                  <div className="text-xs font-semibold text-slate-900 dark:text-white">Parts Connexion Team</div>
-                  <div className="text-[10px] text-muted">Headless E-Commerce Migration</div>
+                  <div className="text-xs font-semibold text-slate-900 dark:text-white">David R.</div>
+                  <div className="text-[10px] text-muted">VP of Digital Operations, Parts Connexion</div>
                 </div>
               </div>
             </div>

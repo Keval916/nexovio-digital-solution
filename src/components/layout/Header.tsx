@@ -86,8 +86,6 @@ const ALL_SERVICES = [
   },
 ];
 
-// 2. AI Solutions & Workflow Intelligence (Directly from homepage AI workflow section)
-// All boxes uniform format, with AI Development live and the others clearly labeled Coming Soon
 const AI_SOLUTIONS = [
   {
     name: "AI Development",
@@ -134,9 +132,9 @@ const AI_SOLUTIONS = [
     href: "/services/ai-development#ai-services",
     description: "Connect language models to proprietary enterprise docs & private vector data",
     icon: BrainCircuit,
-    badge: "Coming Soon",
+    badge: "ACTIVE",
     category: "Search & RAG",
-    isLive: false,
+    isLive: true,
   },
 ];
 

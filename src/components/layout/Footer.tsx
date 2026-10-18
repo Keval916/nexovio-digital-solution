@@ -199,6 +199,11 @@ export function Footer() {
                     <span>AI Automation Solutions</span>
                   </Link>
                 </li>
+                <li>
+                  <Link href="/services/generative-ai-development" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Generative AI
+                  </Link>
+                </li>
               </ul>
             </div>
 

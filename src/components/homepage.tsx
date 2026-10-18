@@ -657,11 +657,14 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
               </div>
             </AnimateOnScroll>
 
-            {/* H1 Headline with Typewriter */}
+            {/* H1 Headline */}
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.15} start="top 95%">
               <h1 className="text-[1.75rem] sm:text-4xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.2]">
-                <span className="block sm:inline">Web Development & AI Solutions for</span>{" "}
-                <TypewriterHeading />
+                Custom Web Development &amp;{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">
+                  AI Automation
+                </span>{" "}
+                for Growing Businesses
               </h1>
             </AnimateOnScroll>
 
@@ -669,10 +672,10 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
             <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.3} start="top 95%">
               <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
                 <p className="font-medium text-foreground">
-                  Your digital presence should do more than exist. It should communicate your value, build immediate trust, and convert visitors into long-term customers.
+                  Build business websites, ecommerce experiences and custom web applications with a technology partner focused on usability, performance and practical business outcomes.
                 </p>
                 <p>
-                  <strong className="text-foreground font-semibold">Nexovio Digital Solutions</strong> unites strategy, engineering, UI/UX design, and SEO with practical AI automation. We build resilient digital platforms around your actual business goals.
+                  From full-stack Next.js platforms and headless ecommerce to intelligent AI triage workflows, <strong className="text-foreground font-semibold">Nexovio Digital Solutions</strong> delivers modern engineering for growing companies, and supports agencies worldwide through white-label delivery partnerships.
                 </p>
               </div>
             </AnimateOnScroll>
@@ -703,6 +706,14 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
                 >
                   Explore Solutions
                 </Button>
+
+                <Link
+                  href="/agency-partnership"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-cyan hover:bg-white/5 transition-colors"
+                >
+                  <span>Agency Partnerships</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
               </div>
             </AnimateOnScroll>
           </div>

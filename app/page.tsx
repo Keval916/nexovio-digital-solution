@@ -7,22 +7,20 @@ import type { BlogArticle } from "@/src/data/blog";
 export const revalidate = 60;
 
 export const metadata = generatePageMetadata({
-  title: "Web Development Company | AI, Web Design & SEO | Nexovio",
+  title: "Custom Web Development & AI Automation Services | Nexovio",
   description:
-    "Nexovio is a global web development & AI solutions company. We build high-performance websites, custom web apps, UI/UX, eCommerce, and SEO that drive revenue.",
+    "Build high-performance business websites, ecommerce platforms, and web applications with Nexovio. Strategy-led web development, responsive UI/UX, and practical AI automation.",
   keywords: [
-    "web development company",
-    "web development services",
     "custom web development",
-    "website development company",
-    "web design company",
-    "web design services",
-    "AI solutions",
-    "AI web development",
+    "business website development",
+    "AI automation services",
+    "web development company",
+    "web application development",
     "UI/UX design services",
-    "eCommerce development",
-    "SEO services",
-    "digital marketing services",
+    "ecommerce development",
+    "Next.js web development",
+    "technical SEO services",
+    "white-label web development partner",
   ],
   path: "/",
 });

@@ -3,21 +3,20 @@ import AiDevelopment from "@/src/views/services/AiDevelopment";
 import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "AI Solutions & AI Automation Services for Businesses | Nexovio",
+  title: "AI Automation Services & Business Workflow Automation | Nexovio",
   description:
-    "Build smarter business workflows with Nexovio AI solutions, AI integrations and automation designed to reduce manual work, improve efficiency and scale operations.",
+    "Deploy practical AI automation services and AI-powered business applications. Custom workflow automation, document processing, intelligent triage, and enterprise AI integrations.",
   keywords: [
-    "AI solutions for businesses",
     "AI automation services",
+    "business workflow automation",
+    "AI-powered business applications",
     "AI development company",
-    "AI integration services",
-    "AI business solutions",
-    "AI workflow automation",
     "custom AI solutions",
-    "AI development services",
-    "generative AI solutions",
-    "AI-powered applications",
-    "business process automation",
+    "AI integration services",
+    "enterprise AI automation",
+    "intelligent document processing",
+    "AI chatbot development",
+    "AI agent development",
   ],
   path: "/services/ai-development",
 });

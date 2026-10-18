@@ -5,22 +5,20 @@ import { headers } from "next/headers";
 import { SupportedCurrency, getCurrencyForCountry } from "@/src/data/pricing";
 
 export const metadata = generatePageMetadata({
-  title: "Website Development Pricing & Packages | Starting ₹9,999 | Nexovio",
+  title: "Website Development Pricing & Packages | Starting $149 / ₹9,999 | Nexovio",
   description:
-    "Explore affordable website development plans from Nexovio. Get responsive, professional business websites starting at ₹9,999 with SEO, contact forms and support.",
+    "Explore transparent website development pricing starting at $149 (₹9,999 INR / AED 549). Fixed-price starter, professional, and custom web application packages with clear deliverables.",
   keywords: [
-    "affordable website development",
-    "website development cost",
-    "website development price",
-    "affordable web development company",
-    "business website cost",
-    "5 page website",
-    "5 page website price",
-    "website design pricing",
-    "cheap website development",
-    "professional website affordable",
-    "website development India",
-    "affordable web design India",
+    "website development pricing",
+    "website design packages",
+    "custom web development cost",
+    "business website packages",
+    "affordable web development",
+    "transparent website pricing",
+    "5 page website cost",
+    "professional website design packages",
+    "ecommerce website development pricing",
+    "custom web application quote",
   ],
   path: "/pricing",
 });

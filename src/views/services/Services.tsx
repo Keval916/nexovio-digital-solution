@@ -34,7 +34,8 @@ const SERVICE_MOCKUPS: Record<string, string> = {
   "web-design": "/images/services/web-design-mockup.svg",
   "ui-ux-design": "/images/services/ui-ux-mockup.svg",
   "graphic-design": "/images/services/graphic-design-mockup.svg",
-  "digital-marketing": "/images/services/digital-marketing-mockup.svg",
+  "mobile-app-development": "/images/services/mobile-app-engineering-team.jpg",
+  "seo-digital-marketing": "/images/services/digital-marketing-mockup.svg",
 };
 
 const SERVICES_HUB_FAQS = [
@@ -63,7 +64,7 @@ const SERVICES_HUB_FAQS = [
 export default function ServicesPage() {
   const schema = getCollectionPageSchema(
     "Digital Solutions & IT Services",
-    "Explore Nexovio's 5 core digital disciplines: Web Development, Web Design, UI/UX Design, Graphic Design, and Digital Marketing.",
+    "Explore Nexovio's full suite of digital engineering disciplines: Web Development, Web Design, UI/UX Design, Mobile App Development, SEO & Digital Marketing, Brand Design, and AI Solutions.",
     "/services"
   );
 
@@ -89,7 +90,7 @@ export default function ServicesPage() {
             </span>
           </h1>
           <p className="mt-6 text-base sm:text-lg text-muted leading-relaxed">
-            We deliver five tightly coordinated technical services. Whether you require a full-stack Next.js web application, a modern UI/UX redesign, or search-intent organic SEO, our engineering approach prioritizes measurable performance and enduring authority.
+            We deliver six specialized engineering and creative disciplines, supported by advanced AI workflow automation. Whether you require a full-stack Next.js web application, an intuitive UI/UX redesign, mobile app engineering, or organic search growth, our team builds for usability, performance, and commercial outcomes.
           </p>
         </div>
 
@@ -221,6 +222,44 @@ export default function ServicesPage() {
               </div>
             );
           })}
+        </div>
+
+        {/* AI Solutions & Automation Callout Banner */}
+        <div className="mb-24 rounded-3xl border border-brand-cyan/30 bg-gradient-to-br from-surface-elevated/90 via-surface-elevated/70 to-brand-cyan/5 p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="relative z-10 max-w-3xl space-y-4">
+            <span className="text-[10px] font-mono uppercase tracking-widest text-brand-cyan font-bold px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/30">
+              Artificial Intelligence &amp; Autonomous Workflows
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+              Looking for AI Solutions, Chatbots, or Custom Generative Workflows?
+            </h2>
+            <p className="text-sm sm:text-base text-muted leading-relaxed">
+              Beyond core web and mobile engineering, Nexovio engineers bespoke AI assistants, retrieval-augmented generation (RAG) knowledge search, multi-step autonomous agents, and custom LLM integrations that streamline repetitive business operations.
+            </p>
+            <div className="pt-4 flex flex-wrap items-center gap-4">
+              <Button
+                href="/services/ai-development"
+                variant="primary"
+                size="md"
+                trackingName="services_hub_ai_development"
+                trackingLocation="services_hub"
+                icon={<ArrowRight className="w-4 h-4" />}
+                className="shadow-glow"
+              >
+                Explore AI Development &amp; Automation
+              </Button>
+              <Button
+                href="/services/generative-ai-development"
+                variant="secondary"
+                size="md"
+                trackingName="services_hub_generative_ai"
+                trackingLocation="services_hub"
+              >
+                Generative AI Services
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* Global FAQs */}

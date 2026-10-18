@@ -99,7 +99,7 @@ const servicesData = [
     tag: 'AI Assistants • RAG • Automation',
     description:
       'Help your agency take on practical AI projects, including knowledge assistants, document workflows, conversational experiences and task automation.',
-    href: '/#ai-solutions',
+    href: '/services/ai-development',
     icon: Cpu,
     capabilities: [
       'AI chatbots and conversational interfaces',

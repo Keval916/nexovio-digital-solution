@@ -1,22 +1,22 @@
 import type { Metadata } from 'next';
 import AgencyPartnership from '@/src/views/AgencyPartnership';
-import { SITE_URL, generatePageMetadata } from '@/src/lib/seo';
+import { SITE_URL, generatePageMetadata, BRAND_LOGO_SQUARE } from '@/src/lib/seo';
 
 export const metadata: Metadata = generatePageMetadata({
-  title: 'White-Label Digital Services for Agencies | Nexovio',
+  title: 'White-Label Web Development Partner for Agencies | Nexovio',
   description:
-    "Reliable white-label web development, mobile apps, UI/UX, and AI solutions for digital agencies. Scale client capacity with our dedicated technical team.",
+    'Partner with Nexovio as your trusted white-label web development partner. Reliable outsourced web development, UI/UX design, Next.js apps, and agency delivery support behind the scenes.',
   keywords: [
+    'white-label web development partner',
+    'outsourced web development',
+    'agency delivery support',
     'white label web development',
     'white label software development',
     'white label agency partner',
     'white label mobile app development',
     'white label UI/UX design',
     'white label AI development',
-    'white label technical SEO',
-    'agency delivery partner',
-    'offshore development for agencies',
-    'Nexovio agency partnership',
+    'agency engineering partner',
   ],
   path: '/agency-partnership',
 });
@@ -27,17 +27,17 @@ const schema = {
     {
       '@type': 'Service',
       '@id': `${SITE_URL}/agency-partnership#service`,
-      name: 'White-Label Digital Services for Agencies',
+      name: 'White-Label Web Development & Engineering for Agencies',
       serviceType:
-        'White-label web development, software development, mobile app development, UI/UX design, AI development and technical SEO',
+        'White-label web development, outsourced software development, mobile app development, UI/UX design, and agency delivery support',
       url: `${SITE_URL}/agency-partnership`,
       description:
-        'Nexovio Digital Solutions provides white-label digital and technology services for agencies that need additional technical delivery support behind their brand.',
+        'Nexovio Digital Solutions acts as a confidential white-label technical delivery partner for creative, marketing, and digital agencies worldwide.',
       provider: {
         '@type': 'Organization',
         name: 'Nexovio Digital Solutions',
         url: SITE_URL,
-        logo: `${SITE_URL}/logo.svg`,
+        logo: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
       },
       areaServed: [
         { '@type': 'Country', name: 'United States' },

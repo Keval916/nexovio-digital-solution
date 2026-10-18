@@ -27,7 +27,7 @@ import { getCaseStudyBySlug, CASE_STUDIES } from "@/src/data/case-studies";
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { Button } from "@/src/components/ui/Button";
 import { Card } from "@/src/components/ui/Card";
-import { generatePageMetadata, SITE_URL } from "@/src/lib/seo";
+import { generatePageMetadata, SITE_URL, BRAND_LOGO_SQUARE } from "@/src/lib/seo";
 
 interface CaseStudyPageProps {
   params: {
@@ -66,7 +66,7 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
           url: SITE_URL,
           logo: {
             "@type": "ImageObject",
-            url: `${SITE_URL}/logo.svg`,
+            url: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
           },
         },
         about: [
