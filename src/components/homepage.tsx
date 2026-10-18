@@ -184,7 +184,7 @@ const IMPACT_METRICS = [
   {
     value: "+185%",
     label: "Organic Lead Growth",
-    sublabel: "Average 6-month technical SEO client benchmark",
+    sublabel: "Client-achieved benchmark in published case studies",
     tag: "SEO Growth",
     icon: TrendingUp,
     iconBg: "bg-cyan-500/10 dark:bg-cyan-500/20",
@@ -929,7 +929,7 @@ export function ImpactMetricsSection() {
               </span>
             </h2>
             <p className="text-xs sm:text-sm text-muted leading-relaxed max-w-2xl mx-auto">
-              Real, audited outcomes achieved for our clients across custom web development, technical SEO, and AI workflow automation.
+              Real, measured outcomes achieved for our clients across custom web development, technical SEO, and AI workflow automation.
             </p>
           </div>
         </AnimateOnScroll>

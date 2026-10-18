@@ -347,7 +347,7 @@ export function UiUxInteractiveShowcase() {
               <span className="text-xs font-mono uppercase tracking-wider text-brand-cyan font-bold">
                 Conversion-Optimized Journey Stepper (Click a Step)
               </span>
-              <span className="text-xs font-mono text-muted">Audited Friction Reduction</span>
+              <span className="text-xs font-mono text-muted">Measured Friction Reduction</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

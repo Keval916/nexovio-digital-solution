@@ -158,7 +158,7 @@ const CORE_SERVICES: CoreServiceItem[] = [
     title: "On-Page SEO & Content Optimization",
     tagline: "Semantic HTML & Headings Hierarchy",
     description:
-      "Refine H1-H3 hierarchy, title tags, meta descriptions, semantic layout, internal link, image SEO and page content to make each URL more focused.",
+      "Refine H1–H3 heading hierarchy, title tags, meta descriptions, semantic layout, internal links, image SEO, and page content to make each URL more focused.",
     keywordFocus: ["on-page SEO", "seo content optimization", "on-page SEO audit"],
     bestFor: "Established service pages that could use more search relevance and CTR.",
     previewType: "onpage",
@@ -180,7 +180,7 @@ const CORE_SERVICES: CoreServiceItem[] = [
     title: "Local SEO",
     tagline: "Geographic Discovery & Intent Capture",
     description:
-      "Improve local rankings with a local landing page strategy, business info consistency, pertinent content and analysis.",
+      "Improve local search rankings with focused regional landing pages, consistent directory citations, and localized commercial content.",
     keywordFocus: ["local SEO", "local SEO services", "local search optimization"],
     bestFor: "Businesses with multiple locations and service providers that are city-specific.",
     previewType: "local",
@@ -202,7 +202,7 @@ const CORE_SERVICES: CoreServiceItem[] = [
     title: "Authority & Off-Page SEO",
     tagline: "Sustainable Brand Credibility & Digital PR",
     description:
-      "Create a longterm link-building strategy through relevant digital PR, partnerships, and quality link acquisition opportunities - not low-quality link spam.",
+      "Create a sustainable long-term authority strategy through relevant digital PR, industry partnerships, and authoritative editorial citations — never low-quality link schemes.",
     keywordFocus: ["off-page SEO", "link building services", "digital PR SEO"],
     bestFor: "Highly competitive niches that need increased domain trust and brand citation.",
     previewType: "authority",
@@ -920,11 +920,11 @@ export default function SeoDigitalMarketingPage() {
 
                   <div className="pt-4 border-t border-slate-100 dark:border-white/10 mt-6">
                     <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-brand-cyan block mb-1">
-                      Best for:
+                      Best For:{" "}
                     </span>
-                    <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                    <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">
                       {srv.bestFor}
-                    </span>
+                    </p>
                   </div>
                 </Card>
               );

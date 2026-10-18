@@ -167,10 +167,10 @@ export default function CaseStudiesPage() {
               <div className="p-4 sm:p-5 rounded-2xl border border-brand-cyan/30 bg-surface-elevated/70 backdrop-blur-md text-sm shadow-sm">
                 <p className="leading-relaxed text-slate-700 dark:text-[#fff]">
                   <strong className="text-slate-900 dark:text-[#fff] font-bold">
-                    100% Verified Telemetry &amp; Audited Metrics:
+                    Telemetry-Backed Performance &amp; Measured Results:
                   </strong>{" "}
                   <span className="text-slate-600 dark:text-slate-300">
-                    Every speed milestone, conversion increase, and organic traffic benchmark is independently audited using Google Search Console, Lighthouse, and GA4 analytics.
+                    Every speed milestone, conversion increase, and organic search benchmark is tracked and measured using Google Search Console, Lighthouse, and GA4 analytics telemetry.
                   </span>
                 </p>
               </div>
@@ -204,7 +204,7 @@ export default function CaseStudiesPage() {
               <div className="pt-4 border-t border-border-subtle grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-700 dark:text-[#fff]">
                 <span className="inline-flex items-center gap-1.5 font-medium">
                   <ShieldCheck className="h-4 w-4 text-emerald-500 shrink-0" />
-                  <span>Audited Metrics</span>
+                  <span>Measured Metrics</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 font-medium">
                   <Clock3 className="h-4 w-4 text-brand-cyan shrink-0" />

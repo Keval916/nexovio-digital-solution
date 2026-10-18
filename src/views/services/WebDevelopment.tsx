@@ -1235,11 +1235,11 @@ export default function WebDevelopmentPage() {
 
                   <div className="pt-4 border-t border-slate-100 dark:border-white/10 mt-6">
                     <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-brand-cyan block mb-1">
-                      Best for:
+                      Best For:{" "}
                     </span>
-                    <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                    <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">
                       {srv.bestFor}
-                    </span>
+                    </p>
                   </div>
                 </Card>
               );
