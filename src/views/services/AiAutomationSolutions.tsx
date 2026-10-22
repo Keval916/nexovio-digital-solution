@@ -1064,7 +1064,64 @@ export default function AiAutomationSolutions() {
         </section>
 
         {/* =================================================================== */}
-        {/* 4. OUR AI AUTOMATION SOLUTIONS (10 SERVICE CARDS)                   */}
+        {/* 4. COMPARISON TABLE: TRADITIONAL RPA VS. NEXOVIO ADAPTIVE AI         */}
+        {/* =================================================================== */}
+        <section id="traditional-vs-ai-automation-comparison" className="bg-white dark:bg-background py-16 sm:py-24 border-b border-slate-200 dark:border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <AnimateOnScroll variant="fadeUp">
+              <SectionHeading
+                badge="ARCHITECTURAL COMPARISON"
+                title="Traditional RPA vs. Adaptive AI:"
+                highlightText="What Is the Difference?"
+                description="Understanding why brittle legacy screen-scraping bots fail in production, and how our multimodal event-driven architecture delivers lasting enterprise reliability."
+                align="center"
+              />
+            </AnimateOnScroll>
+
+            <div className="mt-12 overflow-x-auto">
+              <div className="inline-block min-w-full align-middle">
+                <div className="overflow-hidden border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm">
+                  <table className="min-w-full divide-y divide-slate-200 dark:divide-white/10 text-left text-sm">
+                    <thead className="bg-slate-100 dark:bg-[#071328]">
+                      <tr>
+                        <th scope="col" className="py-4 px-6 font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider font-mono">
+                          Capability
+                        </th>
+                        <th scope="col" className="py-4 px-6 font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-mono w-2/5">
+                          Traditional Scripting / Static RPA
+                        </th>
+                        <th scope="col" className="py-4 px-6 font-bold text-brand-cyan text-xs uppercase tracking-wider font-mono w-2/5 bg-brand-cyan/5">
+                          Adaptive AI Automation (Nexovio)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-white/10 bg-white dark:bg-[#050B1B]">
+                      {COMPARISON_ROWS.map((row, idx) => (
+                        <tr key={row.capability} className={idx % 2 === 0 ? "bg-transparent" : "bg-slate-50/50 dark:bg-white/[0.01]"}>
+                          <td className="py-4 px-6 font-bold text-xs text-slate-900 dark:text-white whitespace-nowrap">
+                            {row.capability}
+                          </td>
+                          <td className="py-4 px-6 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {row.traditional}
+                          </td>
+                          <td className="py-4 px-6 text-xs font-semibold text-slate-900 dark:text-white leading-relaxed bg-brand-cyan/[0.03]">
+                            <div className="flex items-start gap-2">
+                              <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
+                              <span>{row.nexovio}</span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================================== */}
+        {/* 5. OUR AI AUTOMATION SOLUTIONS (10 SERVICE CARDS)                   */}
         {/* =================================================================== */}
         <section id="services" className="bg-white dark:bg-background py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1295,63 +1352,6 @@ export default function AiAutomationSolutions() {
                   </AnimateOnScroll>
                 );
               })}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================================== */}
-        {/* 8. COMPARISON TABLE: TRADITIONAL RPA VS. NEXOVIO ADAPTIVE AI         */}
-        {/* =================================================================== */}
-        <section id="traditional-vs-ai-automation-comparison" className="bg-white dark:bg-background py-16 sm:py-24 border-b border-slate-200 dark:border-white/10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <AnimateOnScroll variant="fadeUp">
-              <SectionHeading
-                badge="ARCHITECTURAL COMPARISON"
-                title="Traditional RPA vs. Adaptive AI:"
-                highlightText="What Is the Difference?"
-                description="Understanding why brittle legacy screen-scraping bots fail in production, and how our multimodal event-driven architecture delivers lasting enterprise reliability."
-                align="center"
-              />
-            </AnimateOnScroll>
-
-            <div className="mt-12 overflow-x-auto">
-              <div className="inline-block min-w-full align-middle">
-                <div className="overflow-hidden border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm">
-                  <table className="min-w-full divide-y divide-slate-200 dark:divide-white/10 text-left text-sm">
-                    <thead className="bg-slate-100 dark:bg-[#071328]">
-                      <tr>
-                        <th scope="col" className="py-4 px-6 font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider font-mono">
-                          Capability
-                        </th>
-                        <th scope="col" className="py-4 px-6 font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-mono w-2/5">
-                          Traditional Scripting / Static RPA
-                        </th>
-                        <th scope="col" className="py-4 px-6 font-bold text-brand-cyan text-xs uppercase tracking-wider font-mono w-2/5 bg-brand-cyan/5">
-                          Adaptive AI Automation (Nexovio)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200 dark:divide-white/10 bg-white dark:bg-[#050B1B]">
-                      {COMPARISON_ROWS.map((row, idx) => (
-                        <tr key={row.capability} className={idx % 2 === 0 ? "bg-transparent" : "bg-slate-50/50 dark:bg-white/[0.01]"}>
-                          <td className="py-4 px-6 font-bold text-xs text-slate-900 dark:text-white whitespace-nowrap">
-                            {row.capability}
-                          </td>
-                          <td className="py-4 px-6 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {row.traditional}
-                          </td>
-                          <td className="py-4 px-6 text-xs font-semibold text-slate-900 dark:text-white leading-relaxed bg-brand-cyan/[0.03]">
-                            <div className="flex items-start gap-2">
-                              <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
-                              <span>{row.nexovio}</span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             </div>
           </div>
         </section>
@@ -1627,17 +1627,16 @@ export default function AiAutomationSolutions() {
         </section>
 
         {/* =================================================================== */}
-        {/* 11. FREQUENTLY ASKED QUESTIONS SECTION (FAQSection COMPONENT)       */}
+        {/* 11. FREQUENTLY ASKED QUESTIONS SECTION (Standard FaqSection)        */}
         {/* =================================================================== */}
-        <section id="faqs" className="scroll-mt-16">
-          <FaqSection
-            faqs={FAQS}
-            badge="KNOWLEDGE &amp; FAQS"
-            title="Frequently Asked"
-            highlightText="Questions"
-            description="Clear, technically grounded answers regarding enterprise AI automation solutions, IDP document processing, CRM integrations, and security governance."
-          />
-        </section>
+        <FaqSection
+          faqs={FAQS}
+          badge="COMMON QUESTIONS"
+          title="Frequently Asked"
+          highlightText="Questions"
+          description="Clear, technically grounded answers regarding enterprise AI automation solutions, IDP document processing, CRM integrations, and security governance."
+          variant="white"
+        />
       </main>
     </>
   );

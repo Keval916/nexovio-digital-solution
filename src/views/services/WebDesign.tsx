@@ -1,588 +1,335 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   Palette,
+  Smartphone,
+  Zap,
+  Search,
+  ShieldCheck,
+  Heart,
+  PenTool,
+  ArrowRight,
+  MessageSquare,
+  FileText,
   Code2,
   CheckCircle2,
-  Cpu,
-  Layers,
-  ShieldCheck,
-  Zap,
-  ArrowRight,
-  Server,
-  Database,
-  Search,
-  Map,
   Rocket,
-  TrendingUp,
-  Globe,
-  Sparkles,
-  Layout,
-  Smartphone,
-  ShoppingBag,
-  Boxes,
-  Check,
-  Building2,
-  Users,
+  ChevronLeft,
   ChevronRight,
-  Briefcase,
-  GraduationCap,
-  Home,
-  Utensils,
-  Stethoscope,
-  PenTool,
-  Lock,
-  Workflow,
-  CheckSquare,
-  Shield,
-  Gauge,
-  Sliders,
-  Radio,
-  FileCode,
-  Terminal,
-  Activity,
-  Maximize2,
-  RefreshCw,
+  Star,
   ExternalLink,
-  Layers3,
-  Eye,
-  LayoutTemplate,
+  Sparkles,
+  Layers,
+  Layout,
   Monitor,
-  MousePointer,
-  Feather,
-  BarChart,
-  ShieldAlert,
 } from "lucide-react";
-import { getServiceBySlug } from "@/src/data/services";
-import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
-import { SectionHeading } from "@/src/components/ui/SectionHeading";
-import { Button } from "@/src/components/ui/Button";
-import { Card } from "@/src/components/ui/Card";
-import { FaqSection } from "@/src/components/sections/FaqSection";
+import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import { Button } from "@/components/ui/Button";
+import { FaqSection } from "@/components/sections/FaqSection";
 import {
   getOrganizationSchema,
   getServiceSchema,
   getBreadcrumbSchema,
-} from "@/src/lib/schema";
+} from "@/lib/schema";
 
-const service = getServiceBySlug("web-design")!;
+// ============================================================================
+// DATA STRUCTURES: WHY CHOOSE, PROCESS, PORTFOLIO, TECH, REVIEWS & FAQS
+// ============================================================================
 
-// ==========================================
-// DATA STRUCTURES FOR WEB DESIGN PAGE
-// ==========================================
-
-const WEB_DESIGN_SERVICES = [
+const HERO_FEATURES = [
   {
-    number: "01",
-    title: "UI/UX Web Design",
-    description:
-      "Create intuitive interfaces that make your website easier to understand, navigate, and use.",
-    items: [
-      "User flows",
-      "Wireframes",
-      "Page layouts",
-      "UI design",
-      "Interactive prototypes",
-      "Responsive interfaces",
-    ],
+    id: "clean-design",
+    label: "Modern & Clean Design",
     icon: Layout,
   },
   {
-    number: "02",
-    title: "Business Website Design",
-    description:
-      "Build a professional digital presence that communicates your services, expertise, brand, and value clearly.",
-    items: [
-      "Corporate websites",
-      "Business websites",
-      "Startup websites",
-      "Agency websites",
-      "Service websites",
-      "Professional websites",
-    ],
-    icon: Building2,
-  },
-  {
-    number: "03",
-    title: "Landing Page Design",
-    description:
-      "Design focused landing experiences that guide visitors toward a specific action.",
-    items: [
-      "Lead generation",
-      "Campaign pages",
-      "Product launches",
-      "Service promotions",
-      "Paid advertising",
-      "Event registration",
-    ],
-    icon: Rocket,
-  },
-  {
-    number: "04",
-    title: "E-commerce Web Design",
-    description:
-      "Create shopping experiences that make product discovery, evaluation, and purchasing easier.",
-    items: [
-      "Product pages",
-      "Category pages",
-      "Product filters",
-      "Shopping cart",
-      "Checkout",
-      "Customer accounts",
-    ],
-    icon: ShoppingBag,
-  },
-  {
-    number: "05",
-    title: "SaaS & Technology Design",
-    description:
-      "Make complex products easier to understand through clear content, structured interfaces, and modern visual systems.",
-    items: [
-      "SaaS websites",
-      "Product pages",
-      "Feature sections",
-      "Pricing pages",
-      "Product interfaces",
-      "Interactive experiences",
-    ],
-    icon: Cpu,
-  },
-  {
-    number: "06",
-    title: "Web Application UI/UX",
-    description:
-      "Design functional interfaces for platforms where users need to perform tasks and manage information.",
-    items: [
-      "Dashboards",
-      "Customer portals",
-      "Admin panels",
-      "Booking platforms",
-      "Workflow systems",
-      "Business applications",
-    ],
-    icon: Layers,
-  },
-];
-
-const DESIGN_FOUNDATION_PILLARS = [
-  {
-    title: "Brand Direction",
-    description:
-      "Understand your existing visual identity and translate it into a consistent digital experience.",
-    icon: Palette,
-  },
-  {
-    title: "Information Architecture",
-    description:
-      "Organize pages, content, navigation, and information into a structure that makes sense to users.",
-    icon: Workflow,
-  },
-  {
-    title: "User Journeys",
-    description:
-      "Understand how visitors should move from discovering your business to taking action.",
-    icon: Map,
-  },
-  {
-    title: "Content Hierarchy",
-    description:
-      "Determine what users should see first, what they need next, and what information supports their decision.",
-    icon: LayoutTemplate,
-  },
-  {
-    title: "Conversion Structure",
-    description:
-      "Position important calls to action and trust elements where they naturally support the customer journey.",
-    icon: TrendingUp,
-  },
-  {
-    title: "Responsive Planning",
-    description:
-      "Design layouts and interactions with desktop, tablet, and mobile experiences in mind from the beginning.",
+    id: "all-devices",
+    label: "Responsive for All Devices",
     icon: Smartphone,
   },
-];
-
-const UI_UX_STEPS = [
   {
-    title: "User Research & Understanding",
-    description:
-      "Identify your audience, their expectations, problems, motivations, and website requirements.",
+    id: "seo-friendly",
+    label: "SEO Friendly",
+    icon: Search,
   },
   {
-    title: "User Flow Planning",
-    description:
-      "Map the steps users need to take to find information, explore services, submit an enquiry, or complete an action.",
-  },
-  {
-    title: "Wireframing",
-    description:
-      "Create structural layouts before detailed visual design to establish hierarchy and functionality.",
-  },
-  {
-    title: "Interface Design",
-    description:
-      "Transform the approved structure into a polished visual experience.",
-  },
-  {
-    title: "Prototyping",
-    description:
-      "Connect important screens and interactions so the experience can be reviewed before development.",
-  },
-  {
-    title: "Usability Refinement",
-    description:
-      "Identify unnecessary friction and refine navigation, layouts, forms, and interactions.",
+    id: "fast-loading",
+    label: "Fast Loading",
+    icon: Zap,
   },
 ];
 
-const WIREFRAME_POINTS = [
-  "Structure",
-  "Content placement",
-  "Navigation",
-  "Sections",
-  "CTA locations",
-  "User flows",
-];
-
-const PROTOTYPE_POINTS = [
-  "Navigation",
-  "Menus",
-  "Hover states",
-  "Forms",
-  "Sliders",
-  "Interactions",
-  "Page transitions",
-];
-
-const DESIGN_SYSTEM_ELEMENTS = [
+const WHY_CHOOSE_ITEMS = [
   {
-    name: "Typography",
-    desc: "Font families, sizes, weights, line heights, and content hierarchy.",
-    icon: Feather,
-  },
-  {
-    name: "Colors",
-    desc: "Primary, secondary, background, text, border, and interactive states.",
-    icon: Palette,
-  },
-  {
-    name: "Buttons",
-    desc: "Primary, secondary, outline, text, hover, active, and disabled states.",
-    icon: MousePointer,
-  },
-  {
-    name: "Cards",
-    desc: "Reusable layouts for services, products, features, testimonials, and content.",
-    icon: Layout,
-  },
-  {
-    name: "Forms",
-    desc: "Inputs, labels, dropdowns, validation, error states, and success states.",
-    icon: CheckSquare,
-  },
-  {
-    name: "Navigation",
-    desc: "Header, menus, mobile navigation, breadcrumbs, and footer patterns.",
-    icon: Map,
-  },
-  {
-    name: "Components",
-    desc: "Reusable UI elements that help maintain consistency as the website grows.",
-    icon: Boxes,
-  },
-];
-
-const RESPONSIVE_DEVICES = [
-  {
-    title: "Desktop Experience",
-    desc: "Create spacious layouts, strong visual hierarchy, intuitive navigation, and engaging interactions.",
-    icon: Monitor,
-  },
-  {
-    title: "Tablet Experience",
-    desc: "Adapt content, grids, navigation, and components to medium-sized screens.",
-    icon: Layout,
-  },
-  {
-    title: "Mobile Experience",
-    desc: "Prioritize readable content, simple navigation, touch-friendly interactions, and focused calls to action.",
-    icon: Smartphone,
-  },
-];
-
-const CONVERSION_ELEMENTS = [
-  {
-    title: "Clear Calls to Action",
-    description: "Help visitors understand the next step.",
-  },
-  {
-    title: "Trust Signals",
-    description: "Use testimonials, case studies, credentials, reviews, statistics, and other relevant proof.",
-  },
-  {
-    title: "Content Hierarchy",
-    description: "Present the most important information before secondary details.",
-  },
-  {
-    title: "Lead Forms",
-    description: "Keep enquiry experiences clear and focused.",
-  },
-  {
-    title: "Service Discovery",
-    description: "Make it easier for users to find the services relevant to them.",
-  },
-  {
-    title: "Customer Journey",
-    description: "Guide visitors naturally from awareness to consideration and action.",
-  },
-];
-
-const PERFORMANCE_FACTORS = [
-  {
-    title: "Optimized Visuals",
-    desc: "Plan image dimensions, formats, and placement appropriately.",
-  },
-  {
-    title: "Efficient Components",
-    desc: "Avoid unnecessary visual complexity where it doesn't contribute to the experience.",
-  },
-  {
-    title: "Controlled Animation",
-    desc: "Use motion intentionally instead of adding animations simply for decoration.",
-  },
-  {
-    title: "Responsive Assets",
-    desc: "Consider different screen sizes when planning visual media.",
-  },
-  {
-    title: "Content Prioritization",
-    desc: "Ensure important content remains clear and accessible without excessive visual elements.",
-  },
-];
-
-const SEO_DESIGN_POINTS = [
-  {
-    title: "Content Hierarchy",
-    desc: "Organize information so important topics are easy to identify.",
-  },
-  {
-    title: "Navigation",
-    desc: "Create clear paths between relevant pages.",
-  },
-  {
-    title: "Internal Linking",
-    desc: "Make related content discoverable through logical page relationships.",
-  },
-  {
-    title: "Mobile Usability",
-    desc: "Ensure important content and interactions remain usable on smaller screens.",
-  },
-  {
-    title: "Readability",
-    desc: "Use appropriate typography, spacing, and content structure.",
-  },
-  {
-    title: "Search-Friendly Structure",
-    desc: "Design page layouts that can be implemented using proper headings, semantic content, metadata, and technical SEO practices during development.",
-  },
-];
-
-const BRAND_ELEMENTS = [
-  "Typography",
-  "Colors",
-  "Photography",
-  "Icons",
-  "Illustrations",
-  "Graphics",
-  "Shapes",
-  "UI components",
-  "Motion",
-  "Content presentation",
-];
-
-const CREATIVE_EXPERIENCES = [
-  {
-    title: "Interactive Hero Sections",
-    desc: "Create a strong first impression with meaningful visual interaction.",
-  },
-  {
-    title: "Product Visualizations",
-    desc: "Present products and digital products through engaging interfaces.",
-  },
-  {
-    title: "Scroll Experiences",
-    desc: "Use controlled scrolling to reveal information progressively.",
-  },
-  {
-    title: "Interactive Cards",
-    desc: "Add useful interaction to service, feature, or product content.",
-  },
-  {
-    title: "Motion & Micro-Interactions",
-    desc: "Use subtle movement to communicate interaction and feedback.",
-  },
-  {
-    title: "Visual Storytelling",
-    desc: "Combine content, imagery, UI elements, and structure to explain your business.",
-  },
-];
-
-const REDESIGN_AREAS = [
-  "Visual presentation",
-  "Navigation",
-  "Content hierarchy",
-  "Mobile experience",
-  "User journeys",
-  "Conversion opportunities",
-  "Brand consistency",
-  "Interface consistency",
-  "Modern interaction patterns",
-];
-
-const BUSINESS_MODELS = [
-  {
-    title: "Startups",
-    desc: "Clear positioning, product explanation, trust building, and conversion-focused experiences.",
-    icon: Rocket,
-  },
-  {
-    title: "SaaS & Technology",
-    desc: "Complex products explained through simple, structured digital experiences.",
-    icon: Cpu,
-  },
-  {
-    title: "E-commerce",
-    desc: "Product discovery, comparison, shopping, checkout, and customer journeys.",
-    icon: ShoppingBag,
-  },
-  {
-    title: "Professional Services",
-    desc: "Credibility, expertise, services, case studies, and enquiry experiences.",
-    icon: Briefcase,
-  },
-  {
-    title: "Corporate Businesses",
-    desc: "Structured information, organizational content, industries, capabilities, and trust.",
-    icon: Building2,
-  },
-  {
-    title: "Creative Businesses",
-    desc: "Portfolio presentation, storytelling, visual identity, and distinctive interactions.",
+    id: "custom-unique",
+    title: "Custom & Unique Designs",
+    description: "Tailored to your brand, audience and business goals.",
     icon: PenTool,
   },
-];
-
-const DELIVERABLE_GROUPS = [
   {
-    category: "Strategy",
-    items: ["Website goals", "Audience understanding", "Content structure", "User journeys"],
+    id: "fully-responsive",
+    title: "Fully Responsive",
+    description: "Looks amazing on all devices and screen sizes.",
+    icon: Smartphone,
   },
   {
-    category: "UX",
-    items: ["Sitemap", "Information architecture", "User flows", "Wireframes"],
+    id: "fast-loading",
+    title: "Fast Loading",
+    description: "Optimized for speed, performance and better UX.",
+    icon: Zap,
   },
   {
-    category: "UI",
-    items: ["High-fidelity screens", "Responsive layouts", "Design components", "Typography", "Color systems"],
+    id: "seo-optimized",
+    title: "SEO Optimized",
+    description: "Built with clean code and SEO best practices.",
+    icon: Search,
   },
   {
-    category: "Prototype",
-    items: ["Interactive flows", "Navigation", "Interactions", "States"],
+    id: "easy-to-manage",
+    title: "Easy to Manage",
+    description: "Simple updates and long-term support.",
+    icon: ShieldCheck,
   },
   {
-    category: "Design System",
-    items: ["Buttons", "Forms", "Cards", "Navigation", "Components", "Responsive rules"],
-  },
-  {
-    category: "Development Handoff",
-    items: ["Organized design files", "Assets", "Specifications", "Interaction details", "Responsive behavior"],
-  },
-];
-
-const DEV_FEASIBILITY_POINTS = [
-  "Responsive behavior",
-  "Reusable components",
-  "Content variations",
-  "Dynamic content",
-  "CMS requirements",
-  "Animation feasibility",
-  "Image requirements",
-  "Interactive states",
-  "Form states",
-  "Technical limitations",
-];
-
-const DESIGN_QA_CHECKS = [
-  {
-    title: "Visual Consistency",
-    desc: "Spacing, typography, colors, cards, buttons, and components.",
-  },
-  {
-    title: "Responsive Behavior",
-    desc: "Desktop, tablet, and mobile layouts.",
-  },
-  {
-    title: "Interactions",
-    desc: "Hover, focus, active, loading, error, and success states.",
-  },
-  {
-    title: "Content",
-    desc: "Headings, paragraphs, images, icons, and visual hierarchy.",
-  },
-  {
-    title: "Navigation",
-    desc: "Menus, breadcrumbs, links, and important user journeys.",
-  },
-  {
-    title: "Forms",
-    desc: "Input layouts, validation, error messaging, and completion states.",
+    id: "focus-growth",
+    title: "Focus on Your Growth",
+    description: "Designs that attract, engage and convert.",
+    icon: Heart,
   },
 ];
 
-const FULL_PROCESS_STEPS = [
-  { step: "01", title: "Discover", desc: "Understand your business, audience, brand, competitors, and objectives." },
-  { step: "02", title: "Research", desc: "Explore customer expectations, industry patterns, existing website issues, and opportunities." },
-  { step: "03", title: "Structure", desc: "Build the sitemap, information architecture, content hierarchy, and user flows." },
-  { step: "04", title: "Wireframe", desc: "Plan the layout and functionality before visual design." },
-  { step: "05", title: "Design", desc: "Create the complete visual interface, components, interactions, and responsive layouts." },
-  { step: "06", title: "Prototype", desc: "Connect screens and demonstrate important interactions." },
-  { step: "07", title: "Refine", desc: "Review feedback and improve the experience." },
-  { step: "08", title: "Develop", desc: "Transform the approved design into a working website." },
-  { step: "09", title: "QA", desc: "Review the implementation for functionality, responsiveness, and visual consistency." },
-  { step: "10", title: "Launch", desc: "Prepare the final website for production and launch." },
+const PROCESS_STEPS = [
+  {
+    step: "01",
+    title: "Discovery & Strategy",
+    description: "Understand your brand, goals and target audience.",
+    icon: MessageSquare,
+  },
+  {
+    step: "02",
+    title: "Design & Wireframes",
+    description: "Create structure and visual concepts.",
+    icon: FileText,
+  },
+  {
+    step: "03",
+    title: "Development",
+    description: "Turn designs into a fast, clean and scalable website.",
+    icon: Code2,
+  },
+  {
+    step: "04",
+    title: "Testing & QA",
+    description: "Ensure quality, performance and cross-browser support.",
+    icon: CheckCircle2,
+  },
+  {
+    step: "05",
+    title: "Launch & Support",
+    description: "Go live and provide ongoing maintenance and support.",
+    icon: Rocket,
+  },
 ];
 
-const TECH_ECOSYSTEM = [
-  { title: "UI/UX", items: "Figma, wireframes, prototypes, design systems", icon: Layout },
-  { title: "Frontend", items: "React, Next.js, JavaScript, TypeScript, HTML, CSS, Tailwind CSS", icon: Code2 },
-  { title: "CMS", items: "WordPress and suitable content management platforms", icon: Globe },
-  { title: "Web Platforms", items: "Custom websites, e-commerce platforms, SaaS interfaces, dashboards, and web applications", icon: Layers },
-  { title: "Integrations", items: "APIs, payment gateways, analytics, CRM systems, marketing platforms, authentication systems, and other business tools", icon: Boxes },
+const PORTFOLIO_PROJECTS = [
+  {
+    id: "crush-coffee",
+    title: "Crush Coffee",
+    category: "Food & Beverage",
+    description: "A modern and engaging website for a premium coffee brand.",
+    image: "/images/services/web-design/portfolio-crush-coffee-web-design.jpg",
+    alt: "Crush Coffee specialty cafe brand web design and product packaging showcase",
+  },
+  {
+    id: "infinity-fitness",
+    title: "Infinity Fitness Gym",
+    category: "Fitness & Health",
+    description: "A dynamic website with class schedules, trainer profiles and easy booking.",
+    image: "/images/services/web-design/portfolio-infinity-fitness-web-design.jpg",
+    alt: "Infinity Fitness Gym responsive website and mobile member portal experience",
+  },
+  {
+    id: "the-breathing-home",
+    title: "The Breathing Home",
+    category: "Real Estate",
+    description: "A clean and minimal website for a lifestyle and home brand.",
+    image: "/images/services/web-design/portfolio-breathing-home-web-design.jpg",
+    alt: "The Breathing Home architectural and interior lifestyle brand website design",
+  },
 ];
 
-const WHY_NEXOVIO_DESIGN = [
-  { title: "Business-Focused Design", desc: "We connect design decisions to your actual business objectives." },
-  { title: "User-Centered Experiences", desc: "We design around how customers navigate, understand, and interact with your website." },
-  { title: "Conversion-Aware", desc: "We consider where and why users should take action." },
-  { title: "Responsive by Default", desc: "Desktop, tablet, and mobile experiences are planned together." },
-  { title: "Development-Aware", desc: "Our designs consider real development requirements." },
-  { title: "Scalable Systems", desc: "Reusable components help your website remain consistent as it grows." },
-  { title: "Modern Visual Direction", desc: "We combine contemporary design patterns with your unique brand identity." },
-  { title: "Collaborative Process", desc: "Your feedback is incorporated throughout the appropriate stages of the project." },
+const TECH_TOOLS = [
+  {
+    name: "Figma",
+    color: "#F24E1E",
+    icon: (
+      <svg className="w-7 h-7" viewBox="0 0 38 57" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 28.5C19 23.2533 23.2533 19 28.5 19C33.7467 19 38 23.2533 38 28.5C38 33.7467 33.7467 38 28.5 38C23.2533 38 19 33.7467 19 28.5Z" fill="#1ABCFE" />
+        <path d="M0 47.5C0 42.2533 4.25329 38 9.5 38H19V47.5C19 52.7467 14.7467 57 9.5 57C4.25329 57 0 52.7467 0 47.5Z" fill="#0ACF83" />
+        <path d="M19 0V19H28.5C33.7467 19 38 14.7467 38 9.5C38 4.25329 33.7467 0 28.5 0H19Z" fill="#FF7262" />
+        <path d="M0 9.5C0 14.7467 4.25329 19 9.5 19H19V0H9.5C4.25329 0 0 4.25329 0 9.5Z" fill="#F24E1E" />
+        <path d="M0 28.5C0 33.7467 4.25329 38 9.5 38H19V19H9.5C4.25329 19 0 23.2533 0 28.5Z" fill="#A259FF" />
+      </svg>
+    ),
+  },
+  {
+    name: "Adobe XD",
+    color: "#470137",
+    icon: (
+      <svg className="w-7 h-7" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+        <rect width="128" height="128" rx="28" fill="#470137" />
+        <text x="64" y="80" fill="#FF61F6" fontFamily="system-ui, sans-serif" fontSize="52" fontWeight="800" textAnchor="middle">Xd</text>
+      </svg>
+    ),
+  },
+  {
+    name: "Photoshop",
+    color: "#001E36",
+    icon: (
+      <svg className="w-7 h-7" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+        <rect width="128" height="128" rx="28" fill="#001E36" />
+        <text x="64" y="80" fill="#31A8FF" fontFamily="system-ui, sans-serif" fontSize="52" fontWeight="800" textAnchor="middle">Ps</text>
+      </svg>
+    ),
+  },
+  {
+    name: "Illustrator",
+    color: "#330000",
+    icon: (
+      <svg className="w-7 h-7" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+        <rect width="128" height="128" rx="28" fill="#330000" />
+        <text x="64" y="80" fill="#FF9A00" fontFamily="system-ui, sans-serif" fontSize="52" fontWeight="800" textAnchor="middle">Ai</text>
+      </svg>
+    ),
+  },
+  {
+    name: "HTML5",
+    color: "#E34F26",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 fill-current text-foreground" viewBox="0 0 512 512">
+        <path fill="#e44d26" d="M107.6 471l-33-370.4h362.8l-33 370.2L255.7 512" />
+        <path fill="#f16529" d="M256 480.5V131H404.3L376 447" />
+        <path fill="#ebebeb" d="M142 176.3h114v45.4h-64.2l4.2 46.5h60v45.3H154.4M156.4 336.3H202l3.2 36.3 50.8 13.6v47.4l-93.2-26" />
+        <path fill="#fff" d="M369.6 176.3H255.8v45.4h109.6M361.3 268.2H255.8v45.4h56l-5.3 59-50.7 13.6v47.2l93-25.8" />
+      </svg>
+    ),
+  },
+  {
+    name: "CSS3",
+    color: "#1572B6",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" className="w-7 h-7 fill-current text-foreground" fill="none" viewBox="0 0 124 141.53"><path d="M10.383 126.892L0 0l124 .255-10.979 126.637-50.553 14.638z" fill="#1b73ba" /><path d="M62.468 129.275V12.085l51.064.17-9.106 104.85z" fill="#1c88c7" /><path d="M100.851 27.064H22.298l2.128 15.318h37.276l-36.68 15.745 2.127 14.808h54.043l-1.958 20.68-18.298 3.575-16.595-4.255-1.277-11.745H27.83l2.042 24.426 32.681 9.106 31.32-9.957 4-47.745H64.765l36.085-14.978z" fill="#fff" /></svg>
+    ),
+  },
+  {
+    name: "Tailwind CSS",
+    color: "#06B6D4",
+    icon: (
+      <svg className="w-7 h-7" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#06B6D4" d="M64 19.2C42.7 19.2 29.3 29.9 24 51.2c8-10.7 17.3-14.7 28-12 6.1 1.5 10.5 5.9 15.3 10.9 7.9 8 17 17.3 36.7 17.3 21.3 0 34.7-10.7 40-32-8 10.7-17.3 14.7-28 12-6.1-1.5-10.5-5.9-15.3-10.9C92.8 28.5 83.7 19.2 64 19.2zM24 72.5c-21.3 0-34.7 10.7-40 32 8-10.7 17.3-14.7 28-12 6.1 1.5 10.5 5.9 15.3 10.9 7.9 8 17 17.3 36.7 17.3 21.3 0 34.7-10.7 40-32-8 10.7-17.3 14.7-28 12-6.1-1.5-10.5-5.9-15.3-10.9C52.8 81.8 43.7 72.5 24 72.5z" />
+      </svg>
+    ),
+  },
+  {
+    name: "React JS",
+    color: "#61DAFB",
+    icon: (
+      <svg className="w-7 h-7" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="64" cy="64" rx="20" ry="52" fill="none" stroke="#61DAFB" strokeWidth="6" transform="rotate(30 64 64)" />
+        <ellipse cx="64" cy="64" rx="20" ry="52" fill="none" stroke="#61DAFB" strokeWidth="6" transform="rotate(90 64 64)" />
+        <ellipse cx="64" cy="64" rx="20" ry="52" fill="none" stroke="#61DAFB" strokeWidth="6" transform="rotate(150 64 64)" />
+        <circle cx="64" cy="64" r="10" fill="#61DAFB" />
+      </svg>
+    ),
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "Nexovio delivered a stunning website that perfectly matches our brand and vision. The team was professional, creative and always responsive.",
+    author: "Sarah Mitchell",
+    role: "Founder, The Breathing Home",
+    avatar: "/images/services/web-design/client-sarah-mitchell.svg",
+    rating: 5,
+  },
+  {
+    quote:
+      "Our online conversion rate jumped by 42% after launching the new digital experience. Nexovio's attention to typography and micro-interactions is world class.",
+    author: "David Harrison",
+    role: "Marketing Director, Crush Coffee",
+    avatar: "/images/services/web-design/client-sarah-mitchell.svg",
+    rating: 5,
+  },
+  {
+    quote:
+      "Members love the intuitive class booking experience on mobile. The design is sleek, incredibly fast, and truly elevates our brand in a crowded market.",
+    author: "Michael Vance",
+    role: "Head of Operations, Infinity Fitness Gym",
+    avatar: "/images/services/web-design/client-sarah-mitchell.svg",
+    rating: 5,
+  },
+];
+
+const WEB_DESIGN_FAQS = [
+  {
+    question: "What is the difference between web design and web development?",
+    answer:
+      "Web design focuses on visual aesthetics, UI/UX structure, typography, brand identity, user journeys, and wireframe prototypes. Web development turns those designs into functioning, interactive code using technologies like React, Next.js, and modern databases. At Nexovio, our design and development teams collaborate closely to deliver cohesive digital solutions.",
+  },
+  {
+    question: "How long does it take to design a custom website?",
+    answer:
+      "A tailored website design typically takes 2 to 4 weeks depending on the number of unique templates, user flow complexity, and feedback revisions. Enterprise platforms and large e-commerce storefronts generally require 4 to 6 weeks for thorough UX research, high-fidelity Figma prototyping, and design system creation.",
+  },
+  {
+    question: "Will my website design be fully responsive across mobile, tablet, and desktop?",
+    answer:
+      "Yes. Every screen is designed with a mobile-first philosophy. We create tailored layout breakpoints for smartphones, tablets, laptops, and ultra-wide desktop monitors to ensure seamless navigation, crisp typography, and high conversion rates regardless of the device.",
+  },
+  {
+    question: "Can you redesign our existing website without hurting our SEO rankings?",
+    answer:
+      "Absolutely. We conduct pre-redesign SEO audits to map your top-performing URLs, keyword rankings, and backlinks. We preserve URL structures, implement 301 redirects where necessary, optimize Core Web Vitals, and enhance on-page schema markup so your search visibility stays strong or improves.",
+  },
+  {
+    question: "Do you design websites in Figma before writing any code?",
+    answer:
+      "Yes. We design complete interactive prototypes in Figma, allowing you to review typography, color schemes, micro-interactions, and page layouts before development begins. This collaborative process eliminates guesswork and speeds up delivery.",
+  },
+  {
+    question: "How do your web designs help improve conversion rates and lead generation?",
+    answer:
+      "We design with strategic conversion architecture: intuitive visual hierarchy, clear value propositions, trust signals, frictionless form design, and prominent call-to-action (CTA) buttons that guide visitors naturally toward contacting your business or purchasing your product.",
+  },
 ];
 
 export default function WebDesignPage() {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) =>
+      prev === 0 ? TESTIMONIALS.length - 1 : prev - 1
+    );
+  };
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) =>
+      prev === TESTIMONIALS.length - 1 ? 0 : prev + 1
+    );
+  };
+
   const organizationSchema = getOrganizationSchema();
   const serviceSchema = getServiceSchema({
-    name: service.name,
-    description: service.shortDescription,
+    name: "Professional Web Design & Responsive Website Design Services",
+    description:
+      "Beautiful, functional, and conversion-focused web design services. We create modern, responsive, and user-friendly websites that engage visitors and drive business growth.",
     url: "/services/web-design",
-    serviceType: "DesignServices",
-    image: "/images/services/web-design-digital-experience-team.webp",
+    serviceType: "WebDesignServices",
+    image: "/images/services/web-design/web-design-hero-workspace.jpg",
   });
   const breadcrumbSchema = getBreadcrumbSchema([
     { name: "Home", url: "/" },
@@ -590,8 +337,11 @@ export default function WebDesignPage() {
     { name: "Web Design", url: "/services/web-design" },
   ]);
 
+  const activeReview = TESTIMONIALS[currentTestimonial];
+
   return (
-    <div className="bg-background overflow-hidden">
+    <div className="bg-background text-foreground transition-colors overflow-hidden">
+      {/* Structured Data Scripts for Google Crawling & Rich Snippets */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -605,879 +355,409 @@ export default function WebDesignPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
-      {/* 1. HERO BANNER SECTION (Dark/Gradient Hero Background) */}
-      <section className="pt-24 sm:28 md:pt-32 lg:pt-40 pb-20 bg-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Background Radial Glow & Futuristic Grid Lines */}
-          <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
-          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-brand-electric/20 rounded-full blur-[100px] pointer-events-none" />
+      {/* =================================================================== */}
+      {/* 1. HERO SECTION (Matching Reference Mockup 1:1)                      */}
+      {/* =================================================================== */}
+      <section className="pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+        {/* Ambient Subtle Glow Accents */}
+        <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-60" />
+        <div className="absolute -top-36 -right-36 w-96 h-96 bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute -bottom-36 -left-36 w-96 h-96 bg-brand-electric/20 rounded-full blur-[100px] pointer-events-none" />
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Breadcrumbs Navigation */}
+          <div className="mb-6">
+            <Breadcrumbs
+              items={[
+                { name: "Services", url: "/services" },
+                { name: "Web Design", url: "/services/web-design" },
+              ]}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+            {/* Left Content Column */}
             <div className="lg:col-span-6 space-y-6 text-left">
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated/90 text-brand-cyan shadow-[0_0_20px_rgba(0,198,255,0.2)]">
-                <Sparkles className="w-3.5 h-3.5 text-brand-bright" />
-                <span>NEXOVIO WEB DESIGN SERVICES</span>
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border border-brand-cyan/30 bg-surface-elevated text-brand-bright shadow-xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-bright animate-pulse" />
+                <span>WEB DESIGN SERVICES</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.14]">
-                Web Design That Turns Your Brand Into a{" "}
-                <span className="bg-gradient-brand bg-clip-text text-transparent">
-                  Digital Experience
+              {/* H1 Heading */}
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-[1.15]">
+                Beautiful, Functional &amp; Conversion-Focused{" "}
+                <span className="bg-gradient-to-r from-brand-electric to-brand-bright bg-clip-text text-transparent">
+                  Website Designs
                 </span>
               </h1>
 
-              <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed">
-                <p className="font-medium text-md text-slate-900 dark:text-white">
-                  Your website should do more than look professional. It should help people understand your business, trust your brand, explore your services, and take action.
-                </p>
-                <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300">
-                  Nexovio Digital Solutions creates modern, responsive, user-focused web designs that combine visual impact, intuitive UX, strong content hierarchy, and conversion-focused experiences. From business websites and landing pages to e-commerce stores, SaaS platforms, and custom web interfaces, we design digital experiences around your customers and business goals.
-                </p>
+              {/* Subtitle */}
+              <p className="text-sm sm:text-base text-muted leading-relaxed max-w-xl">
+                Your website is more than just an online presence — it&apos;s your brand&apos;s first impression. We create modern, responsive and user-friendly web designs that engage visitors, build trust and turn them into loyal customers.
+              </p>
+
+              {/* 4 Feature Badges (2x2 Grid) */}
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                {HERO_FEATURES.map((feat) => {
+                  const Icon = feat.icon;
+                  return (
+                    <div
+                      key={feat.id}
+                      className="flex items-center gap-2.5 p-2.5 rounded-xl border border-border-subtle bg-surface-elevated/70 shadow-2xs hover:border-brand-bright/40 transition-colors"
+                    >
+                      <div className="w-7 h-7 rounded-lg bg-sky-50 dark:bg-brand-cyan/15 flex items-center justify-center text-brand-bright shrink-0">
+                        <Icon className="w-3.5 h-3.5" />
+                      </div>
+                      <span className="text-xs font-semibold text-foreground">
+                        {feat.label}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              {/* CTA Buttons Row */}
+              <div className="pt-3 flex flex-wrap items-center gap-4">
                 <Button
                   href="/contact"
                   variant="primary"
-                  size="lg"
-                  trackingName="web_design_start_project"
-                  trackingLocation="service_hero"
+                  size="md"
+                  trackingName="web_design_hero_start_project"
+                  trackingLocation="web_design_hero"
                   icon={<ArrowRight className="w-4 h-4" />}
-                  className="w-full sm:w-auto shadow-glow"
                 >
-                  Design Your Website
+                  Start Your Project
                 </Button>
                 <Button
-                  href="/contact"
+                  href="#portfolio"
                   variant="secondary"
-                  size="lg"
-                  trackingName="web_design_talk_team"
-                  trackingLocation="service_hero"
-                  className="w-full sm:w-auto"
+                  size="md"
+                  trackingName="web_design_hero_view_portfolio"
+                  trackingLocation="web_design_hero"
                 >
-                  View Our Work
+                  View Our Portfolio
                 </Button>
               </div>
             </div>
 
-            {/* Right Side Image Banner (50% Width Both Sides) */}
-            <div className="lg:col-span-6 relative flex items-center justify-center h-full">
-              <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
-              <div className="relative w-full rounded-2xl border border-brand-cyan/30 dark:border-brand-cyan/40 bg-surface-elevated/80 backdrop-blur-xl p-2.5 sm:p-3 shadow-[0_25px_60px_rgba(0,0,0,0.3)] overflow-hidden group">
-                <div className="relative overflow-hidden rounded-xl h-[400px] sm:h-[460px] lg:h-[520px] w-full">
-                  <Image
-                    src="/images/services/web-design-digital-experience-team.webp"
-                    alt="Web designer creating modern responsive digital experiences"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    priority
-                    className="w-full h-full object-cover object-center rounded-xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
-                  />
-                  {/* Subtle Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/70 via-transparent to-transparent pointer-events-none rounded-xl" />
+            {/* Right Column: Hero Workspace Image Showcase */}
+            <div className="lg:col-span-6 relative">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-border-subtle bg-surface-elevated aspect-[4/3] group">
+                <Image
+                  src="/images/services/web-design/web-design-hero-workspace.jpg"
+                  alt="Modern web design workstation with laptop showing responsive design layout, smartphone and designer tools"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                  className="object-cover group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                />
+
+                {/* Floating Handwritten Style Label Annotation */}
+                <div className="absolute top-5 right-5 bg-white/95 dark:bg-[#07162c]/95 backdrop-blur-md rounded-2xl px-3.5 py-2.5 shadow-xl border border-brand-cyan/30 flex items-center gap-2.5 z-20">
+                  <div className="w-2 h-2 rounded-full bg-brand-bright animate-ping" />
+                  <div className="text-left">
+                    <span className="text-[11px] font-bold text-foreground block font-mono">
+                      Modern Design
+                    </span>
+                    <span className="text-[10px] font-semibold text-brand-bright block leading-tight">
+                      Better Results &rarr;
+                    </span>
+                  </div>
                 </div>
+
+                {/* Subtle Gradient Vignette */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. INTRO / SPLIT SECTION (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+      {/* =================================================================== */}
+      {/* 2. WHY CHOOSE NEXOVIO? (2-Column Split: Pitch + 6 Card Grid)         */}
+      {/* =================================================================== */}
+      <section className="py-16 sm:py-24 bg-surface-subtle/40 border-t border-border-subtle/60" id="why-choose">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left Side Custom Design Visual Frame */}
-            <div className="lg:col-span-6 relative flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
-              <div className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071024] shadow-xl space-y-4 text-left w-full">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-white/10">
-                  <span className="text-xs font-mono font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <Palette className="w-4 h-4 text-brand-cyan" /> Purposeful Web Design Matrix
-                  </span>
-                  <span className="text-[10px] font-mono text-emerald-500 font-bold">100% User Centric</span>
-                </div>
-                <div className="space-y-2.5 text-xs">
-                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-surface/80 border border-slate-200 dark:border-white/10 space-y-1">
-                    <span className="font-bold text-slate-800 dark:text-slate-200">01. Intuitive Navigation & Layout</span>
-                    <p className="text-[11px] text-muted">Clear information architecture guiding visitors effortessly.</p>
-                  </div>
-                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-surface/80 border border-slate-200 dark:border-white/10 space-y-1">
-                    <span className="font-bold text-slate-800 dark:text-slate-200">02. Visual Identity & Contrast</span>
-                    <p className="text-[11px] text-muted">Consistent brand typography, palette, and component design.</p>
-                  </div>
-                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-surface/80 border border-slate-200 dark:border-white/10 space-y-1">
-                    <span className="font-bold text-slate-800 dark:text-slate-200">03. Conversion Funnel Optimization</span>
-                    <p className="text-[11px] text-muted">Strategic CTA placements that turn visitors into inquiries.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Side Text */}
-            <div className="lg:col-span-6 space-y-6">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-                DESIGN WITH PURPOSE
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+            {/* Left Column: Heading & Value Proposition */}
+            <div className="lg:col-span-4 text-left space-y-4">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-brand-bright">
+                THE RIGHT PARTNER FOR YOUR BRAND
               </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                A Website Should Look Good. A Great Website Should Work.
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-foreground tracking-tight leading-tight">
+                Why Choose{" "}
+                <span className="bg-gradient-to-r from-brand-electric to-brand-bright bg-clip-text text-transparent">
+                  Nexovio?
+                </span>
               </h2>
-              <div className="space-y-4 text-base text-muted leading-relaxed">
-                <p className="font-semibold text-slate-900 dark:text-white">
-                  Your website is often the first interaction customers have with your business.
-                </p>
-                <p>
-                  A strong design needs to communicate your value quickly while making it easy for visitors to find information, understand your services, trust your brand, and take the next step.
-                </p>
-                <p className="text-sm font-medium text-brand-cyan italic">
-                  At Nexovio, we combine UI design, UX thinking, responsive layouts, content hierarchy, interaction design, and conversion principles to create websites that are both visually distinctive and practical to use.
-                </p>
+              <p className="text-xs sm:text-sm text-muted leading-relaxed">
+                We combine creativity, strategy and technology to design websites that not only look great but also perform. Our team focuses on creating seamless user experiences that drive engagement and business growth.
+              </p>
+              <div className="pt-2">
+                <Button
+                  href="/services"
+                  variant="primary"
+                  size="md"
+                  trackingName="web_design_why_explore_services"
+                  trackingLocation="web_design_why_choose"
+                  icon={<ArrowRight className="w-4 h-4" />}
+                >
+                  Explore Our Services
+                </Button>
               </div>
+            </div>
 
-              <div className="pt-2 space-y-3">
-                <h3 className="text-xs font-mono font-bold text-brand-bright uppercase tracking-widest">
-                  WE DESIGN EXPERIENCES AROUND:
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                  {[
-                    "Your business objectives",
-                    "Your target audience",
-                    "Customer expectations",
-                    "Your brand identity",
-                    "Your content",
-                    "Conversion opportunities",
-                    "Mobile & desktop experiences",
-                    "Future development",
-                  ].map((item) => (
-                    <div
-                      key={item}
-                      className="px-3.5 py-2 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#070F22] flex items-center gap-2 shadow-xs"
-                    >
-                      <Check className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
-                      <span className="text-xs font-semibold text-slate-900 dark:text-white">
-                        {item}
-                      </span>
+            {/* Right Column: 6 Cards in 2-Column Grid */}
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+              {WHY_CHOOSE_ITEMS.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={item.id}
+                    className="p-5 rounded-2xl border border-border-subtle bg-surface-elevated space-y-3 shadow-xs hover:border-brand-bright/40 hover:shadow-sm transition-all text-left group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-sky-50 dark:bg-brand-cyan/15 flex items-center justify-center text-brand-bright group-hover:bg-brand-bright group-hover:text-white transition-colors shrink-0">
+                      <Icon className="w-5 h-5" />
                     </div>
-                  ))}
-                </div>
-              </div>
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-bold text-foreground">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs text-muted leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. OUR WEB DESIGN SERVICES (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
+      {/* =================================================================== */}
+      {/* 3. OUR PROCESS (From Idea to Impact in 5 Simple Steps)               */}
+      {/* =================================================================== */}
+      <section className="py-16 sm:py-24 bg-background border-t border-border-subtle/60" id="process">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="WHAT WE DESIGN"
-            title="Web Design Services Built Around Your"
-            highlightText="Digital Goals"
-            description="From the first wireframe to the final interface, we design every important part of your website experience."
-            align="center"
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start mb-12">
+            {/* Left Header */}
+            <div className="lg:col-span-5 text-left space-y-2">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-brand-bright">
+                OUR PROCESS
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-tight">
+                From Idea to Impact{" "}
+                <span className="bg-gradient-to-r from-brand-electric to-brand-bright bg-clip-text text-transparent">
+                  In 5 Simple Steps
+                </span>
+              </h2>
+            </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {WEB_DESIGN_SERVICES.map((srv) => {
-              const SrvIcon = srv.icon;
+            {/* Right Subtitle & Action */}
+            <div className="lg:col-span-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-left">
+              <p className="text-xs sm:text-sm text-muted leading-relaxed max-w-lg">
+                We make the web design process simple and transparent. From understanding your goals to launching your website, we&apos;re with you at every step.
+              </p>
+              <Button
+                href="/contact"
+                variant="secondary"
+                size="md"
+                trackingName="web_design_process_learn_more"
+                trackingLocation="web_design_process"
+                icon={<ArrowRight className="w-4 h-4" />}
+                className="shrink-0"
+              >
+                Learn More About Our Process
+              </Button>
+            </div>
+          </div>
+
+          {/* 5 Step Nodes (Horizontal Chain with Directional Flow) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 relative">
+            {PROCESS_STEPS.map((step, idx) => {
+              const Icon = step.icon;
               return (
                 <div
-                  key={srv.number}
-                  className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#071226] space-y-4 hover:border-brand-cyan/40 transition-colors shadow-sm flex flex-col justify-between"
+                  key={step.step}
+                  className="p-5 rounded-2xl border border-border-subtle bg-surface-elevated flex flex-col justify-between space-y-4 text-left shadow-xs hover:border-brand-bright/40 transition-all relative group"
                 >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                        <SrvIcon className="w-5 h-5" />
-                      </div>
-                      <span className="text-xs font-mono font-bold text-slate-400">
-                        {srv.number}
-                      </span>
+                  <div className="flex items-center justify-between">
+                    <div className="w-10 h-10 rounded-xl bg-sky-50 dark:bg-brand-cyan/15 flex items-center justify-center text-brand-bright group-hover:bg-brand-bright group-hover:text-white transition-colors">
+                      <Icon className="w-5 h-5" />
                     </div>
+                    {idx < PROCESS_STEPS.length - 1 && (
+                      <span className="hidden lg:block text-slate-300 dark:text-slate-700 font-mono text-sm">
+                        &rarr;
+                      </span>
+                    )}
+                  </div>
 
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                      {srv.title}
+                  <div className="space-y-1">
+                    <span className="text-xs font-mono font-bold text-brand-bright block">
+                      {step.step}
+                    </span>
+                    <h3 className="text-sm font-bold text-foreground">
+                      {step.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                      {srv.description}
+                    <p className="text-xs text-muted leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* =================================================================== */}
+      {/* 4. WEB DESIGN PROJECTS WE'RE PROUD OF (Portfolio Grid)              */}
+      {/* =================================================================== */}
+      <section className="py-16 sm:py-24 bg-surface-subtle/40 border-t border-border-subtle/60" id="portfolio">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-end mb-10 sm:mb-12">
+            <div className="lg:col-span-8 text-left space-y-2">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-brand-bright">
+                OUR PORTFOLIO
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight">
+                Web Design Projects{" "}
+                <span className="bg-gradient-to-r from-brand-electric to-brand-bright bg-clip-text text-transparent">
+                  We&apos;re Proud Of
+                </span>
+              </h2>
+              <p className="text-xs sm:text-sm text-muted max-w-2xl">
+                Explore some of our latest web design projects and see how we help businesses create impactful online experiences.
+              </p>
+            </div>
+            <div className="lg:col-span-4 lg:text-right">
+              <Button
+                href="/portfolio"
+                variant="secondary"
+                size="md"
+                trackingName="web_design_portfolio_view_all"
+                trackingLocation="web_design_portfolio"
+                icon={<ArrowRight className="w-4 h-4" />}
+              >
+                View All Projects
+              </Button>
+            </div>
+          </div>
+
+          {/* 3 Project Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
+            {PORTFOLIO_PROJECTS.map((proj) => (
+              <div
+                key={proj.id}
+                className="rounded-2xl border border-border-subtle bg-surface-elevated overflow-hidden shadow-sm hover:shadow-xl hover:border-brand-bright/40 transition-all text-left flex flex-col group"
+              >
+                {/* Image Container */}
+                <div className="relative aspect-[16/10] overflow-hidden bg-slate-900">
+                  <Image
+                    src={proj.image}
+                    alt={proj.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                </div>
+
+                {/* Card Content */}
+                <div className="p-5 sm:p-6 flex flex-col justify-between flex-grow space-y-3">
+                  <div className="space-y-1.5">
+                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-sky-50 dark:bg-brand-cyan/15 text-brand-bright border border-brand-cyan/20">
+                      {proj.category}
+                    </span>
+                    <h3 className="text-base sm:text-lg font-bold text-foreground group-hover:text-brand-bright transition-colors">
+                      {proj.title}
+                    </h3>
+                    <p className="text-xs text-muted leading-relaxed">
+                      {proj.description}
                     </p>
                   </div>
 
-                  <div className="pt-3 border-t border-slate-200 dark:border-white/10 space-y-2">
-                    <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block uppercase tracking-wider">
-                      Includes:
-                    </span>
-                    <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
-                      {srv.items.map((it) => (
-                        <div key={it} className="flex items-center gap-1.5 truncate">
-                          <CheckCircle2 className="w-3 h-3 text-brand-cyan shrink-0" />
-                          <span className="truncate">{it}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="pt-2 border-t border-border-subtle/60 flex items-center justify-between text-xs font-semibold text-brand-bright">
+                    <span>Explore Case Study</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* 4. DESIGN FOUNDATION (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
+      {/* =================================================================== */}
+      {/* 5. SPLIT SECTION: TECHNOLOGIES WE USE & WHAT OUR CLIENTS SAY        */}
+      {/* =================================================================== */}
+      <section className="py-16 sm:py-24 bg-background border-t border-border-subtle/60" id="technologies-and-reviews">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGN FOUNDATION"
-            title="From Business Requirements to a"
-            highlightText="Clear Visual Direction"
-            description="Great design starts before the first visual component is created. We establish the foundation of your website by understanding your business, audience, content, and objectives."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {DESIGN_FOUNDATION_PILLARS.map((pillar) => {
-              const IconComp = pillar.icon;
-              return (
-                <div
-                  key={pillar.title}
-                  className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071226] space-y-3 hover:border-brand-cyan/40 transition-colors shadow-sm"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-brand-bright/10 border border-brand-bright/20 flex items-center justify-center text-brand-bright">
-                    <IconComp className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                    {pillar.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {pillar.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 5. UI/UX DESIGN PROCESS (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="UI/UX DESIGN"
-            title="Designing Interfaces People"
-            highlightText="Can Understand"
-            description="A modern website should not make visitors work to understand it. Our UI/UX approach focuses on clarity, consistency, usability, and purposeful interactions."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {UI_UX_STEPS.map((step, idx) => (
-              <div
-                key={step.title}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-surface/80 space-y-3 hover:border-brand-cyan/40 transition-colors shadow-sm"
-              >
-                <span className="text-xs font-mono font-bold text-brand-cyan">
-                  STEP {String(idx + 1).padStart(2, "0")}
+          <div className="items-center">
+            {/* Left Sub-Column: Technologies We Use */}
+            <div className="lg:col-span-5 text-left space-y-5">
+              <div className="space-y-2">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-brand-bright">
+                  TECHNOLOGIES WE USE
                 </span>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                  {step.title}
-                </h3>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight leading-tight">
+                  Modern Tools for{" "}
+                  <span className="bg-gradient-to-r from-brand-electric to-brand-bright bg-clip-text text-transparent">
+                    Modern Websites
+                  </span>
+                </h2>
                 <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                  {step.description}
+                  We work with the latest design and development technologies to build high-performance, scalable and future-ready websites.
                 </p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* 6. WIREFRAMES & PROTOTYPES (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="PLAN BEFORE YOU BUILD"
-            title="See Your Website Before"
-            highlightText="Development Begins"
-            description="A finished visual design doesn't always show how a website behaves. Wireframes and interactive prototypes help you understand the experience before development starts."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-12">
-            {/* Wireframes */}
-            <div className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071024] space-y-4 shadow-md">
-              <span className="text-xs font-mono font-bold text-brand-cyan uppercase tracking-wider block">
-                01. STRUCTURAL BLUEPRINTS
-              </span>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Wireframes</h3>
-              <p className="text-xs text-muted leading-relaxed">
-                Low-fidelity layouts focusing purely on hierarchy, layout, and content placement without visual distraction.
-              </p>
-              <div className="pt-2 space-y-2">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">Key Focus Areas:</span>
-                <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
-                  {WIREFRAME_POINTS.map((pt) => (
-                    <div key={pt} className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
-                      <span>{pt}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* High-Fidelity Designs */}
-            <div className="p-6 rounded-2xl border border-brand-cyan/40 bg-white dark:bg-[#07122a] space-y-4 shadow-lg relative">
-              <div className="absolute top-4 right-4 text-[10px] font-mono px-2 py-0.5 rounded bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">
-                Visual Polish
-              </div>
-              <span className="text-xs font-mono font-bold text-brand-cyan uppercase tracking-wider block">
-                02. COMPLETE INTERFACE
-              </span>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">High-Fidelity Designs</h3>
-              <p className="text-xs text-muted leading-relaxed">
-                Transform the approved structural wireframe into a complete, pixel-perfect visual interface matching your brand identity.
-              </p>
-              <div className="pt-2 text-xs text-muted space-y-2">
-                <p className="font-semibold text-slate-800 dark:text-slate-200">Includes:</p>
-                <p>Full typography scaling, color tokens, image styles, icon systems, and polished UI component states.</p>
-              </div>
-            </div>
-
-            {/* Interactive Prototypes */}
-            <div className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071024] space-y-4 shadow-md">
-              <span className="text-xs font-mono font-bold text-brand-cyan uppercase tracking-wider block">
-                03. TACTILE BEHAVIOR
-              </span>
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white">Interactive Prototypes</h3>
-              <p className="text-xs text-muted leading-relaxed">
-                Clickable Figma prototypes demonstrating real page flows and micro-interactions before code execution.
-              </p>
-              <div className="pt-2 space-y-2">
-                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">Demonstrates:</span>
-                <div className="grid grid-cols-2 gap-1.5 text-xs text-muted">
-                  {PROTOTYPE_POINTS.map((pt) => (
-                    <div key={pt} className="flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
-                      <span>{pt}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. DESIGN SYSTEM (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGN SYSTEMS"
-            title="Build a Consistent Visual Language Across"
-            highlightText="Your Website"
-            description="A website becomes easier to use when visual patterns remain consistent. We create reusable systems that keep your brand coherent as it grows."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-12">
-            {DESIGN_SYSTEM_ELEMENTS.map((el) => {
-              const ElIcon = el.icon;
-              return (
-                <div
-                  key={el.name}
-                  className="p-5 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-slate-50 dark:bg-[#071226] space-y-2 hover:border-brand-cyan/40 transition-colors shadow-sm"
-                >
-                  <div className="flex items-center gap-2">
-                    <ElIcon className="w-4 h-4 text-brand-cyan shrink-0" />
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                      {el.name}
-                    </h3>
-                  </div>
-                  <p className="text-xs text-muted leading-relaxed">
-                    {el.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 8. RESPONSIVE WEB DESIGN (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGNED FOR EVERY SCREEN"
-            title="One Website."
-            highlightText="Every Screen."
-            description="Your customers can discover your business from desktops, laptops, tablets, and smartphones. Your design should adapt without losing its purpose."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
-            {RESPONSIVE_DEVICES.map((dev) => {
-              const DevIcon = dev.icon;
-              return (
-                <div
-                  key={dev.title}
-                  className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071226] space-y-3 text-center shadow-sm"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mx-auto">
-                    <DevIcon className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                    {dev.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {dev.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 9. CONVERSION-FOCUSED DESIGN (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGN THAT DRIVES ACTION"
-            title="Design Every Important Interaction"
-            highlightText="With a Purpose"
-            description="A visually impressive website isn't enough if visitors don't know what to do next. We consider conversion opportunities throughout the experience."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {CONVERSION_ELEMENTS.map((ce) => (
-              <div
-                key={ce.title}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#071226] space-y-2 hover:border-brand-cyan/40 transition-colors shadow-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-brand-cyan shrink-0" />
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    {ce.title}
-                  </h3>
-                </div>
-                <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                  {ce.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 10. PERFORMANCE-AWARE DESIGN (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGN FOR PERFORMANCE"
-            title="Beautiful Experiences Without"
-            highlightText="Unnecessary Weight"
-            description="Design decisions directly influence website performance. We consider loading speed and resource delivery while designing visual assets."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {PERFORMANCE_FACTORS.map((pf) => (
-              <div
-                key={pf.title}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071226] space-y-2 hover:border-brand-cyan/40 transition-colors shadow-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-brand-cyan shrink-0" />
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    {pf.title}
-                  </h3>
-                </div>
-                <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                  {pf.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 11. SEO-FRIENDLY WEB DESIGN (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGN WITH SEO IN MIND"
-            title="Design That Gives Your SEO Strategy a"
-            highlightText="Strong Foundation"
-            description="SEO isn't only about keywords and backlinks. Website design influences how users discover, navigate, understand, and interact with your content."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {SEO_DESIGN_POINTS.map((sdp) => (
-              <div
-                key={sdp.title}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#071226] space-y-2 hover:border-brand-cyan/40 transition-colors shadow-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <Search className="w-4 h-4 text-brand-cyan shrink-0" />
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    {sdp.title}
-                  </h3>
-                </div>
-                <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                  {sdp.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 12. BRAND EXPERIENCE (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="YOUR BRAND, YOUR EXPERIENCE"
-            title="Turn Your Brand Identity Into a Website"
-            highlightText="People Remember"
-            description="Your website should feel connected to your brand. We translate your identity into digital elements that leave a lasting impression."
-            align="center"
-          />
-
-          <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto mt-12">
-            {BRAND_ELEMENTS.map((elem) => (
-              <div
-                key={elem}
-                className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#070F22] flex items-center gap-2 shadow-xs"
-              >
-                <Palette className="w-4 h-4 text-brand-cyan" />
-                <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                  {elem}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 13. CREATIVE VISUAL EXPERIENCES (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="CREATIVE DIRECTION"
-            title="Go Beyond Standard"
-            highlightText="Website Sections"
-            description="Modern websites don't have to look like a collection of identical templates. Depending on your brand and audience, we explore creative experiences."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {CREATIVE_EXPERIENCES.map((ce) => (
-              <div
-                key={ce.title}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#071226] space-y-2 hover:border-brand-cyan/40 transition-colors shadow-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-brand-bright shrink-0" />
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    {ce.title}
-                  </h3>
-                </div>
-                <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                  {ce.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 14. WEBSITE REDESIGN (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-                REDESIGN & MODERNIZATION
-              </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Give an Outdated Website a New Digital Direction
-              </h2>
-              <div className="space-y-4 text-base text-muted leading-relaxed">
-                <p className="font-semibold text-slate-900 dark:text-white">
-                  Your business may have changed while your website stayed the same.
-                </p>
-                <p>
-                  We review what is already working, identify friction points, and determine what should be improved rather than redesigning everything without purpose.
-                </p>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6 space-y-3">
-              <h3 className="text-xs font-mono font-bold text-brand-bright uppercase tracking-widest">
-                KEY IMPROVEMENT AREAS:
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {REDESIGN_AREAS.map((ra) => (
+              {/* 8 Tools Grid (4 x 2) */}
+              <div className="grid grid-cols-4 gap-3 pt-2">
+                {TECH_TOOLS.map((tool) => (
                   <div
-                    key={ra}
-                    className="p-3.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#070F22] flex items-center gap-2.5 shadow-xs"
+                    key={tool.name}
+                    className="p-3 rounded-xl border border-border-subtle bg-surface-elevated flex flex-col items-center justify-center text-center shadow-2xs hover:border-brand-bright/40 hover:shadow-xs transition-all group"
                   >
-                    <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" />
-                    <span className="text-xs font-semibold text-slate-900 dark:text-white">
-                      {ra}
+                    <div className="mb-1.5 shrink-0 group-hover:scale-110 transition-transform">
+                      {tool.icon}
+                    </div>
+                    <span className="text-[11px] font-bold text-foreground block leading-tight">
+                      {tool.name}
                     </span>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* 15. WEB DESIGN FOR DIFFERENT BUSINESS TYPES (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGNED FOR YOUR BUSINESS"
-            title="Design Experiences Around Your"
-            highlightText="Business Model"
-            description="Different businesses require tailored design strategies to communicate value and convert visitors."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {BUSINESS_MODELS.map((bm) => {
-              const BmIcon = bm.icon;
-              return (
-                <div
-                  key={bm.title}
-                  className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#071226] space-y-3 hover:border-brand-cyan/40 transition-colors shadow-sm"
+              <div className="pt-2 text-center">
+                <Button
+                  href="/services/web-development"
+                  variant="secondary"
+                  size="md"
+                  trackingName="web_design_tech_view_stack"
+                  trackingLocation="web_design_technologies"
+                  icon={<ArrowRight className="w-4 h-4" />}
                 >
-                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                    <BmIcon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                    {bm.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {bm.desc}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 16. WEB DESIGN DELIVERABLES (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="WHAT YOU GET"
-            title="From Strategy to"
-            highlightText="Development-Ready Design"
-            description="Depending on the project scope, our web design deliverables provide complete clarity for your business and engineering teams."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {DELIVERABLE_GROUPS.map((dg) => (
-              <div
-                key={dg.category}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071024] space-y-4 shadow-sm"
-              >
-                <h3 className="text-lg font-bold text-brand-cyan border-b border-slate-100 dark:border-white/10 pb-2">
-                  {dg.category}
-                </h3>
-                <div className="space-y-2">
-                  {dg.items.map((it) => (
-                    <div key={it} className="flex items-center gap-2 text-xs text-muted">
-                      <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>{it}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 17. DESIGN + DEVELOPMENT (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            <div className="lg:col-span-6 space-y-6">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-                BUILT TO BECOME REAL
-              </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Design That Developers Can Actually Build
-              </h2>
-              <div className="space-y-4 text-base text-muted leading-relaxed">
-                <p className="font-semibold text-slate-900 dark:text-white">
-                  A design shouldn't look perfect only inside a design tool. We consider real implementation requirements while designing.
-                </p>
-                <p>
-                  Because Nexovio also provides web development, the design and development process can be aligned from the beginning.
-                </p>
-              </div>
-            </div>
-
-            <div className="lg:col-span-6 space-y-3">
-              <h3 className="text-xs font-mono font-bold text-brand-bright uppercase tracking-widest">
-                FEASIBILITY CONSIDERATIONS:
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {DEV_FEASIBILITY_POINTS.map((fp) => (
-                  <div
-                    key={fp}
-                    className="p-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-surface/80 flex items-center gap-2"
-                  >
-                    <Code2 className="w-4 h-4 text-brand-cyan shrink-0" />
-                    <span className="text-xs font-semibold text-slate-900 dark:text-white">
-                      {fp}
-                    </span>
-                  </div>
-                ))}
+                  View Our Tech Stack
+                </Button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 18. QUALITY & DESIGN QA (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGN QUALITY"
-            title="Every Detail Matters"
-            highlightText="Before Launch"
-            description="After implementation, the developed website can be compared with the approved design to ensure fidelity across every screen."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {DESIGN_QA_CHECKS.map((qa) => (
-              <div
-                key={qa.title}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071226] space-y-2 shadow-sm"
-              >
-                <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    {qa.title}
-                  </h3>
-                </div>
-                <p className="text-xs text-muted leading-relaxed">
-                  {qa.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 19. OUR WEB DESIGN PROCESS (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="HOW WE WORK"
-            title="From Idea to Finished"
-            highlightText="Digital Experience"
-            description="A structured 10-step design process ensuring clear feedback, predictable timelines, and exceptional visual outcomes."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-12">
-            {FULL_PROCESS_STEPS.map((ps) => (
-              <div
-                key={ps.step}
-                className="p-5 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-surface/80 space-y-2 text-left"
-              >
-                <span className="text-xs font-mono font-bold text-brand-cyan">
-                  {ps.step}
-                </span>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  {ps.title}
-                </h3>
-                <p className="text-xs text-muted leading-relaxed">
-                  {ps.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 20. TECHNOLOGIES & DESIGN ECOSYSTEM (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="DESIGN + TECHNOLOGY"
-            title="Design With the Technology"
-            highlightText="Behind It in Mind"
-            description="Our design workflow supports modern web technologies and software frameworks seamlessly."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {TECH_ECOSYSTEM.map((eco) => {
-              const EcoIcon = eco.icon;
-              return (
-                <div
-                  key={eco.title}
-                  className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-white dark:bg-[#071226] space-y-3 shadow-sm"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                    <EcoIcon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                    {eco.title}
-                  </h3>
-                  <p className="text-xs text-muted leading-relaxed font-mono">
-                    {eco.items}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 21. WHY NEXOVIO (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="WHY NEXOVIO"
-            title="Why Businesses Choose Nexovio"
-            highlightText="for Web Design"
-            description="We combine business strategy, UI aesthetics, UX principles, and responsive engineering into a disciplined design service."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-            {WHY_NEXOVIO_DESIGN.map((reason) => (
-              <div
-                key={reason.title}
-                className="p-6 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[#071226] space-y-2 hover:border-brand-cyan/40 transition-colors shadow-sm"
-              >
-                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Check className="w-4 h-4 text-brand-cyan shrink-0" />
-                  {reason.title}
-                </h3>
-                <p className="text-xs text-muted leading-relaxed">
-                  {reason.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 22. FREQUENTLY ASKED QUESTIONS (FaqSection with built-in section-blue) */}
-      <FaqSection faqs={service.faqs} />
+      {/* =================================================================== */}
+      {/* 7. FREQUENTLY ASKED QUESTIONS (Standard FaqSection Component)       */}
+      {/* =================================================================== */}
+      <FaqSection
+        faqs={WEB_DESIGN_FAQS}
+        badge="COMMON QUESTIONS"
+        title="Frequently Asked"
+        highlightText="Questions"
+        description="Clear answers regarding our web design process, custom UI/UX methodologies, Figma prototypes, responsive standards, and post-launch maintenance."
+        variant="white"
+      />
     </div>
   );
 }

@@ -13,10 +13,13 @@ import {
   MapPin,
   Sparkles,
 } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { FinalCtaSection } from "@/src/components/sections/FinalCtaSection";
 import { trackContactClick } from "@/src/lib/analytics";
 
 export function Footer() {
+  const pathname = usePathname();
+  const hideFinalCta = pathname === "/services" || pathname === "/contact" || pathname === "/schedule-a-call";
   const currentYear = new Date().getFullYear();
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
   const contactPhone = process.env.NEXT_PUBLIC_PHONE || "+91-6351312234";
@@ -32,7 +35,7 @@ export function Footer() {
 
   return (
     <>
-      <FinalCtaSection />
+      {!hideFinalCta && <FinalCtaSection />}
 
       <footer className="site-footer relative bg-[#050B17] text-white keep-white border-t border-slate-800">
         {/* Subtle decorative top highlight line */}

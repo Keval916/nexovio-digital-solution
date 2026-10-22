@@ -1107,7 +1107,64 @@ export default function AiChatbotDevelopment() {
         </section>
 
         {/* =================================================================== */}
-        {/* 4. OUR AI CHATBOT DEVELOPMENT SERVICES (10 SERVICE CARDS)           */}
+        {/* 4. ARCHITECTURAL COMPARISON: TRADITIONAL VS AI CHATBOTS              */}
+        {/* =================================================================== */}
+        <section id="traditional-vs-ai-comparison" className="bg-white dark:bg-background py-16 sm:py-24 border-b border-slate-200 dark:border-white/10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <AnimateOnScroll variant="fadeUp">
+              <SectionHeading
+                badge="ARCHITECTURAL COMPARISON"
+                title="Traditional Rule-Based Bots vs."
+                highlightText="Modern AI Chatbots"
+                description="Understanding why legacy decision-tree bots frustrate customers, and how modern LLM-powered conversational architectures drive measurable business ROI."
+                align="center"
+              />
+            </AnimateOnScroll>
+
+            <div className="mt-12 overflow-x-auto">
+              <div className="inline-block min-w-full align-middle">
+                <div className="overflow-hidden border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm">
+                  <table className="min-w-full divide-y divide-slate-200 dark:divide-white/10 text-left text-sm">
+                    <thead className="bg-slate-100 dark:bg-[#071328]">
+                      <tr>
+                        <th scope="col" className="py-4 px-6 font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider font-mono">
+                          Capability
+                        </th>
+                        <th scope="col" className="py-4 px-6 font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-mono w-2/5">
+                          Traditional Rule-Based Bot
+                        </th>
+                        <th scope="col" className="py-4 px-6 font-bold text-brand-cyan text-xs uppercase tracking-wider font-mono w-2/5 bg-brand-cyan/5">
+                          Modern AI Chatbot (Nexovio)
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-white/10 bg-white dark:bg-[#050B1B]">
+                      {COMPARISON_ROWS.map((row, idx) => (
+                        <tr key={row.capability} className={idx % 2 === 0 ? "bg-transparent" : "bg-slate-50/50 dark:bg-white/[0.01]"}>
+                          <td className="py-4 px-6 font-bold text-xs text-slate-900 dark:text-white whitespace-nowrap">
+                            {row.capability}
+                          </td>
+                          <td className="py-4 px-6 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            {row.traditional}
+                          </td>
+                          <td className="py-4 px-6 text-xs font-semibold text-slate-900 dark:text-white leading-relaxed bg-brand-cyan/[0.03]">
+                            <div className="flex items-start gap-2">
+                              <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
+                              <span>{row.nexovio}</span>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================================== */}
+        {/* 5. OUR AI CHATBOT DEVELOPMENT SERVICES (10 SERVICE CARDS)           */}
         {/* =================================================================== */}
         <section id="services" className="bg-white dark:bg-background py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1338,63 +1395,6 @@ export default function AiChatbotDevelopment() {
                   </AnimateOnScroll>
                 );
               })}
-            </div>
-          </div>
-        </section>
-
-        {/* =================================================================== */}
-        {/* 8. ARCHITECTURAL COMPARISON: TRADITIONAL VS AI CHATBOTS              */}
-        {/* =================================================================== */}
-        <section id="traditional-vs-ai-comparison" className="bg-white dark:bg-background py-16 sm:py-24 border-b border-slate-200 dark:border-white/10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <AnimateOnScroll variant="fadeUp">
-              <SectionHeading
-                badge="ARCHITECTURAL COMPARISON"
-                title="Traditional Rule-Based Bots vs."
-                highlightText="Modern AI Chatbots"
-                description="Understanding why legacy decision-tree bots frustrate customers, and how modern LLM-powered conversational architectures drive measurable business ROI."
-                align="center"
-              />
-            </AnimateOnScroll>
-
-            <div className="mt-12 overflow-x-auto">
-              <div className="inline-block min-w-full align-middle">
-                <div className="overflow-hidden border border-slate-200 dark:border-white/10 rounded-2xl shadow-sm">
-                  <table className="min-w-full divide-y divide-slate-200 dark:divide-white/10 text-left text-sm">
-                    <thead className="bg-slate-100 dark:bg-[#071328]">
-                      <tr>
-                        <th scope="col" className="py-4 px-6 font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider font-mono">
-                          Capability
-                        </th>
-                        <th scope="col" className="py-4 px-6 font-bold text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-mono w-2/5">
-                          Traditional Rule-Based Bot
-                        </th>
-                        <th scope="col" className="py-4 px-6 font-bold text-brand-cyan text-xs uppercase tracking-wider font-mono w-2/5 bg-brand-cyan/5">
-                          Modern AI Chatbot (Nexovio)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-200 dark:divide-white/10 bg-white dark:bg-[#050B1B]">
-                      {COMPARISON_ROWS.map((row, idx) => (
-                        <tr key={row.capability} className={idx % 2 === 0 ? "bg-transparent" : "bg-slate-50/50 dark:bg-white/[0.01]"}>
-                          <td className="py-4 px-6 font-bold text-xs text-slate-900 dark:text-white whitespace-nowrap">
-                            {row.capability}
-                          </td>
-                          <td className="py-4 px-6 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {row.traditional}
-                          </td>
-                          <td className="py-4 px-6 text-xs font-semibold text-slate-900 dark:text-white leading-relaxed bg-brand-cyan/[0.03]">
-                            <div className="flex items-start gap-2">
-                              <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
-                              <span>{row.nexovio}</span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             </div>
           </div>
         </section>
