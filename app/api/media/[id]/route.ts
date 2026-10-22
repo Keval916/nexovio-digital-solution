@@ -17,17 +17,20 @@ export async function GET(
       return new NextResponse("Image identifier is required", { status: 400 });
     }
 
+    const cleanId = decodedId.replace(/-\d{5,8}(\.[a-z]+)$/i, "$1");
+    const candidateIds = Array.from(new Set([decodedId, cleanId]));
+
     // 1. Try fetching from MongoDB blog_media collection
     if (isMongoConfigured()) {
       try {
         const collection = await getMediaCollection();
-        const item = await collection.findOne({
-          $or: [
-            { id: decodedId },
-            { name: decodedId },
-            { url: `/api/media/${decodedId}` },
-          ],
-        });
+        const orConditions = candidateIds.flatMap((cand) => [
+          { id: cand },
+          { name: cand },
+          { url: `/api/media/${cand}` },
+        ]);
+
+        const item = await collection.findOne({ $or: orConditions });
 
         if (item && item.dataBase64) {
           const buffer = Buffer.from(item.dataBase64, "base64");
@@ -44,21 +47,23 @@ export async function GET(
     }
 
     // 2. Fallback: check local disk public/images/blog/[id]
-    const localPath = path.join(process.cwd(), "public", "images", "blog", decodedId);
-    if (fs.existsSync(localPath)) {
-      const fileBuffer = fs.readFileSync(localPath);
-      const ext = path.extname(decodedId).toLowerCase();
-      let contentType = "image/webp";
-      if (ext === ".png") contentType = "image/png";
-      else if (ext === ".jpg" || ext === ".jpeg") contentType = "image/jpeg";
-      else if (ext === ".svg") contentType = "image/svg+xml";
+    for (const cand of candidateIds) {
+      const localPath = path.join(process.cwd(), "public", "images", "blog", cand);
+      if (fs.existsSync(localPath)) {
+        const fileBuffer = fs.readFileSync(localPath);
+        const ext = path.extname(cand).toLowerCase();
+        let contentType = "image/webp";
+        if (ext === ".png") contentType = "image/png";
+        else if (ext === ".jpg" || ext === ".jpeg") contentType = "image/jpeg";
+        else if (ext === ".svg") contentType = "image/svg+xml";
 
-      return new NextResponse(fileBuffer, {
-        headers: {
-          "Content-Type": contentType,
-          "Cache-Control": "public, max-age=31536000, immutable",
-        },
-      });
+        return new NextResponse(fileBuffer, {
+          headers: {
+            "Content-Type": contentType,
+            "Cache-Control": "public, max-age=31536000, immutable",
+          },
+        });
+      }
     }
 
     return new NextResponse("Image not found", { status: 404 });

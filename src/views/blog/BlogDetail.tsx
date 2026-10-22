@@ -31,6 +31,7 @@ import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 import { Button } from "@/src/components/ui/Button";
 import { formatDate, cn, getAuthorInitials } from "@/src/lib/utils";
 import { getArticleSchema, getFaqSchema } from "@/src/lib/schema";
+import { BlogReadingModal } from "@/src/components/blog/BlogReadingModal";
 
 interface BlogArticlePageProps {
   params: {
@@ -476,6 +477,13 @@ export default function SingleBlogArticlePage({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       )}
+
+      {/* Scroll-Triggered Technical Consultation & Architecture Review Modal */}
+      <BlogReadingModal
+        articleTitle={article.title}
+        articleSlug={article.slug}
+        category={article.category}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb Navigation */}

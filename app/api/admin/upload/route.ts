@@ -86,16 +86,18 @@ export async function POST(req: NextRequest) {
     const buffer = Buffer.from(bytes);
     const contentType = file.type || "image/webp";
 
-    // Sanitize and slugify file name
+    // Sanitize and slugify file name - Pure SEO (No random numbers)
     const originalName = file.name || "blog-image.webp";
-    const extension = path.extname(originalName) || ".webp";
-    const baseName = path
+    const extension = (path.extname(originalName) || ".webp").toLowerCase();
+    const rawBaseName = path
       .basename(originalName, extension)
       .toLowerCase()
       .replace(/[^\w-]/g, "-")
-      .replace(/--+/g, "-");
-    const uniqueSuffix = Date.now().toString().slice(-6);
-    const finalFileName = `${baseName}-${uniqueSuffix}${extension}`;
+      .replace(/--+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .replace(/-\d{5,8}$/, ""); // Strip any existing random numeric suffix (e.g. -527140)
+    const safeBaseName = rawBaseName || "blog-image";
+    const finalFileName = `${safeBaseName}${extension}`;
 
     const mediaUrl = `/api/media/${finalFileName}`;
     const base64Data = buffer.toString("base64");

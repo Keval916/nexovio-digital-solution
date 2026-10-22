@@ -1,6 +1,6 @@
 {
-  "totalViews": 22,
-  "uniqueVisitors": 5,
+  "totalViews": 38,
+  "uniqueVisitors": 8,
   "postViews": {
     "custom-web-development-vs-website-builders": {
       "views": 0,
@@ -23,9 +23,9 @@
       "lastVisited": "2026-10-01T07:00:00.000Z"
     },
     "headless-cms-architecture-scalability": {
-      "views": 0,
-      "uniqueVisitors": 0,
-      "lastVisited": "2026-10-01T07:00:00.000Z"
+      "views": 2,
+      "uniqueVisitors": 1,
+      "lastVisited": "2026-10-22T10:54:47.220Z"
     },
     "mastering-core-web-vitals-performance": {
       "views": 2,
@@ -43,9 +43,9 @@
       "lastVisited": "2026-10-02T07:47:11.959Z"
     },
     "ai-automation-for-business": {
-      "views": 6,
-      "uniqueVisitors": 1,
-      "lastVisited": "2026-10-04T11:02:02.778Z"
+      "views": 20,
+      "uniqueVisitors": 3,
+      "lastVisited": "2026-10-22T10:35:54.795Z"
     },
     "ecommerce-solutions-for-businesses": {
       "views": 6,
@@ -68,16 +68,21 @@
       "date": "2026-10-04",
       "views": 14,
       "uniqueVisitors": 3
+    },
+    {
+      "date": "2026-10-22",
+      "views": 16,
+      "uniqueVisitors": 3
     }
   ],
   "deviceBreakdown": {
-    "desktop": 22,
+    "desktop": 38,
     "mobile": 0,
     "tablet": 0
   },
   "referrerBreakdown": {
     "google": 0,
-    "direct": 22,
+    "direct": 38,
     "linkedin": 0,
     "twitter": 0,
     "other": 0
