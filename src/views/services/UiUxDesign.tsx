@@ -51,8 +51,11 @@ import { Card } from "@/src/components/ui/Card";
 import { FaqSection } from "@/src/components/sections/FaqSection";
 import { AnimateOnScroll } from "@/src/components/ui/AnimateOnScroll";
 import { UiUxInteractiveShowcase } from "@/src/components/services/UiUxInteractiveShowcase";
-import { generatePageMetadata, SITE_URL } from "@/src/lib/seo";
-import { getServiceSchema } from "@/src/lib/schema";
+import {
+  getOrganizationSchema,
+  getServiceSchema,
+  getBreadcrumbSchema,
+} from "@/src/lib/schema";
 
 
 
@@ -543,6 +546,7 @@ const UI_UX_FAQS = [
 ];
 
 export default function UiUxDesignPage() {
+  const organizationSchema = getOrganizationSchema();
   const serviceSchema = getServiceSchema({
     name: "UI/UX Design Services",
     description:
@@ -551,41 +555,26 @@ export default function UiUxDesignPage() {
     serviceType: "ProductDesign",
   });
 
-  const breadcrumbsSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "Home",
-        item: SITE_URL,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "Services",
-        item: `${SITE_URL}/services`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "UI/UX Design Services",
-        item: `${SITE_URL}/services/ui-ux-design`,
-      },
-    ],
-  };
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services" },
+    { name: "UI/UX Design Services", url: "/services/ui-ux-design" },
+  ]);
 
   return (
     <div className="min-h-screen bg-background text-foreground transition-colors duration-300">
       {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       {/* ================================================================== */}
