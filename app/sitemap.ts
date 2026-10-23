@@ -3,8 +3,11 @@ import { ROUTES, EXCLUDED_FROM_SITEMAP } from "@/src/lib/routes";
 import { SITE_URL } from "@/src/lib/seo";
 import { getStoredBlogArticlesAsync } from "@/src/lib/blog-storage";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Cache sitemap for 12 hours so Googlebot gets reliable lastmod dates without server load
+export const revalidate = 43200;
+
+// Stable last modification date for static pages (reflects latest SEO & internal linking release)
+const STATIC_LAST_MOD = new Date("2026-10-23T00:00:00.000Z");
 
 /**
  * Generated directly from the route manifest, ensuring the sitemap can never drift
@@ -17,7 +20,6 @@ function priorityFor(route: string): number {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const lastModified = new Date();
   const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
 
   // 1. Static Application Pages (Home, About, Services, Case Studies, Main /blog feed)
@@ -28,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const pageUrl = `${cleanSiteUrl}${route === "/" ? "" : route}`;
       return {
         url: pageUrl,
-        lastModified,
+        lastModified: STATIC_LAST_MOD,
         changeFrequency: route === "/" ? ("daily" as const) : ("weekly" as const),
         priority: priorityFor(route),
       };
@@ -39,9 +41,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogEntries: MetadataRoute.Sitemap = blogArticles
     .filter((article) => !article.noIndex)
     .map((article) => {
-      const pageUrl = article.canonicalUrl && article.canonicalUrl.startsWith("http")
-        ? article.canonicalUrl
-        : `${cleanSiteUrl}/blog/${article.slug}`;
+      // Ensure cross-domain URLs are never placed into this domain's sitemap
+      const pageUrl =
+        article.canonicalUrl && article.canonicalUrl.startsWith(cleanSiteUrl)
+          ? article.canonicalUrl
+          : `${cleanSiteUrl}/blog/${article.slug}`;
 
       return {
         url: pageUrl,
@@ -64,3 +68,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return uniqueSitemap;
 }
+

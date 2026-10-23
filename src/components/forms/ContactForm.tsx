@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Send, CheckCircle2, AlertCircle, Loader2, Lock, User, Building2, Mail, Phone, Layers, DollarSign, MessageSquare } from "lucide-react";
 import { trackFormSubmit } from "@/lib/analytics";
-import { Button } from "@/components/ui/Button";
 
 interface FormData {
   name: string;
@@ -46,11 +45,11 @@ export function ContactForm() {
     setSubmitStatus("idle");
     setErrorMessage("");
 
-    // Basic Client-side validation
+    // Client-side validation
     if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
       setIsSubmitting(false);
       setSubmitStatus("error");
-      setErrorMessage("Please complete all required fields (Name, Email, and Project Details).");
+      setErrorMessage("Please complete all required fields (Name, Email, and Message).");
       return;
     }
 
@@ -77,15 +76,15 @@ export function ContactForm() {
 
       const result = await res.json();
 
-      if (res.ok && (result.success !== false)) {
-        // Fire analytics conversion event
+      if (res.ok && result.success !== false) {
         trackFormSubmit("contact_page_form", formData.service);
 
-        // Send successful lead event to Google Tag Manager
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: "generate_lead",
-        });
+        if (typeof window !== "undefined") {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "generate_lead",
+          });
+        }
 
         setSubmitStatus("success");
         setFormData(INITIAL_FORM);
@@ -104,40 +103,40 @@ export function ContactForm() {
   };
 
   return (
-    <div className="relative rounded-2xl border border-border-subtle bg-surface-elevated/80 backdrop-blur-md p-6 sm:p-10 shadow-2xl">
+    <div id="contact-form" className="relative rounded-2xl border border-border-subtle bg-white dark:bg-[#0c182b] p-6 sm:p-10 shadow-xl shadow-slate-200/50 dark:shadow-none transition-all">
       <div className="mb-8">
-        <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
-          Tell Us About Your Project
-        </h3>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Send Us a <span className="bg-gradient-brand bg-clip-text text-transparent">Message</span>
+        </h2>
         <p className="mt-2 text-sm text-muted">
-          Fill in the details below. Our technical team reviews every inquiry thoroughly before responding.
+          Fill out the form and our team will get back to you shortly.
         </p>
       </div>
 
       {submitStatus === "success" ? (
-        <div className="rounded-xl border border-green-500/30 bg-green-950/20 p-6 sm:p-8 text-center animate-in fade-in zoom-in-95 duration-200">
-          <div className="inline-flex p-3 rounded-full bg-green-500/10 text-green-400 mb-4">
+        <div className="rounded-xl border border-green-500/30 bg-green-500/10 p-6 sm:p-8 text-center animate-in fade-in zoom-in-95 duration-200">
+          <div className="inline-flex p-3 rounded-full bg-green-500/20 text-green-600 dark:text-green-400 mb-4">
             <CheckCircle2 className="w-8 h-8" />
           </div>
           <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-            Inquiry Received Successfully
+            Inquiry Received Successfully!
           </h4>
           <p className="text-sm text-muted max-w-md mx-auto mb-6">
-            Thank you for reaching out. We have logged your project requirements and will review the technical scope before contacting you.
+            Thank you for reaching out. We have logged your project requirements and our engineering lead will review them within 24 hours.
           </p>
           <button
             type="button"
             onClick={() => setSubmitStatus("idle")}
-            className="px-5 py-2.5 rounded-lg text-xs font-semibold text-slate-900 dark:text-white bg-surface border border-border-subtle hover:border-brand-cyan/50 transition-colors"
+            className="px-5 py-2.5 rounded-lg text-xs font-semibold text-slate-900 dark:text-white bg-slate-100 dark:bg-surface border border-border-subtle hover:border-brand-cyan/50 transition-colors"
           >
             Submit Another Request
           </button>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+        <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           {submitStatus === "error" && (
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-red-950/30 border border-red-500/30 text-red-200 text-sm">
-              <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-500/30 text-red-700 dark:text-red-200 text-sm">
+              <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
               <span>{errorMessage}</span>
             </div>
           )}
@@ -156,32 +155,107 @@ export function ContactForm() {
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Name */}
             <div>
               <label
                 htmlFor="name"
-                className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-2"
+                className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2"
               >
                 Your Name <span className="text-brand-cyan">*</span>
               </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="e.g. Johnathan Davis"
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  required
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="e.g. Johnathan Davis"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border-subtle bg-slate-50/50 dark:bg-[#071120] px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-brand-cyan focus:bg-white dark:focus:bg-[#071120] focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 transition-all"
+                />
+              </div>
             </div>
 
+            {/* Email */}
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2"
+              >
+                Your Email <span className="text-brand-cyan">*</span>
+              </label>
+              <div className="relative">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="name@company.com"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border-subtle bg-slate-50/50 dark:bg-[#071120] px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-brand-cyan focus:bg-white dark:focus:bg-[#071120] focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 transition-all"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {/* Phone */}
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2"
+              >
+                Phone Number
+              </label>
+              <div className="relative">
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="+1 (555) 000-0000"
+                  className="w-full rounded-xl border border-slate-200 dark:border-border-subtle bg-slate-50/50 dark:bg-[#071120] px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-brand-cyan focus:bg-white dark:focus:bg-[#071120] focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 transition-all"
+                />
+              </div>
+            </div>
+
+            {/* Service Required */}
+            <div>
+              <label
+                htmlFor="service"
+                className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2"
+              >
+                Select Service <span className="text-brand-cyan">*</span>
+              </label>
+              <select
+                id="service"
+                name="service"
+                value={formData.service}
+                onChange={handleChange}
+                className="w-full rounded-xl border border-slate-200 dark:border-border-subtle bg-slate-50/50 dark:bg-[#071120] px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-brand-cyan focus:bg-white dark:focus:bg-[#071120] focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 transition-all cursor-pointer"
+              >
+                <option value="web-development">Web Development</option>
+                <option value="web-design">Web Design</option>
+                <option value="ui-ux-design">UI/UX Design</option>
+                <option value="mobile-app-development">Mobile App Development</option>
+                <option value="graphic-design">Graphic Design</option>
+                <option value="digital-marketing">Digital Marketing &amp; SEO</option>
+                <option value="ai-development">AI Agent &amp; Automation</option>
+                <option value="full-solution">Complete Digital Solution</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {/* Company */}
             <div>
               <label
                 htmlFor="company"
-                className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-2"
+                className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2"
               >
                 Company / Organization
               </label>
@@ -192,84 +266,15 @@ export function ContactForm() {
                 value={formData.company}
                 onChange={handleChange}
                 placeholder="e.g. Acme Corporation"
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Email */}
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-2"
-              >
-                Email Address <span className="text-brand-cyan">*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="john@company.com"
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
+                className="w-full rounded-xl border border-slate-200 dark:border-border-subtle bg-slate-50/50 dark:bg-[#071120] px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-brand-cyan focus:bg-white dark:focus:bg-[#071120] focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 transition-all"
               />
             </div>
 
-            {/* Phone / WhatsApp */}
-            <div>
-              <label
-                htmlFor="phone"
-                className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-2"
-              >
-                Phone / WhatsApp Number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="0123456789"
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Service Required */}
-            <div>
-              <label
-                htmlFor="service"
-                className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-2"
-              >
-                Service Required
-              </label>
-              <select
-                id="service"
-                name="service"
-                value={formData.service}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
-              >
-                <option value="web-development">Web Development</option>
-                <option value="web-design">Web Design</option>
-                <option value="ui-ux-design">UI/UX Design</option>
-                <option value="mobile-app-development">Mobile App Development</option>
-                <option value="graphic-design">Graphic Design</option>
-                <option value="digital-marketing">Digital Marketing / SEO</option>
-                <option value="ai-development">AI Development &amp; Automation</option>
-                <option value="full-solution">Complete End-to-End Digital Solution</option>
-              </select>
-            </div>
-
-            {/* Budget Range */}
+            {/* Budget */}
             <div>
               <label
                 htmlFor="budget"
-                className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-2"
+                className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2"
               >
                 Estimated Budget Range (Optional)
               </label>
@@ -278,9 +283,9 @@ export function ContactForm() {
                 name="budget"
                 value={formData.budget}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors"
+                className="w-full rounded-xl border border-slate-200 dark:border-border-subtle bg-slate-50/50 dark:bg-[#071120] px-4 py-3 text-sm text-slate-900 dark:text-white focus:border-brand-cyan focus:bg-white dark:focus:bg-[#071120] focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 transition-all cursor-pointer"
               >
-                <option value="unspecified">Select your approximate budget</option>
+                <option value="unspecified">Select budget range</option>
                 <option value="tier-1">Under $1,000</option>
                 <option value="tier-2">$1,000 – $2,500</option>
                 <option value="tier-3">$2,500 – $5,000</option>
@@ -295,9 +300,9 @@ export function ContactForm() {
           <div>
             <label
               htmlFor="message"
-              className="block text-xs font-semibold uppercase tracking-wider text-muted-light mb-2"
+              className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2"
             >
-              Project Details & Goals <span className="text-brand-cyan">*</span>
+              Your Message <span className="text-brand-cyan">*</span>
             </label>
             <textarea
               id="message"
@@ -306,30 +311,39 @@ export function ContactForm() {
               rows={4}
               value={formData.message}
               onChange={handleChange}
-              placeholder="Briefly describe what you are looking to build or solve, key features needed, and your target timeline..."
-              className="w-full rounded-lg border border-border-subtle bg-surface px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-muted-dark focus:border-brand-cyan focus:outline-none focus:ring-1 focus:ring-brand-cyan transition-colors resize-y"
+              placeholder="Tell us about your project goals, scope, and target launch timeline..."
+              className="w-full rounded-xl border border-slate-200 dark:border-border-subtle bg-slate-50/50 dark:bg-[#071120] px-4 py-3 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:border-brand-cyan focus:bg-white dark:focus:bg-[#071120] focus:outline-none focus:ring-2 focus:ring-brand-cyan/20 transition-all resize-y"
             />
           </div>
 
-          {/* Submit button */}
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            variant="primary"
-            size="lg"
-            className="w-full sm:w-auto"
-            icon={
-              isSubmitting ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+          {/* Submit Action & Trust Note */}
+          <div className="pt-2 space-y-4">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-xl font-bold text-sm text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-500/25 active:scale-[0.99] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Submitting Inquiry...</span>
+                </>
               ) : (
-                <Send className="w-4 h-4" />
-              )
-            }
-          >
-            {isSubmitting ? "Submitting Project Details..." : "Send Project Inquiry"}
-          </Button>
+                <>
+                  <Send className="w-4 h-4" />
+                  <span>Send Message</span>
+                </>
+              )}
+            </button>
+
+            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+              <Lock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+              <span>Your information is secure and will only be used to respond to your inquiry.</span>
+            </div>
+          </div>
         </form>
       )}
     </div>
   );
 }
+
