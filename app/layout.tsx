@@ -51,7 +51,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION || process.env.GOOGLE_SITE_VERIFICATION || undefined,
+    google: (process.env.NEXT_PUBLIC_GSC_VERIFICATION || process.env.GOOGLE_SITE_VERIFICATION || "yt2SQ_dd4V55ob6jugnbuYckomrGTr3BW-d3_nTerjw")
+      .replace(/^google-site-verification=/, "")
+      .trim(),
     yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION || undefined,
     other: {
       ...(process.env.NEXT_PUBLIC_BING_VERIFICATION ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION } : {}),
