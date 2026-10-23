@@ -211,6 +211,36 @@ export function PricingPackages({
             </div>
           </div>
 
+          {/* SPECIALIZED HIGH-IMPACT PACKAGES */}
+          <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-brand-bright/10 via-brand-cyan/10 to-brand-electric/10 border border-brand-cyan/30 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-1.5 text-left">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-brand-cyan font-bold flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse" />
+                Specialized High-Impact Packages &amp; Retainers
+              </span>
+              <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                Speed Overhauls, Custom AI Agents, or Agency White-Label?
+              </h4>
+              <p className="text-xs text-slate-600 dark:text-slate-300 max-w-2xl">
+                We provide fixed-outcome engagements including <strong>Guaranteed 95+ Core Web Vitals Overhauls</strong>, <strong>Customer Support AI Agents</strong>, and <strong>Dedicated Agency White-Label Retainers</strong> under strict NDA.
+              </p>
+            </div>
+            <div className="flex items-center gap-3 shrink-0 flex-wrap">
+              <Link
+                href="/agency-partnership"
+                className="px-4 py-2 rounded-xl border border-brand-cyan/40 bg-white/80 dark:bg-slate-900/80 text-xs font-bold text-brand-cyan hover:bg-brand-cyan/10 transition-colors"
+              >
+                Agency Partnerships
+              </Link>
+              <Link
+                href="/contact?plan=specialized"
+                className="px-4 py-2 rounded-xl bg-gradient-brand text-white text-xs font-bold shadow-md hover:brightness-110 transition-all"
+              >
+                Inquire Specialized Scope →
+              </Link>
+            </div>
+          </div>
+
           <div className="pt-4 border-t border-border-subtle flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted">
             <span>Need extra pages, multi-language internationalization (i18n), or custom third-party API connectors?</span>
             <Link

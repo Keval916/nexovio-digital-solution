@@ -299,6 +299,14 @@ export function CaseStudiesClient({ caseStudies }: CaseStudiesClientProps) {
                     </Link>
                   </h2>
 
+                  {/* Executive Metric Highlights */}
+                  {study.executiveMetrics && (
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-gradient-to-r from-brand-cyan/15 via-brand-bright/10 to-transparent border border-brand-cyan/30 text-xs font-mono font-bold text-brand-cyan">
+                      <Zap className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
+                      <span className="truncate">{study.executiveMetrics}</span>
+                    </div>
+                  )}
+
                   {/* Challenge Narrative */}
                   <p className="text-sm sm:text-base text-slate-600 dark:text-slate-200 leading-relaxed font-normal">
                     {study.challenge}

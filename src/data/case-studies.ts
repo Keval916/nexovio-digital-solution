@@ -35,6 +35,7 @@ export interface CaseStudy {
   development: string;
   solution: string;
   results: string;
+  executiveMetrics: string;
   stats: CaseStudyStat[];
   beforeAfter: BeforeAfterMetric[];
   clientQuote?: ClientQuote;
@@ -74,6 +75,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     solution:
       "A modern, ultra-fast headless ecommerce platform delivering instant mobile browsing, reliable warehouse synchronization, and frictionless checkout that drastically lifted revenue.",
     results: "+92% checkout conversion lift with cart abandonment reduced to 32.1% and zero downtime",
+    executiveMetrics: "0.9s Mobile LCP • 99.99% Uptime • +92% Conversion Lift • 32.1% Cart Abandonment",
     stats: [
       { label: "Checkout Conversion Lift", value: "+92%", detail: "Q1 post-launch checkout completion rate increase" },
       { label: "Cart Abandonment", value: "32.1%", detail: "Reduced from 68.4% on legacy store" },
@@ -131,6 +133,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     solution:
       "An automated AI-assisted intake portal that reduced claimant onboarding time to under 4 minutes while automatically pre-qualifying case viability for legal teams.",
     results: "25% increase in intake conversions + 70% faster administrative processing",
+    executiveMetrics: "<4 Min AI Intake • +25% Intake Conversion • -70% Admin Processing Time • -34% Drop-Off",
     stats: [
       { label: "Intake Conversion", value: "+25%", detail: "Increase in completed registrations" },
       { label: "Admin Processing", value: "-70%", detail: "Automated document parsing time" },
@@ -188,6 +191,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     solution:
       "A lightning-fast digital booking platform and technical SEO engine that consistently captures top Google rankings and automates technician appointment dispatching.",
     results: "99.9% uptime + 40% faster page loads + 185% increase in organic leads",
+    executiveMetrics: "0.7s Page Speed • 99.99% Seasonal Uptime • +185% Organic Leads • Top 3 Map Pack",
     stats: [
       { label: "Organic Search Leads", value: "+185%", detail: "Increase in qualified monthly leads" },
       { label: "Page Speed Benchmark", value: "0.7s", detail: "40% faster Core Web Vitals score" },
@@ -245,6 +249,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     solution:
       "A lightning-fast, unified mobile banking application that slashed KYC verification drop-offs and earned a 4.8-star user rating across major app stores.",
     results: "+42% increase in KYC completion + 4.8 App Store rating across 1.2M transactions",
+    executiveMetrics: "<90s Biometric KYC • 99.98% Crash-Free Rate • +42% Account Activations • 4.8★ App Store Rating",
     stats: [
       { label: "KYC Completion Lift", value: "+42%", detail: "Increase in finished account activations" },
       { label: "App Store Rating", value: "4.8★", detail: "Consistently rated across iOS & Android" },
@@ -302,6 +307,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     solution:
       "An enterprise-ready SaaS marketing engine and client portal that lifted organic demo requests by 240% while sustaining sub-second global response times.",
     results: "+240% organic demo signups + 0.8s LCP across 500+ programmatic pages",
+    executiveMetrics: "0.8s LCP Load Time • +310% Organic Traffic • +240% Demo Signups • 100/100 Lighthouse",
     stats: [
       { label: "Organic Demo Signups", value: "+240%", detail: "Increase in qualified pipeline" },
       { label: "LCP Benchmark", value: "0.8s", detail: "Down from 5.6s on legacy CMS" },

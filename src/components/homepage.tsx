@@ -35,6 +35,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { AnimateOnScroll, GSAPSection } from "@/components/ui/AnimateOnScroll";
 import { FaqSection } from "@/components/sections/FaqSection";
+import { FreeAuditSection } from "@/src/components/sections/FreeAuditSection";
 
 // ==========================================
 // DATA CONSTANTS & COLLECTIONS
@@ -1733,6 +1734,9 @@ export default function Homepage({ initialArticles }: { initialArticles?: any[] 
 
       {/* 12. Latest Engineering Insights / Blog Feed */}
       <BlogInsightsSection initialArticles={initialArticles} />
+
+      {/* High-Value Lead Magnet: Free 5-Minute Technical & Core Web Vitals Audit */}
+      <FreeAuditSection />
 
       {/* 13. Frequently Asked Questions */}
       <FaqSection

@@ -141,6 +141,7 @@ const EXPLORE_ITEMS = [
   { name: "About Us", href: "/about", icon: Users },
   { name: "Case Studies", href: "/case-studies", icon: Briefcase },
   { name: "Blog", href: "/blog", icon: BookOpen },
+  { name: "Free Website Audit", href: "/#free-audit", icon: Sparkles },
 ];
 
 export function Header() {

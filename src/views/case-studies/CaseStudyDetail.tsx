@@ -156,6 +156,23 @@ export default function SingleCaseStudyPage({ params }: CaseStudyPageProps) {
               </span>
             ))}
           </div>
+
+          {/* EXECUTIVE IMPACT BAR - QUANTIFIED RESULTS AT THE VERY TOP */}
+          {study.executiveMetrics && (
+            <div className="mt-6 p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-brand-bright/10 via-brand-cyan/10 to-brand-electric/10 border border-brand-cyan/35 shadow-md backdrop-blur-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <span className="p-1.5 rounded-lg bg-brand-cyan/20 text-brand-cyan shrink-0">
+                  <Zap className="w-4 h-4 text-brand-cyan" />
+                </span>
+                <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
+                  Executive Benchmark Impact:
+                </span>
+              </div>
+              <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-mono bg-white/80 dark:bg-slate-900/90 px-3.5 py-1.5 rounded-xl border border-brand-cyan/25 shadow-xs">
+                {study.executiveMetrics}
+              </div>
+            </div>
+          )}
         </header>
 
         {/* 2. SHOWCASE HERO VISUAL */}

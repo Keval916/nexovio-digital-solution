@@ -18,6 +18,7 @@ function formatServiceLabel(serviceVal?: string): string {
   if (serviceVal === "mobile-app-development") return "Mobile App Development";
   if (serviceVal === "graphic-design") return "Graphic Design";
   if (serviceVal === "digital-marketing" || serviceVal === "seo-digital-marketing") return "Digital Marketing / SEO";
+  if (serviceVal === "free-website-audit") return "Free Technical & Core Web Vitals Audit Request";
   if (serviceVal === "full-solution") return "Complete End-to-End Digital Solution";
   return serviceVal;
 }
@@ -752,9 +753,15 @@ https://www.nexoviodigitalsolutions.com
         );
       }
     } else {
+      console.warn(
+        `[Contact API] WARNING: SMTP_PASS is not set in environment variables! Email cannot be sent to ${recipientEmail} without your Hostinger email password.`
+      );
       return NextResponse.json({
         success: true,
-        message: "Your inquiry has been logged on our backend server!",
+        message:
+          process.env.NODE_ENV === "development"
+            ? "Inquiry logged to server console (SMTP_PASS is empty in .env.local)."
+            : "Your inquiry has been received!",
       });
     }
   } catch (error: any) {

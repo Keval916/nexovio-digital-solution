@@ -2,34 +2,14 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/src/lib/seo";
 
 export default function robots(): MetadataRoute.Robots {
-  const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
-  const cleanHost = new URL(cleanSiteUrl).host;
+  const siteUrl = new URL(SITE_URL).origin;
 
   return {
-    rules: [
-      {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/api/", "/admin/"],
-      },
-      {
-        userAgent: [
-          "GPTBot",
-          "ChatGPT-User",
-          "PerplexityBot",
-          "ClaudeBot",
-          "anthropic-ai",
-          "Google-Extended",
-          "Applebot-Extended",
-          "Bingbot",
-          "YandexBot",
-          "Baiduspider",
-        ],
-        allow: "/",
-        disallow: ["/api/", "/admin/"],
-      },
-    ],
-    sitemap: `${cleanSiteUrl}/sitemap.xml`,
-    host: cleanHost,
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/api/", "/admin/"],
+    },
+    sitemap: `${siteUrl}/sitemap.xml`,
   };
 }

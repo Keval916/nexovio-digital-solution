@@ -13,6 +13,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: '/free-audit',
+        destination: '/#free-audit',
+        permanent: false,
+      },
+      {
         source: '/generative-ai-development',
         destination: '/services/generative-ai-development',
         permanent: true,

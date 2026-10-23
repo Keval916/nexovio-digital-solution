@@ -94,9 +94,16 @@ const CORE_SERVICES = [
     href: "/contact",
   },
   {
+    id: "speed-core-web-vitals",
+    title: "Speed & Core Web Vitals Overhaul",
+    description: "Guaranteed 95+ Core Web Vitals and sub-second page speed. Re-platform slow WordPress or Shopify sites to ultra-fast Next.js architecture.",
+    icon: Gauge,
+    href: "/contact?service=speed-overhaul",
+  },
+  {
     id: "cms-development",
-    title: "CMS Development",
-    description: "Easy-to-manage content platforms like WordPress, Drupal and more.",
+    title: "CMS & Headless Development",
+    description: "Easy-to-manage content platforms and headless CMS solutions built for scale and security.",
     icon: Layers,
     href: "/contact",
   },

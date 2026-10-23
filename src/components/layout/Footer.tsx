@@ -281,6 +281,11 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/#free-audit" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Free Website Audit
+                  </Link>
+                </li>
+                <li>
                   <Link href="/#process" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
                     Our Process
                   </Link>
