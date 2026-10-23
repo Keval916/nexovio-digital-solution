@@ -18,7 +18,7 @@ function formatServiceLabel(serviceVal?: string): string {
   if (serviceVal === "mobile-app-development") return "Mobile App Development";
   if (serviceVal === "graphic-design") return "Graphic Design";
   if (serviceVal === "digital-marketing" || serviceVal === "seo-digital-marketing") return "Digital Marketing / SEO";
-  if (serviceVal === "free-website-audit") return "Free Technical & Core Web Vitals Audit Request";
+  if (serviceVal === "free-website-audit" || serviceVal === "website-growth-review") return "Free Website Growth Review";
   if (serviceVal === "full-solution") return "Complete End-to-End Digital Solution";
   return serviceVal;
 }
@@ -89,11 +89,24 @@ export async function POST(request: Request) {
       primaryNeed,
       engagement,
       sourcePage,
+      website,
+      targetWebsite,
+      siteUrl,
+      primaryGoal,
       website_url,
       honeypot,
       hp_check,
+      bot_trap,
       form_started_at,
     } = body;
+
+    const isReviewRequest =
+      service === "website-growth-review" ||
+      service === "free-website-audit" ||
+      sourcePage === "website-growth-review-modal" ||
+      Boolean(targetWebsite || (website && primaryGoal));
+
+    const clientWebsite = (targetWebsite || website || siteUrl || "").trim();
 
     // 0. Anti-Spam: IP Rate Limiting
     const forwarded = request.headers.get("x-forwarded-for");
@@ -106,24 +119,28 @@ export async function POST(request: Request) {
     }
 
     // 0. Anti-Spam: Invisible Honeypot Trap
-    // Automated bots fill in all fields; real users never see this field.
-    if (website_url || honeypot || hp_check) {
+    // For review requests, website is legitimate so we only check bot_trap, honeypot, hp_check
+    const botDetected = isReviewRequest
+      ? Boolean(bot_trap || honeypot || hp_check)
+      : Boolean(website_url || honeypot || hp_check || bot_trap);
+
+    if (botDetected) {
       console.warn(`[Anti-Spam] Bot detected via honeypot trap from IP: ${clientIp}`);
       return NextResponse.json({
         success: true,
-        message: "Thank you! Your inquiry has been received.",
+        message: "Thank you! Your request has been received.",
       });
     }
 
     // 0. Anti-Spam: Submission Speed Trap (Time-based check)
-    // Humans take at least 1.8 seconds to fill out Name, Email, and Message.
     if (form_started_at && typeof form_started_at === "number") {
       const elapsed = Date.now() - form_started_at;
-      if (elapsed < 1800) {
+      const minDuration = isReviewRequest ? 1000 : 1800;
+      if (elapsed < minDuration) {
         console.warn(`[Anti-Spam] Bot submission detected via speed (${elapsed}ms) from IP: ${clientIp}`);
         return NextResponse.json({
           success: true,
-          message: "Thank you! Your inquiry has been received.",
+          message: "Thank you! Your request has been received.",
         });
       }
     }
@@ -139,7 +156,7 @@ export async function POST(request: Request) {
     }
 
     // 0. Anti-Spam: Known Spam Keyword Detection
-    const textToCheck = `${name || ""} ${company || ""} ${message || ""}`;
+    const textToCheck = `${name || ""} ${company || ""} ${message || ""} ${clientWebsite}`;
     const isSpamKeyword = SPAM_CONTENT_PATTERNS.some((pattern) => pattern.test(textToCheck));
     if (isSpamKeyword) {
       console.warn(`[Anti-Spam] Dropped message matching blacklisted spam pattern from IP: ${clientIp}`);
@@ -159,11 +176,20 @@ export async function POST(request: Request) {
     }
 
     // 1. Server-side Input Validation
-    if (!name || !email || !message) {
-      return NextResponse.json(
-        { success: false, message: "Please complete all required fields (Name, Email, and Message)." },
-        { status: 400 }
-      );
+    if (isReviewRequest) {
+      if (!clientWebsite || !email) {
+        return NextResponse.json(
+          { success: false, message: "Please provide your Website URL and Work Email." },
+          { status: 400 }
+        );
+      }
+    } else {
+      if (!name || !email || !message) {
+        return NextResponse.json(
+          { success: false, message: "Please complete all required fields (Name, Email, and Message)." },
+          { status: 400 }
+        );
+      }
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -210,16 +236,36 @@ export async function POST(request: Request) {
       socketTimeout: 15000,
     });
 
-    // Determine Subject, Plain Text, and HTML for Internal Team Notification
-    const teamSubject = isAgencyPartnership
-      ? `New Agency Partnership Inquiry: ${displayAgency} (${name})`
-      : `New Project Inquiry: ${name} (${formattedService})`;
+    const resolvedName = name?.trim() || email.split("@")[0] || "Website Review Requester";
+    const resolvedMessage = message?.trim() || (isReviewRequest
+      ? `Website Growth Review Request\nTarget Website: ${clientWebsite}\nPrimary Goal: ${primaryGoal || "Not Specified"}\nSource Page: ${sourcePage || "Website Modal"}`
+      : "No message provided");
 
-    const textContent = isAgencyPartnership
+    // Determine Subject, Plain Text, and HTML for Internal Team Notification
+    const teamSubject = isReviewRequest
+      ? `🔍 New Website Growth Review Request: ${clientWebsite}`
+      : isAgencyPartnership
+      ? `New Agency Partnership Inquiry: ${displayAgency} (${resolvedName})`
+      : `New Project Inquiry: ${resolvedName} (${formattedService})`;
+
+    const textContent = isReviewRequest
+      ? `
+New Website Growth Review Request - Nexovio Digital Solutions
+
+Target Website URL: ${clientWebsite}
+Work Email: ${email}
+Primary Goal: ${primaryGoal || "Not Specified"}
+Source Page: ${sourcePage || "Website Modal"}
+Inquiry Date: ${new Date().toISOString()}
+
+---
+Sent via Nexovio Digital Solutions Growth Review Engine
+      `.trim()
+      : isAgencyPartnership
       ? `
 New Agency Partnership Inquiry - Nexovio Digital Solutions
 
-Partner Contact: ${name}
+Partner Contact: ${resolvedName}
 Work Email: ${email}
 Agency / Website: ${displayAgency}
 Agency Type: ${displayAgencyType}
@@ -228,7 +274,7 @@ Engagement Model: ${displayEngagement}
 Phone / WhatsApp: ${phone || "Not Provided"}
 
 Project Scope & Delivery Requirements:
-${message}
+${resolvedMessage}
 
 Confidentiality & NDA: Discuss NDA before sensitive details are shared.
 ---
@@ -237,7 +283,7 @@ Sent via Nexovio Digital Solutions Agency Partner Server
       : `
 New Project Inquiry - Nexovio Digital Solutions
 
-Client Name: ${name}
+Client Name: ${resolvedName}
 Email Address: ${email}
 Company: ${company || "Not Specified"}
 Phone / WhatsApp: ${phone || "Not Provided"}
@@ -245,7 +291,7 @@ Service Needed: ${formattedService}
 Budget Range: ${formattedBudget}
 
 Project Details & Goals:
-${message}
+${resolvedMessage}
 
 ---
 Sent via Nexovio Digital Solutions Lead Server
@@ -432,13 +478,37 @@ Sent via Nexovio Digital Solutions Lead Server
     `;
 
     // 3. Customer Auto-Responder Email (Thank You Confirmation)
-    const customerSubject = isAgencyPartnership
+    const customerSubject = isReviewRequest
+      ? `We Received Your Website Growth Review Request – Nexovio Digital Solutions`
+      : isAgencyPartnership
       ? `Thank You for Your Agency Partnership Inquiry – Nexovio Digital Solutions`
       : `Thank You for Contacting Nexovio – We Received Your Inquiry!`;
 
-    const customerTextContent = isAgencyPartnership
+    const customerTextContent = isReviewRequest
       ? `
-Hi ${name},
+Hi there,
+
+Thank you for requesting a Website Growth Review for ${clientWebsite} with Nexovio Digital Solutions!
+
+Our engineering and digital strategy team is evaluating your website's performance, user experience, and conversion opportunities based on your primary goal: "${primaryGoal || "General Improvement"}".
+
+What Happens Next:
+1. We analyze your website's UX, conversion friction, and Core Web Vitals.
+2. We review organic search visibility and mobile responsiveness.
+3. We prepare actionable recommendations tailored to your business goals.
+
+Our team will share your review summary with this email address (${email}).
+
+If you have questions in the meantime, feel free to reply directly to this email or reach us on WhatsApp.
+
+Best regards,
+The Nexovio Strategy & Engineering Team
+Nexovio Digital Solutions
+https://www.nexoviodigitalsolutions.com
+      `.trim()
+      : isAgencyPartnership
+      ? `
+Hi ${resolvedName},
 
 Thank you for reaching out to Nexovio Digital Solutions regarding a white-label technical partnership for ${displayAgency}!
 
@@ -451,7 +521,7 @@ Summary of Your Partnership Submission:
 - Engagement Model: ${displayEngagement}
 
 Project Details & Scope:
-${message}
+${resolvedMessage}
 
 Next Steps:
 1. Technical Scope & Stack Evaluation: We analyze your tech requirements and timeline.
@@ -466,7 +536,7 @@ Nexovio Digital Solutions
 https://www.nexoviodigitalsolutions.com
       `.trim()
       : `
-Hi ${name},
+Hi ${resolvedName},
 
 Thank you for contacting Nexovio Digital Solutions! We have received your inquiry regarding ${formattedService}.
 

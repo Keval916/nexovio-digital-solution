@@ -6,6 +6,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
 import { CookieConsent } from "../analytics/CookieConsent";
+import { LeadCaptureScrollModal } from "./LeadCaptureScrollModal";
 
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -22,6 +23,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       <main className="flex-1">{children}</main>
       <Footer />
       <CookieConsent />
+      <LeadCaptureScrollModal />
     </div>
   );
 }
