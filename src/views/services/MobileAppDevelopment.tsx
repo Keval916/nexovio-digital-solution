@@ -649,6 +649,34 @@ export default function MobileAppDevelopmentPage() {
       </section>
 
       {/* =================================================================== */}
+      {/* 6. RELATED CAPABILITIES (Cross-linking for SEO & Discovery)          */}
+      {/* =================================================================== */}
+      <section className="py-8 bg-surface-subtle/50 border-t border-border-subtle/60">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-center justify-between gap-4 text-xs">
+            <span className="text-muted font-mono font-semibold">Explore Related Capabilities:</span>
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 font-medium">
+              <Link href="/services/web-development" className="text-slate-700 dark:text-slate-300 hover:text-brand-cyan transition-colors">
+                Web Development Services &rarr;
+              </Link>
+              <Link href="/services/web-design" className="text-slate-700 dark:text-slate-300 hover:text-brand-cyan transition-colors">
+                Web Design Services &rarr;
+              </Link>
+              <Link href="/services/ui-ux-design" className="text-slate-700 dark:text-slate-300 hover:text-brand-cyan transition-colors">
+                UI/UX Design Services &rarr;
+              </Link>
+              <Link href="/services/seo-digital-marketing" className="text-slate-700 dark:text-slate-300 hover:text-brand-cyan transition-colors">
+                SEO &amp; Digital Marketing &rarr;
+              </Link>
+              <Link href="/services/ai-development" className="text-slate-700 dark:text-slate-300 hover:text-brand-cyan transition-colors">
+                AI &amp; Automation &rarr;
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =================================================================== */}
       {/* 7. FREQUENTLY ASKED QUESTIONS (Standard FaqSection Component)       */}
       {/* =================================================================== */}
       <FaqSection
