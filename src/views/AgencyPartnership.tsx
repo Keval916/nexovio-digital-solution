@@ -407,9 +407,12 @@ export default function AgencyPartnershipClient() {
 
   return (
     <div className="bg-background text-foreground min-h-screen">
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs items={[{ name: 'Agency Partnership', url: '/agency-partnership' }]} />
+
       <section
         id="overview"
-        className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden"
+        className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden"
       >
         {/* Ambient background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-radial-glow pointer-events-none opacity-60" />
@@ -417,7 +420,6 @@ export default function AgencyPartnershipClient() {
         <div className="absolute top-40 -left-20 w-80 h-80 bg-brand-electric/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs items={[{ name: 'Agency Partnership', url: '/agency-partnership' }]} />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Content */}

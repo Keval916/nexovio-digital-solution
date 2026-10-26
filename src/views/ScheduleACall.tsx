@@ -151,7 +151,10 @@ export default function ScheduleCallPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
       />
 
-      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs items={[{ name: "Schedule a Call", url: "/schedule-a-call" }]} />
+
+      <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         {/* Background Visual Effects */}
         <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
         <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
@@ -167,12 +170,6 @@ export default function ScheduleCallPage() {
         />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Breadcrumbs
-            items={[
-              { name: "Home", url: "/" },
-              { name: "Schedule a Call", url: "/schedule-a-call" },
-            ]}
-          />
 
           <div className="text-center max-w-3xl mx-auto space-y-4 pt-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated/90 text-brand-cyan shadow-[0_0_20px_rgba(0,198,255,0.2)]">

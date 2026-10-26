@@ -46,11 +46,11 @@ interface PricingViewProps {
 
 export default function PricingView({ initialCurrency }: PricingViewProps) {
   return (
-    <div className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-gradient-to-b from-[#f8faff] via-white to-[#f5f8ff] dark:from-[#070D1A] dark:via-[#091224] dark:to-[#070D1A] min-h-screen text-foreground">
-      {/* BREADCRUMBS */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-        <Breadcrumbs items={[{ name: "Pricing", url: "/pricing" }]} />
-      </div>
+    <>
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs items={[{ name: "Pricing", url: "/pricing" }]} />
+
+      <div className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-gradient-to-b from-[#f8faff] via-white to-[#f5f8ff] dark:from-[#070D1A] dark:via-[#091224] dark:to-[#070D1A] min-h-screen text-foreground">
 
       {/* PRICING PACKAGES (HERO & 3 CARDS MATCHING SCREENSHOT) */}
       <PricingPackages showTitle={true} initialCurrency={initialCurrency} />
@@ -65,5 +65,6 @@ export default function PricingView({ initialCurrency }: PricingViewProps) {
         description="Clear, transparent answers regarding billing milestones, multi-currency invoices, custom scope estimations, and post-launch support."
       />
     </div>
+    </>
   );
 }

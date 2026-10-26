@@ -198,6 +198,9 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs items={[{ name: "Blog", url: "/blog" }]} />
+
       {/* FULL WIDTH HERO SECTION */}
       <header className="relative w-full border-b border-border-subtle overflow-hidden min-h-[380px] sm:min-h-[440px] lg:min-h-[480px] flex items-center group">
         {/* Full Width Background Image */}
@@ -216,8 +219,6 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
 
         {/* Inner Content Constrained to max-w-7xl */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 sm:py-14">
-          <Breadcrumbs items={[{ name: "Blog", url: "/blog" }]} />
-
           <div className="max-w-3xl space-y-4 pt-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/40 bg-slate-950/70 text-brand-cyan backdrop-blur-md shadow-lg shadow-brand-cyan/10">
               <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse" />

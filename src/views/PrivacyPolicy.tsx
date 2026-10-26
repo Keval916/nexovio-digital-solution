@@ -7,9 +7,12 @@ export default function PrivacyPolicyPage() {
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
 
   return (
-    <div className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <Breadcrumbs items={[{ name: "Privacy Policy", url: "/privacy-policy" }]} />
+    <>
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs items={[{ name: "Privacy Policy", url: "/privacy-policy" }]} />
+
+      <div className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="space-y-6 mb-12">
           <span className="text-xs font-mono uppercase tracking-widest text-brand-cyan">
@@ -89,5 +92,6 @@ export default function PrivacyPolicyPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

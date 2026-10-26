@@ -485,18 +485,18 @@ export default function SingleBlogArticlePage({
         category={article.category}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumb Navigation */}
-        <Breadcrumbs
-          items={[
-            { name: "Blog", url: "/blog" },
-            { name: article.category, url: `/blog` },
-            { name: article.title, url: `/blog/${article.slug}` },
-          ]}
-        />
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs
+        items={[
+          { name: "Blog", url: "/blog" },
+          { name: article.category, url: `/blog` },
+          { name: article.title, url: `/blog/${article.slug}` },
+        ]}
+      />
 
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* 2. ARTICLE HERO HEADER (REFINED & WELL-SPACED) */}
-        <header className="pt-6 sm:pt-20 pb-10 border-b border-border-subtle space-y-6">
+        <header className="pt-6 sm:pt-10 pb-10 border-b border-border-subtle space-y-6">
           {/* Metadata Badges Bar */}
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-3 text-xs">
