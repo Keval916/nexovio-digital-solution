@@ -36,6 +36,7 @@ import {
   getServiceSchema,
   getFaqSchema,
   getOrganizationSchema,
+  getBreadcrumbSchema,
 } from "@/src/lib/schema";
 import { FaqSection } from "@/src/components/sections/FaqSection";
 
@@ -342,6 +343,11 @@ export default function SeoDigitalMarketingPage() {
 
   const faqSchema = getFaqSchema(FAQ_ITEMS);
   const organizationSchema = getOrganizationSchema();
+  const breadcrumbSchema = getBreadcrumbSchema([
+    { name: "Home", url: "/" },
+    { name: "Services", url: "/services" },
+    { name: "SEO & Digital Marketing", url: "/services/seo-digital-marketing" },
+  ]);
 
   return (
     <>
@@ -357,6 +363,10 @@ export default function SeoDigitalMarketingPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
 

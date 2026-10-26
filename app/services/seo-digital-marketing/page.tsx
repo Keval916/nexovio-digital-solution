@@ -3,9 +3,9 @@ import SeoDigitalMarketing from "@/src/views/services/SeoDigitalMarketing";
 import { generatePageMetadata } from "@/src/lib/seo";
 
 export const metadata: Metadata = generatePageMetadata({
-  title: "SEO & Digital Marketing Services | Boost Rankings & Real Business Growth | Nexovio",
+  title: "SEO & Digital Marketing Services for Growth | Nexovio",
   description:
-    "We combine proven SEO strategies with result-driven digital marketing to help your brand get found, build trust, and turn visitors into loyal customers. Technical SEO, social media marketing, PPC campaigns, and conversion rate optimization.",
+    "Proven SEO and digital marketing services to boost search rankings, drive qualified organic traffic, and convert visitors through technical SEO, PPC, and CRO.",
   keywords: [
     "SEO & digital marketing services",
     "search engine optimization company",

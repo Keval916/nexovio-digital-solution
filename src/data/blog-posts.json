@@ -7,7 +7,7 @@
       "avatar": "/images/brand/nexovio-logo-square.png",
       "bio": "James Smith is a Digital Transformation Strategist and Enterprise Solutions Architect focused on building modern digital platforms, autonomous AI solutions, and high-performance full-stack systems that help businesses innovate and scale."
     },
-    "canonicalUrl": null,
+    "canonicalUrl": "https://www.nexoviodigitalsolutions.com/blog/ai-automation-for-business",
     "category": "AI & Automation",
     "changeFreq": "weekly",
     "content": [
@@ -140,7 +140,7 @@
       "avatar": "/api/media/.",
       "bio": "Kieran Knight is an AI and automation strategist focused on helping growing businesses use technology to streamline operations, improve customer experiences, and scale more efficiently. He writes about AI solutions, workflow automation, digital transformation, and emerging business technologies."
     },
-    "canonicalUrl": null,
+    "canonicalUrl": "https://www.nexoviodigitalsolutions.com/blog/ecommerce-solutions-for-businesses",
     "category": "Ecommerce Solutions",
     "changeFreq": "weekly",
     "content": [
@@ -337,7 +337,8 @@
     "previousSlugs": [],
     "schemaType": "BlogPosting",
     "sitemapPriority": 0.8,
-    "updatedAt": "2026-10-04"
+    "updatedAt": "2026-10-04",
+    "canonicalUrl": "https://www.nexoviodigitalsolutions.com/blog/mastering-core-web-vitals-performance"
   },
   {
     "slug": "headless-cms-architecture-scalability",
@@ -403,7 +404,8 @@
     "previousSlugs": [],
     "schemaType": "BlogPosting",
     "sitemapPriority": 0.8,
-    "updatedAt": "2026-10-04"
+    "updatedAt": "2026-10-04",
+    "canonicalUrl": "https://www.nexoviodigitalsolutions.com/blog/headless-cms-architecture-scalability"
   },
   {
     "id": "ai-agents-and-automation-web-applications",
@@ -463,7 +465,8 @@
     "relatedSlugs": [
       "custom-web-development-vs-website-builders",
       "technical-seo-checklist-for-modern-websites"
-    ]
+    ],
+    "canonicalUrl": "https://www.nexoviodigitalsolutions.com/blog/ai-agents-and-automation-web-applications"
   },
   {
     "id": "technical-seo-checklist-for-modern-websites",
@@ -523,7 +526,8 @@
     "relatedSlugs": [
       "custom-web-development-vs-website-builders",
       "why-slow-websites-sabotage-lead-conversion"
-    ]
+    ],
+    "canonicalUrl": "https://www.nexoviodigitalsolutions.com/blog/technical-seo-checklist-for-modern-websites"
   },
   {
     "id": "why-slow-websites-sabotage-lead-conversion",
@@ -578,7 +582,8 @@
     "relatedSlugs": [
       "custom-web-development-vs-website-builders",
       "technical-seo-checklist-for-modern-websites"
-    ]
+    ],
+    "canonicalUrl": "https://www.nexoviodigitalsolutions.com/blog/why-slow-websites-sabotage-lead-conversion"
   },
   {
     "id": "custom-website-vs-website-builder",
@@ -680,7 +685,7 @@
     "featuredImageAlt": "Customer self-service portal dashboard interface and secure user architecture",
     "seoTitle": "Customer Self-Service Portal: Business Guide & Architecture | Nexovio",
     "seoDescription": "Discover how custom customer self-service portals streamline support, reduce ticket volume, secure user data, and automate business workflows for scale.",
-    "canonicalUrl": null,
+    "canonicalUrl": "https://www.nexoviodigitalsolutions.com/blog/customer-self-service-portal-business-guide",
     "relatedSlugs": [
       "headless-cms-architecture-scalability",
       "ai-automation-for-business",
