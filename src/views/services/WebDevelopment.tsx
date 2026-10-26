@@ -263,25 +263,24 @@ export default function WebDevelopmentPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs
+        items={[
+          { name: "Services", url: "/services" },
+          { name: "Web Development", url: "/services/web-development" },
+        ]}
+      />
+
       {/* =================================================================== */}
       {/* 1. HERO SECTION (Custom Web Development Solutions for Your Business) */}
       {/* =================================================================== */}
-      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+      <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         {/* Ambient Glow Accents */}
         <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-60" />
         <div className="absolute -top-36 -right-36 w-96 h-96 bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute -bottom-36 -left-36 w-96 h-96 bg-brand-electric/20 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Breadcrumbs Navigation */}
-          <div className="mb-6">
-            <Breadcrumbs
-              items={[
-                { name: "Services", url: "/services" },
-                { name: "Web Development", url: "/services/web-development" },
-              ]}
-            />
-          </div>
 
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border border-brand-cyan/30 bg-surface-elevated text-brand-bright shadow-xs mb-2">

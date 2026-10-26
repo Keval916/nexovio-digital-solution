@@ -355,25 +355,24 @@ export default function WebDesignPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs
+        items={[
+          { name: "Services", url: "/services" },
+          { name: "Web Design", url: "/services/web-design" },
+        ]}
+      />
+
       {/* =================================================================== */}
       {/* 1. HERO SECTION (Matching Reference Mockup 1:1)                      */}
       {/* =================================================================== */}
-      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+      <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         {/* Ambient Subtle Glow Accents */}
         <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-60" />
         <div className="absolute -top-36 -right-36 w-96 h-96 bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute -bottom-36 -left-36 w-96 h-96 bg-brand-electric/20 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Breadcrumbs Navigation */}
-          <div className="mb-6">
-            <Breadcrumbs
-              items={[
-                { name: "Services", url: "/services" },
-                { name: "Web Design", url: "/services/web-design" },
-              ]}
-            />
-          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
             {/* Left Content Column */}

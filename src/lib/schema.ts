@@ -247,15 +247,21 @@ export interface BreadcrumbItem {
 }
 
 export function getBreadcrumbSchema(items: BreadcrumbItem[]) {
+  const cleanSiteUrl = SITE_URL.endsWith("/") ? SITE_URL.slice(0, -1) : SITE_URL;
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: items.map((item, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: item.name,
-      item: item.url.startsWith("http") ? item.url : `${SITE_URL}${item.url}`,
-    })),
+    itemListElement: items.map((item, index) => {
+      const fullUrl = item.url.startsWith("http")
+        ? item.url
+        : `${cleanSiteUrl}${item.url.startsWith("/") ? item.url : `/${item.url}`}`;
+      return {
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        item: fullUrl,
+      };
+    }),
   };
 }
 

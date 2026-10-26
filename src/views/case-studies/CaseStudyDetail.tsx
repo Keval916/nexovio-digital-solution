@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  ArrowLeft,
   ArrowRight,
   ExternalLink,
   CheckCircle2,
@@ -39,6 +38,7 @@ import {
 } from "lucide-react";
 import { getCaseStudyBySlug, CASE_STUDIES, CaseStudy } from "@/src/data/case-studies";
 import { SITE_URL, BRAND_LOGO_SQUARE } from "@/src/lib/seo";
+import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
 
 // ==========================================
 // CLIENT BRAND LOGO COMPONENT
@@ -350,62 +350,34 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
 
   const allCaseStudies = CASE_STUDIES;
 
-  // SEO Schema
+  // SEO Schema (TechArticle)
   const articleSchema = {
     "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "TechArticle",
-        "@id": `${SITE_URL}/case-studies/${study.slug}#article`,
-        headline: study.title,
-        description: study.seoDescription,
-        url: `${SITE_URL}/case-studies/${study.slug}`,
-        datePublished: study.publishedAt,
-        dateModified: study.publishedAt,
-        image: `${SITE_URL}${study.coverImage}`,
-        author: {
-          "@type": "Organization",
-          name: "Nexovio Digital Solutions",
-          url: SITE_URL,
-        },
-        publisher: {
-          "@type": "Organization",
-          name: "Nexovio Digital Solutions",
-          url: SITE_URL,
-          logo: {
-            "@type": "ImageObject",
-            url: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
-          },
-        },
-        about: [
-          { "@type": "Thing", name: study.industry },
-          ...study.services.map((svc) => ({ "@type": "Thing", name: svc })),
-        ],
+    "@type": "TechArticle",
+    "@id": `${SITE_URL}/case-studies/${study.slug}#article`,
+    headline: study.title,
+    description: study.seoDescription,
+    url: `${SITE_URL}/case-studies/${study.slug}`,
+    datePublished: study.publishedAt,
+    dateModified: study.publishedAt,
+    image: `${SITE_URL}${study.coverImage}`,
+    author: {
+      "@type": "Organization",
+      name: "Nexovio Digital Solutions",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Nexovio Digital Solutions",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}${BRAND_LOGO_SQUARE}`,
       },
-      {
-        "@type": "BreadcrumbList",
-        "@id": `${SITE_URL}/case-studies/${study.slug}#breadcrumb`,
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Home",
-            item: `${SITE_URL}/`,
-          },
-          {
-            "@type": "ListItem",
-            position: 2,
-            name: "Case Studies",
-            item: `${SITE_URL}/case-studies`,
-          },
-          {
-            "@type": "ListItem",
-            position: 3,
-            name: study.title,
-            item: `${SITE_URL}/case-studies/${study.slug}`,
-          },
-        ],
-      },
+    },
+    about: [
+      { "@type": "Thing", name: study.industry },
+      ...study.services.map((svc) => ({ "@type": "Thing", name: svc })),
     ],
   };
 
@@ -459,10 +431,18 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs
+        items={[
+          { name: "Case Studies", url: "/case-studies" },
+          { name: study.client || study.title, url: `/case-studies/${study.slug}` },
+        ]}
+      />
+
       {/* =================================================================== */}
       {/* 1. HERO SECTION                                                    */}
       {/* =================================================================== */}
-      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+      <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         {/* Ambient Subtle Glow Accents */}
         <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-60" />
         <div className="absolute -top-36 -right-36 w-96 h-96 bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
@@ -472,16 +452,6 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Column: Eyebrow, H1, Subtitle & 4 Meta Badges */}
             <div className="lg:col-span-6 space-y-6 text-left">
-              {/* Back Link */}
-              <div className="mb-2">
-                <Link
-                  href="/case-studies"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-electric dark:text-brand-cyan hover:underline"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5" />
-                  <span>Case Study</span>
-                </Link>
-              </div>
 
               {/* Pill Tag */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-electric/10 text-brand-electric dark:text-brand-cyan border border-brand-electric/20 dark:border-brand-cyan/30">

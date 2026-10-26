@@ -546,21 +546,19 @@ export default function GenerativeAiDevelopment() {
       />
 
       <div className="relative min-h-screen bg-slate-50 dark:bg-[#040814] text-slate-900 dark:text-white transition-colors duration-300">
+        {/* Full-width Breadcrumb Stripe Touching Header */}
+        <Breadcrumbs
+          items={[
+            { name: "Services", url: "/services" },
+            { name: "Generative AI Development", url: "/services/generative-ai-development" },
+          ]}
+        />
 
-        <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+        <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden">
           {/* Subtle Ambient Aura */}
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl h-[600px] bg-gradient-to-tr from-blue-600/10 via-cyan-400/15 to-indigo-600/10 blur-[130px] pointer-events-none rounded-full" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            {/* Breadcrumb Navigation */}
-            <div className="mb-6">
-              <Breadcrumbs
-                items={[
-                  { name: "Services", url: "/services" },
-                  { name: "Generative AI Development", url: "/services/generative-ai-development" },
-                ]}
-              />
-            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
               {/* Left Column: Hero Narrative */}

@@ -224,19 +224,18 @@ export default function CaseStudiesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudiesSchema) }}
       />
 
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs items={[{ name: "Case Studies", url: "/case-studies" }]} />
+
       {/* ================================================================== */}
       {/* 1. HERO SECTION (MATCHING THE REFERENCE MOCKUP)                    */}
       {/* ================================================================== */}
-      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+      <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         {/* Subtle decorative curved background accent */}
         <div className="absolute top-0 right-0 w-[55%] h-full bg-gradient-to-l from-blue-50/70 via-blue-50/30 to-transparent dark:from-brand-cyan/5 dark:via-transparent pointer-events-none rounded-bl-[120px]" />
         <div className="absolute -top-32 right-10 w-96 h-96 bg-brand-cyan/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Breadcrumb Navigation */}
-          <div className="mb-4">
-            <Breadcrumbs items={[{ name: "Case Studies", url: "/case-studies" }]} />
-          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Content Column */}

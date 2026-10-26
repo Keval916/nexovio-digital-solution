@@ -754,17 +754,17 @@ export default function GraphicDesignPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* ================================================================== */}
-      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Breadcrumbs */}
-          <Breadcrumbs
-            items={[
-              { name: "Services", url: "/services" },
-              { name: "Graphic Design", url: "/services/graphic-design" },
-            ]}
-          />
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs
+        items={[
+          { name: "Services", url: "/services" },
+          { name: "Graphic Design", url: "/services/graphic-design" },
+        ]}
+      />
 
+      {/* ================================================================== */}
+      <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Background Radial Glow & Futuristic Grid Lines */}
           <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
