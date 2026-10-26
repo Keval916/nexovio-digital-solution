@@ -651,76 +651,68 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
           {/* Hero Left Column (Copy & CTAs) */}
           <div className="lg:col-span-6 space-y-6 text-left">
             {/* Pill Badge */}
-            <AnimateOnScroll variant="fadeDown" duration={0.6} start="top 95%">
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated/90 text-brand-cyan shadow-[0_0_20px_rgba(0,198,255,0.2)]">
-                <span className="w-2 h-2 rounded-full bg-brand-cyan animate-ping" />
-                <span>{HERO_SLIDES[currentSlide].badge}</span>
-              </div>
-            </AnimateOnScroll>
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated/90 text-brand-cyan shadow-[0_0_20px_rgba(0,198,255,0.2)]">
+              <span className="w-2 h-2 rounded-full bg-brand-cyan animate-ping" />
+              <span>{HERO_SLIDES[currentSlide].badge}</span>
+            </div>
 
             {/* H1 Headline */}
-            <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.15} start="top 95%">
-              <h1 className="text-[1.75rem] sm:text-4xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.2]">
-                Custom Web Development &amp;{" "}
-                <span className="bg-gradient-brand bg-clip-text text-transparent">
-                  AI Automation
-                </span>{" "}
-                for Growing Businesses
-              </h1>
-            </AnimateOnScroll>
+            <h1 className="text-[1.75rem] sm:text-4xl lg:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.2]">
+              Custom Web Development &amp;{" "}
+              <span className="bg-gradient-brand bg-clip-text text-transparent">
+                AI Automation
+              </span>{" "}
+              for Growing Businesses
+            </h1>
 
             {/* Supporting Copy */}
-            <AnimateOnScroll variant="fadeUp" duration={0.8} delay={0.3} start="top 95%">
-              <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-                <p className="font-medium text-foreground">
-                  Build business websites, ecommerce experiences and custom web applications with a technology partner focused on usability, performance and practical business outcomes.
-                </p>
-                <p>
-                  From full-stack Next.js platforms and headless ecommerce to intelligent AI triage workflows, <strong className="text-foreground font-semibold">Nexovio Digital Solutions</strong> delivers modern engineering for growing companies, and supports agencies worldwide through white-label delivery partnerships.
-                </p>
-              </div>
-            </AnimateOnScroll>
+            <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
+              <p className="font-medium text-foreground">
+                Build business websites, ecommerce experiences and custom web applications with a technology partner focused on usability, performance and practical business outcomes.
+              </p>
+              <p>
+                From full-stack Next.js platforms and headless ecommerce to intelligent AI triage workflows, <strong className="text-foreground font-semibold">Nexovio Digital Solutions</strong> delivers modern engineering for growing companies, and supports agencies worldwide through white-label delivery partnerships.
+              </p>
+            </div>
 
             {/* Action Buttons */}
-            <AnimateOnScroll variant="fadeUp" duration={0.7} delay={0.45} start="top 95%">
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <Button
-                  onClick={onOpenModal ? onOpenModal : undefined}
-                  href={!onOpenModal ? "/contact" : undefined}
-                  variant="primary"
-                  size="lg"
-                  trackingName="hero_discuss_project"
-                  trackingLocation="hero"
-                  icon={<ArrowRight className="w-4 h-4" />}
-                  className="w-full sm:w-auto shadow-glow cursor-pointer"
-                >
-                  Discuss Your Project
-                </Button>
+            <div className="pt-2 flex flex-wrap items-center gap-4">
+              <Button
+                onClick={onOpenModal ? onOpenModal : undefined}
+                href={!onOpenModal ? "/contact" : undefined}
+                variant="primary"
+                size="lg"
+                trackingName="hero_discuss_project"
+                trackingLocation="hero"
+                icon={<ArrowRight className="w-4 h-4" />}
+                className="w-full sm:w-auto shadow-glow cursor-pointer"
+              >
+                Discuss Your Project
+              </Button>
 
-                <Button
-                  href="/portfolio"
-                  variant="secondary"
-                  size="lg"
-                  trackingName="hero_view_work"
-                  trackingLocation="hero"
-                  className="w-full sm:w-auto hover:border-brand-cyan/40"
-                >
-                  View Our Work
-                </Button>
+              <Button
+                href="/portfolio"
+                variant="secondary"
+                size="lg"
+                trackingName="hero_view_work"
+                trackingLocation="hero"
+                className="w-full sm:w-auto hover:border-brand-cyan/40"
+              >
+                View Our Work
+              </Button>
 
-                <Link
-                  href="/agency-partnership"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-cyan hover:bg-white/5 transition-colors"
-                >
-                  <span>Agency Partnerships</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </AnimateOnScroll>
+              <Link
+                href="/agency-partnership"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-brand-cyan hover:bg-white/5 transition-colors"
+              >
+                <span>Agency Partnerships</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </div>
 
           {/* Hero Right Column */}
-          <AnimateOnScroll variant="scaleUp" duration={1} delay={0.3} start="top 95%" className="lg:col-span-6 relative flex items-center justify-center">
+          <div className="lg:col-span-6 relative flex items-center justify-center">
             <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
 
             <div className="relative w-full max-w-lg mx-auto rounded-2xl border border-brand-cyan/70 bg-surface-elevated/80 backdrop-blur-md p-2.5 shadow-xl overflow-hidden group hover:border-brand-cyan/60 transition-all duration-500">
@@ -736,7 +728,7 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/20 via-transparent to-transparent pointer-events-none rounded-xl" />
               </div>
             </div>
-          </AnimateOnScroll>
+          </div>
         </div>
       </div>
     </section>

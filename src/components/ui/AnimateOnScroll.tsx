@@ -91,6 +91,14 @@ export function AnimateOnScroll({
 
     const init = () => {
       if (!ref.current) return;
+
+      // If the element is already inside the viewport on initial load, do NOT hide it.
+      const rect = ref.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 800;
+      if (rect.top < viewportHeight) {
+        return;
+      }
+
       ctx = gsap.context(() => {
         const config = VARIANT_CONFIG[variant];
 
@@ -132,9 +140,9 @@ export function AnimateOnScroll({
 
     if (typeof window !== "undefined" && "requestIdleCallback" in window) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      timerId = (window as any).requestIdleCallback(init, { timeout: 1200 });
+      timerId = (window as any).requestIdleCallback(init, { timeout: 600 });
     } else {
-      timerId = setTimeout(init, 40);
+      timerId = setTimeout(init, 30);
     }
 
     return () => {
