@@ -27,21 +27,30 @@ import {
   ShoppingBag,
   Wrench,
   Search,
+  Monitor,
+  FileText,
+  Compass,
+  Calendar,
+  Lock,
+  Zap,
+  HeartPulse,
+  MapPin,
+  Flame,
 } from "lucide-react";
 import { getCaseStudyBySlug, CASE_STUDIES, CaseStudy } from "@/src/data/case-studies";
-import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
-import { trackCtaClick } from "@/src/lib/analytics";
 import { SITE_URL, BRAND_LOGO_SQUARE } from "@/src/lib/seo";
 
 // ==========================================
-// CLIENT LOGO COMPONENT (PARTS CONNEXION & OTHERS)
+// CLIENT BRAND LOGO COMPONENT
 // ==========================================
 
 function ClientBrandLogo({ client }: { client: string }) {
-  if (client.toLowerCase().includes("parts")) {
+  const c = client.toLowerCase();
+
+  // 1. Parts Connexion
+  if (c.includes("parts")) {
     return (
       <div className="flex items-center gap-3 select-none">
-        {/* Gear Icon with Wrench */}
         <div className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-slate-900 text-amber-500 shadow-md">
           <svg
             className="w-7 h-7 text-amber-500 animate-spin-slow"
@@ -69,6 +78,132 @@ function ClientBrandLogo({ client }: { client: string }) {
     );
   }
 
+  // 2. Inside Injury (Exact Match to Mockup)
+  if (c.includes("inside") || c.includes("injury")) {
+    return (
+      <div className="flex items-center gap-3 select-none">
+        <div className="relative w-12 h-12 flex items-center justify-center rounded-xl bg-blue-900/10 dark:bg-white/10 text-brand-electric dark:text-brand-cyan shadow-xs border border-brand-electric/20">
+          <svg
+            className="w-7 h-7 text-brand-electric dark:text-brand-cyan"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M9 12h6" />
+            <path d="M12 9v6" />
+          </svg>
+        </div>
+        <div className="text-left">
+          <div className="text-sm sm:text-base font-black tracking-wider text-slate-900 dark:text-white leading-tight">
+            INSIDE INJURY
+          </div>
+          <div className="text-[10px] sm:text-xs font-semibold tracking-widest uppercase text-slate-500 dark:text-slate-400 leading-tight">
+            PERSONAL INJURY LAW
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Infiniti Home Comfort
+  if (c.includes("infiniti") || c.includes("comfort")) {
+    return (
+      <div className="flex items-center gap-3 select-none">
+        <div className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-cyan-900/15 text-cyan-600 dark:text-brand-cyan shadow-xs border border-cyan-500/20">
+          <Flame className="w-6 h-6 text-cyan-600 dark:text-brand-cyan" />
+        </div>
+        <div className="text-left">
+          <div className="text-sm sm:text-base font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            INFINITI
+          </div>
+          <div className="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-cyan-600 dark:text-brand-cyan leading-tight">
+            HOME COMFORT
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 4. Strata Financial
+  if (c.includes("strata") || c.includes("financial")) {
+    return (
+      <div className="flex items-center gap-3 select-none">
+        <div className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-blue-900/15 text-brand-electric dark:text-brand-cyan shadow-xs border border-blue-500/20">
+          <Lock className="w-6 h-6 text-brand-electric dark:text-brand-cyan" />
+        </div>
+        <div className="text-left">
+          <div className="text-sm sm:text-base font-black tracking-wider text-slate-900 dark:text-white leading-tight">
+            STRATA
+          </div>
+          <div className="text-[10px] sm:text-xs font-bold tracking-widest uppercase text-slate-500 dark:text-slate-400 leading-tight">
+            FINANCIAL
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 5. Apex Cloud Systems
+  if (c.includes("apex") || c.includes("cloud")) {
+    return (
+      <div className="flex items-center gap-3 select-none">
+        <div className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-indigo-900/15 text-indigo-500 dark:text-indigo-400 shadow-xs border border-indigo-500/20">
+          <Zap className="w-6 h-6 text-indigo-500 dark:text-indigo-400" />
+        </div>
+        <div className="text-left">
+          <div className="text-sm sm:text-base font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            APEX CLOUD
+          </div>
+          <div className="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-indigo-500 dark:text-indigo-400 leading-tight">
+            SYSTEMS
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 6. Lumina Health
+  if (c.includes("lumina") || c.includes("health")) {
+    return (
+      <div className="flex items-center gap-3 select-none">
+        <div className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-emerald-900/15 text-emerald-600 dark:text-emerald-400 shadow-xs border border-emerald-500/20">
+          <HeartPulse className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+        </div>
+        <div className="text-left">
+          <div className="text-sm sm:text-base font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            LUMINA
+          </div>
+          <div className="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-emerald-600 dark:text-emerald-400 leading-tight">
+            HEALTH
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 7. Pulse Logistics
+  if (c.includes("pulse") || c.includes("logistics")) {
+    return (
+      <div className="flex items-center gap-3 select-none">
+        <div className="relative w-11 h-11 flex items-center justify-center rounded-xl bg-blue-900/15 text-brand-electric dark:text-brand-cyan shadow-xs border border-blue-500/20">
+          <Truck className="w-6 h-6 text-brand-electric dark:text-brand-cyan" />
+        </div>
+        <div className="text-left">
+          <div className="text-sm sm:text-base font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            PULSE
+          </div>
+          <div className="text-[10px] sm:text-xs font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 leading-tight">
+            LOGISTICS
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex items-center gap-2 select-none">
       <div className="w-10 h-10 rounded-xl bg-brand-electric/15 text-brand-electric dark:text-brand-cyan font-black flex items-center justify-center text-lg">
@@ -87,13 +222,36 @@ function ClientBrandLogo({ client }: { client: string }) {
 // HANDWRITTEN ANNOTATIONS
 // ==========================================
 
-function BetterDesignAnnotation({ className = "" }: { className?: string }) {
+function HeroAnnotation({ slug, className = "" }: { slug: string; className?: string }) {
+  let line1 = "Better Design,";
+  let line2 = "Bigger Impact";
+
+  if (slug === "inside-injury") {
+    line1 = "Better UX,";
+    line2 = "More Clients";
+  } else if (slug === "infiniti-home-comfort") {
+    line1 = "Sub-Second Speed,";
+    line2 = "More Bookings";
+  } else if (slug === "fintech-mobile-app") {
+    line1 = "Frictionless KYC,";
+    line2 = "4.8★ Rating";
+  } else if (slug === "b2b-digital-platform") {
+    line1 = "100/100 Lighthouse,";
+    line2 = "+240% Demos";
+  } else if (slug === "lumina-health-patient-experience") {
+    line1 = "WCAG 2.1 AA,";
+    line2 = "98% Completion";
+  } else if (slug === "pulse-logistics-organic-growth-engine") {
+    line1 = "Top 3 Rankings,";
+    line2 = "+210% Leads";
+  }
+
   return (
     <div className={`flex flex-col items-end pointer-events-none ${className}`}>
       <div className="font-serif italic text-sm sm:text-base font-semibold text-brand-electric dark:text-brand-cyan tracking-wide drop-shadow-xs text-right leading-tight transform -rotate-3">
-        Better Design,
+        {line1}
         <br />
-        Bigger Impact
+        {line2}
       </div>
       <svg
         className="w-12 h-10 text-brand-electric dark:text-brand-cyan transform -rotate-12 mt-1 mr-2"
@@ -136,6 +294,45 @@ function UserCenteredAnnotation({ className = "" }: { className?: string }) {
 }
 
 // ==========================================
+// DYNAMIC PILLAR ICON
+// ==========================================
+
+function PillarIcon({ iconType }: { iconType?: string }) {
+  switch (iconType) {
+    case "monitor":
+      return <Monitor className="w-6 h-6" />;
+    case "file":
+      return <FileText className="w-6 h-6" />;
+    case "compass":
+      return <Compass className="w-6 h-6" />;
+    case "smartphone":
+      return <Smartphone className="w-6 h-6" />;
+    case "calendar":
+      return <Calendar className="w-6 h-6" />;
+    case "lock":
+      return <Lock className="w-6 h-6" />;
+    case "zap":
+      return <Zap className="w-6 h-6" />;
+    case "heart":
+      return <HeartPulse className="w-6 h-6" />;
+    case "map":
+      return <MapPin className="w-6 h-6" />;
+    case "car":
+      return <Car className="w-6 h-6" />;
+    case "shipping":
+      return <Truck className="w-6 h-6" />;
+    case "globe":
+      return <Globe className="w-6 h-6" />;
+    case "shield":
+      return <ShieldCheck className="w-6 h-6" />;
+    case "trending":
+      return <TrendingUp className="w-6 h-6" />;
+    default:
+      return <Sparkles className="w-6 h-6" />;
+  }
+}
+
+// ==========================================
 // MAIN COMPONENT
 // ==========================================
 
@@ -151,9 +348,7 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
     notFound();
   }
 
-  // Get related case studies (prefer 5 cards including active one, or other studies)
   const allCaseStudies = CASE_STUDIES;
-  const otherStudies = allCaseStudies.filter((s) => s.slug !== study.slug);
 
   // SEO Schema
   const articleSchema = {
@@ -242,13 +437,19 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
     { title: "Quality & Reliability", iconType: "shield" as const },
   ];
 
-  const heroShowcaseImage =
-    study.highlightImages?.heroShowcase ||
-    "/images/case-studies/parts-connexion/parts-connexion-ecommerce-responsive-laptop-mobile.jpg";
-
+  const heroShowcaseImage = study.highlightImages?.heroShowcase || study.coverImage;
   const designerImage =
     study.highlightImages?.designerAtWork ||
     "/images/case-studies/parts-connexion/ui-ux-designer-automotive-ecommerce-desk.jpg";
+
+  // Headshot image fallback
+  const clientHeadshot =
+    study.clientQuote?.avatar ||
+    (study.slug === "inside-injury"
+      ? "/images/case-studies/inside-injury/michael-carter-founder-inside-injury.jpg"
+      : study.slug === "parts-connexion"
+        ? "/images/case-studies/parts-connexion/michael-roberts-founder-parts-connexion.jpg"
+        : "/images/contact/technical-consultation-lead.jpg");
 
   return (
     <>
@@ -268,10 +469,20 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
         <div className="absolute -bottom-36 -left-36 w-96 h-96 bg-brand-electric/20 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             {/* Left Column: Eyebrow, H1, Subtitle & 4 Meta Badges */}
             <div className="lg:col-span-6 space-y-6 text-left">
+              {/* Back Link */}
+              <div className="mb-2">
+                <Link
+                  href="/case-studies"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-electric dark:text-brand-cyan hover:underline"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Case Study</span>
+                </Link>
+              </div>
+
               {/* Pill Tag */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-electric/10 text-brand-electric dark:text-brand-cyan border border-brand-electric/20 dark:border-brand-cyan/30">
                 <Sparkles className="w-3.5 h-3.5 text-brand-cyan" />
@@ -280,11 +491,11 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
 
               {/* H1 Heading */}
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-[1.12] text-slate-900 dark:text-white">
-                {study.slug === "parts-connexion" ? (
+                {study.title.includes("for ") ? (
                   <>
-                    Building a High-Performance Website for{" "}
+                    {study.title.split("for ")[0]}for{" "}
                     <span className="bg-gradient-brand bg-clip-text text-transparent">
-                      Parts Connexion
+                      {study.title.split("for ")[1]}
                     </span>
                   </>
                 ) : (
@@ -313,7 +524,7 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
                 {/* Industry */}
                 <div className="space-y-1">
                   <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium">
-                    <Car className="w-3.5 h-3.5 text-brand-electric dark:text-brand-cyan" />
+                    <Building2 className="w-3.5 h-3.5 text-brand-electric dark:text-brand-cyan" />
                     <span>Industry</span>
                   </div>
                   <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">
@@ -348,7 +559,10 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
             {/* Right Column: Hero Laptop & Phone Visual with Handwritten Sticker */}
             <div className="lg:col-span-6 relative flex items-center justify-center">
               {/* Handwritten Annotation Sticker (Top-Right) */}
-              <BetterDesignAnnotation className="absolute -top-6 right-2 sm:right-6 z-20" />
+              <HeroAnnotation
+                slug={study.slug}
+                className="absolute -top-6 right-2 sm:right-6 z-20"
+              />
 
               <div className="relative w-full aspect-[16/10] sm:aspect-[16/9.5] rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 dark:border-white/10 bg-slate-100 dark:bg-slate-900">
                 <Image
@@ -385,31 +599,36 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
                 {overviewDescription}
               </p>
 
+              {/* {study.liveWebsiteUrl && (
+                <div className="pt-2">
+                  <a
+                    href={study.liveWebsiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm text-white bg-brand-electric hover:bg-brand-electric/90 shadow-md shadow-brand-electric/25 transition-all group"
+                  >
+                    <span>View Live Website</span>
+                    <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </a>
+                </div>
+              )} */}
             </div>
 
             {/* Right Column: 4 Feature Cards Grid */}
             <div className="lg:col-span-7 grid grid-cols-2 sm:grid-cols-4 gap-4">
-              {overviewPillars.map((pillar, idx) => {
-                return (
-                  <div
-                    key={idx}
-                    className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/90 dark:border-white/10 shadow-sm flex flex-col items-center text-center space-y-3 hover:border-brand-electric/40 dark:hover:border-brand-cyan/40 hover:shadow-md transition-all group"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-brand-cyan/10 text-brand-electric dark:text-brand-cyan flex items-center justify-center group-hover:scale-110 transition-transform">
-                      {pillar.iconType === "car" && <Car className="w-6 h-6" />}
-                      {pillar.iconType === "shipping" && <Truck className="w-6 h-6" />}
-                      {pillar.iconType === "globe" && <Globe className="w-6 h-6" />}
-                      {pillar.iconType === "shield" && <ShieldCheck className="w-6 h-6" />}
-                      {!["car", "shipping", "globe", "shield"].includes(pillar.iconType || "") && (
-                        <Sparkles className="w-6 h-6" />
-                      )}
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug">
-                      {pillar.title}
-                    </span>
+              {overviewPillars.map((pillar, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 sm:p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/90 dark:border-white/10 shadow-sm flex flex-col items-center text-center space-y-3 hover:border-brand-electric/40 dark:hover:border-brand-cyan/40 hover:shadow-md transition-all group"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-brand-cyan/10 text-brand-electric dark:text-brand-cyan flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <PillarIcon iconType={pillar.iconType} />
                   </div>
-                );
-              })}
+                  <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug">
+                    {pillar.title}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -472,7 +691,7 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
               </div>
             </div>
 
-            {/* Right Column: Designer at Work Photo with "User-Centered Design" Annotation */}
+            {/* Right Column: Designer at Work Photo with Annotation */}
             <div className="lg:col-span-5 relative flex items-center justify-center">
               {/* Handwritten Annotation Sticker */}
               <UserCenteredAnnotation className="absolute -top-8 left-1/2 -translate-x-1/2 z-20" />
@@ -480,7 +699,10 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
               <div className="relative w-full aspect-[4/4.5] sm:aspect-[4/4] rounded-3xl overflow-hidden shadow-xl border border-slate-200/90 dark:border-white/10 bg-slate-100 dark:bg-slate-900">
                 <Image
                   src={designerImage}
-                  alt="Senior UI/UX designer crafting user-centered automotive e-commerce interface on high-resolution monitor at Nexovio agency"
+                  alt={
+                    study.highlightImages?.designerAtWorkAlt ||
+                    `Senior UX architect and designer crafting user-centered solutions for ${study.client} at Nexovio`
+                  }
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 550px"
                   className="object-cover"
@@ -504,10 +726,7 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
               </div>
 
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                A Stronger Online Presence and{" "}
-                <span className="bg-gradient-brand bg-clip-text text-transparent">
-                  Better Business Growth
-                </span>
+                {resultsTitle}
               </h2>
 
               <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
@@ -576,9 +795,12 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
                 <Image
                   src={
                     study.highlightImages?.homepageMockup ||
-                    "/images/case-studies/parts-connexion/parts-connexion-homepage-design-laptop-mockup.jpg"
+                    heroShowcaseImage
                   }
-                  alt={`${study.client} homepage design layout on laptop mockup`}
+                  alt={
+                    study.highlightImages?.homepageMockupAlt ||
+                    `${study.client} homepage design layout on laptop mockup`
+                  }
                   fill
                   sizes="(max-width: 1024px) 100vw, 600px"
                   className="object-contain"
@@ -593,15 +815,19 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
 
             {/* Right Column: 2x2 Grid of Feature Screens */}
             <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {/* 1. Product Categories Screen */}
+              {/* 1. Feature Screen 1 */}
               <div className="flex flex-col">
                 <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-sm bg-white dark:bg-slate-900 p-2">
                   <Image
                     src={
+                      study.highlightImages?.screen1 ||
                       study.highlightImages?.categoriesMockup ||
-                      "/images/case-studies/parts-connexion/parts-connexion-product-categories-ui-card.jpg"
+                      heroShowcaseImage
                     }
-                    alt="Parts Connexion categorized automotive spare parts navigation"
+                    alt={
+                      study.highlightImages?.screen1Alt ||
+                      `${study.client} feature showcase screen`
+                    }
                     fill
                     sizes="(max-width: 768px) 100vw, 300px"
                     className="object-contain"
@@ -609,66 +835,32 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
                 </div>
                 <div className="text-left mt-2">
                   <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-                    Product Categories
+                    {study.highlightImages?.screen1Title || "Feature Overview"}
                   </span>
                 </div>
               </div>
 
-              {/* 2. Featured Products Screen (Styled UI Card) */}
+              {/* 2. Feature Screen 2 */}
               <div className="flex flex-col">
-                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-sm bg-white dark:bg-white/[0.03] p-3.5 flex flex-col justify-between">
-                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-2">
-                    <span className="text-[11px] font-bold text-slate-900 dark:text-white">
-                      Featured Products
-                    </span>
-                    <span className="text-[10px] text-brand-electric dark:text-brand-cyan font-bold">
-                      View All
-                    </span>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 my-1">
-                    <div className="p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 space-y-1">
-                      <div className="text-[10px] font-bold text-slate-900 dark:text-white truncate">
-                        Turbocharger
-                      </div>
-                      <div className="text-[10px] font-extrabold text-brand-electric dark:text-brand-cyan">
-                        $849.00
-                      </div>
-                    </div>
-                    <div className="p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 space-y-1">
-                      <div className="text-[10px] font-bold text-slate-900 dark:text-white truncate">
-                        Ceramic Brake
-                      </div>
-                      <div className="text-[10px] font-extrabold text-brand-electric dark:text-brand-cyan">
-                        $89.50
-                      </div>
-                    </div>
-                    <div className="p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 space-y-1">
-                      <div className="text-[10px] font-bold text-slate-900 dark:text-white truncate">
-                        Spark Plugs
-                      </div>
-                      <div className="text-[10px] font-extrabold text-brand-electric dark:text-brand-cyan">
-                        $45.00
-                      </div>
-                    </div>
-                    <div className="p-2 rounded-xl bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/5 space-y-1">
-                      <div className="text-[10px] font-bold text-slate-900 dark:text-white truncate">
-                        Oil Filter
-                      </div>
-                      <div className="text-[10px] font-extrabold text-brand-electric dark:text-brand-cyan">
-                        $28.00
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-1 border-t border-slate-100 dark:border-white/10 flex items-center justify-between text-[10px] text-slate-500">
-                    <span>40,000+ SKUs</span>
-                    <span className="text-emerald-500 font-bold">In Stock</span>
-                  </div>
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-sm bg-white dark:bg-slate-900 p-2">
+                  <Image
+                    src={
+                      study.highlightImages?.screen2 ||
+                      study.highlightImages?.homepageMockup ||
+                      heroShowcaseImage
+                    }
+                    alt={
+                      study.highlightImages?.screen2Alt ||
+                      `${study.client} interactive workflow screen`
+                    }
+                    fill
+                    sizes="(max-width: 768px) 100vw, 300px"
+                    className="object-contain"
+                  />
                 </div>
                 <div className="text-left mt-2">
                   <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-                    Featured Products
+                    {study.highlightImages?.screen2Title || "Key Workflows"}
                   </span>
                 </div>
               </div>
@@ -678,10 +870,14 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
                 <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-sm bg-slate-50 dark:bg-slate-900 p-2">
                   <Image
                     src={
+                      study.highlightImages?.screen3 ||
                       study.highlightImages?.mobileMockup ||
-                      "/images/case-studies/parts-connexion/parts-connexion-mobile-responsive-ecommerce-screen.jpg"
+                      heroShowcaseImage
                     }
-                    alt="Parts Connexion mobile optimized e-commerce interface"
+                    alt={
+                      study.highlightImages?.screen3Alt ||
+                      `${study.client} mobile responsive screen interface`
+                    }
                     fill
                     sizes="(max-width: 768px) 100vw, 300px"
                     className="object-contain"
@@ -689,50 +885,32 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
                 </div>
                 <div className="text-left mt-2">
                   <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-                    Mobile View
+                    {study.highlightImages?.screen3Title || "Mobile View"}
                   </span>
                 </div>
               </div>
 
-              {/* 4. Product Detail Screen (Styled UI Card) */}
+              {/* 4. Feature Screen 4 */}
               <div className="flex flex-col">
-                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-sm bg-white dark:bg-white/[0.03] p-3.5 flex flex-col justify-between">
-                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-white/10 pb-2">
-                    <span className="text-[11px] font-bold text-slate-900 dark:text-white">
-                      Product Detail
-                    </span>
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-                      Verified Fit
-                    </span>
-                  </div>
-
-                  <div className="space-y-1.5 my-1">
-                    <div className="text-xs font-extrabold text-slate-900 dark:text-white">
-                      Vented Brake Rotor Disc
-                    </div>
-                    <div className="flex items-center gap-1 text-amber-400 text-[10px]">
-                      {"★".repeat(5)} <span className="text-slate-500 text-[9px]">(142)</span>
-                    </div>
-                    <div className="text-sm font-black text-brand-electric dark:text-brand-cyan">
-                      $149.00
-                    </div>
-                  </div>
-
-                  <div className="pt-2 border-t border-slate-100 dark:border-white/10 flex items-center gap-2">
-                    <div className="px-2 py-1 rounded-lg border border-slate-200 dark:border-white/15 text-[10px] font-bold">
-                      Qty: 1
-                    </div>
-                    <button
-                      type="button"
-                      className="flex-1 py-1 rounded-lg bg-gradient-brand text-white font-bold text-[10px] shadow-sm text-center"
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-sm bg-white dark:bg-slate-900 p-2">
+                  <Image
+                    src={
+                      study.highlightImages?.screen4 ||
+                      study.highlightImages?.homepageMockup ||
+                      heroShowcaseImage
+                    }
+                    alt={
+                      study.highlightImages?.screen4Alt ||
+                      `${study.client} conversion detail interface`
+                    }
+                    fill
+                    sizes="(max-width: 768px) 100vw, 300px"
+                    className="object-contain"
+                  />
                 </div>
                 <div className="text-left mt-2">
                   <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-                    Product Detail
+                    {study.highlightImages?.screen4Title || "Contact & Inquiries"}
                   </span>
                 </div>
               </div>
@@ -750,13 +928,9 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               {/* Left: Client Headshot Photo */}
               <div className="lg:col-span-3 flex justify-center lg:justify-start">
-                <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-brand-electric/20 dark:border-brand-cyan/30 shadow-md">
+                <div className="relative w-28 h-28 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border-2 border-brand-electric/20 dark:border-brand-cyan/30 shadow-md bg-slate-100 dark:bg-slate-800">
                   <Image
-                    src={
-                      study.slug === "parts-connexion"
-                        ? "/images/case-studies/parts-connexion/michael-roberts-founder-parts-connexion.jpg"
-                        : "/images/services/seo/rohan-mehta-founder-testimonial.jpg"
-                    }
+                    src={clientHeadshot}
                     alt={study.clientQuote?.author || study.client}
                     fill
                     sizes="150px"
@@ -771,14 +945,14 @@ export default function CaseStudyDetail({ params }: CaseStudyPageProps) {
                   “
                 </div>
                 <p className="text-sm sm:text-base text-slate-700 dark:text-slate-200 italic leading-relaxed font-normal">
-                  &ldquo;{study.clientQuote?.quote || "Nexovio delivered a modern, user-friendly website that perfectly fits our brand and business needs. The team was professional, responsive and easy to work with."}&rdquo;
+                  &ldquo;{study.clientQuote?.quote}&rdquo;
                 </p>
                 <div>
                   <div className="text-sm font-bold text-slate-900 dark:text-white">
-                    {study.clientQuote?.author || "Michael Roberts"}
+                    {study.clientQuote?.author}
                   </div>
                   <div className="text-xs text-slate-500 dark:text-slate-400">
-                    {study.clientQuote?.role || "Founder"}, {study.clientQuote?.company || study.client}
+                    {study.clientQuote?.role}, {study.clientQuote?.company}
                   </div>
                 </div>
               </div>
