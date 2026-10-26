@@ -20,7 +20,6 @@ export const metadata: Metadata = generatePageMetadata({
     "digital marketing consultation",
   ],
   path: "/services/seo-digital-marketing",
-  ogImage: "/images/services/seo/seo-digital-marketing-specialist-laptop.jpg",
 });
 
 export default function Page() {
