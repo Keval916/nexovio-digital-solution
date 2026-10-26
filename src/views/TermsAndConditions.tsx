@@ -7,7 +7,7 @@ export default function TermsPage() {
   const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL || "info@nexoviodigitalsolutions.com";
 
   return (
-    <div className="pt-28 pb-20 bg-background">
+    <div className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <Breadcrumbs items={[{ name: "Terms & Conditions", url: "/terms-and-conditions" }]} />
 

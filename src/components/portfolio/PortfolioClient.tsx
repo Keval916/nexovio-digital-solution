@@ -48,8 +48,7 @@ export function PortfolioClient() {
 
   return (
     <div>
-      {/* 1. Hero & Category Filter Section (White) */}
-      <section className="section-white pt-24 sm:28 md:pt-32 lg:pt-40 pb-8">
+      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Breadcrumbs items={[{ name: "Portfolio", url: "/portfolio" }]} />
 

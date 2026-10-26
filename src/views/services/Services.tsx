@@ -224,8 +224,7 @@ export default function ServicesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
 
-      {/* 1. HERO SECTION (Full-Width Section with Internal max-w-7xl Container) */}
-      <section className="pt-24 sm:pt-28 md:pt-32 lg:pt-40 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         {/* Background Radial Glow & Futuristic Grid Lines */}
         <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
         <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />

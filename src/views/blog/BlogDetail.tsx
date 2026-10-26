@@ -410,7 +410,7 @@ export default function SingleBlogArticlePage({
   }
 
   return (
-    <article className="pt-24 pb-20 bg-background text-foreground min-h-screen selection:bg-brand-cyan/20 selection:text-brand-cyan relative">
+    <article className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background text-foreground min-h-screen selection:bg-brand-cyan/20 selection:text-brand-cyan relative">
       {/* FLOATING LEFT SHARE RAIL (Desktop XL screens only - Clean & Uncluttered) */}
       <aside className="hidden xl:flex fixed left-6 top-1/2 -translate-y-1/2 z-40 flex-col items-center gap-3 p-2 rounded-2xl bg-surface-elevated/90 border border-border-subtle shadow-xl backdrop-blur-md">
         <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted py-1 px-1">

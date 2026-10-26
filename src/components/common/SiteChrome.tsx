@@ -20,7 +20,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
     <div className="flex flex-col min-h-screen">
       <ScrollToTop />
       <Header />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 mt-[122px]">{children}</main>
       <Footer />
       <CookieConsent />
       <LeadCaptureScrollModal />

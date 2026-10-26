@@ -38,6 +38,7 @@ export function generateMetadata({ params }: CaseStudyPageProps) {
       "Nexovio Digital Solutions",
     ],
     path: `/case-studies/${study.slug}`,
+    ogImage: study.coverImage,
   });
 }
 

@@ -358,7 +358,7 @@ export default function WebDesignPage() {
       {/* =================================================================== */}
       {/* 1. HERO SECTION (Matching Reference Mockup 1:1)                      */}
       {/* =================================================================== */}
-      <section className="pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         {/* Ambient Subtle Glow Accents */}
         <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-60" />
         <div className="absolute -top-36 -right-36 w-96 h-96 bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />

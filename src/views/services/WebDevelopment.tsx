@@ -266,7 +266,7 @@ export default function WebDevelopmentPage() {
       {/* =================================================================== */}
       {/* 1. HERO SECTION (Custom Web Development Solutions for Your Business) */}
       {/* =================================================================== */}
-      <section className="pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         {/* Ambient Glow Accents */}
         <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-60" />
         <div className="absolute -top-36 -right-36 w-96 h-96 bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
@@ -281,6 +281,12 @@ export default function WebDevelopmentPage() {
                 { name: "Web Development", url: "/services/web-development" },
               ]}
             />
+          </div>
+
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold tracking-wide border border-brand-cyan/30 bg-surface-elevated text-brand-bright shadow-xs mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-bright animate-pulse" />
+            <span>WEB DEVELOPMENT SERVICES</span>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">

@@ -755,9 +755,7 @@ export default function GraphicDesignPage() {
       />
 
       {/* ================================================================== */}
-      {/* 1. HERO BANNER SECTION                                             */}
-      {/* ================================================================== */}
-      <section className="pt-24 sm:pt-28 md:pt-32 lg:pt-40 pb-20 bg-background relative overflow-hidden">
+      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumbs */}
           <Breadcrumbs

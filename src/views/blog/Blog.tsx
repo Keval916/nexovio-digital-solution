@@ -192,7 +192,7 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
   };
 
   return (
-    <div className="pt-20 pb-20 bg-background text-foreground min-h-screen">
+    <div className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background text-foreground min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

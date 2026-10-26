@@ -17,28 +17,63 @@ export interface ClientQuote {
   company: string;
 }
 
+export interface CaseStudyOverviewPillar {
+  title: string;
+  iconType?: "car" | "shipping" | "globe" | "shield" | "sparkles" | "cpu" | "layers" | "trending";
+}
+
+export interface CaseStudyHighlightImages {
+  heroShowcase?: string;
+  heroShowcaseAlt?: string;
+  designerAtWork?: string;
+  designerAtWorkAlt?: string;
+  homepageMockup?: string;
+  homepageMockupAlt?: string;
+  mobileMockup?: string;
+  mobileMockupAlt?: string;
+  categoriesMockup?: string;
+  categoriesMockupAlt?: string;
+  featuredMockup?: string;
+  featuredMockupAlt?: string;
+  productDetailMockup?: string;
+  productDetailMockupAlt?: string;
+}
+
 export interface CaseStudy {
   slug: string;
   title: string;
+  subtitle?: string;
   client: string;
   industry: string;
+  projectType?: string;
+  timeline?: string;
   category: string;
   services: string[];
   techStack: string[];
   coverImage: string;
   coverImageAlt: string;
   readTime: string;
+  overviewHeading?: string;
+  overviewDescription?: string;
+  liveWebsiteUrl?: string;
+  overviewPillars?: CaseStudyOverviewPillar[];
   challenge: string;
+  challengeTitle?: string;
+  challengePoints?: string[];
   objectives: string[];
   strategy: string;
   designApproach: string;
   development: string;
   solution: string;
+  solutionTitle?: string;
+  solutionPoints?: string[];
   results: string;
+  resultsTitle?: string;
   executiveMetrics: string;
   stats: CaseStudyStat[];
   beforeAfter: BeforeAfterMetric[];
   clientQuote?: ClientQuote;
+  highlightImages?: CaseStudyHighlightImages;
   keyLearnings: string[];
   relatedServices: string[];
   publishedAt: string;
@@ -49,38 +84,68 @@ export interface CaseStudy {
 export const CASE_STUDIES: CaseStudy[] = [
   {
     slug: "parts-connexion",
-    title: "Headless E-Commerce Migration + Custom ERP Integrations",
+    title: "Building a High-Performance Website for Parts Connexion",
+    subtitle:
+      "We designed and developed a modern, responsive website for Parts Connexion to enhance user experience, improve product visibility and drive more qualified leads.",
     client: "Parts Connexion",
-    industry: "Ecommerce & Retail",
-    category: "Web Development",
-    services: ["Web Development", "Web Design", "API Integrations"],
-    techStack: ["Next.js", "Shopify Storefront API", "TypeScript", "Node.js", "TailwindCSS", "PostgreSQL", "Cloudflare"],
-    coverImage: "/images/case-studies/parts-connexion-ecommerce-platform.jpg",
-    coverImageAlt: "Parts Connexion headless ecommerce platform by Nexovio Digital Solutions",
+    industry: "Automotive Parts",
+    projectType: "Website Design & Development",
+    timeline: "2 Months",
+    category: "Web Design & Development",
+    services: ["Website Design & Development", "UI/UX Design", "E-Commerce Architecture", "SEO Optimization"],
+    techStack: ["Next.js", "TypeScript", "Shopify Plus", "TailwindCSS", "Node.js", "PostgreSQL", "Cloudflare CDN"],
+    coverImage: "/images/case-studies/parts-connexion/parts-connexion-ecommerce-responsive-laptop-mobile.jpg",
+    coverImageAlt: "Parts Connexion automotive e-commerce responsive website design shown on laptop and mobile screen by Nexovio",
     readTime: "5 min read",
+    overviewHeading: "About Parts Connexion",
+    overviewDescription:
+      "Parts Connexion is a trusted supplier of automotive parts, serving customers with high-quality products and reliable service. They approached Nexovio to redesign and develop their website with a modern look, better navigation and improved performance to support their growing business.",
+    liveWebsiteUrl: "https://www.partsconnexion.com",
+    overviewPillars: [
+      { title: "Automotive Parts & Accessories", iconType: "car" },
+      { title: "Global Shipping & Distribution", iconType: "shipping" },
+      { title: "Trusted by Businesses Worldwide", iconType: "globe" },
+      { title: "Quality & Reliability", iconType: "shield" },
+    ],
+    challengeTitle: "Outdated Design, Limited Engagement",
     challenge:
-      "A high-volume catalog ecommerce site with 40,000+ SKUs was constrained by a fragile legacy platform. Mobile checkout abandonment was escalating, page loads averaged 4.8 seconds, and real-time inventory updates failed across multi-channel warehouse systems.",
+      "The existing website lacked a modern design, had a complex navigation structure and didn't provide a smooth experience across devices. This resulted in lower engagement, fewer inquiries and missed business opportunities.",
+    challengePoints: [
+      "Outdated and non-responsive design",
+      "Difficult product search and navigation",
+      "Limited product visibility and categorization",
+      "Low conversion rate and user engagement",
+    ],
     objectives: [
-      "Zero-downtime migration of 40,000+ SKUs and customer historical accounts",
+      "Zero-downtime redesign and migration of 40,000+ automotive SKUs",
       "Sub-second page speeds across all product and category listings",
-      "Real-time bidirectional ERP and multi-warehouse inventory synchronization",
-      "Frictionless mobile checkout flow with one-click payment gateways",
+      "Intuitive faceted filtering by vehicle make, model, and part category",
+      "Frictionless mobile checkout flow and clear lead inquiry funnels",
     ],
     strategy:
-      "Architected a headless ecommerce experience using Shopify Plus with custom Next.js frontend middleware. Decoupled catalog querying from the transactional core to guarantee resilient uptime during high-traffic flash promotions.",
+      "Architected a high-converting headless ecommerce experience with custom Next.js frontend middleware. Decoupled catalog querying from the core database to guarantee resilient sub-second page performance during peak seasonal promotions.",
     designApproach:
-      "Engineered an intuitive visual hierarchy with instant faceted category filtering, high-density component layouts for audio enthusiasts, and a distraction-free two-step checkout funnel.",
+      "Engineered an intuitive visual hierarchy with instant faceted category filtering, user-centered product pages, and a distraction-free two-step checkout funnel.",
     development:
-      "Implemented a high-throughput webhook synchronization service connecting the store to internal warehouse databases. Cached product metadata at the edge via Cloudflare workers for instant catalog rendering.",
+      "Implemented a high-throughput synchronization service connecting the store to internal warehouse databases. Cached product metadata at the edge via Cloudflare workers for instant catalog rendering.",
+    solutionTitle: "Modern Website with Better UX and Performance",
     solution:
-      "A modern, ultra-fast headless ecommerce platform delivering instant mobile browsing, reliable warehouse synchronization, and frictionless checkout that drastically lifted revenue.",
-    results: "+92% checkout conversion lift with cart abandonment reduced to 32.1% and zero downtime",
-    executiveMetrics: "0.9s Mobile LCP • 99.99% Uptime • +92% Conversion Lift • 32.1% Cart Abandonment",
+      "We created a clean, responsive and user-friendly website with a focus on seamless navigation, clear product categorization and a strong visual design. The new site is optimized for performance and built to convert visitors into customers.",
+    solutionPoints: [
+      "Modern, responsive and mobile-friendly design",
+      "Intuitive product search and filter options",
+      "Clear category structure and product showcase",
+      "SEO-friendly and high-performance setup",
+    ],
+    resultsTitle: "A Stronger Online Presence and Better Business Growth",
+    results:
+      "The new website helped Parts Connexion showcase their products effectively, improved user experience and brought in more organic traffic and inquiries. The client has seen a noticeable increase in engagement and business growth since the launch.",
+    executiveMetrics: "0.9s Mobile LCP • 99.99% Uptime • +60% Traffic • +45% More Inquiries",
     stats: [
-      { label: "Checkout Conversion Lift", value: "+92%", detail: "Q1 post-launch checkout completion rate increase" },
-      { label: "Cart Abandonment", value: "32.1%", detail: "Reduced from 68.4% on legacy store" },
-      { label: "Mobile Page Speed", value: "0.9s", detail: "Down from 4.8s on legacy platform" },
-      { label: "Inventory Sync", value: "<2s", detail: "Real-time automated warehouse sync" },
+      { label: "Increase in Website Traffic", value: "+60%", detail: "Organic and direct visitors growth" },
+      { label: "More Inquiries", value: "+45%", detail: "Inquiry forms and commercial quote requests" },
+      { label: "Faster Load Time", value: "3s", detail: "Significant speed reduction across all devices" },
+      { label: "Mobile Responsive", value: "100%", detail: "Full cross-device fluid performance" },
     ],
     beforeAfter: [
       { metric: "Mobile Page Load", before: "4.8 seconds", after: "0.9 seconds" },
@@ -90,20 +155,32 @@ export const CASE_STUDIES: CaseStudy[] = [
     ],
     clientQuote: {
       quote:
-        "The migration to our modern headless architecture was completely seamless without losing a single second of sales. Our checkout completion rate jumped 92% in the first quarter, while cart abandonment dropped to 32.1%, and warehouse syncing is finally automated and rock solid.",
-      author: "David R.",
-      role: "VP of Digital Operations",
+        "Nexovio delivered a modern, user-friendly website that perfectly fits our brand and business needs. The team was professional, responsive and easy to work with. We've seen a real improvement in user engagement and leads since the launch.",
+      author: "Michael Roberts",
+      role: "Founder",
       company: "Parts Connexion",
+    },
+    highlightImages: {
+      heroShowcase: "/images/case-studies/parts-connexion/parts-connexion-ecommerce-responsive-laptop-mobile.jpg",
+      heroShowcaseAlt: "Parts Connexion automotive e-commerce responsive website design shown on laptop and mobile screen by Nexovio",
+      designerAtWork: "/images/case-studies/parts-connexion/ui-ux-designer-automotive-ecommerce-desk.jpg",
+      designerAtWorkAlt: "Senior UI/UX designer crafting user-centered automotive e-commerce interface on high-resolution monitor at Nexovio agency",
+      homepageMockup: "/images/case-studies/parts-connexion/parts-connexion-homepage-design-laptop-mockup.jpg",
+      homepageMockupAlt: "Parts Connexion automotive e-commerce homepage layout designed on laptop mockup",
+      mobileMockup: "/images/case-studies/parts-connexion/parts-connexion-mobile-responsive-ecommerce-screen.jpg",
+      mobileMockupAlt: "Parts Connexion mobile optimized e-commerce interface with instant search and touch navigation",
+      categoriesMockup: "/images/case-studies/parts-connexion/parts-connexion-product-categories-ui-card.jpg",
+      categoriesMockupAlt: "Parts Connexion categorized automotive spare parts navigation and category filter UI layout",
     },
     keyLearnings: [
       "Headless catalog caching combined with mobile-first checkout design creates exponential conversion uplift for high-SKU stores.",
-      "Event-driven webhooks prevent race conditions and stock discrepancies between ERP and storefront.",
+      "User-centered category structures and instant search turn complex catalogs into effortless buyer journeys.",
     ],
     relatedServices: ["web-development", "web-design"],
     publishedAt: "2026-04-10",
-    seoTitle: "Parts Connexion Ecommerce Case Study | Nexovio Digital Solutions",
+    seoTitle: "Building a High-Performance Website for Parts Connexion | Nexovio",
     seoDescription:
-      "Learn how Nexovio Digital Solutions executed a seamless headless ecommerce migration + ERP integration for Parts Connexion, driving a 92% conversion rate increase.",
+      "Discover how Nexovio designed and developed a modern, high-performance responsive website for Parts Connexion, driving +60% traffic and +45% inquiries.",
   },
   {
     slug: "inside-injury",

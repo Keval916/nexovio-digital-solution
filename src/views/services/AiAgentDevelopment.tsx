@@ -735,10 +735,7 @@ export default function AiAgentDevelopment() {
 
       <main id="main-content" className="relative min-h-screen bg-slate-50 dark:bg-[#040814] text-slate-900 dark:text-white transition-colors duration-300">
 
-        {/* =================================================================== */}
-        {/* 1. HERO SECTION                                                     */}
-        {/* =================================================================== */}
-        <section id="hero" className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden border-b border-slate-200 dark:border-white/5">
+        <section id="hero" className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
           {/* Subtle Ambient Aura */}
           <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-6xl h-[600px] bg-gradient-to-tr from-blue-600/10 via-cyan-400/15 to-indigo-600/10 blur-[130px] pointer-events-none rounded-full" />
 

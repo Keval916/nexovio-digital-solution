@@ -538,8 +538,7 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
 
-      {/* 1. HERO BANNER (Left Content, Right Image - webp) */}
-      <section className="section-white pt-24 sm:28 md:pt-32 lg:pt-40 pb-12 sm:pb-16 border-b border-border-subtle/50">
+      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Breadcrumbs */}
           <Breadcrumbs items={[{ name: "About", url: "/about" }]} />

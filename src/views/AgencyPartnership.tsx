@@ -407,10 +407,9 @@ export default function AgencyPartnershipClient() {
 
   return (
     <div className="bg-background text-foreground min-h-screen">
-      {/* 1. HERO SECTION */}
       <section
         id="overview"
-        className="relative pt-24 sm:28 md:pt-32 lg:pt-40 pb-16 lg:pb-24 overflow-hidden border-b border-border-subtle"
+        className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden"
       >
         {/* Ambient background glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[550px] bg-radial-glow pointer-events-none opacity-60" />
