@@ -26,7 +26,7 @@ export function CookieConsent() {
           requestAnimationFrame(() => {
             setTimeout(() => setVisible(true), 20);
           });
-        }, 300);
+        }, 1800);
         return () => clearTimeout(timer);
       }
     } catch {

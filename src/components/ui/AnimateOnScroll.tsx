@@ -85,45 +85,67 @@ export function AnimateOnScroll({
   useEffect(() => {
     if (!ref.current) return;
 
-    const ctx = gsap.context(() => {
-      const config = VARIANT_CONFIG[variant];
+    let ctx: gsap.Context | null = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let timerId: any = null;
 
-      if (variant === "staggerChildren") {
-        // Animate direct children with stagger
-        const children = ref.current!.children;
-        if (children.length === 0) return;
+    const init = () => {
+      if (!ref.current) return;
+      ctx = gsap.context(() => {
+        const config = VARIANT_CONFIG[variant];
 
-        gsap.set(children, config.from);
-        gsap.to(children, {
-          ...config.to,
-          duration,
-          delay,
-          stagger,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ref.current,
-            start,
-            toggleActions: "play none none none",
-          },
-        });
+        if (variant === "staggerChildren") {
+          // Animate direct children with stagger
+          const children = ref.current!.children;
+          if (children.length === 0) return;
+
+          gsap.set(children, config.from);
+          gsap.to(children, {
+            ...config.to,
+            duration,
+            delay,
+            stagger,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ref.current,
+              start,
+              toggleActions: "play none none none",
+            },
+          });
+        } else {
+          // Animate the wrapper itself
+          gsap.set(ref.current!, config.from);
+          gsap.to(ref.current!, {
+            ...config.to,
+            duration,
+            delay,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ref.current,
+              start,
+              toggleActions: "play none none none",
+            },
+          });
+        }
+      }, ref);
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      timerId = (window as any).requestIdleCallback(init, { timeout: 1200 });
+    } else {
+      timerId = setTimeout(init, 40);
+    }
+
+    return () => {
+      if (typeof window !== "undefined" && "cancelIdleCallback" in window && typeof timerId === "number") {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (window as any).cancelIdleCallback(timerId);
       } else {
-        // Animate the wrapper itself
-        gsap.set(ref.current!, config.from);
-        gsap.to(ref.current!, {
-          ...config.to,
-          duration,
-          delay,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ref.current,
-            start,
-            toggleActions: "play none none none",
-          },
-        });
+        clearTimeout(timerId);
       }
-    }, ref);
-
-    return () => ctx.revert();
+      ctx?.revert();
+    };
   }, [variant, delay, duration, start, stagger]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

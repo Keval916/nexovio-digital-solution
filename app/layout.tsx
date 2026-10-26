@@ -152,20 +152,37 @@ export default function RootLayout({
         <GoogleAnalytics />
         <GoogleTagManager />
         <SiteChrome>{children}</SiteChrome>
-        {/* Tawk.to Live Chat Script */}
+        {/* Tawk.to Live Chat Script - Deferred to user interaction or idle to eliminate Total Blocking Time (TBT) */}
         <Script
           id="tawk-to-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
-              var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
               (function(){
-              var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-              s1.async=true;
-              s1.src='https://embed.tawk.to/6aaf91985454c934401856d2/1k2ut1ff4';
-              s1.charset='UTF-8';
-              s1.setAttribute('crossorigin','*');
-              s0.parentNode.insertBefore(s1,s0);
+                var loaded = false;
+                function loadTawk(){
+                  if (loaded) return;
+                  loaded = true;
+                  window.Tawk_API = window.Tawk_API || {};
+                  window.Tawk_LoadStart = new Date();
+                  var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+                  s1.async = true;
+                  s1.src = 'https://embed.tawk.to/6aaf91985454c934401856d2/1k2ut1ff4';
+                  s1.charset = 'UTF-8';
+                  s1.setAttribute('crossorigin', '*');
+                  if (s0 && s0.parentNode) {
+                    s0.parentNode.insertBefore(s1, s0);
+                  } else {
+                    document.head.appendChild(s1);
+                  }
+                }
+                var events = ['scroll', 'mousemove', 'touchstart', 'click', 'keydown'];
+                function triggerLoad(){
+                  events.forEach(function(e){ window.removeEventListener(e, triggerLoad); });
+                  loadTawk();
+                }
+                events.forEach(function(e){ window.addEventListener(e, triggerLoad, { passive: true, once: true }); });
+                setTimeout(loadTawk, 4500);
               })();
             `,
           }}

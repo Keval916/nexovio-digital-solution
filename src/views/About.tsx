@@ -519,7 +519,7 @@ export default function AboutPage() {
   const faqSchema = getFaqSchema(ABOUT_FAQS);
 
   return (
-    <div className="pt-20 bg-background text-foreground min-h-screen">
+    <div className="bg-background text-foreground min-h-screen">
       {/* JSON-LD STRUCTURED DATA */}
       <script
         type="application/ld+json"
