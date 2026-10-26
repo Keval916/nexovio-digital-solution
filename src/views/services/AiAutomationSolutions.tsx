@@ -332,7 +332,7 @@ const BUSINESS_USE_CASES: BusinessAreaUseCase[] = [
     badge: "COMPLIANCE",
     workflows:
       "Automated KYC document extraction, bank statement analysis, credit bureau API cross-referencing, debt-to-income calculation, and loan packaging.",
-    businessOutcome: "Loan intake turnaround cut from 4 days to under 12 minutes with 99.8% field accuracy.",
+    businessOutcome: "Loan intake turnaround cut from 4 days to under 12 minutes with audited schema extraction.",
     icon: Landmark,
   },
   {
@@ -907,8 +907,8 @@ export default function AiAutomationSolutions() {
                       description: "Adaptive vision models self-heal when web portal layouts change, preventing 95% of traditional RPA breaks.",
                     },
                     {
-                      title: "99.8%+ Data Extraction Accuracy",
-                      description: "Multimodal LLMs parse messy PDF tables, handwritten invoices, and contracts with strict schema validation.",
+                      title: "Schema-Validated Extraction Accuracy",
+                      description: "Multimodal LLMs parse complex PDF tables, invoices, and contracts with strict JSON schema validation.",
                     },
                     {
                       title: "Human-in-the-Loop Safeguards",

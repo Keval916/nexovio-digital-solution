@@ -163,9 +163,9 @@ const CHATBOT_SERVICES: ChatbotServiceItem[] = [
     number: "03",
     badge: "FACTUAL GROUNDING",
     title: "RAG & Knowledge Base Chatbots",
-    tagline: "Zero-Hallucination Answers Grounded in Your Verified Company Documents",
+    tagline: "Accurate Answers Grounded in Your Verified Company Documents",
     description:
-      "Connect conversational bots to your proprietary knowledge base, manuals, policy documents, and databases using Retrieval-Augmented Generation (RAG) for verifiable, citation-backed answers with zero hallucination.",
+      "Connect conversational bots to your proprietary knowledge base, manuals, policy documents, and databases using Retrieval-Augmented Generation (RAG) for verifiable, citation-backed answers with strict factual guardrails.",
     keywordCluster: "RAG AI chatbots · knowledge base conversational search",
     image: "/images/services/ai-chatbots/rag-knowledge-chatbot-card.jpg",
     imageAlt: "Data engineers inspecting a Retrieval-Augmented Generation RAG AI chatbot with vector embeddings index and document search citations",
@@ -460,7 +460,7 @@ const CORE_CAPABILITIES = [
   },
   {
     title: "RAG Enterprise Knowledge Grounding",
-    desc: "Responses anchored in trusted enterprise documentation with zero hallucinations and verified inline citations.",
+    desc: "Responses anchored in trusted enterprise documentation with citation-backed retrieval and factual verification.",
     icon: Database,
   },
   {
@@ -797,7 +797,7 @@ export default function AiChatbotDevelopment() {
                       "RAG Document Grounding",
                       "WhatsApp Business API",
                       "CRM & ERP Tool Calling",
-                      "Zero Hallucination Guardrails",
+                      "Factual Grounding Guardrails",
                     ].map((badge) => (
                       <span
                         key={badge}
@@ -947,7 +947,7 @@ export default function AiChatbotDevelopment() {
                     },
                     {
                       title: "Grounded in Your Approved Company Data",
-                      description: "Connects directly to your internal documents, knowledge base, and product catalogs to provide verified, hallucination-free answers.",
+                      description: "Connects directly to your internal documents, knowledge base, and product catalogs to provide verified, citation-backed answers.",
                     },
                     {
                       title: "Dynamic Tool & API Execution",

@@ -31,6 +31,8 @@ export const ROUTES = [
   "/case-studies/infiniti-home-comfort",
   "/case-studies/fintech-mobile-app",
   "/case-studies/b2b-digital-platform",
+  "/case-studies/lumina-health-patient-experience",
+  "/case-studies/pulse-logistics-organic-growth-engine",
   "/blog",
   "/blog/headless-cms-architecture-scalability",
   "/blog/mastering-core-web-vitals-performance",

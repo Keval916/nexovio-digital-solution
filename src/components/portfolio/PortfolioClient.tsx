@@ -65,7 +65,7 @@ export function PortfolioClient() {
                 </span>
               </h1>
               <p className="mt-6 text-base sm:text-lg text-muted leading-relaxed">
-                Explore curated web applications, bespoke digital interfaces, and organic growth architectures delivered across our five core disciplines.
+                Explore curated web applications, bespoke digital interfaces, and organic growth architectures delivered across our core digital engineering disciplines.
               </p>
             </div>
           </AnimateOnScroll>

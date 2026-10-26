@@ -18,13 +18,11 @@ import {
   ShieldCheck,
   Check,
 } from "lucide-react";
-import { trackEvent } from "@/src/lib/analytics";
+import { trackEvent, trackFormSubmit } from "@/src/lib/analytics";
 
 // Storage Keys
-const SHOWN_KEY = "nexovio_growth_modal_shown";
-const DISMISSED_KEY = "nexovio_growth_modal_dismissed_until";
+const DISMISSED_SESSION_KEY = "nexovio_growth_modal_dismissed";
 const SUBMITTED_KEY = "nexovio_growth_modal_submitted_until";
-const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
 interface OfferConfig {
@@ -135,7 +133,7 @@ export function LeadCaptureScrollModal() {
 
   // Trigger State
   const hasTriggeredRef = useRef(false);
-  const triggerSourceRef = useRef<"scroll_55_percent" | "timer_25s">("scroll_55_percent");
+  const triggerSourceRef = useRef<"scroll_150px" | "timer_25s">("scroll_150px");
 
   // Determine current offer configuration
   const currentOffer: OfferConfig = PAGE_OFFERS[pathname || "/"] || DEFAULT_OFFER;
@@ -143,23 +141,11 @@ export function LeadCaptureScrollModal() {
   // Route exclusions
   const isExcludedRoute =
     pathname?.startsWith("/admin") ||
+    pathname?.startsWith("/blog/") ||
     pathname === "/contact" ||
     pathname === "/schedule-a-call" ||
     pathname === "/privacy-policy" ||
     pathname === "/terms-and-conditions";
-
-  // Check if another blocking modal/dialog is open
-  const isAnotherModalActive = useCallback(() => {
-    if (typeof document === "undefined") return false;
-    const dialogs = document.querySelectorAll('[role="dialog"]');
-    // If another dialog exists that isn't our growth modal
-    for (const dialog of Array.from(dialogs)) {
-      if (dialog.getAttribute("aria-labelledby") !== "growth-modal-title") {
-        return true;
-      }
-    }
-    return false;
-  }, []);
 
   // Safe dismiss handler
   const dismissModal = useCallback(
@@ -171,10 +157,9 @@ export function LeadCaptureScrollModal() {
         dismiss_method: method,
       });
 
-      // Suppress for 7 days & mark as shown
+      // Suppress dismissal for current session so it doesn't repeatedly harass the user
       try {
-        localStorage.setItem(SHOWN_KEY, "true");
-        localStorage.setItem(DISMISSED_KEY, (Date.now() + SEVEN_DAYS_MS).toString());
+        sessionStorage.setItem(DISMISSED_SESSION_KEY, "true");
       } catch {}
 
       setTimeout(() => {
@@ -186,17 +171,11 @@ export function LeadCaptureScrollModal() {
 
   // Trigger modal display
   const triggerModal = useCallback(
-    (source: "scroll_55_percent" | "timer_25s") => {
-      if (hasTriggeredRef.current || isAnotherModalActive()) return;
+    (source: "scroll_150px" | "timer_25s") => {
+      if (hasTriggeredRef.current) return;
 
       hasTriggeredRef.current = true;
       triggerSourceRef.current = source;
-
-      // Immediately mark as shown in localStorage so refreshing or navigating never triggers it again
-      try {
-        localStorage.setItem(SHOWN_KEY, "true");
-        localStorage.setItem(DISMISSED_KEY, (Date.now() + SEVEN_DAYS_MS).toString());
-      } catch {}
 
       setIsRendered(true);
       setFormStartedAt(Date.now());
@@ -210,21 +189,20 @@ export function LeadCaptureScrollModal() {
         });
       });
     },
-    [pathname, currentOffer.offerKey, isAnotherModalActive]
+    [pathname, currentOffer.offerKey]
   );
 
-  // Set up 55% scroll and 25s timer triggers
+  // Set up 150px scroll trigger and 25s fallback timer
   useEffect(() => {
     if (isExcludedRoute || hasTriggeredRef.current) return;
 
-    // Check suppression limits: must come only ONE time, never on refresh or revisit
+    // Check suppression limits: don't show if already submitted or dismissed in this session
     try {
-      if (localStorage.getItem(SHOWN_KEY) === "true") {
-        return;
-      }
+      // Clear legacy permanent blocking keys if present in browser
+      localStorage.removeItem("nexovio_growth_modal_shown");
+      localStorage.removeItem("nexovio_growth_modal_dismissed_until");
 
-      const dismissedUntil = localStorage.getItem(DISMISSED_KEY);
-      if (dismissedUntil && Date.now() < parseInt(dismissedUntil, 10)) {
+      if (sessionStorage.getItem(DISMISSED_SESSION_KEY) === "true") {
         return;
       }
 
@@ -232,35 +210,33 @@ export function LeadCaptureScrollModal() {
       if (submittedUntil && Date.now() < parseInt(submittedUntil, 10)) {
         return;
       }
+
+      if (localStorage.getItem("nexovio_lead_submitted") === "true") {
+        return;
+      }
     } catch {}
 
-    // 1. 25-Second Active Timer Trigger
+    // 1. Fallback 25-Second Active Timer Trigger
     const timer = setTimeout(() => {
       if (!hasTriggeredRef.current) {
         triggerModal("timer_25s");
       }
     }, 25000);
 
-    // 2. 55% Scroll Trigger
+    // 2. 150px Scroll Trigger: Directly open modal once user scrolls past 150px
     const handleScroll = () => {
       if (hasTriggeredRef.current) return;
 
-      const docHeight = document.documentElement.scrollHeight;
-      const viewportHeight = window.innerHeight;
-      const scrollableDistance = docHeight - viewportHeight;
-
-      if (scrollableDistance > 0) {
-        const scrollPercent = window.scrollY / scrollableDistance;
-        if (scrollPercent >= 0.55) {
-          clearTimeout(timer);
-          window.removeEventListener("scroll", handleScroll);
-          triggerModal("scroll_55_percent");
-        }
+      const scrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      if (scrollY >= 150) {
+        clearTimeout(timer);
+        window.removeEventListener("scroll", handleScroll);
+        triggerModal("scroll_150px");
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    // Check initial scroll position
+    // Check initial scroll position immediately (e.g. reload or anchor link)
     handleScroll();
 
     return () => {
@@ -397,11 +373,12 @@ export function LeadCaptureScrollModal() {
           offer_type: currentOffer.offerKey,
           primary_goal: primaryGoal,
         });
+        trackFormSubmit("lead_capture_scroll_modal", currentOffer.offerKey);
 
-        // Suppress for 30 days & mark as permanently shown
+        // Suppress for 30 days & mark as submitted
         try {
-          localStorage.setItem(SHOWN_KEY, "true");
           localStorage.setItem(SUBMITTED_KEY, (Date.now() + THIRTY_DAYS_MS).toString());
+          localStorage.setItem("nexovio_lead_submitted", "true");
         } catch {}
       } else {
         setStatus("error");

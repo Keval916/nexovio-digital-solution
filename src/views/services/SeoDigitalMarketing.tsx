@@ -1,713 +1,354 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import type { Metadata } from "next";
 import {
   TrendingUp,
   Search,
   CheckCircle2,
-  LineChart,
-  Target,
-  ShieldAlert,
   ArrowRight,
   BarChart3,
   Globe,
   Sparkles,
   Zap,
   Check,
-  Building2,
   Users,
   Briefcase,
-  GraduationCap,
-  Home,
-  Utensils,
-  Stethoscope,
-  ShoppingBag,
-  FileCode,
-  Terminal,
-  Activity,
-  Lock,
-  Boxes,
-  Cpu,
-  Layers,
-  Smartphone,
-  PenTool,
-  RefreshCw,
-  ExternalLink,
+  Target,
+  Sliders,
   ShieldCheck,
-  Maximize2,
-  FileText,
-  BarChart2,
-  Eye,
+  Rocket,
+  Headphones,
   MousePointerClick,
-  Filter,
-  PieChart,
-  BookOpen,
-  Award,
-  Code2,
-  MapPin,
-  Compass,
-  CheckSquare,
+  Share2,
+  FileText,
+  Mail,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
 } from "lucide-react";
-import { getServiceBySlug } from "@/src/data/services";
 import { Breadcrumbs } from "@/src/components/layout/Breadcrumbs";
-import { SectionHeading } from "@/src/components/ui/SectionHeading";
 import { Button } from "@/src/components/ui/Button";
-import { Card } from "@/src/components/ui/Card";
-import { FaqSection } from "@/src/components/sections/FaqSection";
-import { generatePageMetadata } from "@/src/lib/seo";
+import { trackCtaClick } from "@/src/lib/analytics";
 import {
   getServiceSchema,
-  getBreadcrumbSchema,
   getFaqSchema,
   getOrganizationSchema,
 } from "@/src/lib/schema";
-
-const service = getServiceBySlug("seo-digital-marketing")!;
-
-
+import { FaqSection } from "@/src/components/sections/FaqSection";
 
 // ==========================================
-// DATA STRUCTURES FOR SEO & DIGITAL MARKETING
+// CUSTOM SOCIAL SVG ICONS FOR FLOATING BADGES
 // ==========================================
 
-const VALUE_PROPOSITION_PILLARS = [
-  {
-    title: "Fix technical barriers first",
-    description:
-      "Crawlability, indexation, canonical URLs, sitemaps, structured data, performance, and site architecture can all influence the speed at which a site is found and interpreted.",
-  },
-  {
-    title: "Target real search intent",
-    description:
-      "Keyword research is aligned with commercial, informational, and transactional intent, so the content answers questions relevant to the business."
-  },
-  {
-    title: "Focus on the page, not just the keyword",
-    description:
-      "Headings, internal links, meta data, content organization and image alt-text should all help make a page easier to scan for users and search engines."
-  },
-  {
-    title: "Actions over vanity metrics",
-    description:
-      "GA4, Google Tag Manager and conversion events enable tracking of search visibility to submissions, calls, clicks, downloads and other actions of substance."
-  },
-  {
-    title: "Keep Improving after Launch",
-    description:
-      "SEO is not a single upload. As search behavior changes, competitors change, site architecture evolves and content performance fluctuates, so should the priorities based on data."
-  },
-  {
-    title: "Protect trust through realistic claims",
-    description:
-      "We don’t promise #1 rankings or instant results, because search systems change and organic performance depends on so many factors."
-  },
-];
-
-interface CoreServiceItem {
-  id: string;
-  icon: any;
-  title: string;
-  tagline: string;
-  description: string;
-  keywordFocus: string[];
-  bestFor: string;
-  previewType: string;
-  note?: string;
+function GoogleIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24">
+      <path
+        fill="#4285F4"
+        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+      />
+    </svg>
+  );
 }
 
-const CORE_SERVICES: CoreServiceItem[] = [
+function InstagramIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#f09433" />
+          <stop offset="25%" stopColor="#e6683c" />
+          <stop offset="50%" stopColor="#dc2743" />
+          <stop offset="75%" stopColor="#cc2366" />
+          <stop offset="100%" stopColor="#bc1888" />
+        </linearGradient>
+      </defs>
+      <rect x="2" y="2" width="20" height="20" rx="5" fill="url(#ig-grad)" />
+      <path
+        d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+        stroke="#ffffff"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="17.5" cy="6.5" r="1.2" fill="#ffffff" />
+    </svg>
+  );
+}
+
+function FacebookIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="#1877F2">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+    </svg>
+  );
+}
+
+function LinkedInIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="#0A66C2">
+      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+    </svg>
+  );
+}
+
+function XTwitterIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  );
+}
+
+function YouTubeIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="#FF0000">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  );
+}
+
+// ==========================================
+// DATA STRUCTURES
+// ==========================================
+
+const HERO_BENEFITS = [
   {
-    id: "technical-seo",
-    icon: Code2,
-    title: "Technical SEO & Site Architecture",
-    tagline: "Organic Search Infrastructure Layer",
-    description:
-      "Detect crawl, indexation, canonical, sitemap, structured-data, internal-linking and performance problems and then rank corrections by effect.",
-    keywordFocus: ["technical SEO", "technical SEO services", "SEO website audit"],
-    bestFor: "Sites with crawl bottlenecks, indexation issues, or complex architectures.",
-    previewType: "technical",
-  },
-  {
-    id: "seo-audit",
     icon: Search,
-    title: "SEO Audit & Recovery Roadmap",
-    tagline: "Diagnostic Health & Traffic Recovery",
-    description:
-      "Analyze technical health, content quality, lost rankings, broken links, keyword cannibalization, and indexation issues and develop an actionable recovery plan.",
-    keywordFocus: ["SEO audit", "website SEO audit", "SEO analysis"],
-    bestFor: "Sites experiencing traffic drops or preparing for a redesign.",
-    previewType: "audit",
+    title: "Better Search Rankings",
+    desc: "Get found by the right audience",
   },
   {
-    id: "keyword-research",
-    icon: Target,
-    title: "Keyword Research & Search Intent",
-    tagline: "Commercial Query & Audience Demand Matrix",
-    description:
-      "Identify the phrases, topics, and intent patterns that are important to your audience and connect them to service pages, landing pages, and editorial content.",
-    keywordFocus: ["keyword research", "search intent", "SEO keyword strategy"],
-    bestFor: "Businesses launching new services or expecting higher-intent leads.",
-    previewType: "keywords",
+    icon: TrendingUp,
+    title: "More Website Traffic",
+    desc: "Attract qualified leads",
   },
   {
-    id: "on-page-seo",
-    icon: FileCode,
-    title: "On-Page SEO & Content Optimization",
-    tagline: "Semantic HTML & Headings Hierarchy",
-    description:
-      "Refine H1–H3 heading hierarchy, title tags, meta descriptions, semantic layout, internal links, image SEO, and page content to make each URL more focused.",
-    keywordFocus: ["on-page SEO", "seo content optimization", "on-page SEO audit"],
-    bestFor: "Established service pages that could use more search relevance and CTR.",
-    previewType: "onpage",
+    icon: Users,
+    title: "Higher Conversions",
+    desc: "Turn visitors into customers",
   },
   {
-    id: "content-strategy",
-    icon: BookOpen,
-    title: "SEO Content Strategy",
-    tagline: "Topical Depth & Editorial Roadmaps",
-    description:
-      "Organize your content around topic clusters and roadmaps based on customer needs and questions, commercial demand, and buying journey stages.",
-    keywordFocus: ["SEO content strategy", "SEO content marketing", "content strategy agency"],
-    bestFor: "Brands seeking to build authority and capture informational searchers.",
-    previewType: "content",
-  },
-  {
-    id: "local-seo",
-    icon: MapPin,
-    title: "Local SEO",
-    tagline: "Geographic Discovery & Intent Capture",
-    description:
-      "Improve local search rankings with focused regional landing pages, consistent directory citations, and localized commercial content.",
-    keywordFocus: ["local SEO", "local SEO services", "local search optimization"],
-    bestFor: "Businesses with multiple locations and service providers that are city-specific.",
-    previewType: "local",
-  },
-  {
-    id: "international-seo",
-    icon: Globe,
-    title: "International & Global SEO",
-    tagline: "Multi-Market Alignment & Localization",
-    description:
-      "If you are selling in multiple markets, conduct your keyword research, information architecture, localization and regional signals by market.",
-    keywordFocus: ["international SEO", "global SEO", "international SEO services"],
-    bestFor: "Brands looking to enter international or multilingual markets.",
-    previewType: "global",
-  },
-  {
-    id: "authority-offpage",
-    icon: ShieldCheck,
-    title: "Authority & Off-Page SEO",
-    tagline: "Sustainable Brand Credibility & Digital PR",
-    description:
-      "Create a sustainable long-term authority strategy through relevant digital PR, industry partnerships, and authoritative editorial citations — never low-quality link schemes.",
-    keywordFocus: ["off-page SEO", "link building services", "digital PR SEO"],
-    bestFor: "Highly competitive niches that need increased domain trust and brand citation.",
-    previewType: "authority",
-  },
-  {
-    id: "cro-services",
-    icon: MousePointerClick,
-    title: "Conversion Rate Optimization (CRO)",
-    tagline: "Friction Reduction & User Action UX",
-    description:
-      "Leverage analytics and user behavior to optimize calls to action, forms, page hierarchy, trust signals and high-friction journeys.",
-    keywordFocus: ["conversion rate optimization", "CRO services", "website conversion optimization"],
-    bestFor: "Pages with high organic traffic but low enquiry rates.",
-    previewType: "cro",
-  },
-  {
-    id: "analytics-tracking",
-    icon: PieChart,
-    title: "Analytics & Conversion Tracking",
-    tagline: "GA4 & Google Tag Manager Event Architecture",
-    description:
-      "Implement GA4 and GTM event tracking for forms, clicks, downloads, and other critical actions to ensure SEO decisions drive business results.",
-    keywordFocus: ["GA4 setup", "Google Tag Manager", "conversion tracking"],
-    bestFor: "Organizations looking for accurate attribution of search investments.",
-    previewType: "analytics",
-  },
-  {
-    id: "reporting-growth",
-    icon: BarChart3,
-    title: "SEO Reporting & Growth Planning",
-    tagline: "Actionable Insights over Metric Dumps",
-    description:
-      "Establish a meaningful reporting rhythm that focuses on visibility, landing-page performance, conversions, and priority actions, rather than unrelated metric dumps.",
-    keywordFocus: ["SEO reporting", "SEO analytics", "SEO performance tracking"],
-    bestFor: "Executives who need clear visibility into search ROI and progress.",
-    previewType: "reporting",
+    icon: Rocket,
+    title: "Long-Term Growth",
+    desc: "Build a stronger digital presence",
   },
 ];
 
-const DIGITAL_MARKETING_FOCUS = [
+const SERVICES_GRID = [
   {
-    title: "Content Marketing",
-    description:
-      "Develop valuable, search-optimized articles, landing pages, guides, and collateral that address actual customer inquiries and enhance topical authority.",
-    icon: FileText,
+    title: "Search Engine Optimization (SEO)",
+    desc: "Improve your search rankings and get organic traffic that converts.",
+    icon: Search,
+    href: "/services/seo-digital-marketing",
   },
   {
-    title: "Landing Page Optimization",
-    description:
-      "Optimize page messaging, hierarchy, proof points, forms and calls to action so paid or organic traffic lands on a page designed to help the visitor progress.",
+    title: "Social Media Marketing",
+    desc: "Build your brand, engage your audience and drive meaningful engagement.",
+    icon: Share2,
+    href: "/contact",
+  },
+  {
+    title: "Content Marketing",
+    desc: "High-quality content that educates, builds trust and brings results.",
+    icon: FileText,
+    href: "/services/seo-digital-marketing",
+  },
+  {
+    title: "Pay Per Click (PPC)",
+    desc: "Targeted ads for instant visibility and better ROI.",
+    icon: MousePointerClick,
+    href: "/contact",
+  },
+  {
+    title: "Email Marketing",
+    desc: "Stay connected with your audience and boost customer loyalty.",
+    icon: Mail,
+    href: "/contact",
+  },
+  {
+    title: "Analytics & Reporting",
+    desc: "Track performance and optimize for continuous growth.",
+    icon: BarChart3,
+    href: "/services/seo-digital-marketing",
+  },
+];
+
+const WHY_CHOOSE_ITEMS = [
+  {
+    title: "Result-Driven Strategies",
+    desc: "Data-backed plans to maximize ROI.",
     icon: Target,
   },
   {
-    title: "Conversion-Focused Campaign Support",
-    description:
-      "Synchronize campaign landing pages, tracking and conversion paths so that marketing performance can be tracked from click through to meaningful action.",
-    icon: TrendingUp,
-  },
-  {
-    title: "Organic Social Support",
-    description:
-      "Repurpose insightful business content into social posts that increase brand exposure and provide new platforms for quality content to be found.",
+    title: "Experienced Team",
+    desc: "Skilled professionals with industry expertise.",
     icon: Users,
   },
   {
-    title: "Marketing Analytics",
-    description:
-      "Integrate acquisition data with on-site behavior and conversion data to determine which channels, pages, and journeys require additional focus.",
-    icon: BarChart2,
+    title: "Customized Solutions",
+    desc: "Tailored strategies for your unique goals.",
+    icon: Sliders,
+  },
+  {
+    title: "Transparent Reporting",
+    desc: "Clear insights and regular updates.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Latest Tools & Technology",
+    desc: "Stay ahead with advanced tools.",
+    icon: Rocket,
+  },
+  {
+    title: "Dedicated Support",
+    desc: "We're with you at every step.",
+    icon: Headphones,
   },
 ];
 
-const TECHNICAL_SEO_CHECKLIST = [
-  "Crawlability and indexation review",
-  "Robots.txt and sitemap checks",
-  "Canonical URL strategy and duplicate-page handling",
-  "Internal-link architecture and orphan-page analysis",
-  "Semantic HTML and heading structure",
-  "Structured data / JSON-LD implementation review",
-  "Core Web Vitals and performance considerations",
-  "Mobile usability and responsive search experience",
-  "URL architecture and redirect hygiene",
-  "Search Console diagnostics and ongoing monitoring",
-];
-
-const HUMANIZED_CONTENT_RULES = [
-  "Write around what your customer’s problem is and not just variations of keywords they search for. Treat the search term as a hint towards intent and answer the intent behind that word.",
-  "Create depth of topic. Powerful service pages are supported by related articles that cover comparisons, guides, and FAQs that help solidify the topic.",
-  "Provide your own business perspective. Case studies, project examples, process notes and real-world operational experience lend credibility to your content.",
-  "Don't make over the top promises. Substitute the “guaranteed rankings” type language with transparent information about what is being optimized and assessed.",
-  "Rewrite for spoken language. Short sentences, real-life examples and simple language are what help make technical SEO understandable to busy executives.",
-  "Make each page friendly. One main search intent with a couple of closely related search intents is a much better recipe for content clarity than trying to rank for everything.",
-];
-
-const EDITORIAL_TOPICS = [
-  "Modern Website Technical SEO Checklist",
-  "How Search Intent is Impacting SEO Content Strategy",
-  "SEO Audit vs. Running SEO Services",
-  "Creating Topic clusters for B2B SaaS",
-  "International SEO structure for scaling Brands",
-  "Multi-Location Business Local SEO Basics",
-  "SEO measurement with GA4 and GTM",
-  "Landing-page CRO for non-paid search traffic",
-  "Best Internal Linking Strategies for Service Sites",
-];
-
-const GLOBAL_SEO_PILLARS = [
-  "Market-by-market keyword research matching regional commercial terminology",
-  "Country and language site architecture planned around genuine business expansion targets",
-  "Content localization that preserves meaning and tone instead of literal translation",
-  "International internal linking networks and country-aware navigation flows",
-  "Hreflang and regional geotargeting implementation review",
-  "Country-specific performance monitoring in Search Console and analytics dashboards",
-  "Regional landing-page optimization for services and products with localized commercial demand",
-];
-
-const MEASUREMENT_LAYERS = [
+const WORK_SHOWCASE = [
   {
-    layer: "Acquisition",
-    metrics: "Organic search sessions, landing-page distribution, branded vs. non-branded query demand",
+    title: "Social Media Management",
+    subtitle: "Engaging content. Real people. Stronger communities.",
+    image: "/images/services/seo/social-media-management-mobile-feed.jpg",
+    imageAlt: "Social media community management and interactive mobile feed optimization",
   },
   {
-    layer: "Engagement",
-    metrics: "Engaged sessions, average scroll depth, key interactive events, and multi-page content journeys",
+    title: "SEO Optimization",
+    subtitle: "Higher rankings. More traffic. Better leads.",
+    image: "/images/services/seo/google-search-seo-rankings-laptop.jpg",
+    imageAlt: "Google organic search ranking optimization and technical SEO results on laptop",
   },
   {
-    layer: "Conversion",
-    metrics: "Form submissions, inbound calls, WhatsApp conversations, consultation bookings, and resource downloads",
-  },
-  {
-    layer: "Commercial quality",
-    metrics: "Attributed lead sources, specific service interest, qualified inquiry signals, and downstream deal pipeline",
-  },
-  {
-    layer: "Optimization",
-    metrics: "High-impression / low-CTR queries, high-traffic / low-conversion pages, and content refresh opportunities",
+    title: "PPC Campaigns",
+    subtitle: "Targeted ads. Maximum returns.",
+    image: "/images/services/seo/pay-per-click-ad-campaign-dashboard.jpg",
+    imageAlt: "Pay per click PPC advertising campaign dashboard with conversion tracking and ROI metrics",
   },
 ];
 
-const PROCESS_STEPS_FULL = [
+const TESTIMONIALS = [
   {
-    step: "01",
-    title: "Audit",
-    desc: "Examine business goals, existing search visibility, technical architecture, content quality, and current conversion paths.",
+    quote:
+      "Nexovio's SEO and social media marketing strategies helped us increase our website traffic by 250% in just 6 months. Their team is professional, responsive and truly cares about your success.",
+    author: "Rohan Mehta",
+    role: "Founder, QuickStore",
+    avatar: "/images/services/seo/rohan-mehta-founder-testimonial.jpg",
+    avatarAlt: "Rohan Mehta, Founder of QuickStore client review for Nexovio digital marketing",
   },
   {
-    step: "02",
-    title: "Research",
-    desc: "Map commercial search intent, audience questions, competitor keyword gaps, and high-value conversion queries.",
-  },
-  {
-    step: "03",
-    title: "Prioritize",
-    desc: "Prioritize mission-critical technical repairs, high-intent content opportunities, and high-impact CRO enhancements.",
-  },
-  {
-    step: "04",
-    title: "Implement",
-    desc: "Upgrade technical infrastructure, semantic metadata, internal linking structures, priority service landing pages, and GA4 event tracking.",
-  },
-  {
-    step: "05",
-    title: "Measure",
-    desc: "Monitor impression trends, organic landing page engagement, and qualified lead completions via Search Console, GA4, and Google Tag Manager.",
-  },
-  {
-    step: "06",
-    title: "Refine",
-    desc: "Leverage performance telemetry to refresh aging content, A/B test conversion funnels, expand topical clusters, and resolve technical anomalies.",
+    quote:
+      "Our organic search leads surged by 185% after Nexovio revamped our local SEO architecture and Core Web Vitals. During peak summer heatwaves, the site converted effortlessly.",
+    author: "Marcus Vance",
+    role: "Founder & Operations Director, Infiniti Home Comfort",
+    avatar: "/images/services/seo/rohan-mehta-founder-testimonial.jpg",
+    avatarAlt: "Marcus Vance client review for Nexovio digital marketing",
   },
 ];
 
-const INDUSTRIES = [
+const FAQ_ITEMS = [
   {
-    title: "SaaS & Technology",
-    desc: "High-intent feature comparison pages, technical SEO for web applications, and topic clusters answering complex architectural questions.",
-    icon: Cpu,
+    question: "What SEO services does Nexovio provide?",
+    answer:
+      "Nexovio provides SEO services to help businesses improve search visibility, attract relevant organic traffic, and generate more qualified leads. Our services include technical SEO audits, keyword research, on-page SEO, content optimization, internal linking, website performance analysis, and conversion optimization. We identify opportunities based on your website, target audience, competitors, and business goals."
   },
   {
-    title: "E-commerce",
-    desc: "Clean taxonomy, faceted navigation optimization, schema product markup, and high-converting category landing pages.",
-    icon: ShoppingBag,
+    question: "How long does SEO take to improve website rankings and organic traffic?",
+    answer:
+      "SEO is a long-term process, and results depend on your website's current condition, industry competition, content quality, and existing search visibility. Some technical fixes may help search engines discover or understand pages sooner, while meaningful improvements in rankings, organic traffic, and qualified enquiries often take several months. We monitor performance through Google Search Console and analytics tools to evaluate progress and refine the SEO strategy."
   },
   {
-    title: "Healthcare",
-    desc: "High-trust clinical explanations, clear doctor and treatment profiles, localized discovery, and stringent E-E-A-T content quality.",
-    icon: Stethoscope,
+    question: "How can SEO help my business generate more leads and customers?",
+    answer:
+      "SEO can help your business reach people who are actively searching for your services. We optimize important landing pages, align content with search intent, improve website usability, and strengthen calls to action to encourage relevant visitors to enquire. By tracking organic sessions, form submissions, qualified leads, and other agreed conversion goals, we can identify opportunities to turn search visibility into business growth."
   },
   {
-    title: "Real Estate",
-    desc: "Localized geographic search architecture, property inventory indexing, high-intent lead funnels, and local map rankings.",
-    icon: Home,
+    question: "Do you create customized SEO strategies for different businesses?",
+    answer:
+      "Yes. Our SEO strategy is tailored to your business model, target audience, services, competitors, and growth objectives. We begin by evaluating your website's technical SEO, keyword opportunities, existing content, and search performance. Based on our findings, we prioritize improvements across technical optimization, on-page SEO, content strategy, internal linking, and conversion optimization according to your needs and available resources."
   },
   {
-    title: "Home Services",
-    desc: "Localized neighborhood service pages, Google Business Profile alignment, click-to-call mobile tracking, and frictionless quote requests.",
-    icon: Building2,
+    question: "What is included in a technical SEO audit?",
+    answer:
+      "A technical SEO audit examines the issues that can affect how search engines crawl, render, and index your website. Depending on your website, the review may cover indexing directives, XML sitemaps, canonical URLs, redirects, broken links, duplicate content, mobile usability, Core Web Vitals, page speed, structured data, and internal linking. We prioritize findings by their potential impact and provide actionable recommendations for improving your website's search performance."
   },
   {
-    title: "Professional Services",
-    desc: "Authority-building case studies, structured service offerings, executive thought leadership, and high-trust B2B lead generation funnels.",
-    icon: Briefcase,
+    question: "How do you measure SEO and digital marketing performance?",
+    answer:
+      "We evaluate SEO and digital marketing performance using relevant business and search metrics, including Google Search Console clicks and impressions, search queries, click-through rate, organic landing-page sessions, qualified enquiries, and conversion rates. Where appropriate tracking is available, we also assess campaign performance, cost per lead, customer acquisition cost, and revenue contribution. Reporting focuses on meaningful progress, identified issues, and the next steps needed to improve results."
   },
   {
-    title: "Startups",
-    desc: "High-leverage early keyword targeting, focused MVP landing pages, scalable content architecture, and transparent growth measurement.",
-    icon: Sparkles,
-  },
-];
-
-const BRAND_POSITIONING_REASONS = [
-  {
-    title: "Engineering-Led Technical SEO",
-    desc: "We approach technical search architecture as integral software engineering rather than superficial keyword insertion.",
+    question: "Do you offer local SEO and international SEO services?",
+    answer:
+      "Yes. The right approach depends on the locations and audiences your business wants to reach. Local SEO can include Google Business Profile optimization, relevant local landing pages, business information consistency, and location-specific content for eligible businesses. International SEO may involve country and language targeting, appropriate URL structures, hreflang implementation where applicable, and content tailored to different markets. We recommend the approach that best matches your business and target customers."
   },
   {
-    title: "Humanized Content Architecture",
-    desc: "Clear, authoritative copy written in plain language that communicates deep subject matter expertise without inflated claims.",
+    question: "Do you provide social media management services for businesses?",
+    answer:
+      "Yes, Nexovio provides social media management services to help businesses build their online presence, maintain consistent brand communication, and engage with their target audience. Depending on your requirements, our services can include social media account management, content planning, post creation, graphic design, content scheduling, audience engagement, and performance monitoring across relevant platforms. We develop a strategy based on your business goals, target audience, and preferred social media channels. Our social media management services can also complement your SEO and digital marketing efforts to support brand awareness, website traffic, and lead generation."
   },
   {
-    title: "Intent-First Commercial Strategy",
-    desc: "We analyze search queries to understand real buyer intent, building landing pages specifically structured to satisfy and convert that demand.",
-  },
-  {
-    title: "Full-Stack Development Synergy",
-    desc: "Because Nexovio engineers custom web applications, UI/UX systems, and mobile platforms, executing code-level SEO enhancements is seamless.",
-  },
-  {
-    title: "Measurable Analytics Discipline",
-    desc: "End-to-end GA4 and Google Tag Manager architecture that bridges the gap between top-of-funnel traffic and actual closed revenue.",
-  },
-  {
-    title: "Transparent & Ethical Roadmaps",
-    desc: "We reject deceptive #1 ranking guarantees, treating organic search growth as a disciplined, compounding engineering methodology.",
-  },
-];
-
-const GLOBAL_SEARCH_INTENT_CLUSTERS = [
-  {
-    title: "Commercial & Vendor Intent",
-    description: "Capturing decision-makers who are actively researching specialist software development and SEO partners.",
-    capabilities: ["High-Converting Service Pages", "Transparent Pricing Architecture", "Verified Case Study Proof", "Decision-Maker CRO Funnels"],
-    badge: "High Conversion Alignment",
-  },
-  {
-    title: "Technical & Diagnostic Intent",
-    description: "Targeting companies requiring immediate architectural diagnosis, crawl remediation, or platform migrations.",
-    capabilities: ["Deep Crawlability & Indexing Audits", "Core Web Vitals Remediation", "Canonical & Redirect Hygiene", "Rich Schema Markup Architecture"],
-    badge: "Diagnostic Health",
-  },
-  {
-    title: "Informational & Authority Intent",
-    description: "Engaging enterprise leaders searching for educational clarity, architectural benchmarks, and strategic roadmaps.",
-    capabilities: ["Topic Cluster Content Frameworks", "Technical Architecture Guides", "B2B SaaS Growth Blueprints", "Buyer Search Intent Mapping"],
-    badge: "Topical Leadership",
-  },
-  {
-    title: "Geographic & Multi-Market Intent",
-    description: "Expanding visibility across regional locations and high-value international cross-border target markets.",
-    capabilities: ["Multi-Regional Hreflang Strategies", "International URL Architectures", "Localized Cultural Content Adaptation", "Global Search Console Segmentation"],
-    badge: "Multi-Market Reach",
-  },
-];
-
-const REGIONAL_COVERAGE_MARKETS = [
-  { region: "North America", highlight: "USA & Canada", desc: "Commercial intent & enterprise SaaS organic acquisition" },
-  { region: "Europe & UK", highlight: "UK & EU Markets", desc: "GDPR-compliant technical architecture & multi-language SEO" },
-  { region: "Australia & APAC", highlight: "Australia & Asia", desc: "High-growth regional search intent & service page dominance" },
-  { region: "Global Expansion", highlight: "Cross-Border Brands", desc: "Multi-region hreflang mapping and international authority" },
-];
-
-const INTERNAL_LINKS = [
-  { url: "/services/web-development", anchor: "SEO-friendly web development", purpose: "Connect technical SEO and engineering" },
-  { url: "/services/web-design", anchor: "conversion-focused web design", purpose: "Connect UX and conversion" },
-  { url: "/services/ui-ux-design", anchor: "UI/UX design services", purpose: "Connect user experience and CRO" },
-  { url: "/services/mobile-app-development", anchor: "mobile app development", purpose: "Support mobile product ecosystem" },
-];
-
-function RealisticHeroMockup() {
-  return (
-    <div className="relative w-full rounded-2xl border border-brand-cyan/40 bg-[#070D1B] backdrop-blur-xl p-3 shadow-[0_25px_60px_rgba(0,0,0,0.8),0_0_35px_rgba(0,198,255,0.2)] overflow-hidden group">
-      {/* Top Browser Console Header */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-white/10 bg-[#0B152B] rounded-t-xl">
-        <div className="flex items-center gap-2">
-          <span className="w-3 h-3 rounded-full bg-red-500/80" />
-          <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
-          <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-[#050914] border border-white/10 text-[11px] font-mono text-slate-300 w-full max-w-xs mx-auto">
-          <Lock className="w-3 h-3 text-emerald-400 shrink-0" />
-          <span className="truncate">https://nexoviodigitalsolutions.com/services/seo-digital-marketing</span>
-        </div>
-        <div className="flex items-center gap-2 text-slate-400">
-          <Activity className="w-3.5 h-3.5 text-brand-cyan animate-pulse" />
-        </div>
-      </div>
-
-      {/* Main Split Interface */}
-      <div className="grid grid-cols-12 gap-3 p-3 bg-[#050914] rounded-b-xl min-h-[340px]">
-        {/* SERP & Organic Growth Panel */}
-        <div className="col-span-12 sm:col-span-7 bg-[#091224] rounded-xl border border-white/10 p-3.5 text-left font-mono text-[11px] space-y-3 text-slate-300 shadow-inner flex flex-col justify-between">
-          <div className="flex items-center justify-between text-[10px] text-slate-400 pb-2 border-b border-white/10">
-            <span className="text-brand-cyan flex items-center gap-1.5 font-bold">
-              <Search className="w-3.5 h-3.5" /> Search Console Console
-            </span>
-            <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-              Live Organic Growth
-            </span>
-          </div>
-
-          {/* Simulated Google Search Result */}
-          <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 space-y-1">
-            <span className="text-[10px] text-slate-400 block font-sans">www.nexoviodigitalsolutions.com › services › seo-digital-marketing</span>
-            <span className="text-xs font-bold text-sky-400 font-sans block hover:underline">
-              SEO &amp; Digital Marketing Services | Sustainable Growth
-            </span>
-            <p className="text-[10px] text-slate-300 font-sans leading-normal">
-              Technical SEO, search-intent content optimization, local/global SEO and GA4 conversion tracking for qualified organic leads...
-            </p>
-          </div>
-
-          <div className="space-y-1 pt-1 leading-relaxed text-[10px]">
-            <div className="flex justify-between items-center text-slate-300">
-              <span>Target Query: "SEO Services"</span>
-              <span className="text-emerald-400 font-bold">Rank #1 Google</span>
-            </div>
-            <div className="flex justify-between items-center text-slate-400">
-              <span>Technical Health Score</span>
-              <span className="text-brand-cyan font-bold">100 / 100 Indexing</span>
-            </div>
-            <div className="flex justify-between items-center text-slate-400">
-              <span>GA4 Event Conversions</span>
-              <span className="text-purple-300 font-bold">+184% Qualified Leads</span>
-            </div>
-          </div>
-
-          <div className="pt-2 border-t border-white/10 flex items-center gap-2 text-[10px] text-slate-400">
-            <Terminal className="w-3.5 h-3.5 text-emerald-400" />
-            <span className="text-emerald-400 font-bold">Search intent &amp; Core Vitals verified</span>
-          </div>
-        </div>
-
-        {/* Analytics & Conversion Rate Panel */}
-        <div className="col-span-12 sm:col-span-5 bg-gradient-to-br from-[#0c1834] to-[#081022] rounded-xl border border-brand-cyan/30 p-3.5 text-left flex flex-col justify-between space-y-3">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono text-brand-cyan uppercase font-bold tracking-wider">
-                GA4 / GTM Analytics
-              </span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            </div>
-
-            <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 space-y-1.5">
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="text-slate-300 font-sans">Organic Pipeline</span>
-                <span className="text-emerald-400 font-bold font-mono">+135k/mo</span>
-              </div>
-              <div className="w-full h-2 rounded bg-brand-cyan/30 overflow-hidden">
-                <div className="w-4/5 h-full bg-gradient-to-r from-brand-cyan to-emerald-400" />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 pt-1">
-              <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-center">
-                <span className="text-[10px] text-slate-400 block font-mono">CRO Rate</span>
-                <span className="text-xs font-bold text-emerald-400">4.8% Conv</span>
-              </div>
-              <div className="p-2 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 text-center">
-                <span className="text-[10px] text-slate-400 block font-mono">Crawl Speed</span>
-                <span className="text-xs font-bold text-brand-cyan">0.02s Latency</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="pt-2 border-t border-white/10 flex items-center justify-between text-[10px] font-mono text-slate-300">
-            <span>Tracking Layer</span>
-            <span className="text-brand-cyan font-semibold">GA4 + GTM Ready</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function RealisticServiceMockup({ previewType }: { previewType: string }) {
-  if (previewType === "technical") {
-    return (
-      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#0a152e] to-[#050b18] border border-brand-cyan/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
-        <div className="flex items-center justify-between pb-2 border-b border-white/10">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-          </div>
-          <span className="text-[10px] font-mono text-brand-cyan">Technical SEO &amp; JSON-LD</span>
-        </div>
-        <div className="space-y-2 my-auto">
-          <div className="h-3 w-3/4 rounded bg-gradient-to-r from-brand-cyan to-brand-bright" />
-          <div className="h-2 w-full rounded bg-white/20" />
-          <div className="flex gap-2 pt-1">
-            <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">Canonical URLs</span>
-            <span className="px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">XML Sitemap</span>
-          </div>
-        </div>
-      </div>
-    );
+    question: "Do you guarantee first-page Google rankings?",
+    answer:
+      "No responsible SEO provider can guarantee a specific Google ranking or a fixed amount of organic traffic. Search results depend on many factors, including competition, search intent, website quality, and ongoing search system changes. Our approach focuses on evidence-based SEO improvements, relevant content, technical health, and measurable business outcomes. We use performance data to refine priorities rather than promise rankings that cannot be guaranteed."
   }
-
-  if (previewType === "audit") {
-    return (
-      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#0c1834] to-[#081022] border border-blue-500/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
-        <div className="flex items-center justify-between pb-2 border-b border-white/10">
-          <span className="text-[10px] font-mono text-blue-400 font-bold flex items-center gap-1">
-            <Search className="w-3 h-3" /> SEO Audit &amp; Recovery
-          </span>
-          <span className="text-[9px] font-mono bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded">Health Check</span>
-        </div>
-        <div className="grid grid-cols-12 gap-2 my-auto text-left text-[10px]">
-          <div className="col-span-4 bg-white/5 p-2 rounded border border-white/10 space-y-1">
-            <span className="text-[9px] font-bold text-slate-300 block">Index Status</span>
-            <div className="h-1.5 w-full bg-blue-400/40 rounded" />
-          </div>
-          <div className="col-span-8 bg-white/5 p-2 rounded border border-white/10 space-y-1.5">
-            <span className="text-[9px] font-bold text-emerald-400 block">Lost Ranking Recovery</span>
-            <div className="h-1.5 w-full bg-white/25 rounded" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (previewType === "keywords") {
-    return (
-      <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#071328] to-[#030814] border border-cyan-400/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
-        <div className="flex items-center justify-between pb-2 border-b border-white/10">
-          <span className="text-[10px] font-mono text-cyan-400 font-bold flex items-center gap-1">
-            <Target className="w-3 h-3" /> Commercial Intent Matrix
-          </span>
-          <span className="text-[9px] font-mono bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">High Relevance</span>
-        </div>
-        <div className="space-y-2 my-auto font-mono text-[10px]">
-          <div className="p-2 rounded bg-black/40 border border-cyan-400/20 text-slate-300">
-            Query: <span className="text-cyan-400">"SEO Services Agency"</span> (High Commercial Intent)
-          </div>
-          <div className="flex items-center justify-between text-[9px] text-slate-400">
-            <span>Search Intent Mapped</span>
-            <span className="text-emerald-400 font-bold">100% Page Match</span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Default / Other previews
-  return (
-    <div className="w-full h-44 rounded-xl bg-gradient-to-br from-[#061022] to-[#02050c] border border-purple-500/30 p-3 flex flex-col justify-between overflow-hidden shadow-md">
-      <div className="flex items-center justify-between pb-2 border-b border-white/10">
-        <span className="text-[10px] font-mono text-purple-400 font-bold flex items-center gap-1">
-          <TrendingUp className="w-3 h-3" /> Organic Growth Engine
-        </span>
-        <span className="text-[9px] font-mono bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">GA4 / GTM</span>
-      </div>
-      <div className="flex items-center justify-between my-auto px-2 text-[10px] font-mono text-slate-300">
-        <span className="p-1.5 bg-brand-cyan/20 rounded border border-brand-cyan/30 text-brand-cyan font-bold">Search Query</span>
-        <ArrowRight className="w-3 h-3 text-slate-500" />
-        <span className="p-1.5 bg-emerald-500/20 rounded border border-emerald-500/30 text-emerald-400 font-bold">Optimized Page</span>
-        <ArrowRight className="w-3 h-3 text-slate-500" />
-        <span className="p-1.5 bg-purple-500/20 rounded border border-purple-500/30 text-purple-300 font-bold">Lead Action</span>
-      </div>
-    </div>
-  );
-}
+];
 
 // ==========================================
-// MAIN PAGE COMPONENT
+// MAIN COMPONENT
 // ==========================================
 
 export default function SeoDigitalMarketingPage() {
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+
+  const toggleFaq = (idx: number) => {
+    setActiveFaq(activeFaq === idx ? null : idx);
+  };
+
+  const nextTestimonial = () => {
+    setCurrentTestimonialIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonialIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+  };
+
+  const currentTestimonial = TESTIMONIALS[currentTestimonialIndex];
+
   const serviceSchema = getServiceSchema({
-    name: service.name,
-    description: service.shortDescription,
-    url: `/services/${service.slug}`,
-    serviceType: "DigitalMarketingServices",
+    name: "SEO & Digital Marketing Services",
+    description:
+      "Data-driven SEO strategies, technical Core Web Vitals audits, social media marketing, PPC campaigns, and conversion rate optimization by Nexovio Digital Solutions.",
+    url: "/services/seo-digital-marketing",
+    serviceType: "Search Engine Optimization and Digital Marketing",
   });
 
-  const breadcrumbSchema = getBreadcrumbSchema([
-    { name: "Home", url: "/" },
-    { name: "Services", url: "/services" },
-    { name: "SEO & Digital Marketing", url: `/services/${service.slug}` },
-  ]);
-
-  const faqSchema = getFaqSchema(service.faqs);
-
-  const orgSchema = getOrganizationSchema();
+  const faqSchema = getFaqSchema(FAQ_ITEMS);
+  const organizationSchema = getOrganizationSchema();
 
   return (
-    <div className="bg-background overflow-x-clip">
-      {/* RICH MULTI-SCHEMA JSON-LD FOR GLOBAL & INTERNATIONAL SEO VISIBILITY */}
+    <>
+      {/* Structured Data (JSON-LD) for SEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
       <script
         type="application/ld+json"
@@ -715,716 +356,641 @@ export default function SeoDigitalMarketingPage() {
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
 
-      {/* 1. HERO BANNER SECTION */}
-      <section className="pt-24 sm:28 md:pt-32 lg:pt-40 pb-20 bg-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Background Radial Glow & Futuristic Grid Lines */}
-          <div className="absolute inset-0 bg-radial-glow pointer-events-none opacity-70" />
-          <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-brand-bright/15 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-brand-electric/20 rounded-full blur-[100px] pointer-events-none" />
+      <div className="min-h-screen bg-white dark:bg-[#040814] text-slate-900 dark:text-slate-100 selection:bg-brand-bright selection:text-white transition-colors duration-300">
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center pt-4">
-            <div className="lg:col-span-6 space-y-6 text-left">
-              <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated/90 text-brand-cyan shadow-[0_0_20px_rgba(0,198,255,0.2)]">
-                <Sparkles className="w-3.5 h-3.5 text-brand-bright" />
-                <span>GLOBAL SEO &amp; DIGITAL MARKETING SERVICES</span>
+        {/* =================================================================== */}
+        {/* 1. HERO SECTION                                                    */}
+        {/* =================================================================== */}
+        <section className="relative pt-24 sm:pt-28 md:pt-32 pb-16 lg:pb-24 overflow-hidden bg-gradient-to-b from-blue-50/70 via-slate-50/30 to-white dark:from-[#08122B] dark:via-[#050A1A] dark:to-[#040814]">
+          {/* Subtle Ambient Radial Glow */}
+          <div
+            aria-hidden="true"
+            className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-brand-cyan/10 rounded-full blur-[120px] pointer-events-none"
+          />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            {/* Breadcrumbs */}
+            <div className="mb-6 sm:mb-8">
+              <Breadcrumbs
+                items={[
+                  { name: "Services", url: "/services" },
+                  { name: "SEO & Digital Marketing", url: "/services/seo-digital-marketing" },
+                ]}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+              {/* Left Column: Headline, Copy & 4 Benefit Mini-Cards */}
+              <div className="lg:col-span-6 space-y-6 text-left">
+                {/* Eyebrow Pill */}
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-electric/10 text-brand-electric dark:text-brand-cyan border border-brand-electric/20 dark:border-brand-cyan/30">
+                  <span className="w-2 h-2 rounded-full bg-brand-cyan animate-pulse" />
+                  <span>SEO &amp; DIGITAL MARKETING</span>
+                </div>
+
+                {/* Main H1 Headline */}
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.18]">
+                  Boost Your Online Presence &amp; Drive Real{" "}
+                  <span className="bg-gradient-brand bg-clip-text text-transparent">
+                    Business Growth
+                  </span>
+                </h1>
+
+                {/* Subtitle */}
+                <p className="text-sm sm:text-base lg:text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
+                  We combine proven SEO strategies with result-driven digital marketing to help your brand get found, build trust and turn visitors into loyal customers.
+                </p>
+
+                {/* 4 Benefit Mini-Cards (2x2 or 4-grid) */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+                  {HERO_BENEFITS.map((b, idx) => {
+                    const IconComponent = b.icon;
+                    return (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 shadow-xs hover:border-brand-cyan/40 transition-colors space-y-2 text-left"
+                      >
+                        <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-brand-electric dark:text-brand-cyan flex items-center justify-center">
+                          <IconComponent className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <div className="text-xs font-bold text-slate-900 dark:text-white leading-snug">
+                            {b.title}
+                          </div>
+                          <div className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">
+                            {b.desc}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight !leading-[1.14]">
-                Sustainable Organic Growth with{" "}
-                <span className="bg-gradient-brand bg-clip-text text-transparent">
-                  SEO & Digital Marketing Services
-                </span>
-              </h1>
+              {/* Right Column: Hero Visual with Overlays */}
+              <div className="lg:col-span-6 relative flex items-center justify-center">
+                <div className="relative w-full max-w-lg lg:max-w-none">
+                  {/* Main Specialist Image Container */}
+                  <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-[0_20px_50px_rgba(0,198,255,0.12)] bg-slate-100 dark:bg-[#071026]">
+                    <Image
+                      src="/images/services/seo/seo-digital-marketing-specialist-laptop.jpg"
+                      alt="SEO and digital marketing specialist analyzing website traffic growth and search rankings on laptop"
+                      fill
+                      priority
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                      className="object-cover object-top"
+                    />
+                  </div>
 
-              <div className="space-y-4 text-base sm:text-lg text-muted leading-relaxed">
-                <p className="font-medium text-md text-slate-900 dark:text-white">
-                  Be discoverable by those who are looking for the services that you offer. With Nexovio, we seamlessly integrate technical SEO, search-focused content, on-page optimization, CRO, and analytics to convert organic traffic into actual business leads.
-                </p>
-                <p className="text-sm text-slate-700 dark:text-slate-300">
-                  We don’t just look at rankings, we look at what your website and customers need in real life. Whether it's technical errors, content gaps, user experience or conversions, we prioritise enhancements which facilitate long term, organic growth.
-                </p>
-              </div>
-
-              {/* 6 Commercial Keyword Badges in 3-Column Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
-                {[
-                  { name: "Technical SEO & Audits", icon: Code2 },
-                  { name: "Keyword Research & Intent", icon: Target },
-                  { name: "On-Page Optimization", icon: FileCode },
-                  { name: "Local & Global SEO", icon: Globe },
-                  { name: "Conversion Optimization", icon: MousePointerClick },
-                  { name: "GA4 & GTM Analytics", icon: PieChart },
-                ].map((badge) => {
-                  const BadgeIcon = badge.icon;
-                  return (
-                    <div
-                      key={badge.name}
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#070F22] text-xs font-semibold text-slate-800 dark:text-slate-200 shadow-xs hover:border-brand-cyan/40 transition-colors"
-                    >
-                      <BadgeIcon className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
-                      <span className="truncate">{badge.name}</span>
+                  {/* Floating Card 1: Website Traffic +248% (Top-Left) */}
+                  <div className="absolute -top-4 -left-3 sm:-top-5 sm:-left-5 bg-white/95 dark:bg-[#081433]/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/80 dark:border-white/15 flex items-center gap-3 z-20 animate-in fade-in zoom-in duration-500">
+                    <div className="text-left space-y-0.5">
+                      <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium block">
+                        Website Traffic
+                      </span>
+                      <span className="text-base sm:text-xl font-extrabold text-brand-electric dark:text-brand-cyan block">
+                        +248%
+                      </span>
                     </div>
-                  );
-                })}
+                    {/* Mini Rising Bar Chart Graphic */}
+                    <div className="flex items-end gap-1 h-8 px-1">
+                      <span className="w-1.5 bg-brand-cyan/40 rounded-t-sm h-3" />
+                      <span className="w-1.5 bg-brand-cyan/60 rounded-t-sm h-4" />
+                      <span className="w-1.5 bg-brand-cyan/80 rounded-t-sm h-6" />
+                      <span className="w-1.5 bg-brand-electric dark:bg-brand-cyan rounded-t-sm h-8" />
+                    </div>
+                  </div>
+
+                  {/* Floating Social Media Icons Stack (Top-Right) */}
+                  <div className="absolute top-4 -right-3 sm:top-6 sm:-right-4 bg-white/95 dark:bg-[#081433]/95 backdrop-blur-md rounded-2xl py-2.5 px-2 shadow-xl border border-slate-200/80 dark:border-white/15 flex flex-col gap-2.5 items-center z-20">
+                    <div className="p-1 rounded-lg bg-slate-50 dark:bg-white/5 hover:scale-110 transition-transform">
+                      <GoogleIcon className="w-4 h-4" />
+                    </div>
+                    <div className="p-1 rounded-lg bg-slate-50 dark:bg-white/5 hover:scale-110 transition-transform">
+                      <InstagramIcon className="w-4 h-4" />
+                    </div>
+                    <div className="p-1 rounded-lg bg-slate-50 dark:bg-white/5 hover:scale-110 transition-transform">
+                      <FacebookIcon className="w-4 h-4" />
+                    </div>
+                    <div className="p-1 rounded-lg bg-slate-50 dark:bg-white/5 hover:scale-110 transition-transform">
+                      <LinkedInIcon className="w-4 h-4" />
+                    </div>
+                    <div className="p-1 rounded-lg bg-slate-50 dark:bg-white/5 hover:scale-110 transition-transform text-slate-900 dark:text-white">
+                      <XTwitterIcon className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+
+                  {/* Handwritten Accent Callout Note (Bottom-Right) */}
+                  <div className="hidden sm:flex absolute -bottom-6 right-2 sm:right-6 items-center gap-2 pointer-events-none select-none z-20">
+                    <div className="text-right font-serif italic text-xs sm:text-sm font-semibold text-slate-700 dark:text-brand-cyan drop-shadow-xs leading-tight">
+                      More Reach <br />
+                      More Leads <br />
+                      More Sales
+                    </div>
+                    {/* Curved Arrow SVG */}
+                    <svg
+                      className="w-8 h-8 text-brand-electric dark:text-brand-cyan stroke-current -rotate-12"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                    >
+                      <path
+                        d="M10 30 C 18 25, 26 15, 30 8 M 30 8 L 22 8 M 30 8 L 30 16"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================================== */}
+        {/* 2. "OUR SEO & DIGITAL MARKETING SERVICES" SECTION                  */}
+        {/* =================================================================== */}
+        <section className="py-16 sm:py-20 lg:py-24 bg-slate-50/70 dark:bg-[#030712] border-y border-slate-200/70 dark:border-white/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+              {/* Left Column: Heading, Description & Primary CTA */}
+              <div className="lg:col-span-5 space-y-6 text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-electric/10 text-brand-electric dark:text-brand-cyan border border-brand-electric/20 dark:border-brand-cyan/30">
+                  <span>OUR SERVICES</span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug">
+                  Our SEO &amp; Digital Marketing Services
+                </h2>
+
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                  From search engine optimization to social media marketing, we offer end-to-end digital solutions to help your business reach, engage and convert your target audience.
+                </p>
+
+                <div className="pt-2">
+                  <Button
+                    href="/contact"
+                    variant="primary"
+                    size="lg"
+                    trackingName="services_get_free_consultation"
+                    trackingLocation="services_overview"
+                    icon={<ArrowRight className="w-4 h-4" />}
+                    className="w-full sm:w-auto shadow-md shadow-brand-electric/25"
+                  >
+                    Get a Free Consultation
+                  </Button>
+                </div>
               </div>
 
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              {/* Right Column: 2x3 Services Card Grid */}
+              <div className="lg:col-span-7">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                  {SERVICES_GRID.map((s, idx) => {
+                    const IconComp = s.icon;
+                    return (
+                      <Link
+                        key={idx}
+                        href={s.href}
+                        className="group p-5 sm:p-6 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-brand-cyan/40 hover:shadow-lg dark:hover:shadow-brand-cyan/5 transition-all text-left block"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-brand-electric dark:text-brand-cyan flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                          <IconComp className="w-5 h-5" />
+                        </div>
+                        <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-brand-electric dark:group-hover:text-brand-cyan transition-colors mb-1.5 leading-snug">
+                          {s.title}
+                        </h3>
+                        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                          {s.desc}
+                        </p>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================================== */}
+        {/* 3. "SOCIAL MEDIA MARKETING" SPOTLIGHT SECTION                      */}
+        {/* =================================================================== */}
+        <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-[#040814] overflow-hidden">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+              {/* Left Column: Heading, Checklist & CTA */}
+              <div className="lg:col-span-6 space-y-6 text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-electric/10 text-brand-electric dark:text-brand-cyan border border-brand-electric/20 dark:border-brand-cyan/30">
+                  <span>SOCIAL MEDIA MARKETING</span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug">
+                  Build Your Brand. Engage Your Audience.{" "}
+                  <span className="bg-gradient-brand bg-clip-text text-transparent">
+                    Grow Faster.
+                  </span>
+                </h2>
+
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+                  Our social media marketing services help you create a strong online presence, connect with your audience and turn followers into customers.
+                </p>
+
+                {/* Feature Checklist */}
+                <div className="space-y-3 pt-1">
+                  {[
+                    "Strategy & Content Creation",
+                    "Profile Management & Engagement",
+                    "Paid Social Campaigns",
+                    "Performance Tracking & Optimization",
+                  ].map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200">
+                      <div className="w-5 h-5 rounded-full bg-blue-500/10 text-brand-electric dark:text-brand-cyan flex items-center justify-center shrink-0">
+                        <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                      </div>
+                      <span>{item}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="pt-2">
+                  <Button
+                    href="/contact"
+                    variant="primary"
+                    size="lg"
+                    trackingName="social_media_explore"
+                    trackingLocation="social_media_spotlight"
+                    icon={<ArrowRight className="w-4 h-4" />}
+                    className="w-full sm:w-auto shadow-md shadow-brand-electric/25"
+                  >
+                    Explore Social Media Marketing
+                  </Button>
+                </div>
+              </div>
+
+              {/* Right Column: Social Media Workspace Image with Floating Cards */}
+              <div className="lg:col-span-6 relative flex items-center justify-center">
+                <div className="relative w-full max-w-lg lg:max-w-none">
+                  {/* Laptop & Workspace Image */}
+                  <div className="relative w-full aspect-[16/10] rounded-3xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-[0_20px_50px_rgba(0,198,255,0.1)] bg-slate-100 dark:bg-[#071026]">
+                    <Image
+                      src="/images/services/seo/social-media-marketing-campaign-management.jpg"
+                      alt="Social media marketing campaign management and engagement dashboard on laptop with mobile feed"
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
+                      className="object-cover"
+                    />
+                  </div>
+
+                  {/* Floating Card 1: Social Media Growth +312% (Top-Left) */}
+                  <div className="absolute -top-4 -left-3 sm:-top-5 sm:-left-5 bg-white/95 dark:bg-[#081433]/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-xl border border-slate-200/80 dark:border-white/15 flex items-center gap-3 z-20">
+                    <div className="text-left space-y-0.5">
+                      <span className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium block">
+                        Social Media Growth
+                      </span>
+                      <span className="text-base sm:text-xl font-extrabold text-brand-electric dark:text-brand-cyan block">
+                        +312%
+                      </span>
+                    </div>
+                    {/* Mini Line Chart SVG */}
+                    <svg className="w-12 h-7 text-brand-electric dark:text-brand-cyan stroke-current" viewBox="0 0 50 30" fill="none">
+                      <path d="M 2 26 L 15 18 L 28 22 L 48 4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </div>
+
+                  {/* Floating Card 2: Channels Stack (Top-Right) */}
+                  <div className="absolute -top-3 -right-2 sm:-top-4 sm:-right-4 bg-white/95 dark:bg-[#081433]/95 backdrop-blur-md rounded-2xl py-2.5 px-3.5 shadow-xl border border-slate-200/80 dark:border-white/15 space-y-2 z-20 text-[11px] font-medium text-slate-700 dark:text-slate-200">
+                    <div className="flex items-center gap-2">
+                      <InstagramIcon className="w-3.5 h-3.5" />
+                      <span>Instagram</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <FacebookIcon className="w-3.5 h-3.5" />
+                      <span>Facebook</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <LinkedInIcon className="w-3.5 h-3.5" />
+                      <span>LinkedIn</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <XTwitterIcon className="w-3 h-3 text-slate-900 dark:text-white" />
+                      <span>X</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <YouTubeIcon className="w-3.5 h-3.5" />
+                      <span>YouTube</span>
+                    </div>
+                  </div>
+
+                  {/* Handwritten Accent Text & Arrow */}
+                  <div className="hidden sm:flex absolute -bottom-6 -left-3 items-center gap-2 pointer-events-none select-none z-20">
+                    <div className="font-serif italic text-xs sm:text-sm font-semibold text-slate-700 dark:text-brand-cyan drop-shadow-xs leading-tight">
+                      More Engagement <br />
+                      More Customers
+                    </div>
+                    <svg
+                      className="w-8 h-8 text-brand-electric dark:text-brand-cyan stroke-current rotate-45"
+                      viewBox="0 0 40 40"
+                      fill="none"
+                    >
+                      <path
+                        d="M10 10 C 20 12, 28 20, 30 30 M 30 30 L 22 30 M 30 30 L 30 22"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================================== */}
+        {/* 4. "WHY BUSINESSES CHOOSE NEXOVIO" (6 CARDS)                       */}
+        {/* =================================================================== */}
+        <section className="py-16 sm:py-20 lg:py-24 bg-slate-50/70 dark:bg-[#030712] border-t border-slate-200/70 dark:border-white/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-12 sm:space-y-16">
+            {/* Centered Heading */}
+            <div className="max-w-2xl mx-auto space-y-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-electric/10 text-brand-electric dark:text-brand-cyan border border-brand-electric/20 dark:border-brand-cyan/30">
+                <span>WHY CHOOSE NEXOVIO</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Why Businesses Choose{" "}
+                <span className="bg-gradient-brand bg-clip-text text-transparent">
+                  Nexovio
+                </span>
+              </h2>
+              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                We combine creativity, technology and strategy to deliver digital marketing solutions that get real results.
+              </p>
+            </div>
+
+            {/* 6 Feature Cards Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
+              {WHY_CHOOSE_ITEMS.map((item, idx) => {
+                const IconComponent = item.icon;
+                return (
+                  <div
+                    key={idx}
+                    className="p-5 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10 hover:border-brand-cyan/40 hover:-translate-y-1 transition-all text-left flex flex-col justify-between"
+                  >
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-brand-electric dark:text-brand-cyan flex items-center justify-center mb-4">
+                      <IconComponent className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-snug mb-1">
+                        {item.title}
+                      </h3>
+                      <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 leading-normal">
+                        {item.desc}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* =================================================================== */}
+        {/* 5. "OUR WORK / SOCIAL MEDIA & DIGITAL MARKETING IN ACTION"         */}
+        {/* =================================================================== */}
+        <section className="py-16 sm:py-20 lg:py-24 bg-white dark:bg-[#040814]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 sm:space-y-12">
+            {/* Header with Heading & Link */}
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 text-left">
+              <div className="space-y-3 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-electric/10 text-brand-electric dark:text-brand-cyan border border-brand-electric/20 dark:border-brand-cyan/30">
+                  <span>OUR WORK</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug">
+                  Social Media &amp; Digital Marketing in Action
+                </h2>
+                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                  From creative campaigns to data-driven strategies, we help businesses increase visibility, grow their audience and achieve measurable results across all digital channels.
+                </p>
+              </div>
+
+              <div className="shrink-0">
                 <Button
-                  href="/contact"
+                  href="/portfolio"
                   variant="primary"
-                  size="lg"
-                  trackingName="seo_start_growth_strategy"
-                  trackingLocation="service_hero"
+                  size="md"
+                  trackingName="work_view_portfolio"
+                  trackingLocation="work_showcase"
                   icon={<ArrowRight className="w-4 h-4" />}
-                  className="w-full sm:w-auto shadow-glow"
                 >
-                  Start Your SEO Growth Strategy
+                  View Our Portfolio
                 </Button>
               </div>
             </div>
 
-            {/* Right Side Visual Banner (1:1 with Web Development design) */}
-            <div className="lg:col-span-6 relative flex items-center justify-center h-full">
-              <div className="absolute inset-0 bg-gradient-brand opacity-20 blur-3xl rounded-3xl -z-10" />
-              <div className="relative w-full rounded-2xl border border-brand-cyan/30 dark:border-brand-cyan/40 bg-surface-elevated/80 backdrop-blur-xl p-2.5 sm:p-3 shadow-[0_25px_60px_rgba(0,0,0,0.3)] overflow-hidden group">
-                <div className="relative overflow-hidden rounded-xl h-[400px] sm:h-[460px] lg:h-[520px] w-full">
-                  <Image
-                    src="/images/services/seo-digital-marketing-services-banner.webp"
-                    alt="SEO and digital marketing team driving organic traffic and business growth"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    priority
-                    className="w-full h-full object-cover object-center rounded-xl transform group-hover:scale-[1.03] transition-transform duration-700 ease-out"
-                  />
-                  {/* Subtle Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/80 via-transparent to-transparent pointer-events-none rounded-xl" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 2. VALUE PROPOSITION SECTION (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-            {/* Left Side Strategy Graphic Image (Sticky on Top during Scroll) */}
-            <div className="lg:col-span-6 lg:sticky lg:top-28 self-start z-10 relative flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-brand opacity-10 blur-2xl rounded-3xl -z-10" />
-              <div className="relative w-full rounded-2xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-[#071024] p-2 sm:p-2.5 shadow-lg overflow-hidden group">
-                <div className="relative overflow-hidden rounded-xl h-[360px] sm:h-[440px] lg:h-[500px] w-full">
-                  <Image
-                    src="/images/services/seo-digital-marketing-services.webp"
-                    alt="SEO and digital marketing strategy dashboard by Nexovio Digital Solutions"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    priority
-                    className="w-full h-full object-cover object-center rounded-xl transform group-hover:scale-[1.02] transition-transform duration-700 ease-out"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#040814]/25 via-transparent to-transparent pointer-events-none rounded-xl" />
-                </div>
-              </div>
-            </div>
-
-            {/* Right Side Value Proposition Content */}
-            <div className="lg:col-span-6 space-y-6">
-              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-surface-elevated text-brand-cyan">
-                VALUE PROPOSITION
-              </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Turn <span className="bg-gradient-brand bg-clip-text text-transparent">Search Visibility</span> Into a Better Customer Journey
-              </h2>
-              <div className="space-y-4 text-base text-muted leading-relaxed">
-                <p className="font-semibold text-slate-900 dark:text-white">
-                  SEO is at its most powerful when the technical foundations, quality content and the website experience work together. A page can rank but be a commercial failure if the intent is wrong, the content is confusing or the next action is hard.
-                </p>
-                <p>
-                  Our SEO and digital marketing services are built to bring these pieces together.
-                </p>
-              </div>
-
-              {/* 6 Value Proposition Pillars */}
-              <div className="space-y-3 pt-2">
-                {VALUE_PROPOSITION_PILLARS.map((vp) => (
-                  <div key={vp.title} className="flex items-start gap-3 p-3 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#070F22]">
-                    <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
-                    <div>
-                      <h3 className="text-xs font-bold text-slate-900 dark:text-white">{vp.title}</h3>
-                      <p className="text-xs text-muted leading-relaxed mt-0.5">{vp.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Humanized Positioning Note Callout */}
-              <div className="p-4 rounded-xl border border-brand-cyan/30 bg-brand-cyan/10 space-y-1 text-xs">
-                <span className="font-bold text-brand-cyan block uppercase tracking-wider">
-                  HUMANIZED POSITIONING
-                </span>
-                <p className="text-slate-800 dark:text-slate-200 italic">
-                  Instead of relying on generic promises, we clearly define what gets optimized, why it matters, and how performance will be measured against your actual business goals.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. CORE SERVICES GRID (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="OUR CORE SERVICES"
-            title="SEO &amp; Digital Marketing"
-            highlightText="Services"
-            description="Solutions for your growth goals: Commercial, technical, content, authority, local, global, conversion optimization."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mt-12">
-            {CORE_SERVICES.map((srv, idx) => {
-              const Icon = srv.icon;
-              return (
-                <Card
-                  key={srv.title}
-                  className="flex flex-col justify-between h-full bg-white dark:bg-[#071328] p-6 sm:p-7 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/60 dark:hover:border-brand-cyan/60 shadow-sm hover:shadow-xl transition-all duration-300 group"
-                >
-                  <div className="space-y-4">
-                    {/* Visual Realistic Preview Graphic */}
-                    <RealisticServiceMockup previewType={srv.previewType} />
-
-                    <div className="flex items-center gap-3 pt-2">
-                      <div className="w-10 h-10 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan shrink-0 group-hover:scale-105 transition-transform">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-mono font-bold text-brand-cyan uppercase tracking-wider block">
-                          Service {String(idx + 1).padStart(2, "0")}
-                        </span>
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors h-[56px] overflow-hidden">
-                          {srv.title}
-                        </h3>
-                      </div>
-                    </div>
-
-                    <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                      {srv.description}
-                    </p>
-
-                  </div>
-
-                  <div className="pt-4 border-t border-slate-100 dark:border-white/10 mt-6">
-                    <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-brand-cyan block mb-1">
-                      Best For:{" "}
-                    </span>
-                    <p className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-                      {srv.bestFor}
-                    </p>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 4. DIGITAL MARKETING THAT WORKS WITH YOUR SEO STRATEGY (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="CONNECTED DIGITAL SYSTEM"
-            title="Digital Marketing That Complements"
-            highlightText="Your SEO Strategy"
-            description="Search is a component of a system that powers digital growth. The content you create, the campaigns you run, the experience users have on your landing pages, and the data you gather all impact how well your digital presence converts attention into demand."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {DIGITAL_MARKETING_FOCUS.map((dm) => {
-              const Icon = dm.icon;
-              return (
-                <div
-                  key={dm.title}
-                  className="p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] space-y-3 shadow-sm hover:border-brand-cyan/40 transition-colors"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    {dm.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {dm.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Full-Width Integrated Philosophy Banner Below Cards */}
-          <div className="mt-8 p-6 sm:p-7 rounded-2xl border border-brand-cyan/30 bg-gradient-to-r from-brand-cyan/15 via-brand-cyan/10 to-surface-elevated text-center max-w-4xl mx-auto shadow-sm space-y-2">
-            <span className="text-xs font-mono uppercase font-bold text-brand-cyan tracking-wider block">
-              PHILOSOPHICALLY COHESIVE
-            </span>
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-              One Approach, Not Five Separate Strategies
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium max-w-3xl mx-auto">
-              A keyword plan should be guided by real customer intent. Strategic content leads visitors to dedicated, high-converting service pages, while conversion rate optimization reduces friction at key decision points. Full-funnel analytics measure real business pipeline rather than superficial impressions.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 5. TECHNICAL SEO THAT MAKES THE WEBSITE EASIER TO CRAWL AND UNDERSTAND (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="INFRASTRUCTURE LAYER"
-            title="Technical SEO Improvements to Make Your Site"
-            highlightText="Easier to Crawl and Understand"
-            description="Technical SEO is the architectural backbone of organic search. We audit, configure, and resolve bottlenecks across crawl budgets, XML sitemaps, JSON-LD structured data, canonical tags, and sub-second Core Web Vitals performance."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3.5 mt-12 mb-8">
-            {TECHNICAL_SEO_CHECKLIST.map((item) => (
-              <div
-                key={item}
-                className="p-4 rounded-xl border border-slate-200/90 dark:border-white/10 bg-slate-50/60 dark:bg-[#071226] flex items-center gap-2.5 shadow-xs"
-              >
-                <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0" />
-                <span className="text-xs font-semibold text-slate-900 dark:text-white leading-tight">{item}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="p-4 sm:p-5 rounded-xl border border-slate-200 dark:border-white/10 bg-surface-elevated text-center max-w-3xl mx-auto">
-            <span className="text-xs font-mono font-bold text-brand-bright uppercase tracking-wider block mb-1">
-              TECHNICAL SEO PRINCIPLE
-            </span>
-            <p className="text-xs sm:text-sm text-muted italic">
-              Technical SEO must enhance your content and user experience rather than exist as its own checklist. Each fix should answer one real question: can search engines find, know, and use this page well?
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. SEO CONTENT THAT SOUNDS LIKE A HUMAN WROTE IT (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="TOPICAL AUTHORITY &amp; COPYWRITING"
-            title="SEO Content That Sounds"
-            highlightText="Like a Human Wrote It"
-            description="High ranking content is not necessarily useful content. For a professional service business, the copy needs to clarify the problem, show command of the subject matter, address commercial questions and provide the reader with enough confidence to act."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-12">
-            {/* Left 6 Principles (7 Columns) */}
-            <div className="lg:col-span-7 space-y-3.5">
-              <div className="flex items-center justify-between pb-2 border-b border-slate-200/80 dark:border-white/10">
-                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-brand-cyan" />
-                  Core Editorial Principles
-                </h3>
-                <span className="text-[11px] font-mono text-brand-cyan uppercase font-semibold">6 Quality Benchmarks</span>
-              </div>
-
-              {HUMANIZED_CONTENT_RULES.map((rule, idx) => (
+            {/* 3 Work Showcase Image Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+              {WORK_SHOWCASE.map((item, idx) => (
                 <div
                   key={idx}
-                  className="p-4 rounded-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] flex items-start gap-3.5 shadow-xs hover:border-brand-cyan/40 transition-colors group"
+                  className="rounded-3xl overflow-hidden border border-slate-200/90 dark:border-white/10 bg-white dark:bg-white/[0.02] shadow-sm hover:shadow-xl hover:border-brand-cyan/40 transition-all text-left flex flex-col group"
                 >
-                  <div className="w-6 h-6 rounded-md bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan font-mono text-xs font-bold shrink-0 mt-0.5 group-hover:bg-brand-cyan group-hover:text-black transition-colors">
-                    {String(idx + 1).padStart(2, "0")}
+                  <div className="relative w-full aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-900">
+                    <Image
+                      src={item.image}
+                      alt={item.imageAlt}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 380px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   </div>
-                  <span className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium">{rule}</span>
+                  <div className="p-5 sm:p-6 space-y-1.5 flex-1">
+                    <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white group-hover:text-brand-electric dark:group-hover:text-brand-cyan transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
+                      {item.subtitle}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
+          </div>
+        </section>
 
-            {/* Right Editorial Topics Card (5 Columns, Hug Content & Premium Bottom Callout) */}
-            <div className="lg:col-span-5 p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] space-y-4 shadow-sm h-fit">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100 dark:border-white/10">
-                <div className="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                  <BookOpen className="w-4 h-4" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Recommended Editorial Topics</h3>
-                  <span className="text-[11px] text-muted block">Topical Depth &amp; Intent Framework</span>
-                </div>
-              </div>
-
-              <div className="space-y-2.5">
-                {EDITORIAL_TOPICS.map((topic) => (
-                  <div key={topic} className="p-2.5 rounded-lg border border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-[#040A18] flex items-center gap-2.5 text-xs text-slate-800 dark:text-slate-200 hover:border-brand-cyan/30 transition-colors">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0" />
-                    <span className="font-medium">{topic}</span>
+        {/* =================================================================== */}
+        {/* 6. "SUCCESS STORIES THAT SPEAK FOR THEMSELVES"                      */}
+        {/* =================================================================== */}
+        <section className="py-16 sm:py-20 lg:py-24 bg-slate-50/70 dark:bg-[#030712] border-t border-slate-200/70 dark:border-white/5">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
+              {/* Column 1: Left Stats & Copy (lg:col-span-4) */}
+              <div className="lg:col-span-4 space-y-6 text-left flex flex-col justify-between">
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-electric/10 text-brand-electric dark:text-brand-cyan border border-brand-electric/20 dark:border-brand-cyan/30">
+                    <span>REAL RESULTS</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 7. GLOBAL & INTERNATIONAL SEO (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="GLOBAL SEARCH EXPANSION"
-            title="SEO for Businesses"
-            highlightText="Targeting Multiple Markets"
-            description="When you are doing global SEO, it is not just putting a city or a country name into a page. For businesses that are looking to expand into multiple markets, they need to realize that there are differences in search behavior, language, terminology, relevant content and site structure."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
-            {GLOBAL_SEO_PILLARS.map((pillar) => (
-              <div
-                key={pillar}
-                className="p-5 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-slate-50/50 dark:bg-[#071226] space-y-2 shadow-xs"
-              >
-                <div className="flex items-start gap-2.5">
-                  <Globe className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
-                  <span className="text-xs font-semibold text-slate-900 dark:text-white leading-relaxed">{pillar}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Full-Width International Architecture Callout Banner Below Cards */}
-          <div className="mt-8 p-6 sm:p-7 rounded-2xl border border-brand-cyan/30 bg-gradient-to-r from-brand-cyan/15 via-brand-cyan/10 to-surface-elevated text-center max-w-4xl mx-auto shadow-sm space-y-2">
-            <span className="text-xs font-mono uppercase font-bold text-brand-cyan tracking-wider block">
-              WORLD CLASS ARCHITECTURE
-            </span>
-            <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-              Global Scale & Localization Protocol
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium max-w-3xl mx-auto">
-              With international SEO, your site architecture, hreflang signals, and localized content are all harmonized so cross-border expansion delivers consistent search visibility and local relevance.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. CRO & ANALYTICS: FROM TRAFFIC TO MEASURABLE ACTIONS (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="CRO &amp; ANALYTICS"
-            title="Tracking Organic Traffic"
-            highlightText="All the Way to Business Actions"
-            description="Traffic is only valuable when it leads to meaningful commercial outcomes. We approach CRO by removing conversion friction, testing CTA placement, streamlining user forms, and tracking every critical milestone with GA4 and GTM."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-12 mb-8">
-            {MEASUREMENT_LAYERS.map((ml) => (
-              <div
-                key={ml.layer}
-                className="p-5 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] space-y-2 shadow-sm"
-              >
-                <span className="text-xs font-mono font-bold text-brand-cyan uppercase block">
-                  {ml.layer} Layer
-                </span>
-                <p className="text-xs text-muted leading-relaxed">
-                  {ml.metrics}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="p-5 rounded-2xl border border-brand-cyan/30 bg-surface-elevated text-center max-w-3xl mx-auto">
-            <h3 className="text-sm font-bold text-white mb-1">Make Reporting Easier to Act On</h3>
-            <p className="text-xs text-muted leading-relaxed">
-              A good SEO report shouldn’t require a client to draw conclusions from 20 different, unrelated graphs. It needs to answer three things: <span className="text-brand-cyan font-semibold">what changed, why it matters and what to do next</span>.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* 9. OUR PROCESS (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="OUR METHODOLOGY"
-            title="Our SEO &amp; Digital Marketing"
-            highlightText="Process"
-            description="A 6-step roadmap: audit, intent research, technical fixes, implementation, track, and iterate."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {PROCESS_STEPS_FULL.map((pst) => (
-              <Card
-                key={pst.step}
-                className="bg-slate-50/50 dark:bg-[#071328] p-6 border-slate-200/90 dark:border-white/10 shadow-xs"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs font-mono font-bold text-brand-cyan bg-brand-cyan/10 px-2.5 py-1 rounded-md border border-brand-cyan/20">
-                    Stage {pst.step}
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                  {pst.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                  {pst.desc}
-                </p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 10. INDUSTRY RELEVANCE (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="INDUSTRY RELEVANCE"
-            title="SEO Tactics with Respect to"
-            highlightText="Human Search Behaviors"
-            description="SEO isn’t the same for every industry. The search process for a SaaS customer is not the same as it is for a local healthcare provider, e-commerce brand or professional services company."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {INDUSTRIES.map((ind) => {
-              const Icon = ind.icon;
-              return (
-                <Card
-                  key={ind.title}
-                  className="bg-white dark:bg-[#071328] p-6 border-slate-200/90 dark:border-white/10 hover:border-brand-cyan/40 transition-all shadow-sm"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan mb-4">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">
-                    {ind.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                    {ind.desc}
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug">
+                    Success Stories That Speak for Themselves
+                  </h2>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                    We&apos;ve helped businesses across industries grow their online presence and achieve measurable success with our digital marketing services.
                   </p>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* 11. BRAND POSITIONING: WHY NEXOVIO (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="WHY CHOOSE US"
-            title="Why Nexovio Should Be Your Top"
-            highlightText="SEO & Digital Marketing Partner?"
-            description="Integrated engineering, humanized content, and intent-first strategy with no generic package limitations."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-            {BRAND_POSITIONING_REASONS.map((reason) => (
-              <div
-                key={reason.title}
-                className="p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-slate-50/50 dark:bg-[#071226] space-y-2 shadow-sm"
-              >
-                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                  <Check className="w-4 h-4 text-brand-cyan shrink-0" />
-                  {reason.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-muted leading-relaxed">
-                  {reason.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 12. GLOBAL SEARCH INTELLIGENCE & INTENT ARCHITECTURE (Section Blue Background) */}
-      <section className="section-blue py-16 sm:py-24 border-y border-slate-200/80 dark:border-blue-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="GLOBAL SEARCH INTELLIGENCE"
-            title="Global Search Strategy &"
-            highlightText="Target Intent Architecture"
-            description="We investigate actual customer search behavior in North America, Europe, Australia, and APAC to align technical architecture, content roadmaps, and conversion funnels with ready-to-buy decision-makers."
-            align="center"
-          />
-
-          {/* Search Intent Classification Matrix */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
-            {GLOBAL_SEARCH_INTENT_CLUSTERS.map((cluster) => (
-              <div
-                key={cluster.title}
-                className="p-6 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-[#071226] space-y-4 shadow-sm hover:border-brand-cyan/40 transition-colors"
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                    <Target className="w-4 h-4 text-brand-cyan shrink-0" />
-                    {cluster.title}
-                  </h3>
-                  <span className="text-[10px] font-mono font-semibold px-2.5 py-0.5 rounded bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/20">
-                    {cluster.badge}
-                  </span>
                 </div>
-                <p className="text-xs text-muted leading-relaxed">
-                  {cluster.description}
-                </p>
-                <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-100 dark:border-white/10">
-                  {cluster.capabilities.map((cap) => (
-                    <span
-                      key={cap}
-                      className="px-2.5 py-1 rounded text-[11px] font-medium bg-slate-100 dark:bg-[#040A18] text-slate-800 dark:text-slate-200 border border-slate-200/80 dark:border-white/10"
+
+                {/* 3 Metric Pills */}
+                <div className="space-y-3 pt-2">
+                  <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-500/10 text-brand-electric dark:text-brand-cyan flex items-center justify-center shrink-0">
+                      <Users className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-extrabold text-slate-900 dark:text-white">
+                        200+
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
+                        Happy Clients
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+                      <Briefcase className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-extrabold text-slate-900 dark:text-white">
+                        500+
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
+                        Projects Delivered
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white dark:bg-white/[0.03] border border-slate-200/80 dark:border-white/10">
+                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0">
+                      <TrendingUp className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-extrabold text-slate-900 dark:text-white">
+                        95%
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400">
+                        Client Retention Rate
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Column 2: Center Testimonial Card (lg:col-span-5) */}
+              <div className="lg:col-span-4 flex flex-col justify-between p-6 sm:p-8 rounded-3xl bg-white dark:bg-white/[0.03] border border-slate-200/90 dark:border-white/10 shadow-sm text-left relative">
+                {/* Large Cyan Quote Mark */}
+                <div className="text-4xl sm:text-5xl font-serif text-brand-electric dark:text-brand-cyan leading-none select-none">
+                  “
+                </div>
+
+                <div className="my-4">
+                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 leading-relaxed italic">
+                    {currentTestimonial.quote}
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-slate-100 dark:border-white/10 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="relative w-12 h-12 rounded-full overflow-hidden border border-brand-cyan/40 shrink-0">
+                      <Image
+                        src={currentTestimonial.avatar}
+                        alt={currentTestimonial.avatarAlt}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white truncate">
+                        {currentTestimonial.author}
+                      </div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                        {currentTestimonial.role}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Carousel Controls */}
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={prevTestimonial}
+                      aria-label="Previous testimonial"
+                      className="p-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:text-brand-cyan hover:border-brand-cyan transition-colors"
                     >
-                      {cap}
-                    </span>
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={nextTestimonial}
+                      aria-label="Next testimonial"
+                      className="p-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-300 hover:text-brand-cyan hover:border-brand-cyan transition-colors"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Testimonial Indicator Dots */}
+                <div className="flex items-center justify-center gap-1.5 pt-4">
+                  {TESTIMONIALS.map((_, dotIdx) => (
+                    <button
+                      key={dotIdx}
+                      type="button"
+                      onClick={() => setCurrentTestimonialIndex(dotIdx)}
+                      aria-label={`Go to slide ${dotIdx + 1}`}
+                      className={`h-1.5 rounded-full transition-all ${dotIdx === currentTestimonialIndex
+                        ? "w-6 bg-brand-electric dark:bg-brand-cyan"
+                        : "w-1.5 bg-slate-300 dark:bg-white/20"
+                        }`}
+                    />
                   ))}
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* Regional Market Coverage Cards */}
-          <div className="mt-12 bg-white dark:bg-[#071226] rounded-2xl border border-slate-200/90 dark:border-white/10 p-6 shadow-sm space-y-4">
-            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-              <Globe className="w-4 h-4 text-brand-cyan" />
-              Worldwide Search Market Reach
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {REGIONAL_COVERAGE_MARKETS.map((m) => (
-                <div key={m.region} className="p-4 rounded-xl border border-slate-100 dark:border-white/10 bg-slate-50/60 dark:bg-[#040A18] space-y-1">
-                  <span className="text-xs font-bold text-brand-cyan block font-mono">{m.highlight}</span>
-                  <span className="text-[11px] text-slate-800 dark:text-slate-200 font-semibold block">{m.region}</span>
-                  <p className="text-[11px] text-muted leading-tight">{m.desc}</p>
-                </div>
-              ))}
-            </div>
+              {/* Column 3: Right Workspace Photo with Handwritten Note (lg:col-span-3) */}
+              <div className="lg:col-span-4 relative flex items-center justify-center">
+                <div className="relative w-full h-full min-h-[260px] rounded-3xl overflow-hidden border border-slate-200/90 dark:border-white/10 shadow-sm bg-slate-100 dark:bg-slate-900">
+                  <Image
+                    src="/images/services/seo/digital-marketing-growth-workspace.jpg"
+                    alt="Modern aesthetic growth marketing workspace with tablet, coffee, and strategic planning notes"
+                    fill
+                    sizes="(max-width: 768px) 100vw, 320px"
+                    className="object-cover"
+                  />
 
-            <div className="p-4 rounded-xl border border-brand-cyan/30 bg-brand-cyan/10 text-xs text-slate-800 dark:text-slate-200 italic mt-4">
-              <strong>COMMERCIAL INTENT FIRST:</strong> High search volume alone does not drive business value. Broad terms often attract unqualified traffic. We combine strategic high-value search terms with commercially specific conversion funnels to ensure your organic growth generates qualified leads.
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 13. ENGINEERED QUALITY STANDARD & CONNECTED ECOSYSTEM (White Background) */}
-      <section className="bg-white dark:bg-background py-16 sm:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            badge="ENGINEERED EXCELLENCE"
-            title="Technical Engineering Standards &amp;"
-            highlightText="Connected Ecosystem"
-            description="How we integrate technical SEO precision into your website architecture, content hierarchy, and connected digital solutions."
-            align="center"
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
-            {/* Technical Engineering Quality Standards - 4 Visual Feature Cards */}
-            <div className="lg:col-span-6 p-6 sm:p-7 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-slate-50/50 dark:bg-[#071226] space-y-6 shadow-sm">
-              <div className="flex items-center gap-2.5 pb-4 border-b border-slate-200/80 dark:border-white/10">
-                <div className="w-9 h-9 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    Technical Engineering Quality Standards
-                  </h3>
-                  <span className="text-[11px] text-muted">Core Web Vitals &amp; Search Architecture Protocol</span>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="p-4 rounded-xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-[#040A18] space-y-1.5 shadow-xs">
-                  <div className="flex items-center gap-2 text-brand-cyan font-semibold text-xs">
-                    <CheckCircle2 className="w-4 h-4 shrink-0" />
-                    <span>Architectural Indexing</span>
-                  </div>
-                  <p className="text-[11px] text-muted leading-relaxed">
-                    Single H1 hierarchy, clean XML sitemaps, and optimized crawl budget efficiency for fast Google indexing.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-[#040A18] space-y-1.5 shadow-xs">
-                  <div className="flex items-center gap-2 text-brand-cyan font-semibold text-xs">
-                    <Code2 className="w-4 h-4 shrink-0" />
-                    <span>Semantic HTML5</span>
-                  </div>
-                  <p className="text-[11px] text-muted leading-relaxed">
-                    Logical H1–H3 heading hierarchy and accessible semantic markup for search parsers and screen readers.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-[#040A18] space-y-1.5 shadow-xs">
-                  <div className="flex items-center gap-2 text-brand-cyan font-semibold text-xs">
-                    <FileCode className="w-4 h-4 shrink-0" />
-                    <span>Structured Data Schema</span>
-                  </div>
-                  <p className="text-[11px] text-muted leading-relaxed">
-                    Rich JSON-LD markup (Service, FAQPage, Breadcrumbs, Organization) for enhanced Google SERP rich snippets.
-                  </p>
-                </div>
-
-                <div className="p-4 rounded-xl border border-slate-200/80 dark:border-white/10 bg-white dark:bg-[#040A18] space-y-1.5 shadow-xs">
-                  <div className="flex items-center gap-2 text-brand-cyan font-semibold text-xs">
-                    <Zap className="w-4 h-4 shrink-0" />
-                    <span>Core Web Vitals Speed</span>
-                  </div>
-                  <p className="text-[11px] text-muted leading-relaxed">
-                    Asset optimization, sub-second TTFB, and fluid responsive mobile viewport benchmarks across all devices.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Connected Solution Ecosystem Links - Interactive Card Grid */}
-            <div className="lg:col-span-6 p-6 sm:p-7 rounded-2xl border border-slate-200/90 dark:border-white/10 bg-slate-50/50 dark:bg-[#071226] space-y-4 shadow-sm">
-              <div className="flex items-center gap-2.5 pb-3 border-b border-slate-200/80 dark:border-white/10">
-                <div className="w-9 h-9 rounded-lg bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center text-brand-cyan">
-                  <Boxes className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                    Integrated Digital Solution Ecosystem
-                  </h3>
-                  <span className="text-[11px] text-muted">Cross-Service Capability Alignment</span>
-                </div>
-              </div>
-
-              <div className="space-y-2.5">
-                {INTERNAL_LINKS.map((link, idx) => (
-                  <Link
-                    key={idx}
-                    href={link.url}
-                    className="group p-3 rounded-xl bg-white dark:bg-[#040A18] border border-slate-200/80 dark:border-white/10 hover:border-brand-cyan/50 dark:hover:border-brand-cyan/50 flex items-center justify-between transition-all duration-300 shadow-xs hover:shadow-md"
-                  >
-                    <div className="space-y-0.5">
-                      <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-brand-cyan transition-colors block">
-                        {link.anchor}
-                      </span>
-                      <span className="text-[11px] text-muted block">{link.purpose}</span>
+                  {/* Handwritten Badge Overlay */}
+                  <div className="absolute top-4 right-4 bg-white/90 dark:bg-[#071026]/90 backdrop-blur-md rounded-2xl p-2.5 shadow-md border border-slate-200/80 dark:border-white/15 pointer-events-none select-none">
+                    <div className="font-serif italic text-xs font-bold text-slate-800 dark:text-brand-cyan leading-tight text-center">
+                      Your Growth <br />
+                      is Our Goal ✦
                     </div>
-                    <div className="w-7 h-7 rounded-lg bg-brand-cyan/10 group-hover:bg-brand-cyan group-hover:text-black flex items-center justify-center text-brand-cyan transition-all shrink-0 ml-3">
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </div>
-                  </Link>
-                ))}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 15. FREQUENTLY ASKED QUESTIONS */}
-      <FaqSection faqs={service.faqs} />
-    </div>
+        {/* =================================================================== */}
+        {/* 9. FREQUENTLY ASKED QUESTIONS SECTION (FAQSection COMPONENT)        */}
+        {/* =================================================================== */}
+        <FaqSection
+          variant="white"
+          faqs={FAQ_ITEMS}
+          title="Frequently Asked"
+          highlightText="Questions"
+        />
+
+      </div>
+    </>
   );
 }

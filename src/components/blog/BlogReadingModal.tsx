@@ -15,6 +15,7 @@ import {
   Mail,
   ChevronDown,
 } from "lucide-react";
+import { trackFormSubmit } from "@/src/lib/analytics";
 
 interface BlogReadingModalProps {
   articleTitle: string;
@@ -169,6 +170,7 @@ export function BlogReadingModal({
       if (response.ok && data.success !== false) {
         setIsSuccess(true);
         try {
+          trackFormSubmit("blog_reading_modal", selectedService);
           localStorage.setItem("nexovio_lead_submitted", "true");
         } catch {
           // Ignore

@@ -556,7 +556,7 @@ const CASE_STUDIES = [
     challenge: "Stagnant organic traffic and low lead-to-opportunity conversion rate.",
     approach: "Reconstructed site architecture, optimized Core Web Vitals, and deployed search-intent hub.",
     deliverables: "Custom Web Design, Technical SEO, GA4 Tracking, Content Hub",
-    outcome: "+185% increase in organic search leads within 6 months.",
+    outcome: "+240% qualified organic demo requests and 0.8s LCP within 4 months.",
     image: "/images/case-studies/b2b-digital-platform-technical-seo-optimization.webp",
     imageAlt: "B2B digital platform with technical SEO and GA4 analytics",
   },
@@ -686,26 +686,26 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
               <div className="pt-2 flex flex-wrap items-center gap-4">
                 <Button
                   onClick={onOpenModal ? onOpenModal : undefined}
-                  href={!onOpenModal ? "/schedule-a-call" : undefined}
+                  href={!onOpenModal ? "/contact" : undefined}
                   variant="primary"
                   size="lg"
-                  trackingName="hero_schedule_call"
+                  trackingName="hero_discuss_project"
                   trackingLocation="hero"
                   icon={<ArrowRight className="w-4 h-4" />}
                   className="w-full sm:w-auto shadow-glow cursor-pointer"
                 >
-                  Schedule a Call
+                  Discuss Your Project
                 </Button>
 
                 <Button
-                  href="#solutions"
+                  href="/portfolio"
                   variant="secondary"
                   size="lg"
-                  trackingName="hero_explore_solutions"
+                  trackingName="hero_view_work"
                   trackingLocation="hero"
                   className="w-full sm:w-auto hover:border-brand-cyan/40"
                 >
-                  Explore Solutions
+                  View Our Work
                 </Button>
 
                 <Link

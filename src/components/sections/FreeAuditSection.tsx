@@ -110,18 +110,18 @@ export function FreeAuditSection({ className = "" }: FreeAuditSectionProps) {
             <div className="lg:col-span-7 space-y-6 text-left">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand-cyan/40 bg-brand-cyan/10 text-brand-cyan text-xs font-mono font-bold uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5 animate-pulse text-brand-cyan" />
-                <span>Zero Cost • 24-Hour Turnaround</span>
+                <span>Zero Cost • Delivered in 24 Hours</span>
               </div>
 
               <div className="space-y-3">
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
-                  Get a Free 5-Minute Technical &amp;{" "}
+                  Request a Free Technical &amp;{" "}
                   <span className="bg-gradient-brand bg-clip-text text-transparent">
                     Core Web Vitals Audit
                   </span>
                 </h2>
                 <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
-                  Wondering why your website gets traffic but not enough qualified leads? Enter your website URL and work email. Our engineering team will run deep diagnostic traces and deliver an actionable architectural, speed, and conversion friction report directly to your inbox.
+                  Wondering why your website gets traffic but not enough qualified inquiries? Takes 60 seconds to submit. Our senior engineering team conducts an in-depth review combining automated Core Web Vitals telemetry with manual architecture and conversion analysis, delivering an actionable roadmap directly to your inbox within 24 business hours.
                 </p>
               </div>
 

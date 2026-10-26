@@ -57,6 +57,16 @@ const nextConfig = {
         destination: '/blog/ai-automation-for-business',
         permanent: true,
       },
+      {
+        source: '/case-studies/apex-cloud-enterprise-platform',
+        destination: '/case-studies/b2b-digital-platform',
+        permanent: true,
+      },
+      {
+        source: '/case-studies/strata-financial-corporate-portal',
+        destination: '/case-studies/fintech-mobile-app',
+        permanent: true,
+      },
     ];
   },
   async headers() {

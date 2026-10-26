@@ -157,11 +157,11 @@ const GENAI_SERVICES: GenAiServiceItem[] = [
   {
     id: "rag-solutions",
     number: "03",
-    badge: "ZERO HALLUCINATIONS",
+    badge: "VERIFIED FACTUAL RAG",
     title: "Enterprise RAG & Knowledge Retrieval",
     tagline: "Ground Foundation Models in Private Corporate Data Securely",
     description:
-      "Eliminate model hallucinations by retrieving precise facts from internal documents, PDFs, manuals, and databases before synthesis. We implement hybrid semantic vector search with real-time citation links.",
+      "Mitigate hallucination risks by retrieving verified facts from internal documents, PDFs, manuals, and databases before synthesis. We implement hybrid semantic vector search with real-time citation links.",
     keywordCluster: "retrieval augmented generation · vector database RAG",
     image: "/images/services/generative-ai/genai-rag-knowledge.jpg",
     imageAlt: "Data scientists analyzing RAG knowledge graph and vector database visualization on studio touchscreen display",
@@ -199,9 +199,9 @@ const GENAI_SERVICES: GenAiServiceItem[] = [
     number: "05",
     badge: "SAFETY & COMPLIANCE",
     title: "Enterprise Guardrails, Safety & PII Redaction",
-    tagline: "Deterministic Defense Against Jailbreaks, Hallucinations & Data Leaks",
+    tagline: "Multi-Layered Defense Against Jailbreaks, Hallucinations & Unauthorized Disclosures",
     description:
-      "Protect your enterprise reputation and customer trust. We build deterministic guardrail layers that redact sensitive PII, prevent prompt injection attacks, enforce brand guidelines, and ensure SOC2/HIPAA compliance.",
+      "Protect your enterprise reputation and customer trust. We build deterministic guardrail layers that redact sensitive PII, mitigate prompt injection attacks, enforce brand guidelines, and align with SOC2/HIPAA security frameworks.",
     keywordCluster: "AI safety guardrails · prompt injection defense · PII masking",
     image: "/images/services/generative-ai/genai-guardrails-security.jpg",
     imageAlt: "Cybersecurity and AI compliance specialist inspecting AI safety and compliance dashboard with hallucination monitoring",
@@ -282,7 +282,7 @@ const GENAI_SERVICES: GenAiServiceItem[] = [
 
 const VALUE_PROPOSITION_PILLARS = [
   {
-    title: "Grounding in Private Business Data (Zero Hallucinations)",
+    title: "Grounding in Private Business Data (Contextual RAG & Verification)",
     description:
       "We connect models to your actual enterprise documents, catalogs, and databases via hybrid RAG, ensuring all generated responses are verifiable with clickable source citations.",
   },
@@ -1083,9 +1083,9 @@ export default function GenerativeAiDevelopment() {
 
                 <AnimateOnScroll variant="fadeUp" delay={0.1}>
                   <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                    Zero Data Leakage,{" "}
+                    Strict Data Privacy &amp;{" "}
                     <span className="bg-gradient-brand bg-clip-text text-transparent">
-                      Zero Unauthorized Disclosures
+                      Comprehensive Access Controls
                     </span>
                   </h2>
                 </AnimateOnScroll>

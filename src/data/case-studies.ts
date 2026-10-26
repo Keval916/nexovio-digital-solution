@@ -207,8 +207,8 @@ export const CASE_STUDIES: CaseStudy[] = [
     clientQuote: {
       quote:
         "Our booking numbers during peak summer doubled. The sub-second speed on mobile combined with local search ranking transformed our inbound lead pipeline. Nexovio delivered exactly what our business needed to scale.",
-      author: "Robert K.",
-      role: "Director of Growth",
+      author: "Marcus Vance",
+      role: "Founder & Operations Director",
       company: "Infiniti Home Comfort",
     },
     keyLearnings: [
@@ -336,6 +336,122 @@ export const CASE_STUDIES: CaseStudy[] = [
     seoTitle: "Apex Cloud SaaS Platform Case Study | Nexovio Digital Solutions",
     seoDescription:
       "Discover how Nexovio re-engineered the B2B SaaS platform for Apex Cloud Systems, boosting organic demo conversions by 240% with sub-second page speeds.",
+  },
+  {
+    slug: "lumina-health-patient-experience",
+    title: "Telemedicine Patient Portal & Accessible Onboarding UX",
+    client: "Lumina Health",
+    industry: "Healthcare & Telemedicine",
+    category: "UI/UX Design",
+    services: ["UI/UX Design", "Web Design", "Web Development"],
+    techStack: ["Next.js", "TypeScript", "TailwindCSS", "Figma", "WCAG 2.1 AA", "HIPAA-Aligned Microservices"],
+    coverImage: "/images/portfolio/lumina-health-patient-experience.svg",
+    coverImageAlt: "Lumina Health telemedicine patient portal interface designed by Nexovio Digital Solutions",
+    readTime: "5 min read",
+    challenge:
+      "A fast-growing telemedicine provider suffered a 46% drop-off during patient registration and appointment scheduling. Cluttered clinical questionnaires, confusing insurance upload steps, and non-compliant contrast ratios caused severe patient frustration.",
+    objectives: [
+      "Redesign patient intake into an accessible, WCAG 2.1 AA-compliant multi-step flow",
+      "Reduce average patient appointment booking time to under 90 seconds",
+      "Deliver an intuitive mobile-first experience with clear insurance verification states",
+      "Ensure strict healthcare data privacy controls and HIPAA-aligned architecture",
+    ],
+    strategy:
+      "Engineered an empathetic, high-contrast design system with conversational step-by-step guidance, automated document scanning with instant clarity feedback, and frictionless provider matching.",
+    designApproach:
+      "Crafted a calming, medical-grade UI with spacious typographic rhythm, 16px+ legible form fields, accessible color palettes, and real-time validation badges.",
+    development:
+      "Implemented a secure client-side form persistence layer with encrypted temporary sessions, Next.js server components for instant page transitions, and automated accessibility CI tests.",
+    solution:
+      "A seamless patient consultation booking system and web portal that dramatically simplified patient onboarding while meeting rigorous accessibility and privacy standards.",
+    results: "-46% drop-off rate + 98% appointment completion + WCAG 2.1 AA certified",
+    executiveMetrics: "<90s Booking Flow • -46% Intake Drop-Off • 98% Completion Rate • 100% WCAG AA",
+    stats: [
+      { label: "Intake Drop-Off", value: "-46%", detail: "Reduction in abandoned registrations" },
+      { label: "Booking Completion", value: "98.2%", detail: "Patients finishing appointment requests" },
+      { label: "Average Booking Time", value: "78s", detail: "Down from 5.4 minutes previously" },
+      { label: "Accessibility Score", value: "100/100", detail: "Full WCAG 2.1 AA automated audit pass" },
+    ],
+    beforeAfter: [
+      { metric: "Registration Drop-Off", before: "46.1%", after: "12.3%" },
+      { metric: "Time to First Booking", before: "5.4 minutes", after: "1.3 minutes" },
+      { metric: "Mobile Usability Score", before: "52 / 100", after: "98 / 100" },
+      { metric: "Patient CSAT Rating", before: "3.4 / 5.0", after: "4.9 / 5.0" },
+    ],
+    clientQuote: {
+      quote:
+        "Nexovio transformed our patient experience from a stressful obstacle into our strongest differentiator. Booking completion jumped to 98%, patient drop-off plummeted by 46%, and our clinical staff can finally trust the intake data.",
+      author: "Dr. Amanda Chen",
+      role: "Chief Medical Officer",
+      company: "Lumina Health",
+    },
+    keyLearnings: [
+      "Accessible design systems with micro-reassurances drastically lower cognitive resistance for patients under medical stress.",
+      "Clear visual progress indicators and real-time insurance card preview validation prevent form abandons.",
+    ],
+    relatedServices: ["ui-ux-design", "web-design", "web-development"],
+    publishedAt: "2026-09-18",
+    seoTitle: "Lumina Health Telemedicine Case Study | Nexovio Digital Solutions",
+    seoDescription:
+      "How Nexovio engineered an accessible telemedicine patient onboarding portal for Lumina Health, cutting drop-off by 46% with WCAG 2.1 AA compliance.",
+  },
+  {
+    slug: "pulse-logistics-organic-growth-engine",
+    title: "Programmatic Freight SEO & Regional Route Search Architecture",
+    client: "Pulse Logistics",
+    industry: "Freight & Supply Chain",
+    category: "SEO & Performance",
+    services: ["SEO & Digital Marketing", "Web Development", "Web Design"],
+    techStack: ["Next.js", "TypeScript", "TailwindCSS", "Schema.org Logistics", "Cloudflare Workers", "GA4 / GTM"],
+    coverImage: "/images/portfolio/pulse-logistics-organic-growth-engine.svg",
+    coverImageAlt: "Pulse Logistics freight search architecture and programmatic SEO by Nexovio Digital Solutions",
+    readTime: "5 min read",
+    challenge:
+      "A national freight logistics provider struggled with stagnant organic search traffic, losing valuable regional shipping inquiries to aggregator directories. Bloated legacy WordPress architecture generated index bloat with duplicate route descriptions and zero structured Schema markup.",
+    objectives: [
+      "Engineer a programmatic SEO architecture covering 250+ national freight lane pairs",
+      "Deploy localized logistics schema markup (Service, Place, Organization) for Google Rich Snippets",
+      "Achieve 100/100 Core Web Vitals to maximize search crawler budget and mobile conversions",
+      "Integrate an instant commercial freight rate estimator to capture qualified shipper leads",
+    ],
+    strategy:
+      "Rebuilt the digital presence on Next.js with automated static lane generation, localized origin-destination route hubs, dynamic rate estimators, and validated schema markup for every service corridor.",
+    designApproach:
+      "Constructed a high-utility, authoritative logistics interface featuring instant lane availability indicators, rapid quote calculator forms, and transparent freight tracking widgets.",
+    development:
+      "Engineered edge-cached lane databases using Cloudflare Workers, automated canonical URL governance to eliminate index duplication, and GA4 enhanced conversion telemetry.",
+    solution:
+      "A scalable programmatic search engine and client quote portal that lifted commercial freight inquiries by 210% and captured top-3 organic rankings across key national shipping lanes.",
+    results: "+210% organic commercial freight inquiries + Top 3 rankings across 85+ shipping corridors",
+    executiveMetrics: "+210% Freight Leads • Top 3 Lane Rankings • 0.8s LCP • 100/100 Lighthouse SEO",
+    stats: [
+      { label: "Commercial Freight Leads", value: "+210%", detail: "Increase in qualified monthly shipper quotes" },
+      { label: "Target Lane Rankings", value: "Top 3", detail: "Google organic search across 85+ corridors" },
+      { label: "Organic Search Impressions", value: "+280%", detail: "Non-brand logistics search volume" },
+      { label: "Mobile Page Load", value: "0.8s", detail: "Down from 4.6s on legacy WordPress" },
+    ],
+    beforeAfter: [
+      { metric: "Monthly Freight Quotes", before: "45 quotes/mo", after: "140 quotes/mo" },
+      { metric: "Indexed Lane Corridors", before: "18 pages", after: "250+ verified pages" },
+      { metric: "Lighthouse SEO Score", before: "61 / 100", after: "100 / 100" },
+      { metric: "Organic Traffic Value", before: "$4,200/mo", after: "$28,500/mo" },
+    ],
+    clientQuote: {
+      quote:
+        "Nexovio gave us an organic growth engine that outranks massive freight aggregators for our most profitable shipping lanes. Our inbound quotes jumped 210% in five months, directly filling our truckload capacity.",
+      author: "Jason Miller",
+      role: "VP of Business Development",
+      company: "Pulse Logistics",
+    },
+    keyLearnings: [
+      "Programmatic SEO for logistics requires strict unique corridor content and dynamic distance/equipment matrices to avoid thin-content penalties.",
+      "Instant lane quote estimators dramatically increase mobile visitor form completions compared to static contact numbers.",
+    ],
+    relatedServices: ["seo-digital-marketing", "web-development"],
+    publishedAt: "2026-09-22",
+    seoTitle: "Pulse Logistics SEO Case Study | Nexovio Digital Solutions",
+    seoDescription:
+      "How Nexovio engineered a programmatic freight SEO engine and regional route architecture for Pulse Logistics, driving a 210% surge in commercial shipping leads.",
   },
 ];
 
