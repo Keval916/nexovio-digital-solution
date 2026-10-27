@@ -24,7 +24,7 @@ export function Breadcrumbs({ items, className, renderSchema = true }: Breadcrum
         />
       )}
       <div
-        className={`w-full bg-slate-50/95 dark:bg-[#070D1A]/95 border-b border-slate-200/70 dark:border-white/10 backdrop-blur-md select-none ${className || ""}`}
+        className={`w-full bg-slate-50/95 dark:bg-[#070D1A]/95 border-b border-slate-200/70 dark:border-white/10 backdrop-blur-md select-none mt-4${className || ""}`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
           <nav aria-label="Breadcrumb" className="flex items-center text-xs">

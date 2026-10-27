@@ -412,7 +412,7 @@ export default function SeoDigitalMarketingPage() {
               </p>
 
               {/* 4 Benefit Mini-Cards (2x2 or 4-grid) */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+              <div className="grid grid-cols-2 sm:grid-cols-2 gap-3 pt-2">
                 {HERO_BENEFITS.map((b, idx) => {
                   const IconComponent = b.icon;
                   return (
@@ -737,7 +737,7 @@ export default function SeoDigitalMarketingPage() {
           </div>
 
           {/* 6 Feature Cards Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
             {WHY_CHOOSE_ITEMS.map((item, idx) => {
               const IconComponent = item.icon;
               return (

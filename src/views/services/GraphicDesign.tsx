@@ -455,7 +455,7 @@ export default function GraphicDesignPage() {
               </div>
 
               {/* H1 Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-extrabold text-slate-950 dark:text-white tracking-tight leading-[1.12]">
+              <h1 className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-extrabold text-slate-950 dark:text-white tracking-tight leading-[1.12]">
                 Creative Designs. <br />
                 Real <span className="bg-gradient-brand bg-clip-text text-transparent">Business Impact.</span>
               </h1>
@@ -466,7 +466,7 @@ export default function GraphicDesignPage() {
               </p>
 
               {/* 4 Feature Badges (2x2 on mobile, 4-col on desktop) */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+              <div className="grid grid-cols-2 gap-3 pt-1">
                 <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-surface-elevated border border-slate-200/80 dark:border-white/10 shadow-xs">
                   <div className="w-8 h-8 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                     <ShieldCheck className="w-4 h-4" />
@@ -504,16 +504,26 @@ export default function GraphicDesignPage() {
                 </div>
               </div>
 
-              {/* Primary CTA Button */}
-              <div className="pt-2">
+              {/* CTA Buttons Row */}
+              <div className="pt-3 flex flex-wrap items-center gap-4">
                 <Button
-                  onClick={() => setIsConsultationModalOpen(true)}
+                  href="/contact"
                   variant="primary"
-                  size="lg"
-                  className="shadow-glow cursor-pointer inline-flex items-center gap-2 text-sm sm:text-base px-6 py-3.5"
+                  size="md"
+                  trackingName="web_design_hero_start_project"
+                  trackingLocation="web_design_hero"
+                  icon={<ArrowRight className="w-4 h-4" />}
                 >
-                  <span>Get a Free Consultation</span>
-                  <ArrowRight className="w-4 h-4" />
+                  Start Your Project
+                </Button>
+                <Button
+                  href="#portfollio"
+                  variant="secondary"
+                  size="md"
+                  trackingName="web_design_hero_view_portfolio"
+                  trackingLocation="web_design_hero"
+                >
+                  View Our Portfolio
                 </Button>
               </div>
             </div>
@@ -612,7 +622,7 @@ export default function GraphicDesignPage() {
       {/* ================================================================== */}
       {/* 3. "OUR PORTFOLIO" — DESIGNS THAT TELL YOUR STORY */}
       {/* ================================================================== */}
-      <section className="py-16 sm:py-20 bg-background relative border-t border-slate-100 dark:border-white/5">
+      <section className="py-16 sm:py-20 bg-background relative border-t border-slate-100 dark:border-white/5" id="portfollio">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
