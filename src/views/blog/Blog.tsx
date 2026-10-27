@@ -41,6 +41,20 @@ const DEFAULT_CATEGORIES = [
 
 const ITEMS_PER_PAGE = 12;
 
+function resolveArticleImage(image?: string, slug?: string): string {
+  if (!image || image === "/api/media/." || image === "/api/media/" || image.endsWith("/.")) {
+    const s = (slug || "").toLowerCase().trim();
+    if (s === "ai-automation-for-business") {
+      return "/images/blog/ai-automation-repetitive-work-growing-businesses.webp";
+    }
+    if (s === "ecommerce-solutions-for-businesses") {
+      return "/images/blog/ecommerce-solutions-business-digital-growth.webp";
+    }
+    return "/images/blog/custom-web-development-vs-website-builders.webp";
+  }
+  return image;
+}
+
 interface BlogHubPageProps {
   initialArticles?: BlogArticle[];
   initialCategories?: BlogCategory[] | string[];
@@ -398,8 +412,8 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
                       className="block relative w-full aspect-[16/10] overflow-hidden bg-slate-900"
                     >
                       <Image
-                        src={article.featuredImage}
-                        alt={article.featuredImageAlt}
+                        src={resolveArticleImage(article.featuredImage, article.slug)}
+                        alt={article.featuredImageAlt || article.title}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
@@ -421,7 +435,7 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
                     </Link>
 
                     {/* Bottom Details Container: Title & Description */}
-                    <div className="p-5 space-y-2.5">
+                    <div className="p-5 pb-3.5 space-y-2.5">
                       <div className="flex items-center gap-1.5 text-[11px] text-muted font-mono">
                         <Calendar className="w-3 h-3 text-brand-cyan" />
                         <span>{formatDate(article.publishedAt)}</span>
@@ -439,8 +453,8 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
                     </div>
                   </div>
 
-                  {/* Card Bottom Link */}
-                  <div className="p-5 pt-0 mt-2 border-t border-border-subtle/50 flex items-center justify-between">
+                  {/* Card Bottom Link with 10px spacing */}
+                  <div className="px-5 pt-3 pb-4 mt-1 border-t border-border-subtle/50 flex items-center justify-between">
                     <span className="text-[11px] text-muted truncate max-w-[120px]">
                       {article.author.name}
                     </span>
@@ -472,8 +486,8 @@ export default function BlogHubPage({ initialArticles, initialCategories }: Blog
                     className="block relative w-full md:w-64 aspect-[16/10] md:aspect-auto shrink-0 overflow-hidden bg-slate-900"
                   >
                     <Image
-                      src={article.featuredImage}
-                      alt={article.featuredImageAlt}
+                      src={resolveArticleImage(article.featuredImage, article.slug)}
+                      alt={article.featuredImageAlt || article.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 260px"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"

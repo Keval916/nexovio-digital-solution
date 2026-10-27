@@ -47,23 +47,24 @@ export function PortfolioClient() {
       : PORTFOLIO_PROJECTS.filter((p) => p.category === activeCategory);
 
   return (
-    <div>
-      <section className="pt-14 lg:pt-16 pb-16 sm:pb-20 bg-background relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Breadcrumbs items={[{ name: "Portfolio", url: "/portfolio" }]} />
+    <div className="bg-background text-foreground min-h-screen">
+      {/* Full-width Breadcrumb Stripe Touching Header */}
+      <Breadcrumbs items={[{ name: "Portfolio", url: "/portfolio" }]} />
 
+      <section className="pt-8 sm:pt-10 pb-16 sm:pb-20 bg-background relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <AnimateOnScroll variant="fadeUp" duration={0.7}>
             <div className="max-w-3xl mb-10 sm:mb-12">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-semibold uppercase tracking-wider border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan mb-4">
                 Proven Digital Solutions
               </div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-[1.14]">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-[1.14]">
                 Representative Projects &amp;{" "}
                 <span className="bg-gradient-brand bg-clip-text text-transparent">
                   Engineered Work.
                 </span>
               </h1>
-              <p className="mt-6 text-base sm:text-lg text-muted leading-relaxed">
+              <p className="mt-6 text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
                 Explore curated web applications, bespoke digital interfaces, and organic growth architectures delivered across our core digital engineering disciplines.
               </p>
             </div>
@@ -84,19 +85,17 @@ export function PortfolioClient() {
                       key={category}
                       type="button"
                       onClick={() => setActiveCategory(category)}
-                      className={`group flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-300 border outline-none select-none ${
-                        isSelected
+                      className={`group flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-300 border outline-none select-none ${isSelected
                           ? "bg-gradient-brand text-white keep-white border-transparent shadow-[0_4px_20px_rgba(0,198,255,0.35)] scale-[1.02]"
                           : "bg-surface-elevated text-muted hover:text-foreground border-border-subtle hover:border-brand-cyan/50 hover:bg-surface-subtle"
-                      }`}
+                        }`}
                     >
                       <span>{category}</span>
                       <span
-                        className={`text-[11px] px-2 py-0.5 rounded-full font-mono transition-colors ${
-                          isSelected
+                        className={`text-[11px] px-2 py-0.5 rounded-full font-mono transition-colors ${isSelected
                             ? "bg-white/20 text-white"
                             : "bg-surface-subtle text-slate-400 group-hover:text-slate-200"
-                        }`}
+                          }`}
                       >
                         {count}
                       </span>

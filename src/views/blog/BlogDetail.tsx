@@ -80,6 +80,20 @@ function renderTitleWithGradient(title: string) {
   );
 }
 
+function resolveArticleImage(image?: string, slug?: string): string {
+  if (!image || image === "/api/media/." || image === "/api/media/" || image.endsWith("/.")) {
+    const s = (slug || "").toLowerCase().trim();
+    if (s === "ai-automation-for-business") {
+      return "/images/blog/ai-automation-repetitive-work-growing-businesses.webp";
+    }
+    if (s === "ecommerce-solutions-for-businesses") {
+      return "/images/blog/ecommerce-solutions-business-digital-growth.webp";
+    }
+    return "/images/blog/custom-web-development-vs-website-builders.webp";
+  }
+  return image;
+}
+
 export default function SingleBlogArticlePage({
   params,
   article: propArticle,
@@ -551,7 +565,7 @@ export default function SingleBlogArticlePage({
           <div className="my-12 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-white/10 shadow-2xl bg-slate-900 relative">
             <div className="relative w-full aspect-[16/9] sm:aspect-[16/8.2] max-h-[520px]">
               <Image
-                src={article.featuredImage}
+                src={resolveArticleImage(article.featuredImage, article.slug)}
                 alt={article.featuredImageAlt || article.title}
                 fill
                 priority

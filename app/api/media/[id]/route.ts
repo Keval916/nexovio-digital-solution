@@ -13,12 +13,12 @@ export async function GET(
     const rawId = params?.id || req.nextUrl.pathname.split("/").pop() || "";
     const decodedId = decodeURIComponent(rawId).trim();
 
-    if (!decodedId) {
+    if (!decodedId || decodedId === "." || decodedId === "..") {
       return new NextResponse("Image identifier is required", { status: 400 });
     }
 
     const cleanId = decodedId.replace(/-\d{5,8}(\.[a-z]+)$/i, "$1");
-    const candidateIds = Array.from(new Set([decodedId, cleanId]));
+    const candidateIds = Array.from(new Set([decodedId, cleanId])).filter((c) => c && c !== "." && c !== "..");
 
     // 1. Try fetching from MongoDB blog_media collection
     if (isMongoConfigured()) {
@@ -49,20 +49,24 @@ export async function GET(
     // 2. Fallback: check local disk public/images/blog/[id]
     for (const cand of candidateIds) {
       const localPath = path.join(process.cwd(), "public", "images", "blog", cand);
-      if (fs.existsSync(localPath)) {
-        const fileBuffer = fs.readFileSync(localPath);
-        const ext = path.extname(cand).toLowerCase();
-        let contentType = "image/webp";
-        if (ext === ".png") contentType = "image/png";
-        else if (ext === ".jpg" || ext === ".jpeg") contentType = "image/jpeg";
-        else if (ext === ".svg") contentType = "image/svg+xml";
+      try {
+        if (fs.existsSync(localPath) && fs.statSync(localPath).isFile()) {
+          const fileBuffer = fs.readFileSync(localPath);
+          const ext = path.extname(cand).toLowerCase();
+          let contentType = "image/webp";
+          if (ext === ".png") contentType = "image/png";
+          else if (ext === ".jpg" || ext === ".jpeg") contentType = "image/jpeg";
+          else if (ext === ".svg") contentType = "image/svg+xml";
 
-        return new NextResponse(fileBuffer, {
-          headers: {
-            "Content-Type": contentType,
-            "Cache-Control": "public, max-age=31536000, immutable",
-          },
-        });
+          return new NextResponse(fileBuffer, {
+            headers: {
+              "Content-Type": contentType,
+              "Cache-Control": "public, max-age=31536000, immutable",
+            },
+          });
+        }
+      } catch (err) {
+        console.warn("[media-route] File read warning:", err);
       }
     }
 

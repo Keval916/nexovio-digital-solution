@@ -166,7 +166,13 @@ export async function POST(req: NextRequest) {
       publishedAt: (customDate && customDate.trim()) ? customDate.trim() : currentDate,
       updatedAt: currentDate,
       readingTime,
-      featuredImage: featuredImage || "/images/blog/custom-web-development-vs-website-builders.webp",
+      featuredImage: (!featuredImage || featuredImage === "/api/media/." || featuredImage.endsWith("/."))
+        ? (slug === "ai-automation-for-business"
+          ? "/images/blog/ai-automation-repetitive-work-growing-businesses.webp"
+          : slug === "ecommerce-solutions-for-businesses"
+            ? "/images/blog/ecommerce-solutions-business-digital-growth.webp"
+            : "/images/blog/custom-web-development-vs-website-builders.webp")
+        : featuredImage.trim(),
       featuredImageAlt: featuredImageAlt || title.trim(),
       seoTitle: seoTitle || title.trim(),
       seoDescription: seoDescription || excerpt || title.trim(),
@@ -313,7 +319,15 @@ export async function PUT(req: NextRequest) {
           ...(body.authorBio !== undefined ? { bio: body.authorBio.trim() } : {}),
         },
       }),
-      ...(body.featuredImage !== undefined && { featuredImage: body.featuredImage }),
+      ...(body.featuredImage !== undefined && {
+        featuredImage: (!body.featuredImage || body.featuredImage === "/api/media/." || body.featuredImage.endsWith("/."))
+          ? ((body.slug || targetKey) === "ai-automation-for-business"
+            ? "/images/blog/ai-automation-repetitive-work-growing-businesses.webp"
+            : (body.slug || targetKey) === "ecommerce-solutions-for-businesses"
+              ? "/images/blog/ecommerce-solutions-business-digital-growth.webp"
+              : "/images/blog/custom-web-development-vs-website-builders.webp")
+          : body.featuredImage.trim(),
+      }),
       ...(body.featuredImageAlt !== undefined && { featuredImageAlt: body.featuredImageAlt }),
       ...(body.seoTitle !== undefined && { seoTitle: body.seoTitle }),
       ...(body.seoDescription !== undefined && { seoDescription: body.seoDescription }),

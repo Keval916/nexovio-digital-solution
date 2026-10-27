@@ -88,15 +88,17 @@ export async function POST(req: NextRequest) {
 
     // Sanitize and slugify file name - Pure SEO (No random numbers)
     const originalName = file.name || "blog-image.webp";
-    const extension = (path.extname(originalName) || ".webp").toLowerCase();
+    const ext = (path.extname(originalName) || "").toLowerCase();
+    const validExts = [".webp", ".png", ".jpg", ".jpeg", ".svg", ".gif"];
+    const extension = validExts.includes(ext) ? ext : ".webp";
     const rawBaseName = path
-      .basename(originalName, extension)
+      .basename(originalName, ext)
       .toLowerCase()
       .replace(/[^\w-]/g, "-")
       .replace(/--+/g, "-")
       .replace(/^-+|-+$/g, "")
       .replace(/-\d{5,8}$/, ""); // Strip any existing random numeric suffix (e.g. -527140)
-    const safeBaseName = rawBaseName || "blog-image";
+    const safeBaseName = rawBaseName && rawBaseName !== "." ? rawBaseName : `blog-image-${Date.now()}`;
     const finalFileName = `${safeBaseName}${extension}`;
 
     const mediaUrl = `/api/media/${finalFileName}`;

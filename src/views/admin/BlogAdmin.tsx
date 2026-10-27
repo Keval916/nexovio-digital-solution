@@ -1226,10 +1226,20 @@ export default function BlogAdmin() {
       content: formattedContent,
       authorName: article.author.name,
       authorRole: article.author.role,
-      authorAvatar: article.author.avatar || "/images/brand/nexovio-logo-square.png",
-      authorBio: article.author.bio || "",
+      authorAvatar:
+        article.author?.avatar && article.author.avatar !== "/api/media/."
+          ? article.author.avatar
+          : "/images/brand/nexovio-logo-square.png",
+      authorBio: article.author?.bio || "",
       publishedAt: article.publishedAt || getTodayDateString(),
-      featuredImage: article.featuredImage,
+      featuredImage:
+        article.featuredImage && article.featuredImage !== "/api/media/." && !article.featuredImage.endsWith("/.")
+          ? article.featuredImage
+          : article.slug === "ai-automation-for-business"
+            ? "/images/blog/ai-automation-repetitive-work-growing-businesses.webp"
+            : article.slug === "ecommerce-solutions-for-businesses"
+              ? "/images/blog/ecommerce-solutions-business-digital-growth.webp"
+              : "/images/blog/custom-web-development-vs-website-builders.webp",
       featuredImageAlt: article.featuredImageAlt || article.title,
       tableOfContentsText: Array.isArray(article.tableOfContents)
         ? article.tableOfContents.map((t) => t.title).join("\n")

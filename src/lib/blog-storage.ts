@@ -7,13 +7,61 @@ let lastFetchTime = 0;
 const CACHE_TTL_MS = 15000; // 15s in-memory TTL in dev/prod
 
 /**
+ * Resilient image and author avatar sanitizer to guarantee valid URLs
+ */
+export function sanitizeArticle(art: BlogArticle): BlogArticle {
+  if (!art) return art;
+
+  const isInvalidMedia = (url?: string) =>
+    !url ||
+    url === "/api/media/." ||
+    url === "/api/media/" ||
+    url.endsWith("/.") ||
+    url.trim() === "";
+
+  let featuredImage = art.featuredImage;
+  let ogImage = art.ogImage;
+  let avatar = art.author?.avatar;
+
+  const slug = (art.slug || art.id || "").toLowerCase().trim();
+
+  if (isInvalidMedia(featuredImage)) {
+    if (slug === "ai-automation-for-business") {
+      featuredImage = "/images/blog/ai-automation-repetitive-work-growing-businesses.webp";
+    } else if (slug === "ecommerce-solutions-for-businesses") {
+      featuredImage = "/images/blog/ecommerce-solutions-business-digital-growth.webp";
+    } else {
+      featuredImage = "/images/blog/custom-web-development-vs-website-builders.webp";
+    }
+  }
+
+  if (isInvalidMedia(ogImage)) {
+    ogImage = featuredImage;
+  }
+
+  if (isInvalidMedia(avatar)) {
+    avatar = "/images/brand/nexovio-logo-square.png";
+  }
+
+  return {
+    ...art,
+    featuredImage,
+    ogImage,
+    author: {
+      ...art.author,
+      avatar,
+    },
+  };
+}
+
+/**
  * Synchronous getter returning latest cached articles or static fallback.
  */
 export function getStoredBlogArticles(): BlogArticle[] {
   if (memoryArticlesCache && Array.isArray(memoryArticlesCache) && memoryArticlesCache.length > 0) {
-    return memoryArticlesCache;
+    return memoryArticlesCache.map(sanitizeArticle);
   }
-  return FALLBACK_BLOG_ARTICLES;
+  return FALLBACK_BLOG_ARTICLES.map(sanitizeArticle);
 }
 
 /**
@@ -23,7 +71,7 @@ export function getStoredBlogArticles(): BlogArticle[] {
 export async function getStoredBlogArticlesAsync(forceRefresh = false): Promise<BlogArticle[]> {
   const now = Date.now();
   if (!forceRefresh && memoryArticlesCache && now - lastFetchTime < CACHE_TTL_MS) {
-    return memoryArticlesCache;
+    return memoryArticlesCache.map(sanitizeArticle);
   }
 
   let dbArticles: BlogArticle[] = [];
@@ -47,11 +95,11 @@ export async function getStoredBlogArticlesAsync(forceRefresh = false): Promise<
   const mergedMap = new Map<string, BlogArticle>();
   // 1. Static fallback articles
   for (const staticArt of FALLBACK_BLOG_ARTICLES) {
-    mergedMap.set(staticArt.slug.toLowerCase().trim(), staticArt);
+    mergedMap.set(staticArt.slug.toLowerCase().trim(), sanitizeArticle(staticArt));
   }
   // 2. Database articles (takes priority for updated content)
   for (const dbArt of dbArticles) {
-    mergedMap.set(dbArt.slug.toLowerCase().trim(), dbArt);
+    mergedMap.set(dbArt.slug.toLowerCase().trim(), sanitizeArticle(dbArt));
   }
 
   const merged = Array.from(mergedMap.values()).sort(
@@ -64,7 +112,7 @@ export async function getStoredBlogArticlesAsync(forceRefresh = false): Promise<
     return merged;
   }
 
-  return FALLBACK_BLOG_ARTICLES;
+  return FALLBACK_BLOG_ARTICLES.map(sanitizeArticle);
 }
 
 /**
@@ -91,7 +139,7 @@ export async function getBlogArticleBySlugAsync(slug: string): Promise<BlogArtic
       );
 
       if (doc) {
-        return doc as BlogArticle;
+        return sanitizeArticle(doc as BlogArticle);
       }
     } catch (err) {
       console.warn("[blog-storage] MongoDB findOne warning:", err);
