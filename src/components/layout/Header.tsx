@@ -559,7 +559,6 @@ export function Header() {
                       "px-2.5 py-2 text-xs xl:text-sm font-medium transition-colors duration-300 group outline-none focus:outline-none flex items-center gap-1.5",
                       isActive("/blog") ||
                         isActive("/case-studies") ||
-                        isActive("/portfolio") ||
                         isActive("/about") ||
                         activeDropdown === "explore"
                         ? "text-brand-cyan font-semibold"

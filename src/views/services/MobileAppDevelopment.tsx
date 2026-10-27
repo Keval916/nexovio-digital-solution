@@ -328,14 +328,14 @@ export default function MobileAppDevelopmentPage() {
                   Start Your Project
                 </Button>
                 <Button
-                  href="/portfolio"
+                  href="/case-studies"
                   variant="outline"
                   size="md"
                   trackingName="mobile_hero_view_work"
                   trackingLocation="mobile_development_hero"
                   className="w-full sm:w-auto border-brand-bright text-brand-bright hover:bg-brand-bright/10"
                 >
-                  View Our Work
+                  View Case Studies
                 </Button>
               </div>
             </div>
@@ -577,14 +577,14 @@ export default function MobileAppDevelopmentPage() {
             </div>
             <div>
               <Button
-                href="/portfolio"
+                href="/case-studies"
                 variant="primary"
                 size="md"
                 trackingName="mobile_portfolio_view_all"
                 trackingLocation="mobile_development_portfolio"
                 icon={<ArrowRight className="w-4 h-4" />}
               >
-                View All Projects
+                View Case Studies
               </Button>
             </div>
           </div>
@@ -615,7 +615,7 @@ export default function MobileAppDevelopmentPage() {
                         {app.title}
                       </h3>
                       <Link
-                        href="/portfolio"
+                        href="/case-studies"
                         className="w-7 h-7 rounded-full bg-surface-subtle border border-border-subtle flex items-center justify-center text-muted group-hover:text-brand-bright group-hover:border-brand-bright/40 transition-all shrink-0"
                         aria-label={`View ${app.title} project`}
                       >

@@ -9,7 +9,6 @@ export const ROUTES = [
   "/agency-partnership",
   "/contact",
   "/pricing",
-  // "/portfolio",
   "/schedule-a-call",
   "/privacy-policy",
   "/terms-and-conditions",

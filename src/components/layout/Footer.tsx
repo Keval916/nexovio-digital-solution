@@ -271,8 +271,8 @@ export function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/portfolio" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
-                    Selected Work
+                  <Link href="/case-studies" className="text-slate-300 keep-slate hover:text-cyan-400 transition-colors block footer-link">
+                    Case Studies
                   </Link>
                 </li>
                 <li>

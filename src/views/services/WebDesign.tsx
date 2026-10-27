@@ -633,14 +633,14 @@ export default function WebDesignPage() {
             </div>
             <div className="lg:col-span-4 lg:text-right">
               <Button
-                href="/portfolio"
+                href="/case-studies"
                 variant="secondary"
                 size="md"
                 trackingName="web_design_portfolio_view_all"
                 trackingLocation="web_design_portfolio"
                 icon={<ArrowRight className="w-4 h-4" />}
               >
-                View All Projects
+                View Case Studies
               </Button>
             </div>
           </div>

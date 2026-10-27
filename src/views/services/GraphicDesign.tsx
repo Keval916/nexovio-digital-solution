@@ -639,10 +639,10 @@ export default function GraphicDesignPage() {
             </div>
 
             <Link
-              href="/portfolio"
+              href="/case-studies"
               className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-brand-electric dark:text-brand-cyan hover:underline shrink-0 group"
             >
-              <span>View All Projects</span>
+              <span>View Case Studies</span>
               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>

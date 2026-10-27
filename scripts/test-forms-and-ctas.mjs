@@ -44,7 +44,6 @@ async function testFormsAndCtas() {
     "/schedule-a-call",
     "/agency-partnership",
     "/case-studies",
-    "/portfolio",
     "/services",
     "/services/web-development",
     "/services/web-design",

@@ -336,7 +336,7 @@ export default function WebDevelopmentPage() {
                   Start Your Project
                 </Button>
                 <Button
-                  href="/portfolio"
+                  href="/case-studies"
                   variant="outline"
                   size="md"
                   trackingName="web_hero_view_work"

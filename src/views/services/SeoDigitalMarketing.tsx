@@ -784,14 +784,14 @@ export default function SeoDigitalMarketingPage() {
 
             <div className="shrink-0">
               <Button
-                href="/portfolio"
+                href="/case-studies"
                 variant="primary"
                 size="md"
                 trackingName="work_view_portfolio"
                 trackingLocation="work_showcase"
                 icon={<ArrowRight className="w-4 h-4" />}
               >
-                View Our Portfolio
+                View Case Studies
               </Button>
             </div>
           </div>

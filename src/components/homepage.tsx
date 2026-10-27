@@ -691,7 +691,7 @@ export function HeroSection({ onOpenModal }: { onOpenModal?: () => void }) {
               </Button>
 
               <Button
-                href="/portfolio"
+                href="/case-studies"
                 variant="secondary"
                 size="lg"
                 trackingName="hero_view_work"

@@ -48,9 +48,9 @@ export default function NotFound() {
         </div>
 
         <div className="pt-8 border-t border-white/10 flex flex-wrap justify-center gap-6 text-xs text-muted">
-          <Link href="/portfolio" className="hover:text-brand-cyan transition-colors flex items-center gap-1.5">
+          <Link href="/case-studies" className="hover:text-brand-cyan transition-colors flex items-center gap-1.5">
             <Briefcase className="w-3.5 h-3.5" />
-            <span>View Portfolio</span>
+            <span>View Case Studies</span>
           </Link>
           <Link href="/contact" className="hover:text-brand-cyan transition-colors flex items-center gap-1.5">
             <Mail className="w-3.5 h-3.5" />
