@@ -254,7 +254,7 @@ export default function AiDevelopmentPage() {
               </span>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-foreground tracking-tight leading-[1.14]">
-                AI Development
+                <span className="bg-gradient-brand bg-clip-text text-transparent">AI</span> Development
               </h1>
 
               <p className="text-lg sm:text-xl font-bold text-foreground leading-snug">
@@ -690,55 +690,6 @@ export default function AiDevelopmentPage() {
         description="Find answers to common questions about our AI development services, custom machine learning models, deployment timelines, and data security."
         variant="white"
       />
-
-      {/* =================================================================== */}
-      {/* 7. READY TO GET STARTED (Bottom Callout Banner)                     */}
-      {/* =================================================================== */}
-      <section className="py-12 sm:py-16 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#031533] via-[#05224e] to-[#041a3d] p-8 sm:p-12 lg:p-14 shadow-2xl border border-sky-500/20 text-white flex flex-col md:flex-row md:items-center md:justify-between gap-8">
-            {/* Background Architectural Overlay */}
-            <div className="absolute inset-0 opacity-25 mix-blend-screen pointer-events-none">
-              <Image
-                src="/images/services/services-cta-arch.jpg"
-                alt="Abstract modern architecture"
-                fill
-                className="object-cover"
-              />
-            </div>
-            <div className="absolute -top-24 -right-24 w-80 h-80 bg-brand-bright/20 rounded-full blur-[90px] pointer-events-none" />
-            <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-brand-electric/30 rounded-full blur-[90px] pointer-events-none" />
-
-            {/* Copy */}
-            <div className="relative z-10 space-y-2 max-w-2xl text-left">
-              <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-brand-bright">
-                READY TO GET STARTED
-              </span>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-tight">
-                Turn Your Ideas Into Intelligent Solutions
-              </h2>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                Let&apos;s build an AI solution that fits your goals, your data and your timeline.
-              </p>
-            </div>
-
-            {/* CTA Button */}
-            <div className="relative z-10 shrink-0">
-              <Button
-                href="/contact"
-                variant="primary"
-                size="lg"
-                trackingName="ai_bottom_cta_consultation"
-                trackingLocation="ai_development_bottom_cta"
-                icon={<ArrowRight className="w-4 h-4" />}
-                className="shadow-xl"
-              >
-                Get a Free Consultation
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
 
     </div>
   );
